@@ -6,6 +6,8 @@
 
 \chapter{Setor Bancário no Brasil}
 
+Teste de edição no GitHub
+
 Nesse capítulo serão abordados os conceitos, características, composição e
 evolução do setor bancário brasileiro com objetivo de identificar variáveis
 quantitativas e qualitativas relevantes para as analises dos componentes do
