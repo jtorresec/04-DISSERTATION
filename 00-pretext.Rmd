@@ -1,0 +1,129 @@
+
+ \ifthenelse{\equal{\terCapa}{Sim}}{
+\imprimircapa}{}
+
+\ifthenelse{\equal{\terFolhaRosto}{Sim}}{
+\imprimirfolhaderosto*}{}
+
+ \ifthenelse{\equal{\terFichaCatalografica}{Sim}}
+ {\insereFichaCatalografica{}\cleardoublepage}
+ {}
+
+
+ \ifthenelse{\equal{\terErrata}{Sim}}
+ {\begin{errata}%\color{blue}
+   \imprimirerrata
+  \end{errata}}
+ {}
+
+
+\ifthenelse{\equal{\terTermoAprovacao}{Sim}}{
+\insereAprovacao}{}
+
+
+\ifthenelse{\equal{\terDedicatoria}{Sim}}{
+\begin{dedicatoria}
+   \vspace*{\fill}
+   \centering
+   \noindent
+   \DedicatoriaTexto
+   \vspace*{\fill}
+\end{dedicatoria}
+}{}
+
+
+ \ifthenelse{\equal{\terAgradecimentos}{Sim}}
+ {\begin{agradecimentos}
+    \AgradecimentosTexto
+  \end{agradecimentos}
+  }{}
+
+
+\ifthenelse{\equal{\terEpigrafe}{Sim}}{
+\begin{epigrafe}
+    \vspace*{\fill}
+	\begin{flushright}
+        \EpigrafeTexto
+	\end{flushright}
+\end{epigrafe}
+}{}
+
+
+ \ifthenelse{\equal{\terResumos}{Sim}}{
+\begin{resumo}
+    \ResumoTexto
+    
+
+   \noindent 
+   \textbf{Palavras-chaves}: \PalavraschaveTexto
+\end{resumo}
+
+\begin{resumo}[ABSTRACT]
+ \begin{otherlanguage*}{english}
+   \AbstractTexto
+   
+   \noindent 
+   \textbf{Key-words}: \KeywordsTexto
+ \end{otherlanguage*}
+\end{resumo}
+
+
+
+\ifthenelse{\equal{\Resume}{}}
+{}
+{
+ \begin{resumo}[RESUME]%Résumé
+  \begin{otherlanguage*}{french}
+     \Resume
+     
+   \noindent      
+    \textbf{Mots clés}: \Motscles
+  \end{otherlanguage*}
+ \end{resumo}
+} 
+
+
+\ifthenelse{\equal{\Resume}{}}{}
+{ \begin{resumo}[RESUMEN]
+  \begin{otherlanguage*}{spanish}
+    \Resumen 
+   
+   \noindent    
+    \textbf{Palabras clave}: \Palabrasclave
+  \end{otherlanguage*}
+ \end{resumo}
+}
+}{}
+
+
+\ifthenelse{\equal{\terListaFiguras}{Sim}}{
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+}{}
+
+
+
+\ifthenelse{\equal{\terListaTabelas}{Sim}}{
+\listoftables*
+\cleardoublepage
+}{}
+
+
+
+
+ \ifthenelse{\equal{\terSiglasAbrev}{Sim}}{
+    \imprimirlistadesiglas
+    \cleardoublepage
+    \imprimirlistadesimbolos
+    \cleardoublepage
+ }{}
+
+
+\ifthenelse{\equal{\terSumario}{Sim}}{
+\tableofcontents*
+}{}
+ 
+
+ 
+ 

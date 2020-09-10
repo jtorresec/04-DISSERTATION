@@ -1,0 +1,10 @@
+\ifthenelse{\equal{\terApendice}{Sim}}
+{\begin{apendicesenv}
+
+\renewcommand{\thechapter}{\arabic{chapter}}
+
+\chapter{Replicação de Estudos}
+\section{}
+ 
+\end{apendicesenv}
+}{}
