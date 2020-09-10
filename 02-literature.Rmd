@@ -6,9 +6,17 @@
 
 \chapter{Setor Bancário no Brasil}
 
-Nesse capítulo serão abordados os conceitos, características, composição e evolução do setor bancário brasileiro com objetivo de identificar variáveis quantitativas e qualitativas relevantes para as analises dos componentes do *spread* bancário. 
+Nesse capítulo serão abordados os conceitos, características, composição e
+evolução do setor bancário brasileiro com objetivo de identificar variáveis
+quantitativas e qualitativas relevantes para as analises dos componentes do
+*spread* bancário. 
 
-O setor bancário brasileiro é componente do Sistema Financeiro Nacional — SFN, sob hierarquia normativa do Conselho Monetário Nacional - CMN e supervisão do Banco Central do Brasil — BACEN. As instituições que formam o setor bancário assumem o papel de operadoras no mercado de crédito, atuando como intermediadoras financeiras junto as pessoas físicas e jurídicas, podendo ser de caráter público ou privado \cite{Lei:4595:1964}.
+O setor bancário brasileiro é componente do Sistema Financeiro Nacional — SFN,
+sob hierarquia normativa do Conselho Monetário Nacional - CMN e supervisão do
+Banco Central do Brasil — BACEN. As instituições que formam o setor bancário
+assumem o papel de operadoras no mercado de crédito, atuando como
+intermediadoras financeiras junto as pessoas físicas e jurídicas, podendo ser
+de caráter público ou privado \cite{Lei:4595:1964}.
 
 ```{r instituicoes financeiras, echo=FALSE, message=FALSE, fig.align='center', fig.height=3, fig.width=3}
 ifb <- read_xlsx(path = '01-data/bacen/Quadros 2019.xlsx',
