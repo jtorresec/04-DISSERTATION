@@ -1,0 +1,49 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\changetocdepth {4}
+\babel@toc {brazil}{}
+\defcounter {refsection}{0}\relax 
+\addvspace {-5\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\chapternumberline {1}\bfseries \MakeTextUppercase {INTRODUÇÃO}}{2}{chapter.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {part}{\partnumberline {I}REFERÊNCIAS TEÓRICOS}{3}{part.1}%
+\defcounter {refsection}{0}\relax 
+\addvspace {-5\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\chapternumberline {2}\bfseries \MakeTextUppercase {Setor Bancário no Brasil}}{4}{chapter.2}%
+\defcounter {refsection}{0}\relax 
+\addvspace {-5\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\chapternumberline {3}\bfseries \MakeTextUppercase {Spread Bancário no Brasil}}{13}{chapter.3}%
+\defcounter {refsection}{0}\relax 
+\addvspace {2\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.1}Estudos anteriores}{15}{section.3.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {part}{\partnumberline {II}Desenvolvimento}{17}{part.2}%
+\defcounter {refsection}{0}\relax 
+\addvspace {-5\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\chapternumberline {4}\bfseries \MakeTextUppercase {Metodologia}}{18}{chapter.4}%
+\defcounter {refsection}{0}\relax 
+\addvspace {-5\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\chapternumberline {5}\bfseries \MakeTextUppercase {Aplicação}}{19}{chapter.5}%
+\defcounter {refsection}{0}\relax 
+\addvspace {-5\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\chapternumberline {6}\bfseries \MakeTextUppercase {Resultados}}{20}{chapter.6}%
+\defcounter {refsection}{0}\relax 
+\vspace {\cftbeforepartskip }
+\defcounter {refsection}{0}\relax 
+\addvspace {-5\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{CONSIDERAÇÕES FINAIS}{21}{chapter*.9}%
+\defcounter {refsection}{0}\relax 
+\vspace {\cftbeforepartskip }
+\defcounter {refsection}{0}\relax 
+\vspace {-2pt}
+\defcounter {refsection}{0}\relax 
+\vspace {\cftbeforepartskip }
+\defcounter {refsection}{0}\relax 
+\vspace {-2pt}
