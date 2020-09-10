@@ -15,10 +15,9 @@ O setor bancário brasileiro é componente do Sistema Financeiro Nacional — SF
 sob hierarquia normativa do Conselho Monetário Nacional - CMN e supervisão do
 Banco Central do Brasil — BACEN. As instituições que formam o setor bancário
 assumem o papel de operadoras no mercado de crédito, atuando como
-intermediadoras financeiras junto as pessoas físicas e jurídicas, podendo ser
-de caráter público ou privado \cite{Lei:4595:1964}.
+intermediadoras financeiras junto as pessoas físicas e jurídicas, podendo ser de caráter público ou privado \cite{Lei:4595:1964}.
 
-```{r instituicoes financeiras, echo=FALSE, message=FALSE, fig.align='center', fig.height=3, fig.width=3}
+```{r instituicoes financeiras}
 ifb <- read_xlsx(path = '01-data/bacen/Quadros 2019.xlsx',
                       sheet = 'quadro 1',
                       col_names = FALSE)
@@ -62,7 +61,7 @@ Na tabela abaixo é possível verificar a concentração do setor bancário bras
 
 \begin{table}
 \caption{Composição do setor bancário brasileiro por segmento em dezembro de 2019}
-```{r resume banks, echo=FALSE, message=FALSE, fig.align='center', results='asis'}
+```{r resume banks}
 table.banks <- 
         em.banks %>% 
         filter(Ano == '2019', Mês == 'Dez') %>% 
@@ -86,7 +85,7 @@ Entre as principais mudanças iniciadas na década de 1980 está a reforma banc�
 \captionof{figure}{Evolução do setor bancário brasileiro por segmento}
 
 
-```{r bank evolution, echo=FALSE, message=FALSE, results='asis', fig.align='center', fig.height=3, fig.width=5}
+```{r bank evolution}
 ev.banks <- 
         em.banks %>% 
         transform(Ano = as.integer(Ano)) %>%
@@ -106,7 +105,7 @@ print(g.banks)
 
 O gráfico acima demonstra a evolução quantidade de instituições bancárias por segmento entre 1978 à 2019, podendo ser visualizada uma mudança na composição da estrutura, com significativos, aumento de instituições aderindo modalidades de múltiplas carteiras\footnote{As primeiras instituições com carteira múltipla começaram a operar no ano de 1988}, e redução de instituições que operavam exclusivamente com carteira comercial, e exclusivamente com carteira de investimento.
 
-```{r banks origin, echo=FALSE, message=FALSE, fig.align='center', results='hide'}
+```{r banks origin, results='hide'}
 ifoc <- read_xlsx("01-data/bacen/Quadros 2019.xlsx", 
                      sheet = 'Quadro 3 ', 
                      col_names = FALSE)
@@ -135,7 +134,7 @@ o.banks$Ano[111:120] <- str_sub(o.banks$Ano[111:120], end = -3)
 
 \begin{table}
 \caption{Composição por tipo de iniciativa no setor bancário brasileiro — Dezembro 2019 }
-```{r table origin, echo=FALSE, fig.align='center', message=FALSE, fig.height=3, fig.width=3}
+```{r table origin}
 o.banks.2019 <- 
         o.banks %>%
         select(Tipo, Quantidade, Ano) %>% 
@@ -158,7 +157,7 @@ Alguns dos efeitos da abertura comercial e financeira e das modificações na es
 
 
 \captionof{figure}{Evolução da quantidade de instituições no setor bancário brasileiro}
-```{r concetration, echo=FALSE, message=FALSE, fig.height=3, fig.width=5, fig.align='center'}
+```{r concetration}
 con.banks <- 
         em.banks %>%
         transform(Ano = as.integer(Ano)) %>% 
@@ -184,7 +183,7 @@ Outra possível tendência para a concentração bancária é a redução do ris
 
 \begin{table}
 \caption{Setor bancário brasileiro por origem de capital — Dezembro de 2019}
-```{r capital banks, echo=FALSE, message=FALSE, fig.align='center'}
+```{r capital banks}
 c.banks <- 
         o.banks %>% 
         filter(Ano == '2019') %>% 
@@ -201,7 +200,7 @@ kbl(c.banks, booktabs = T) %>%
 \end{table}
 
 \captionof{figure}{Evolução de origem de capital das instituições bancárias no Brasil}
-```{r capital graphic, echo=FALSE, message=FALSE, fig.align='center', fig.height=3, fig.width=5}
+```{r capital graphic}
 ev.o.banks <- 
         o.banks %>% 
         select(Capital, Ano, Quantidade) %>% 
@@ -234,7 +233,7 @@ Durante o período citado, foi observado no setor bancário brasileiro os maiore
 
 
 \captionof{figure}{Evolução da relação Crédito/PIB no Brasil}
-```{r credit gdp, echo=FALSE, message=FALSE, fig.align='center', fig.height=3, fig.width=5}
+```{r credit gdp}
 credit.gdb <- read.csv('http://api.bcb.gov.br/dados/serie/bcdata.sgs.20622/dados?formato=csv', sep = ';', dec = ",", encoding = 'UTF-8')
 credit.gdb <- transform(credit.gdb, Data = dmy(data))
 
@@ -249,7 +248,7 @@ O gráfico acima demonstra o comportamento da relação crédito/PIB no Brasil, 
 
 \captionof{figure}{Evolução do \emph{spread} bancário brasileiro até 2011}
 
-```{r average spread, echo=FALSE, message=FALSE, fig.align='center', fig.height=3, fig.width=5, warning=FALSE}
+```{r average spread}
 spread.1994.2012 <- read.csv('01-data/bacen/STI-20200908000010811.csv', sep = ';', dec = ',', encoding = 'UTF-8', stringsAsFactors = FALSE)
 colnames(spread.1994.2012) <- c('Data', 'Spread')
 date <-seq(from = as.Date("1994-07-01"), to = as.Date("2012-12-01"), by="month")
@@ -268,7 +267,7 @@ ggplot(spread.ev.f, aes(x = Data)) +
 O gráfico acima mostra a evolução do *spread* bancário brasileiro entre os anos de 1994 e 2012, saindo de patamares que chegaram próximo a 150%, com significativa queda ao longo desse período, atingindo a casa de 25% no final. Abaixo o gráfico visualiza a evolução do *spread* entre 2012 e 2019, com nova metodologia de cálculo, chegando a ficar abaixo de 10%, não ultrapassando a casa dos 23% e terminando o período abaixo dos 18%.
 
 \captionof{figure}{Evolução do \emph{spread} bancário brasileiro entre 2012 e 2019}
-```{r spread 2019, echo=FALSE, message=FALSE, fig.align='center', fig.height=3, fig.width=5}
+```{r spread 2019}
 m.spread <- read.csv('http://api.bcb.gov.br/dados/serie/bcdata.sgs.20783/dados?formato=csv', sep = ';', dec = ',')
 m.spread.f <- transform(m.spread, data = dmy(data))
 m.spread.f <- slice(m.spread.f, 13:106)
@@ -328,7 +327,7 @@ Em estudo dos determinantes macroeconômicos do *spread* bancário ex-ante,  \te
 
 \begin{table}
 \caption{Resumo de Estudos sobre o *spread* bancário no brasil}
-```{r studies, echo=FALSE, message=FALSE, fig.align='center'}
+```{r studies}
 studies <- 
         data.frame(Método = c('Ex-ante', 'Ex-ante', 'Ex-ante', 'Ex-ante',
                               'Ex-Post'),

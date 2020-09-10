@@ -33,7 +33,9 @@ setwd(location)
 ```
 
 ```{r setup, include=FALSE, echo=FALSE, message=FALSE}
-#knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = TRUE, fig.path="12-exportedfigures/")
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE,
+                      fig.align = 'center', fig.height = 3, fig.width = 5,
+                      fig.path = "12-exportedfigures/")
 ```
 
 ```{r include=FALSE, echo=FALSE, message=FALSE, results='hide'}
