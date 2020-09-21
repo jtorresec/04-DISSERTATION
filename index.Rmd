@@ -45,3 +45,6 @@ library(bookdown); library(latex2exp); library(latexpdf); library(knitLatex); li
 #library(Quandl); library(BETS); library(GetTDData); library(Rbitcoin)
 ```
 
+```{r source datas}
+source('01-data/bacen/data.spread.R')
+```
