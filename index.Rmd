@@ -19,10 +19,7 @@ biblio-style: abnt
 link-citations: yes
 toc: false
 references: false
-always_allow_html: true
-output:
-  word_document: default
-  html_document: default
+always_allow_html: TRUE
 ---
 
 ```{r location, echo=FALSE, message=FALSE, results='hide'}

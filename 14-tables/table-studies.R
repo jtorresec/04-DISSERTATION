@@ -265,7 +265,7 @@ studies.b <- list('KOYAMA e NAKANE (2001a e 2001b)' = list(
         Atividade.Econômica = ''
         ),
 'DANTAS (2012)' = list(
-        Método = 'Ex-ante',
+        Método = 'Ex-post',
         Selic = '',
         Volatilidade.Selic = '',
         Spread.Over.Treasury = '',
