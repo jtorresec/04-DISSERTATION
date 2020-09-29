@@ -1,7 +1,7 @@
 spread.moct <- 
         read.csv('http://api.bcb.gov.br/dados/serie/bcdata.sgs.20783/dados?formato=csv', 
                         sep = ';', dec = ',', col.names = c('data', 'Spread.MOCT'))
-
+spread.moct
 spread.icc <- 
         read.csv('http://api.bcb.gov.br/dados/serie/bcdata.sgs.27443/dados?formato=csv', 
                        sep = ';', dec = ',', col.names = c('data', 'Spread.ICC'))

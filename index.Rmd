@@ -31,17 +31,20 @@ setwd(location)
 
 ```{r setup, include=FALSE, echo=FALSE, message=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE,
-                      fig.align = 'center', fig.height = 3, fig.width = 5,
-                      fig.path = "12-exportedfigures/")
+                      fig.path = "12-exportedfigures/", fig.align = 'center'
+                      #, fig.height = 3, #fig.width = 5, 
+                      )
 ```
 
 ```{r include=FALSE, echo=FALSE, message=FALSE, results='hide'}
-library(bookdown); library(latex2exp); library(latexpdf); library(knitLatex); library(knitr); library(tinytex); library(utf8); library(tufte); library(tibble); library(lubridate); library(plyr); library(purrr); library(dplyr); library(tidyr); library(stringr); library(readr); library(forcats); library(knitr); library(tidyverse); library(fst); library(readxl); library(RMySQL); library(XML); library(httr); library(jsonlite); library(rvest); library(xlsx); library(RSQLite); library(foreign); library(lmtest); library(corrplot); library(corrgram); library(timetk); library(lattice); library(ggplot2); library(tree); library(party); library(plotly); library(rpart.plot); library(rpart); library(XML); library(xml2); library(kableExtra)
+library(bookdown); library(latex2exp); library(latexpdf); library(knitLatex); library(knitr); library(tinytex); library(utf8); library(tufte); library(tibble); library(lubridate); library(plyr); library(purrr); library(dplyr); library(tidyr); library(stringr); library(readr); library(forcats); library(knitr); library(tidyverse); library(fst); library(readxl); library(RMySQL); library(XML); library(httr); library(jsonlite); library(rvest); library(xlsx); library(RSQLite); library(foreign); library(lmtest); library(corrplot); library(corrgram); library(timetk); library(lattice); library(ggplot2); library(tree); library(party); library(plotly); library(rpart.plot); library(rpart); library(XML); library(xml2); library(kableExtra); require(DiagrammeR);
+require(DiagrammeRsvg); require(webshot)
 
 #library(BatchGetSymbols)
 #library(Quandl); library(BETS); library(GetTDData); library(Rbitcoin)
 ```
 
-```{r source datas}
+```{r source datas, message=FALSE}
 source('01-data/bacen/data.spread.R')
+source('14-tables/table-studies.R')
 ```

@@ -12,7 +12,7 @@ bookdown::word_document2:
   df_print: "default"
   highlight: "default"
   reference_docx: "13-templates/jacksontorres_.docx"
-  keep_md: FALSE
+  keep_md: TRUE
   md_extensions: NULL
   pandoc_args: NULL
         

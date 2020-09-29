@@ -1285,7 +1285,7 @@
     \ifthenelse{\equal \ImprimirSetor{}}{}{
     \ABNTEXchapterfont 
     \MakeUppercase\ImprimirSetor}
-        \vspace{1mm} %ALTERADO
+        \vspace{0mm} %ALTERADO ORIGINAL = 
     
     \ifthenelse{\equal \ImprimirProgramaPos{}}{}{
     \ABNTEXchapterfont 
@@ -1599,7 +1599,6 @@
 \makeatother
 
 
-
 %\trivfloat{quadro}
 %\floatstyle{plaintop}
 %\restylefloat{quadro}
@@ -1684,7 +1683,6 @@
  \end{center}
 }
 
-
 % simplificação para colocar figuras
 % ----------------------------------------------------------
 \newsavebox{\mybox}
@@ -1728,10 +1726,11 @@
 \renewcommand{\bibname}{{REFERÊNCIAS}}
 \renewcommand{\tablename}{TABELA }
 \renewcommand{\figurename}{FIGURA }
-\renewcommand{\figureautorefname}{FIGURA}
-\renewcommand{\tableautorefname}{TABELA}
+\renewcommand{\figureautorefname}{Figura}
+\renewcommand{\tableautorefname}{Tabela}
 
 \renewcommand{\folhadeaprovacaoname}{FOLHA DE APROVAÇÃO}
 \renewcommand{\resumoname}{RESUMO} 
 \renewcommand{\listadesiglasname}{LISTA DE SIGLAS}
 \renewcommand{\listadesimbolosname}{LISTA DE SÍMBOLOS}
+
