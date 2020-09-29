@@ -503,20 +503,6 @@ influência direta com o grau de concentração e o *spread* ex-post. E dois dos
 estudos chegaram a resultados opostos para os de posição de market share e a
 variável dependente.
 
-=======
-
->>>>>>> fd92d6fc9c026feaa3c4305b3410f57eeeb3eb33
-=======
-
->>>>>>> fd92d6fc9c026feaa3c4305b3410f57eeeb3eb33
-Ainda analisando a \autoref{tab:exantea} e a \autoref{tab:exanteb}, dois
-estudos chegaram a resultados diferentes para os efeitos da volatilidade da
-Selic no *spread ex-ante*. Os efeitos do IPCA foram testados em três estudos,
-os dois mais recentes encontraram uma relação indireta com a variável
-dependente. Em três estudos que examinaram o IGP, dois encontram relação
-direta, sendo que um deles foi repetido em período anterior e encontrou relação
-indireta.
-
 \begin{table}
 \caption{Resumo de estudos sobre o \emph{spread ex-post} no Brasil}
 ```{r studies expost}
