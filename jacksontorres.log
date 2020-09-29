@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.9.13)  22 SEP 2020 19:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.9.26)  29 SEP 2020 08:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **jacksontorres.tex
 (./jacksontorres.tex
 LaTeX2e <2020-02-02> patch level 5
-L3 programming layer <2020-09-06> (./04-class-files/abntex2.cls
+L3 programming layer <2020-09-24> (./04-class-files/abntex2.cls
 
 LaTeX Warning: You have requested document class `04-class-files/abntex2',
                but the document class provides `abntex2'.
@@ -346,7 +346,7 @@ Package: hyperref 2020-05-15 v7.00e Hypertext links for LaTeX
 
 (/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.st
 y
-Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
 )
 (/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexc
 mds.sty
@@ -1001,11 +1001,11 @@ File: pppdftex.def 2020/01/28 v0.5q Pdfpages driver for pdfTeX (AM)
 \AM@templatesizebox=\box60
 ) (/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/latex/lipsum/lipsum.sty 
 (/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2020-09-06 L3 programming layer (loader) 
+Package: expl3 2020-09-24 L3 programming layer (loader) 
 
 (/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-
 pdftex.def
-File: l3backend-pdftex.def 2020-09-11 L3 backend support: PDF output (pdfTeX)
+File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count381
 \l__pdf_internal_box=\box61
 ))
@@ -1499,10 +1499,10 @@ caption package take over. Remember: all caption configuration now goes via the
  caption package interface, not the interface from the memoir class.  on input 
 line 50.
 (/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2020/09/02 v3.5a Customizing captions (AR)
+Package: caption 2020/09/12 v3.5b Customizing captions (AR)
 
 (/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2020/09/11 v2.0b caption3 kernel (AR)
+Package: caption3 2020/09/17 v2.1b caption3 kernel (AR)
 \captionmargin=\dimen319
 \captionmargin@=\dimen320
 \captionwidth=\dimen321
@@ -1693,7 +1693,7 @@ def
 File: blx-compat.def 2020/08/23 v3.15a biblatex compatibility (PK/MW)
 )
 Package biblatex Info: expl3
-(biblatex)             2020-09-06 L3 programming layer (loader) 
+(biblatex)             2020-09-24 L3 programming layer (loader) 
 (biblatex)             is new enough (at least 2020/04/06),
 (biblatex)             setting 'casechanger=expl3'.
 Package biblatex Info: Trying to load expl3 case changing code...
@@ -1792,21 +1792,14 @@ line 82.
 \cftbeforequadroskip=\skip301
 \cftquadroindent=\skip302
 \cftquadronumwidth=\skip303
-)
-\jacksontorres@idxfile=\write7
-\openout7 = `jacksontorres.idx'.
-
-Writing index file jacksontorres.idx 
-(/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/latex/psnfss/helvet.sty
-Package: helvet 2020/03/25 PSNFSS-v9.3 (WaS) 
-)
-   defining Unicode char U+0301 (decimal 769)
-   defining Unicode char U+0303 (decimal 771)
-   defining Unicode char U+0327 (decimal 807)
-(/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+(/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/latex/tools/varioref.sty
+Package: varioref 2020/01/23 v1.6c package for extended references (FMi)
+\c@vrcnt=\count550
+) (/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.st
+y
 \wrapoverhang=\dimen328
 \WF@size=\dimen329
-\c@WF@wrappedlines=\count550
+\c@WF@wrappedlines=\count551
 \WF@box=\box125
 \WF@everypar=\toks74
 Package: wrapfig 2003/01/31  v 3.6
@@ -1828,16 +1821,16 @@ Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
 y
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@box=\box126
-\sift@deathcycles=\count551
+\sift@deathcycles=\count552
 \@vwid@loff=\dimen330
 \@vwid@roff=\dimen331
 )
-\c@taburow=\count552
-\tabu@nbcols=\count553
-\tabu@cnt=\count554
-\tabu@Xcol=\count555
-\tabu@alloc=\count556
-\tabu@nested=\count557
+\c@taburow=\count553
+\tabu@nbcols=\count554
+\tabu@cnt=\count555
+\tabu@Xcol=\count556
+\tabu@alloc=\count557
+\tabu@nested=\count558
 \tabu@target=\dimen332
 \tabu@spreadtarget=\dimen333
 \tabu@naturalX=\dimen334
@@ -1877,7 +1870,7 @@ Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 \UL@skip=\skip307
 \UL@hook=\toks78
 \UL@height=\dimen341
-\UL@pe=\count558
+\UL@pe=\count559
 \UL@pixel=\dimen342
 \ULC@box=\box134
 Package: ulem 2019/11/18
@@ -1887,9 +1880,19 @@ Package: ulem 2019/11/18
 y
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 \rotheadsize=\dimen344
-\c@nlinenum=\count559
+\c@nlinenum=\count560
 \TeXr@lab=\toks79
+))
+\jacksontorres@idxfile=\write7
+\openout7 = `jacksontorres.idx'.
+
+Writing index file jacksontorres.idx 
+(/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/latex/psnfss/helvet.sty
+Package: helvet 2020/03/25 PSNFSS-v9.3 (WaS) 
 )
+   defining Unicode char U+0301 (decimal 769)
+   defining Unicode char U+0303 (decimal 771)
+   defining Unicode char U+0327 (decimal 807)
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
@@ -1938,7 +1941,8 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 titlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count560
+\c@section@level=\count561
+LaTeX Info: Redefining \Ref on input line 520.
 )
 Redoing nameref's sectioning
 Redoing nameref's label
@@ -1946,6 +1950,7 @@ LaTeX Info: Redefining \nameref on input line 94.
 LaTeX Info: Redefining \ref on input line 94.
 LaTeX Info: Redefining \pageref on input line 94.
 LaTeX Info: Redefining \nameref on input line 94.
+LaTeX Info: Redefining \Ref on input line 94.
 \myptabbox=\box136
 \myptabboxwidth=\skip308
 
@@ -2112,6 +2117,8 @@ Package biblatex Info: ... file 'jacksontorres.bbl' found.
 (./jacksontorres.bbl)
 Package biblatex Info: Reference section=0 on input line 94.
 Package biblatex Info: Reference segment=0 on input line 94.
+LaTeX Font Info:    Font shape `T1/phv/b/it' in size <12> not available
+(Font)              Font shape `T1/phv/b/sl' tried instead on input line 97.
 <11-importedfigures/capaufpr.jpg, id=34, 502.5174pt x 569.4876pt>
 File: 11-importedfigures/capaufpr.jpg Graphic file (type jpg)
 <use 11-importedfigures/capaufpr.jpg>
@@ -2122,6 +2129,8 @@ Package pdftex.def Info: 11-importedfigures/capaufpr.jpg  used on input line 97
 
 {/Users/jacksontorres/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.
 map} <./11-importedfigures/capaufpr.jpg>]
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <12> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 101.
 LaTeX Font Info:    Trying to load font information for TS1+phv on input line 1
 01.
 (/Users/jacksontorres/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ts1phv.fd
@@ -2181,481 +2190,141 @@ l.101
 
 
 
-] [2
+] (./jacksontorres.lof) [2] (./jacksontorres.lot) [3
 
-] (./jacksontorres.lof
-LaTeX Font Info:    Font shape `T1/phv/m/it' in size <12> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 16.
-) [3
+] (./jacksontorres.toc) [4
 
-] (./jacksontorres.lot) [4
-
-] (./jacksontorres.toc
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 9.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 9.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 9.
-) [5
-
-] [6
-
-] [7
+] [5
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 239.
-[8
+(Font)              <10> on input line 228.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 228.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 228.
+[6
 
-] [9]
-<12-exportedfigures/bank evolution-1.pdf, id=170, 356.33125pt x 204.765pt>
+] [7] [8]
+<12-exportedfigures/bank evolution-1.pdf, id=187, 464.73625pt x 313.17pt>
 File: 12-exportedfigures/bank evolution-1.pdf Graphic file (type pdf)
 <use 12-exportedfigures/bank evolution-1.pdf>
 Package pdftex.def Info: 12-exportedfigures/bank evolution-1.pdf  used on input
- line 296.
-(pdftex.def)             Requested size: 356.34666pt x 204.77385pt.
-
-Overfull \hbox (24.24408pt too wide) in paragraph at lines 307--317
-[][]
- []
-
-[10]
-<12-exportedfigures/concetration-1.pdf, id=182, 353.32pt x 204.765pt>
+ line 364.
+(pdftex.def)             Requested size: 455.01294pt x 306.61777pt.
+[9]
+<12-exportedfigures/concetration-1.pdf, id=200, 459.7175pt x 313.17pt>
 File: 12-exportedfigures/concetration-1.pdf Graphic file (type pdf)
 <use 12-exportedfigures/concetration-1.pdf>
 Package pdftex.def Info: 12-exportedfigures/concetration-1.pdf  used on input l
-ine 325.
-(pdftex.def)             Requested size: 353.32452pt x 204.7676pt.
-[11 <./12-exportedfigures/bank evolution-1.pdf>]
-<12-exportedfigures/capital graphic-1.pdf, id=205, 362.35374pt x 201.75375pt>
+ine 404.
+(pdftex.def)             Requested size: 455.02351pt x 309.97234pt.
+[10 <./12-exportedfigures/bank evolution-1.pdf>] [11 <./12-exportedfigures/conc
+etration-1.pdf>]
+<12-exportedfigures/capital graphic-1.pdf, id=237, 468.75125pt x 309.155pt>
 File: 12-exportedfigures/capital graphic-1.pdf Graphic file (type pdf)
 <use 12-exportedfigures/capital graphic-1.pdf>
 Package pdftex.def Info: 12-exportedfigures/capital graphic-1.pdf  used on inpu
-t line 361.
-(pdftex.def)             Requested size: 362.35838pt x 201.75632pt.
-[12 <./12-exportedfigures/concetration-1.pdf>] [13 <./12-exportedfigures/capita
-l graphic-1.pdf>]
-<12-exportedfigures/credit gdp-1.pdf, id=248, 351.3125pt x 204.765pt>
+t line 457.
+(pdftex.def)             Requested size: 454.99571pt x 300.08282pt.
+[12 <./12-exportedfigures/capital graphic-1.pdf>]
+<12-exportedfigures/credit gdp-1.pdf, id=265, 459.7175pt x 313.17pt>
 File: 12-exportedfigures/credit gdp-1.pdf Graphic file (type pdf)
 <use 12-exportedfigures/credit gdp-1.pdf>
 Package pdftex.def Info: 12-exportedfigures/credit gdp-1.pdf  used on input lin
-e 381.
-(pdftex.def)             Requested size: 351.33307pt x 204.77698pt.
-LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10.95> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 389.
-<12-exportedfigures/average spread-1.pdf, id=249, 351.3125pt x 191.71625pt>
-File: 12-exportedfigures/average spread-1.pdf Graphic file (type pdf)
-<use 12-exportedfigures/average spread-1.pdf>
-Package pdftex.def Info: 12-exportedfigures/average spread-1.pdf  used on input
- line 391.
-(pdftex.def)             Requested size: 351.33307pt x 191.72746pt.
-[14] [15 <./12-exportedfigures/credit gdp-1.pdf> <./12-exportedfigures/average 
-spread-1.pdf>]
-<12-exportedfigures/spread 2019-1.pdf, id=275, 351.3125pt x 201.75375pt>
-File: 12-exportedfigures/spread 2019-1.pdf Graphic file (type pdf)
-<use 12-exportedfigures/spread 2019-1.pdf>
-Package pdftex.def Info: 12-exportedfigures/spread 2019-1.pdf  used on input li
-ne 398.
-(pdftex.def)             Requested size: 351.31699pt x 201.75632pt.
-<12-exportedfigures/balance credit-1.pdf, id=276, 351.3125pt x 204.765pt>
+e 495.
+(pdftex.def)             Requested size: 455.02351pt x 309.97234pt.
+[13]
+<12-exportedfigures/balance credit-1.pdf, id=276, 459.7175pt x 313.17pt>
 File: 12-exportedfigures/balance credit-1.pdf Graphic file (type pdf)
 <use 12-exportedfigures/balance credit-1.pdf>
 Package pdftex.def Info: 12-exportedfigures/balance credit-1.pdf  used on input
- line 400.
-(pdftex.def)             Requested size: 351.33307pt x 204.77698pt.
-[16 <./12-exportedfigures/spread 2019-1.pdf> <./12-exportedfigures/balance cred
-it-1.pdf>] [17] [18
+ line 516.
+(pdftex.def)             Requested size: 455.02351pt x 309.97234pt.
+[14 <./12-exportedfigures/credit gdp-1.pdf>] [15 <./12-exportedfigures/balance 
+credit-1.pdf>] [16]
 
-] [19
+LaTeX Warning: Command \c invalid in math mode on input line 576.
 
-]
-<12-exportedfigures/spread 2019 moc-1.pdf, id=312, 356.33125pt x 201.75375pt>
+
+LaTeX Warning: Command \~ invalid in math mode on input line 576.
+
+
+LaTeX Warning: Command \c invalid in math mode on input line 576.
+
+
+LaTeX Warning: Command \~ invalid in math mode on input line 576.
+
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10.95> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 592.
+<12-exportedfigures/diagram.spread-1.pdf, id=316, 596.2275pt x 200.75pt>
+File: 12-exportedfigures/diagram.spread-1.pdf Graphic file (type pdf)
+<use 12-exportedfigures/diagram.spread-1.pdf>
+Package pdftex.def Info: 12-exportedfigures/diagram.spread-1.pdf  used on input
+ line 594.
+(pdftex.def)             Requested size: 455.00264pt x 153.19952pt.
+[17
+
+] [18 <./12-exportedfigures/diagram.spread-1.pdf>] [19] [20]
+<12-exportedfigures/average spread-1.pdf, id=420, 459.7175pt x 300.12125pt>
+File: 12-exportedfigures/average spread-1.pdf Graphic file (type pdf)
+<use 12-exportedfigures/average spread-1.pdf>
+Package pdftex.def Info: 12-exportedfigures/average spread-1.pdf  used on input
+ line 721.
+(pdftex.def)             Requested size: 455.02351pt x 297.05684pt.
+[21 <./12-exportedfigures/average spread-1.pdf>]
+<12-exportedfigures/spread 2019 moc-1.pdf, id=439, 459.7175pt x 310.15875pt>
 File: 12-exportedfigures/spread 2019 moc-1.pdf Graphic file (type pdf)
 <use 12-exportedfigures/spread 2019 moc-1.pdf>
 Package pdftex.def Info: 12-exportedfigures/spread 2019 moc-1.pdf  used on inpu
-t line 428.
-(pdftex.def)             Requested size: 356.3358pt x 201.75632pt.
-[20
-
- <./12-exportedfigures/spread 2019 moc-1.pdf>] [21] [22]
-Overfull \hbox (5.81439pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Variável|  
- []
-
-
-Overfull \hbox (2.24474pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) AFANASIEFF, 
- []
-
-
-Overfull \hbox (2.24474pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) AFANASIEFF, 
- []
-
-
-Overfull \hbox (1.90372pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) GUIMARÃES 
- []
-
-
-Overfull \hbox (144.16629pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) DANTAS 
- []
-
-
-Overfull \hbox (134.00925pt too wide) in paragraph at lines 533--533
-\T1/phv/m/n/10 (-20) (2012)|  
- []
-
-
-Overfull \hbox (4.22983pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Método|  
- []
-
-
-Overfull \hbox (119.0575pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Ex- 
- []
-
-
-Overfull \hbox (125.0881pt too wide) in paragraph at lines 533--533
-\T1/phv/m/n/10 (-20) ante|  
- []
-
-
-Overfull \hbox (62.56888pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Atividade.Econômica|  
- []
-
-
-Overfull \hbox (110.28078pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) +|  
- []
-
-
-Overfull \hbox (15.6619pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Ativo.Total|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (61.71109pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Bancos.Estrangeiros|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (42.89049pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Caixa.Depósitos|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (58.28789pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Captação.sem.juros|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (26.69421pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Compulsório|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (87.09824pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Crescimento.PIB.Industrial|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (76.04979pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Custo.Administrativo.Op|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (27.64192pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Desemprego|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (56.861pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Grau.Concentração|  
- []
-
-
-Overfull \hbox (110.28078pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) +|  
- []
-
-
-Overfull \hbox (55.70859pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) I.Vol.Vendas.Varejo|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (51.46217pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Impostos.Indiretos|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (32.00272pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Inadimplência|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (4.77855pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) IPIbcap|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (5.21748pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) IPIgeral|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (8.04204pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Liquidez|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (30.31601pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Market.Share|  
- []
-
-
-Overfull \hbox (105.96097pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) - 
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (48.09859pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Produto.Industrial|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (45.36598pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Receita.Serviços|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (85.57166pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Requerimento.de.Reserva|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (29.95647pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Risco.Crédito|  
- []
-
-
-Overfull \hbox (110.28078pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) +|  
- []
-
-
-Overfull \hbox (22.13234pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Risco.Juros|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (83.2361pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Saldo.Carteira.Crédito.RL|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (66.83765pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Spread.Over.Treasury|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
- []
-
-
-Overfull \hbox (44.88356pt too wide) in paragraph at lines 533--533
-[]\T1/phv/m/n/10 (-20) Volatilidade.Selic|  
- []
-
-
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 533--533
-[]|  
+t line 761.
+(pdftex.def)             Requested size: 455.02351pt x 306.99185pt.
+<12-exportedfigures/spread 2019 icc-1.pdf, id=441, 459.7175pt x 310.15875pt>
+File: 12-exportedfigures/spread 2019 icc-1.pdf Graphic file (type pdf)
+<use 12-exportedfigures/spread 2019 icc-1.pdf>
+Package pdftex.def Info: 12-exportedfigures/spread 2019 icc-1.pdf  used on inpu
+t line 781.
+(pdftex.def)             Requested size: 455.02351pt x 306.99185pt.
+[22]
+<12-exportedfigures/ICC-1.pdf, id=449, 459.7175pt x 313.17pt>
+File: 12-exportedfigures/ICC-1.pdf Graphic file (type pdf)
+<use 12-exportedfigures/ICC-1.pdf>
+Package pdftex.def Info: 12-exportedfigures/ICC-1.pdf  used on input line 800.
+(pdftex.def)             Requested size: 455.02351pt x 309.97234pt.
+[23 <./12-exportedfigures/spread 2019 moc-1.pdf>] [24 <./12-exportedfigures/spr
+ead 2019 icc-1.pdf>] [25 <./12-exportedfigures/ICC-1.pdf>] [26]
+Overfull \hbox (2.57474pt too wide) in paragraph at lines 929--929
+[]|\T1/phv/m/n/10 (-20) AFANASIEFF, 
  []
 
 
-Overfull \hbox (106.01762pt too wide) in paragraph at lines 485--536
-[][]
+Overfull \hbox (2.57474pt too wide) in paragraph at lines 929--929
+[]|\T1/phv/m/n/10 (-20) AFANASIEFF, 
  []
 
-[23] [24] [25] [26
+[27] [28] [29] [30] [31
 
-] [27
+] [32
 
-] [28
+] [33
 
-] [29
+] [34
 
-] [30]
+]
 
 Package biblatex Warning: No driver for entry type ''.
-(biblatex)                Using fallback driver on input line 566.
+(biblatex)                Using fallback driver on input line 1107.
 
-[31] [32
+[35
 
-] [33]
+] [36] [37]
 
 Package biblatex Warning: No driver for entry type ''.
-(biblatex)                Using fallback driver on input line 602.
+(biblatex)                Using fallback driver on input line 1107.
 
 
 AED: lastpage setting LastPage
-[34]
+[38]
 \tf@lof=\write8
 \openout8 = `jacksontorres.lof'.
 
@@ -2665,11 +2334,11 @@ AED: lastpage setting LastPage
 \tf@toc=\write10
 \openout10 = `jacksontorres.toc'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 604.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 604.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1109.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1109.
 (./jacksontorres.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 604.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 604.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1109.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1109.
 
 Package biblatex Warning: Please rerun LaTeX.
 (biblatex)                Page breaks have changed.
@@ -2677,25 +2346,34 @@ Package biblatex Warning: Please rerun LaTeX.
 Package logreq Info: Writing requests to 'jacksontorres.run.xml'.
 \openout1 = `jacksontorres.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 604.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1109.
  ) 
 Here is how much of TeX's memory you used:
- 43218 strings out of 482804
- 783918 string characters out of 5953753
- 1748300 words of memory out of 5000000
- 57428 multiletter control sequences out of 15000+600000
- 606688 words of font info for 226 fonts, out of 8000000 for 9000
+ 43335 strings out of 482803
+ 786182 string characters out of 5953722
+ 1746156 words of memory out of 5000000
+ 57517 multiletter control sequences out of 15000+600000
+ 608648 words of font info for 232 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
  78i,15n,117p,1158b,4212s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}
-</Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8
-a.pfb></Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic
-/uhvr8a.pfb></Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/type1/urw/he
-lvetic/uhvro8a.pfb>
-Output written on jacksontorres.pdf (35 pages, 3204274 bytes).
+{/Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit
+.enc}{/Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.
+enc}{/Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-math
+sy.enc}{/Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r
+.enc}</Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmm
+i12.pfb></Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/
+lmmi8.pfb></Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/type1/public/l
+m/lmr12.pfb></Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/type1/public
+/lm/lmr8.pfb></Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/type1/publi
+c/lm/lmsy10.pfb></Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/type1/ur
+w/helvetic/uhvb8a.pfb></Users/jacksontorres/Library/TinyTeX/texmf-dist/fonts/ty
+pe1/urw/helvetic/uhvbo8a.pfb></Users/jacksontorres/Library/TinyTeX/texmf-dist/f
+onts/type1/urw/helvetic/uhvr8a.pfb></Users/jacksontorres/Library/TinyTeX/texmf-
+dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on jacksontorres.pdf (39 pages, 3292080 bytes).
 PDF statistics:
- 669 PDF objects out of 1000 (max. 8388607)
- 576 compressed objects within 6 object streams
- 100 named destinations out of 1000 (max. 500000)
- 28958 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 779 PDF objects out of 1000 (max. 8388607)
+ 670 compressed objects within 7 object streams
+ 111 named destinations out of 1000 (max. 500000)
+ 26912 words of extra memory for PDF output out of 29859 (max. 10000000)
 

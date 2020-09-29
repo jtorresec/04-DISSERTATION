@@ -6,7 +6,7 @@ studies.b <- list('KOYAMA e NAKANE (2001a e 2001b)' = list(
         IGP = '+',
         IPCA = '',
         Produto.Industrial = '-',
-        Crescimento.PIB.Industrial = '',
+        "Crescimento PIB Industrial" = '',
         Compulsório = '',
         IPIbc = '',
         IPIgeral = '',
@@ -44,7 +44,7 @@ studies.b <- list('KOYAMA e NAKANE (2001a e 2001b)' = list(
         IGP = '+',
         IPCA = '',
         Produto.Industrial = '',
-        Crescimento.PIB.Industrial = '-',
+        "Crescimento PIB Industrial" = '-',
         Compulsório = '',
         IPIbc = '',
         IPIgeral = '',
@@ -82,7 +82,7 @@ studies.b <- list('KOYAMA e NAKANE (2001a e 2001b)' = list(
         IGP = '-',
         IPCA = '',
         Produto.Industrial = '',
-        Crescimento.PIB.Industrial = '+',
+        "Crescimento PIB Industrial" = '+',
         Compulsório = '',
         IPIbc = '',
         IPIgeral = '',
@@ -120,7 +120,7 @@ studies.b <- list('KOYAMA e NAKANE (2001a e 2001b)' = list(
         IGP = '',
         IPCA = '-',
         Produto.Industrial = '',
-        Crescimento.PIB.Industrial = '',
+        "Crescimento PIB Industrial" = '',
         Compulsório = '+',
         IPIbc = '',
         IPIgeral = '',
@@ -158,7 +158,7 @@ studies.b <- list('KOYAMA e NAKANE (2001a e 2001b)' = list(
         IGP = '',
         IPCA = '',
         Produto.Industrial = '+',
-        Crescimento.PIB.Industrial = '',
+        "Crescimento PIB Industrial" = '',
         Compulsório = '',
         IPIbc = '',
         IPIgeral = '',
@@ -196,7 +196,7 @@ studies.b <- list('KOYAMA e NAKANE (2001a e 2001b)' = list(
         IGP = '',
         IPCA = '',
         Produto.Industrial = '',
-        Crescimento.PIB.Industrial = '',
+        "Crescimento PIB Industrial" = '',
         Compulsório = '',
         IPIbc = '',
         IPIgeral = '',
@@ -234,7 +234,7 @@ studies.b <- list('KOYAMA e NAKANE (2001a e 2001b)' = list(
         IGP = '',
         IPCA = '-',
         Produto.Industrial = '',
-        Crescimento.PIB.Industrial = '',
+        "Crescimento PIB Industrial" = '',
         Compulsório = '',
         IPIbc = '-',
         IPIgeral = '-',
@@ -272,7 +272,7 @@ studies.b <- list('KOYAMA e NAKANE (2001a e 2001b)' = list(
         IGP = '',
         IPCA = '',
         Produto.Industrial = '',
-        Crescimento.PIB.Industrial = '',
+        "Crescimento PIB Industrial" = '',
         Compulsório = '',
         IPIbc = '',
         IPIgeral = '',
@@ -301,15 +301,136 @@ studies.b <- list('KOYAMA e NAKANE (2001a e 2001b)' = list(
         Bancos.Estrangeiros = '',
         Grau.Concentração = '+',
         Atividade.Econômica = '+'
-        )
+        ),
+'ALMEIDA (2013)' = list(
+        Método = 'Ex-post',
+        Selic = '',
+        Volatilidade.Selic = '',
+        Spread.Over.Treasury = '',
+        IGP = '',
+        IPCA = '',
+        Produto.Industrial = '',
+        "Crescimento PIB Industrial" = '',
+        Compulsório = '',
+        IPIbc = '',
+        IPIgeral = '',
+        IPIbcap = '',
+        IPIbi = '',
+        IPIbcd = '',
+        IPIbsd = '',
+        IPIad = '',
+        PIB = '+',
+        Desemprego = '',
+        EMBI = '',
+        Saldo.Carteira.Crédito.RL =  '',
+        I.Vol.Vendas.Varejo = '',
+        Inadimplência = '',
+        Ativo.Total = '',
+        Receita.Serviços = '-',
+        Impostos.Indiretos = 'Não significativo',
+        Custo.Administrativo.Op = '+',
+        Caixa.Depósitos = '',
+        Market.Share = '+',
+        Requerimento.de.Reserva = '+',
+        Captação.sem.juros = '',
+        Risco.Juros = '',
+        Risco.Crédito = 'Não significativo',
+        Liquidez = 'Não significativo',
+        Bancos.Estrangeiros = '',
+        Grau.Concentração = '+',
+        Atividade.Econômica = ''
+),
+'ARONOVICH (1994)' = list(
+        Método = 'Ex-ante',
+        Selic = '',
+        Volatilidade.Selic = '',
+        Spread.Over.Treasury = '',
+        IGP = '',
+        IPCA = '+',
+        Produto.Industrial = '',
+        "Crescimento PIB Industrial" = '',
+        Compulsório = '',
+        IPIbc = '',
+        IPIgeral = '',
+        IPIbcap = '',
+        IPIbi = '',
+        IPIbcd = '',
+        IPIbsd = '',
+        IPIad = '',
+        PIB = '',
+        Desemprego = '',
+        EMBI = '',
+        Saldo.Carteira.Crédito.RL =  '',
+        I.Vol.Vendas.Varejo = '',
+        Inadimplência = '',
+        Ativo.Total = '',
+        Receita.Serviços = '',
+        Impostos.Indiretos = '',
+        Custo.Administrativo.Op = '',
+        Caixa.Depósitos = '',
+        Market.Share = '',
+        Requerimento.de.Reserva = '',
+        Captação.sem.juros = '',
+        Risco.Juros = '',
+        Risco.Crédito = '',
+        Liquidez = '',
+        Bancos.Estrangeiros = '',
+        Grau.Concentração = '',
+        Atividade.Econômica = '-'
 )
+)
+studies.v <- c('Autor', 'Método' , 'Selic', 'Volatilidade da Selic', 'Spread Over Treasury',
+               'IGP', 'IPCA', 'Produto Industrial', 'Crescimento PIB Industrial', 
+               'Compulsório', 'IPI Bens de Consumo', 'IPI Geral', 'IPI Bens de Capital',
+               'IPI Bens i', 'IPI bcd', 'IPI bsd', 'IPIad', 'PIB', 'Desemprego',
+               'EMBI', 'Saldo Carteira Crédito RL', 'Índice Volume Vendas Varejo', 
+               'Inadimplência', 'Ativo Total', 'Receita Serviços', 'Impostos Indiretos',
+               'Custos Administrativos', 'Caixa.Depósitos', 'Market Share',
+               'Requerimento de Reserva', 'Captação sem juros', 'Risco Juros',
+               'Risco Crédito', 'Liquidez', 'Bancos Estrangeiros', 'Grau Concentração',
+               'Atividade Econômica')
+
 
 studies.t <- ldply(studies.b, data.frame, .id = 'Autor')
-studies.r <- studies.t %>% gather(Variável, Relação, 2:37) %>% 
-        spread(Autor, Relação)
+names(studies.t) <-  studies.v
+studies.r <- studies.t %>%
+        gather(Variável, Relação, 2:37) %>% 
+        spread(Autor, Relação) %>% 
+        arrange(desc(`KOYAMA e NAKANE (2001a e 2001b)`))
+studies.r  %>% dim()      
 
-m <- studies.r[26,]
-r <- studies.r[-26,]
-studies.m <- rbind(m,r)
+studies.post <- studies.r %>% 
+        select(1,7,9,10) %>% 
+        filter(`GUIMARÃES (2002)` !=  '' | 
+                       `DANTAS (2012)` != '' |
+                       `ALMEIDA (2013)` != '') %>% 
+        slice(2:n())
 
+studies.ante <- studies.r %>% 
+        select(-7,-9,-10) %>% 
+        filter(`KOYAMA e NAKANE (2001a e 2001b)` != '' |
+                       `AFANASIEFF, LHAGER e NAKANE (2001)` != '' |
+                       `AFANASIEFF, LHAGER e NAKANE (2002)` != '' |
+                       `BIGNOTTO e RODRIGUES (2006)` != '' |
+                       `OREIRO et al. (2006)` != '' |
+                       `DURIGAN (2018)` != '' |
+                       `ARONOVICH (1994)` != '') %>% 
+        slice(2:n())
 
+studies.ante.a <- studies.r %>% 
+        select(1, 2, 3, 4, 5) %>% 
+        filter(`KOYAMA e NAKANE (2001a e 2001b)` != '' |
+                       `AFANASIEFF, LHAGER e NAKANE (2001)` != '' |
+                       `AFANASIEFF, LHAGER e NAKANE (2002)` != '' |
+                       `BIGNOTTO e RODRIGUES (2006)` != '') %>% 
+        slice(2:n())
+
+studies.ante.b <- studies.r %>% 
+        select(1, 6, 8, 11) %>% 
+        filter(`OREIRO et al. (2006)` != '' |
+                       `DURIGAN (2018)` != '' |
+                       `ARONOVICH (1994)` != '') %>% 
+        slice(2:n())
+
+studies.ante.b %>% view()
+studies.post %>% view()

@@ -4,5 +4,9 @@
 \chapter[INTRODUÇÃO]{INTRODUÇÃO}
 
 ---
-Foi verificado o panorama das publicações de pesquisas relacionadas ao setor bancário no brasil, nos últimos 20 anos através da plataforma Capes, entre os anos 2000 e 2020. Foram utilizados os termos: Setor Bancário, Indústria Bancária, Mercado Bancário, Estrutura Bancária e Brasil\footnote{Foram utilizados operadores booleanos em inglês: banking(structure or market or sector or industry) and brazil*.}, revisados por pares, remontando um total de 4.512 publicações, demonstrando a relevância do tema.
+O lucro no setor bancário brasileiro é considerado muito elevado, afetando principalmente o setor produtivo \cite{dantas:2012}. 
+* A américa latina possui as maiores taxas de juros, bancos mais ineficientes e maiores requerimentos de reserva, implicando maiores impactos no spread \cite{dantas:2012}
 ---
+
+
+
