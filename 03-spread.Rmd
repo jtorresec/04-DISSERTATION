@@ -542,9 +542,13 @@ variável dependente.
 Este capítulo verificou os principais conceitos, características e estudos
 acerca do *spread* bancário no Brasil, identificando as óticas de análise por
 evolução, composição e determinantes através da abrangência da amostra,
-conteúdo e origem da informação. E que as maiores limitações estão na dificuldade de desagregação de informações para uma análise mais aprofundada.
+conteúdo e origem da informação. E que as maiores limitações estão na
+dificuldade de desagregação de informações para uma análise mais aprofundada.
 
-No próximo capítulo, será descrita a metodologia de trabalho com a formulação das hipóteses baseado nas informações e levantamentos dos capítulos anteriores, nos estudos pesquisados e na teoria econômica, através da coleta, tratamento e análise de dados. 
+No próximo capítulo, será descrita a metodologia de trabalho com a formulação
+das hipóteses baseado nas informações e levantamentos dos capítulos anteriores,
+nos estudos pesquisados e na teoria econômica, através da coleta, tratamento e
+análise de dados. 
 
 
  
