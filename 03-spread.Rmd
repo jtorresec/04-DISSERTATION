@@ -468,9 +468,6 @@ studies.ante.b %>% kbl(booktabs = T) %>%
 \label{tab:exanteb}
 \fonte{Desenvolvido a partir das fontes citadas}
 \end{table}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 Ainda analisando a \autoref{tab:exantea} e a \autoref{tab:exanteb}, dois
 estudos chegaram a resultados diferentes para os efeitos da volatilidade da
