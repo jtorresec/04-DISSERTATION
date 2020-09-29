@@ -487,29 +487,6 @@ studies.post %>% kbl(booktabs = T) %>%
         column_spec(2, width = "3cm") %>% 
         column_spec(3, width = "3cm") %>% 
         column_spec(4, width = "3cm")
-#
-```
-\label{tab:expost}
-\fonte{Desenvolvido a partir das fontes citadas}
-\end{table}
-
-A \autoref{tab:expost} traz o resumo dos estudos empíricos dos determinantes do
-*spread ex-post* no Brasil, por meio de modelos econométricos utilizando
-regressão. Destaca-se que, entre os estudos, dois encontraram significância de
-influência direta com o grau de concentração e o *spread* ex-post. E dois dos
-estudos chegaram a resultados opostos para os de posição de market share e a
-variável dependente.
-
-\begin{table}
-\caption{Resumo de estudos sobre o \emph{spread ex-post} no Brasil}
-```{r studies expost}
-studies.post %>% kbl(booktabs = T) %>% 
-        kable_styling(latex_options = c("striped"), 
-                      font_size = 10, full_width = F) %>% 
-        column_spec(1, bold = T, width = "4cm") %>% 
-        column_spec(2, width = "3cm") %>% 
-        column_spec(3, width = "3cm") %>% 
-        column_spec(4, width = "3cm")
 ```
 \label{tab:expost}
 \fonte{Desenvolvido a partir das fontes citadas}
