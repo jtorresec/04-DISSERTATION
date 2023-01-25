@@ -1,0 +1,529 @@
+\textual
+\pagestyle{simple}
+\parindent 1.50cm
+
+\chapter{Procedimentos Metodológicos}
+
+Este capítulo descreve os principais procedimentos metodológicos, técnicas e ferramentas que serão utilizados neste trabalho, visando organizar as etapas da pesquisa e permitir um maior nível de reproducibilidade, revisão e refutabilidade da mesma.
+
+Este trabalho foi desenvolvido e editado em ambiente R Markdown com utilização de linguagem Latex para padronização de textos, figuras e tabelas, e as linguagens R e Python para coleta, limpeza, tratamento, análise, visualização, modelagem e estimação econométrica dos conjuntos de dados.
+
+Na primeira parte são apresentados concepções, pressupostos e critérios teóricos e técnicos diante do conjunto de informações e dados levantados, que serviram como pilar para a construção da modelagem econométrica. Na segunda parte foram trazidas as características teóricas da modelagem selecionada. E na última parte foram expostas as hipóteses com detalhamentos das variáveis.
+
+Para fins de modelagem, o *spread* será abordado dentro do conceito de precificação, seguindo a decomposição desenvolvida no \autoref{apendicea}, na forma simplificada da \autoref{eq:amor100} e dos componentes da taxa de juros conforme a \autoref{eq:txjur100}. 
+ 
+
+\begin{equation}\label{eq:amor100}
+SprEp_{[n,a,b,c,d,e]} = \left[ \frac{ROp_{n}[\frac{   ijr_{}  }{  [1 + ijr_{}]^n -1  }]}{Op_{n}} -1 \right] - \left[ \frac{DC_{n}}{C_{n}} \right]
+\end{equation}
+
+
+\begin{equation}\label{eq:txjur100}
+\begin{aligned}
+ijr_{[t(a,b,c,d,e)]} = & \frac{[i_{adm} + i_{Inad} + i_{IOF} + r +  \frac{(i_{cap} + i_{fgc} + i_{ac}.i_{comp} - i_{r}.i_{fgc}+ i_{cs}.i_{fgc})}{1 - i_{comp} - i_{fgc}}]}
+{[1 - (\frac{i_{ll}}{1 - i_{r} - i_{cs}} + i_{pis}.(1 - i_{r} - i_{cs}) + i_{cof}.(1 - i_{r} - i_{cs}) + 0,99i_{r} + i_{cs})]}v'p'g'
+\end{aligned}
+\end{equation}
+
+
+\section{Modelo}
+
+Diante das características do modelo, foi identificada a metodologia de painel de vetores autoregressivos (PVAR), que comporta mais de uma variável dependente defasada, variáveis preditoras endógenas e variáveis preditoras exógenas com estimação por método de momentos generalizados (GMM), com transformação *Forward orthogonal deviations* em duas etapas \cite{sigmund:2008}.
+
+A metodologia PVAR mostra-se compatível com a característica de painel não balanceado (N > T), porém necessitando de tratamento em observações inciais, e enfrentando problemas com a questão da heterogeneidade entre os grupos de cortes transversais. Tais limitações seriam contornadas com a utilização do método GMM \cite{holtz-eakin:1988}. 
+
+O modelo GMM proposto por \textcite{arellanobond:1991} (\autoref{eq:pvar}),  vem contornar a inconsistência dos modelos de efeitos fixos, utilizando variáveis defasadas como instrumentos para variáveis endógenas. O procedimento de estimação pode ser em uma etapa ou duas etapas, onde esta última se baseia nos resíduos da primeira etapa, e uma matriz é utilizada para retirar o modelo de efeito fixo \cite{sigmund:2008}.
+
+\begin{equation}\label{eq:pvar}
+\mathbf{W}_{it} = \mathbf{a}_{i} + \Phi \mathbf{W}_{i, t-1} + \epsilon_{it}  
+\end{equation}
+
+No modelo PVAR-GMM (Diff) proposto por \textcite{arellanobond:1991} se alguma variável possuir raiz unitária, o estimador será inconsistente. Porém, de acordo com \textcite{binder:2005}, seria mais eficiente do que estimar cada equação por GMM. Tal limitação seria contornada pela proposta de uma sistema GMM apresentado por \textcite{blundelbond:1998}.
+
+O modelo PVAR-GMM (System) de \textcite{blundelbond:1998} (\autoref{eq:pvarsys}) atua corrigindo o viés causado pelos efeitos fixos aplicados em painéis dinâmicos, através da modificação, ou seja, a retirada em primeira ordem, dos instrumentos, passando a serem exógenos aos efeitos fixos, assumindo que as variações nas variáveis instrumentais não são correlacionadas com os efeitos fixos e com o erro. 
+
+Os autores \textcite{binder:2005} realizaram estudo para comparar os métodos PVAR-GMM (Diff) e PVAR-GMM (System) através de simulações de Monte Carlo, havendo perda de acurácia quando os painéis possuem ao menos uma raiz unitária, mesmo sem séries com um número elevado de observações, chegando a conclusão que o PVAR-GMM (System) é mais eficiente.
+
+
+\begin{equation}\label{eq:pvarsys}
+\mathbf{W}_{it} - \Phi\mathbf{W}_{i, t-1} = \mathbf{a}_{i} + \epsilon_{it}  
+\end{equation}
+
+
+A transformação orthogonal, conforme representação na  \autoref{eq:fod} é realizada para retirar os efeitos fixos \cite{sigmund:2008}.
+
+\begin{equation}\label{eq:fod}
+FOD = \left[ \begin{array}{ccccc}
+\sqrt{\frac{T-1}{T}}  & - \sqrt{\frac{1}{T(T - 1)}} & - \sqrt{\frac{1}{T(T - 1)}} & \cdots & - \sqrt{\frac{1}{T(T - 1)}}  \\
+0 & \sqrt{\frac{T - 2 }{(T - 1)}} & - \sqrt{\frac{1}{(T - 1)(T - 2 )}} & \cdots &  - \sqrt{\frac{1}{(T - 1)(T - 2 )}} \\
+\vdots & & \ddots & \ddots & \vdots \\
+0 & 0 & \cdots & \sqrt{\frac{1}{2}} & - \sqrt{\frac{T - 1}{(T)}}\frac{1}{T-(T-1)}
+\end{array}\right]
+\end{equation}
+
+
+A proposta de \textcite{blundelbond:1998} consiste em uma série adicional de condições de momento representada pela \autoref{eq:pvare}, assumindo a proposição da \autoref{eq:pvare2}. A nova condição de momento mantém a proposta inicial de Arellano e Bond (1991), com a criação de um estimador de sistema com notação matricial conforme \autoref{eq:pvar.matrix} e matriz de instrumentos empilhados na \autoref{eq:pvar.instr},  com a base de dados aumentando nas condições da \autoref{eq:pvar.gdata} \cite{sigmund:2008}.
+
+
+\begin{equation}\label{eq:pvare}
+E[(\mathbf{a}_{i} + \epsilon_{it}) \vartriangle\mathbf{W}_{i, t-1}] = 0
+\end{equation}
+
+
+\begin{equation}\label{eq:pvare2}
+E[(\mathbf{a}_{i} \vartriangle\mathbf{W}_{i, t-1}]  +  E[\epsilon_{it}\vartriangle\mathbf{W}_{i, t-1}] = 0 + 0
+\end{equation}
+
+\begin{equation}\label{eq:pvar.matrix}
+\mathbf{P}_{i} = \left[\begin{array}{ccccc}
+0 & \vartriangle\mathbf{W}_{i2} & \cdots & 0 \\
+0 & 0 &  \vartriangle\mathbf{W}_{i3} & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & \vartriangle\mathbf{W}_{i, T-1}
+\end{array}\right]
+\end{equation}
+
+\begin{equation}\label{eq:pvar.instr}
+\mathbf{Q^{+}_{i}} = \left[\begin{array}{cc}
+\mathbf{Q_{i}} & 0 \\
+0 & \mathbf{P_{i}}
+\end{array}\right]
+\end{equation}
+
+
+\begin{equation}\label{eq:pvar.gdata}
+\mathbf{W^{+}_{i}} = \left[\begin{array}{c}
+\vartriangle\mathbf{W}_{i}  \\
+\mathbf{W}_{i} 
+\end{array}\right]\hspace{10pt}\text{e}\hspace{10pt}\mathbf{W^{+}_{i, -1}} = \left[\begin{array}{c}
+\vartriangle\mathbf{W}_{i,-1}  \\
+\mathbf{W}_{i,-1} 
+\end{array}\right]
+\end{equation}
+
+Para a construção do estimador de sistema GMM em duas etapas de Blundell e Bond (1998), é utilizada a matriz de ponderações ótimas, dependendo das estimativas dos erros, conforme \autoref{eq:pvar.e.e}. Os estimador de sistema GMM de Blundell e Bond (1998) é formado pelos elementos da \autoref{eq:conditions} resultando na forma representada pela \autoref{eq:estimator} \cite{sigmund:2008}.
+
+
+\begin{equation}\label{eq:pvar.e.e}
+\mathbf{\hat{E}}_{i}^{+} = \mathbf{W}_{i}^{+} - \mathbf{W}_{i,-1}^{+}\mathbf{\Phi}_{is}^{'} 
+\end{equation}
+
+
+
+\begin{equation}\label{eq:conditions}
+\mathbf{\Lambda}_{Z^{+}_{\hat{e}}} = \frac{1}{N}\sum_{i = 1}^{N}(\mathbf{Q^{+'}}\otimes\mathbf{I_{m x m}})\gamma_{\hat{e}^{+}}(\mathbf{Q_{i}^{+}}\otimes\mathbf{I}_{mxm})\hspace{20pt} |  \hspace{20pt}\mathbf{\gamma}_{\hat{e}^{+}} = \frac{1}{N}\sum_{i=1}^{N} \mathbf{\hat{e}}_{i}^{+} \mathbf{\hat{e}}_{i}^{+} \hspace{20pt} |  \hspace{20pt}\mathbf{\hat{e}}_{i}^{+} = vec{\triangle\mathbf{E}_{i}^{+'}} 
+\end{equation}
+
+
+\begin{equation}\label{eq:estimator}
+\hat{\Phi}_{2s} =  (\mathbf{S}^{'}_{Z+X} \Lambda^{-1}_{Z^{+}_{\hat{e}}}\mathbf{S}_{Z+X})^{-1} \mathbf{S}^{'}_{Z+X} \Lambda^{-1}_{Z^{+}_{\hat{e}}}\mathbf{S}_{Z+y}
+\end{equation}
+
+
+De acordo com \textcite{bontempi:2015} os modelos PVAR-GMM apresentam problema proliferação de instrumentos, que geram sobreajuste das preditoras endógenas, viés nas variáveis instrumentais estimadores GMM e o  enfraquecimento do poder dos testes de superidentificação. Para tal problema \textcite{bontempi:2015} defendem utilização da análise de componentes principais (PCA).
+
+Os instrumentos PCA atuam reduzindo os instrumentos disponíveis, reescrevendo as informações transmitidas por variáveis altamente correlacionadas em termos de um conjunto de combinações lineares ortogonais ideais das variáveis originais e em seguida, retendo um número menor deles, sumarizando o painel e formando um espécie de índice-resumo \cite{bontempi:2015}. 
+
+Para o modelo PVAR-GMM (System) utilizado, levando em consideração a complexidade do painel dinâmico, será adotada a ferramenta de instrumentos PCA para evitar problemas de proliferação, e consequentemente sobreajuste, viés e aferição. 
+
+O modelo PVAR-GMM (System) será testado pelo método J-Hansen — \autoref{eq:jhansen}  —, que analisa a superidentificação de restrições (*overidentifying restrictions*), gerando a estatística J. A hipotese nula é a validade de todas a variáveis do modelo, através do teste Qui Quadrado e seu respectivo valor P \cite{andrews-lu:2001,sigmund:2008}.
+
+
+\begin{equation}\label{eq:jhansen}
+J_{n}(b,c) = n \hspace{10pt} \text{inf}_{\theta_{[b]} \in \theta_{[b]}} G_{nc} (\Theta_{[b]})^{'}W_{nc}(b,c)G_{nc}(\Theta_{[b]}) 
+\end{equation}
+
+
+Ainda para avaliação do modelo PVAR-GMM (System) será utilizado modelo consistente de critérios de seleção de momento (MMSC) — \autoref{eq:andrewslu} —,  desenvolvido por  \textcite{andrews-lu:2001}, baseado no teste J-Hansen para superidentificação de restrições, e nos Critério Bayesiano de Schwarz (BIC), Critério de informação Hannan–Quinn (HQIC) e Critério de informação de Akaike (AIC),  indicado para modelos em painéis dinâmicos, para efeitos fixos não observados, estimados por GMM \cite{sigmund:2008, zivotwang:2003}.
+
+
+\begin{equation}\label{eq:andrewslu}
+\begin{aligned}{}
+& MMSC-BIC = k_{n} = \ln n \hspace{10pt} \text{and} \hspace{10pt} MMSC_{BIC,n}(b,c) = J_{n}(b,c) — (|c| - |b| )ln,n \\
+& MMSC-AIC = k_{n} = 2 \hspace{10pt} \text{and} \hspace{10pt} 
+MMSC_{AIC,n}(b,c) = J_{n}(b,c) — 2(|c| - |b| ) \\
+& MMSC-HQIC = k_{n} = Q \ln \ln n  \hspace{10pt} \text{for some} \hspace{10pt} Q > 2 \hspace{10pt} \hspace{10pt} \text{and} \hspace{10pt}  \\
+& MMSC_{HQIC,n}(b,c) = J_{n}(b,c) — Q(|c| - |b|)\ln\ln n
+\end{aligned}
+\end{equation}
+
+
+O modelo PVAR-GMM System será avaliado pela condição de estabilidade padrão dos coeficientes VAR do painel, baseado no módulo de cada valor próprio do modelo estimado. De acordo com Luttkepohl (2007) e Hamilton (1994) *apud* \textcite{sigmund:2008} um modelo VAR é estável se todos os módulos da matriz par forem estritamente menores que um. A estabilidade implica que o painel VAR é invertível e tem uma representação de média móvel vetorial de ordem infinita.
+
+
+Para a análise do modelo PVAR-GMM (System) será utilizada a função impulso resposta octogonal (OIRF) — \autoref{eq:oirf} — visando analisar a resposta de uma variável ao impulsos das demais variável de forma isolada dentro da mesma equação, eliminando desta forma o problema de correlação endógena, que ocorre no método de impulso resposta convencional (IRF) \cite{sigmund:2008}..
+
+\begin{equation}\label{eq:oirf}
+OIRF(k,r) = \frac{\delta\mathbf{W}_{i,t+k}}{\delta(\mathbf{u}_{it})_{r}} = \mathbf{\Theta}_{k}\mathbf{e}_{r}  
+\end{equation}
+
+
+Os intervalos de confiança para as análises das funções impulso reposta OIRF e GIRF serão construídos através do procedimento de *bootstrap cross-sectional*\footnote{A técnicas de bootstraping consistem na amostragem aleatória para gerar reamostragem, atribuindo uma maior acurácia às estimativas amostrais, possibilitando estimar a distribuição amostral de quase todas as estatísticas geradas \cite{sigmund:2008}.} proposto por \textcite{kapetanios:2008}, construindo amostras de bootstrap através da reamostragem de unidades inteiras de seção transversal com substituição, produzindo refinamentos assintóticos.
+
+
+
+\section{Modelo e Hipóteses}
+
+Nesta seção serão apresentados o modelo e a descrição das variáveis dependentes e as variáveis preditoras com as respectivas hipoteses esperadas para cada relação. No \autoref{qdr:hipoteses} traz um resumo das hipoteses com as variáveis e as relações esperadas.
+
+\subsection{Modelo}
+
+O modelo PVAR-GMM construído se baseia na hipótese que o \emph{spread ex-post} ($y'$) e rentabilidade ($y''$), utilizadas como preditoras com ($p$) defasagens, são determinados diante um conjunto de variáveis endógenas ($m$), representadas por $\beta$,  representando suas cateterísticas operacionais e um conjunto de variáveis exógenas ($n$), representadas por $\gamma$, diante do tempo ($\eta$), conforme representado na \autoref{eq:modelfinal} e \autoref{eq:modelfinal92} 
+
+
+\begin{equation}\label{eq:modelfinal}
+\begin{aligned}
+SprEp_{it} = & \alpha SprEp_{it-1}+ \cdots +\alpha SprEp_{it-p} + \beta_{1}{DAdm} +  \beta_{2}{DesCap} + \beta_{3}{OtDes} + \beta_{4}{Inad} + \beta_{5}{RcPd} + \\ 
+& \beta_{6}{EPr} + \beta_{7}{DepAv} + \beta_{8}{DepAp} + \beta_{9}{DepPop} + \beta_{10}{ROpCr} + \beta_{11}{RSrv} + \beta_{12}{RPart} + \beta_{13}{OtROp} + \\ 
+& \beta_{14}{OpEmp} + \beta_{15}{OpFin} + \beta_{16}{tOp} + \beta_{17}{ImpInd} + \beta_{18}{Rend} + \gamma_{1}{SelOvr} + \gamma_{2}{VelMo} + \gamma_{3}{Comp} + \\ 
+& \gamma_{4}{GrCon} + \gamma_{5}{IPCA} + \gamma_{6}{lnBMA} + \gamma_{7}{lnOpCrMkt} + \eta_{i} + \phi_{t} + \epsilon_{it}   
+\end{aligned}
+\end{equation}
+
+
+\begin{equation}\label{eq:modelfinal02}
+\begin{aligned}
+Rent_{it} = & \alpha Rent_{it-1}+ \cdots +\alpha Rent_{it-p} + \beta_{1}{DAdm} +  \beta_{2}{DesCap} + \beta_{3}{OtDes} + \beta_{4}{Inad} + \beta_{5}{RcPd} + \\ 
+& \beta_{6}{EPr} + \beta_{7}{DepAv} + \beta_{8}{DepAp} + \beta_{9}{DepPop} + \beta_{10}{ROpCr} + \beta_{11}{RSrv} + \beta_{12}{RPart} + \beta_{13}{OtROp} + \\ 
+& \beta_{14}{OpEmp} + \beta_{15}{OpFin} + \beta_{16}{tOp} + \beta_{17}{ImpInd} + \beta_{18}{Rend} + \gamma_{1}{SelOvr} + \gamma_{2}{VelMo} + \gamma_{3}{Comp} + \\ 
+& \gamma_{4}{GrCon} + \gamma_{5}{IPCA} + \gamma_{6}{lnBMA} + \gamma_{7}{lnOpCrMkt} + \eta_{i} + \phi_{t} + \epsilon_{it}   
+\end{aligned}
+\end{equation}
+
+
+\subsection{Hipóteses}
+
+$SprEp_{it}$: O *Spread Ex-post* ($SprEp$) foi calculado a partir dos resultados contábeis, resultante da diferença entre a relação de receitas operacionais ($RcOp$ — Conta 71000008) e operações de crédito média ($OpCrMe$ — Conta 16000001), e a relação de despesas de captação ($DesCap$ — Conta 81100008 ) e depósitos médio ($Dep$ — Conta 41000007). 
+
+
+\begin{equation}\label{eq:sprbase}
+SprEp_{it} = \frac{RcOp_{it}}{\frac{1}{2}(OpCr_{it} + OpCr_{it-1}) } - \frac{DesCap_{it}}{\frac{1}{2}(Dep_{it} + Dep_{it-1})}
+\end{equation}
+
+
+$Rent$: A rentabilidade bancária foi calculada para cada instituição a partir da relação entre o lucro líquido ($LLqd$ — Conta 61800005) e as receitas das operações de crédito ($R$ — Conta 71100001).
+
+
+\begin{equation}
+Rent_{it} = \frac{LLqd_{it}}{R_{it}}
+\end{equation}
+
+
+$H_{1}$: A proporção das operações de crédito com capital próprio ($EPr$) em relação as operações de crédito ($OpCr$) guarda relação direta com o *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$).
+
+Para a proporção das operações de crédito com capital próprio ($Epr$) é considerada uma *proxy* tautológica ($OpTot = CpPr + Dep$) obtida por meio da diferença entre o total das operações de crédito totais ($OpTot$ — Contas 16000001 e 18000009) e o total dos depósitos ($DepTot$ — Conta 41000007) $EPr = OpTot - DepTot$, sobre operações de crédito ($OpTot$).
+
+Para as operações de crédito totais ($OpTot$) é considerada a soma das operações de crédito ($OP$ — Conta 16000001) e outros créditos ($OC$ — conta 18000009) adicionada as respectivas provisões de crédito duvidoso (Conta 16900008) e provisões de outros créditos duvidosos (Conta 18900006). 
+
+
+\begin{equation}
+EPr_{it} = \frac{OpTot_{it} - DepTot_{it}}{OpTot_{it}}
+\end{equation}
+
+
+$H_{2}$: A proporção dos depósitos a vista ($DepAv$) diante as operações de crédito totais ($OpTot$) mantém relação direta com *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$).
+
+Para a proporção das operações de crédito com depósito a vista ($DepAv$) é utilizado o total dos depósitos a vista ($DAv$ — Conta 41100000) em relação as operações de crédito totais ($OpTot$). 
+
+
+\begin{equation}
+EAv_{it} = \frac{DAv_{it}}{OpTot_{it}}
+\end{equation}
+
+
+$H_{3}$: A proporção das operações de crédito com depósitos a prazo ($DepAp$) e  as operações de crédito ($OpCr$) atuam de forma direta no *spread ex-post* ($SprEp$) e inversa com a rentabilidade bancária ($Rent$) do período.
+
+Para a proporção das operações de crédito com depósito a prazo ($EAp$) é utilizado  o total dos depósitos a prazos ($DAp$ — Conta 41500002) em relação operações de crédito totais ($OpTot$).
+
+
+\begin{equation}
+EAp_{it} = \frac{DAp_{it}}{OpTot_{it}}
+\end{equation}
+
+$H_{4}$: A proporção das operações de crédito com depósitos de poupança ($DepPop$) e  as operações de crédito ($OpCr$) atuam de forma direta no *spread ex-post* ($SprEp$) e inversa com a rentabilidade bancária ($Rent$) do período.
+
+Para a proporção das operações de crédito com depósito de poupança ($EPop$) é utilizado  o total dos depósitos poupança ($DPop$ — Conta 41200003) em relação operações de crédito totais ($OpTot$).
+
+
+\begin{equation}
+EPop_{it} = \frac{DepPop_{it}}{OpTot_{it}}
+\end{equation}
+
+
+$H_{5}$: A proporção das despesas administrativas ($DAdm$) sobre as operações de crédito totais ($OpTot$) mantém uma relação direta com *spread ex-post* ($SprEp$) e inversa com a rentabilidade bancária ($Rent$)
+
+Para esta variável é considerada a relação entre as despesas administrativas ($DA$ — Conta 81700006) e as operações de crédito ($OpCr$ — Conta 16000001). 
+
+
+\begin{equation}
+DAdm_{it} = \frac{DA_{it}}{OpCr_{it}}
+\end{equation}
+
+
+$H_{6}$: A proporção das despesas de captação ($DesCap$) sobre os depósitos totais atua de forma direta no *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+Para esta variável é considerada a proporção das despesas de captação ($DC$ — Conta 81100008) sobre os depósitos totais ($DepTot$).  
+
+
+\begin{equation}
+DesCap_{it} = \frac{DC_{it}}{DepTot_{it}}
+\end{equation}
+
+
+$H_{7}$: A proporção de outras despesas ($OtDes$) sobre as operações de crédito totais ($OpTot$) mantém uma relação direta com o *spread ex-post* ($SprEp$) e inversa com a rentabilidade bancária ($Rent$)
+
+Para a variável de outras despesas ($OtDes$) é considerada a diferença entre as despesa operacionais ($DO$ — Conta 81000005), despesas administrativas ($DA$) e despesas de captação ($DC$) em relação às operações de crédito totais ($OpTot$)
+
+
+\begin{equation}
+OtDes_{it} = \frac{ DO_{it} - DA_{it} - DC_{it} }{ OpTot_{it} }
+\end{equation}
+
+
+$H_{8}$: A proporção inadimplência total ($Inad$) sobre as operações de crédito totais ($OpTot$) mantém uma relação direta com o *spread ex-post* ($SprEp$) e inversa com a rentabilidade bancária ($Rent$)
+
+Para a inadimplência total ($Inad$) é considerada a soma das provisões para inadimplência das operações de crédito ($OP$ — Conta 16900008) e a provisão de inadimplência de outras créditos ($OC$ — Conta 18900006) em relação as operações de crédito totais ($OpTot$) 
+
+
+\begin{equation}
+Inad = \frac{ OP_{it} + OC_{it} }{OpTot_{it}}
+\end{equation}
+
+
+$H_{9}$: O risco de crédito ponderado da carteira ($RcPd$) mantém uma relação direta com o *spread ex-post* ($SprEp$) e inversa com a rentabilidade bancária ($Rent$)
+
+Para o risco de crédito é utilizada a participação da média ponderada das provisões de risco das operações de crédito ($POC$ — Contas 31100003, 31200006, 31300009, 31500005, 31600008, 31700001, 31800004, 31900007), diante dos percentuais de provisões legais para cada nível de risco, sobre as provisões de risco para operações de crédito ($POC$). 
+
+
+\begin{equation}
+RcPd_{it} = \frac{\frac{\sum_{RC = Aa}^HOC_{RC}*P_{RC}}{\sum_{}P_{RC}}}{\sum_{OC_{RC}}}
+\end{equation}
+
+
+$H_{10}$: A proporção das receitas de operações de crédito ($ROpCr$ — Conta 71100001) sobre as receitas operacionais ($ROp$ — Conta 71000008) mantém uma relação inversa com o *spread ex-post* ($SprEp$) e direta com a rentabilidade ($Rent$).
+
+$H_{11}$: A proporção das receitas de Serviços ($RSrv$ — Conta 71700009) sobre as receitas operacionais ($ROp$ — Conta 71000008) mantém uma relação inversa com o *spread ex-post* ($SprEp$) e direta com a rentabilidade ($Rent$).
+
+$H_{12}$: A proporção das receitas de Participação ($RPart$ — Conta 71800002) sobre as receitas operacionais ($ROp$ — Conta 71000008) mantém uma relação direta com o *spread ex-post* ($SprEp$) e direta com a rentabilidade ($Rent$).
+
+$H_{14}$: A proporção de outras receitas operacionais ($OtROp$) sobre as receitas operacionais ($ROp$ — Conta 71000008) mantém uma relação inversa com o *spread ex-post* ($SprEp$) e direta com a rentabilidade ($Rent$).
+
+$H_{14}$: A proporção das operações de empréstimo ($OpEmp$ — Conta 16100004) sobre as operações de crédito totais ($OpTot$) mantém uma relação inversa com o *spread ex-post* ($SprEp$) e direta com a rentabilidade ($Rent$).
+
+$H_{15}$: A proporção das operações de Financiamento ($OpFin$ — Conta 16200007) sobre as operações de crédito totais ($OpTot$) mantém uma relação inversa com o *spread ex-post* ($SprEp$) e inversa com a rentabilidade ($Rent$).
+
+$H_{16}$: A proporção das outras operações de crédito ($OtOp$) sobre as operações de crédito totais ($OpTot$) mantém uma relação inversa com o *spread ex-post* ($SprEp$) e inversa com a rentabilidade ($Rent$).
+
+$H_{17}$: A proporção das impostos sobre a renda ($ImpRend$ — Conta 89400009) sobre as receitas operacionais ($ROp$) mantém uma relação direta com o *spread ex-post* ($SprEp$) e inversa com a rentabilidade ($Rent$).
+
+$H_{18}$: A proporção dos impostos indiretos ($ImpInd$ — Conta 49100002) sobre as receitas operacionais ($ROp$) mantém uma relação direta com o *spread ex-post* ($SprEp$) e inversa com a rentabilidade ($Rent$).
+
+$H_{19}$: A taxa Selic Over $SelOvr$ mantém uma relação direta  no *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+Para a variável Selic Over ($SelOvr$), é considerada a taxa Selic Over, sendo a média diária das operações no Sistema Especial de Liquidação e Custódia, defasada em 1 período. Será utilizada a série $BM12_TJOVER12$ obtida no banco de dados do IPEA.
+
+
+\begin{equation}
+Sel_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}SelDrAn
+\end{equation}
+
+
+$H_{20}$: A velocidade da moeda ($VelMo$) atua de forma inversa no *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+
+\begin{equation}
+VelMo_{t} = \frac{k Pib_{t-1}}{BMr_{t-1}}
+\end{equation}
+
+
+$H_{21}$: A taxa de compulsório ($Com$) atua de forma direta no *spread ex-post* ($SprEp$) inversa com a rentabilidade bancária ($Rent$)
+
+
+\begin{equation}
+Comp_{t} = \frac{Rc_{it}}{\sum_{t=1}^{n}Rc_{it}}
+\end{equation}
+
+
+$H_{22}$: o grau de concentração de mercado ($GrCon$) mantém relação direta com *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+Para a variável de grau de concentração de mercado é utilizado o índice HHI, usando como medida as receitas das operações de crédito ($R$ — Conta 71100001) e o número de instituições para cada período ($n$). Espera-se que quanto maior a concentração de mercado, maior serão os níveis de *spread* e rentabilidade.
+
+
+\begin{equation}
+GC_{it} = \frac{1}{n} + n\frac{\sum_{i=1}^{n}(\frac{R_{it} - 1}{n})^2}{n}
+\end{equation}
+
+
+$H_{23}$: A taxa de inflação ($Ipca$) atua de forma direta no *spread ex-post* ($SprEp$) e inversa com a rentabilidade bancária ($Rent$). 
+
+Para o Índice de Preços ao Consumidor Amplo ($IPCA$) é utilizada série ($PRECOS12_IPCAG12$), obtida no portal do IPEA, ajustada para o período amostral e defasada em 1 (hum) período.
+
+
+\begin{equation}
+Ipca_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}IpcaMs
+\end{equation}
+
+
+Para o efeito das variações do IPCA sobre o *spread ex-post* espera-se que atue de forma direta, dependendo das sensibilidades de tomadores e investidores e da instituição a esta variável e de forma inversa com a rentabilidade, por influenciar a demanda por operações de crédito.
+
+
+$H_{24}$: A expansão da base monetária ampliada $BMA$ atua de forma inversa no *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+Para a variável de base monetária ampliada ($BMA$) é utilizada a série $1833$ ajustados para o período do conjunto de dados.
+
+
+\begin{equation}
+lnBMA_{t} = \ln(BMA_{t-1})
+\end{equation}
+
+
+$H_{25}$: As operações de crédito do mercado total $OpCrMkt$ atuam de forma inversa no *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+\begin{equation}
+lnOpCrMkt = \ln\sum_{i = 1}^nOpTot_{it}
+\end{equation}
+
+
+
+\vspace{20pt}
+\captionof{qdr}{Resumo das hipóteses}
+\vspace{-2mm}
+\linespread{2}
+| Hipótese | Variável    | Fórmula                   | $SprEp$  | $Rent$  |
+|:-----:   | :---------: | :-----------------------: | :-----:  | :-----: |
+| $H_{1}$  | $EPr_{it}$                                                        | $\frac{OpTot_{it} - DepTot_{it}}{OpTot_{it}}$                                |    +     |    +    |
+| $H_{2}$  | $DepAv$                                                           | $EAv_{it} = \frac{DAv_{it}}{OpTot_{it}}$                                   |    +     |     +   |
+| $H_{3}$   | $DepAp$                                                            | $EAp_{it} = \frac{DAp_{it}}{OpTot_{it}}$                                   |    +     |    -    |
+| $H_{4}$  |  $DepPop$                                                           | $EPop_{it} = \frac{DPop_{it}}{OpTot_{it}}$                                 |     +    |   -     |
+| $H_{5}$  | $DAdm$                                                            | $DAdm_{it} = \frac{DA_{it}}{OpCr_{it}}$                                      |    +     |   -     |
+| $H_{6}$  | $DesCap$                                                          | $DesCap_{it} = \frac{DC_{it}}{DepTot_{it}}$                                  |   +      |    +    |
+| $H_{7}$  | $OtDes$                                                           | $OtDes_{it} = \frac{ DO_{it} - DA_{it} - DC_{it} }{ OpTot_{it} }$            |   +      |    -    |
+|$H_{8}$   | $Inad$                                                            | $Inad = \frac{ OP_{it} + OC_{it} }{OpTot_{it}}$                              |   +      |     -   |
+| $H_{9}$ | $RcPd$                                                             | $RcPd_{it} = \frac{\frac{\sum_{RCAa}^HOC_{RC}*P_{RC}}{\sum_{}P_{RC}}}{\sum_{OC_{RC}}}$                                                                      |   +      |    -    |
+| $H_{10}$ |  $ROpCr$                                                          |                                                                              |     -    |    +    |
+| $H_{11}$ | $RSrv$                                                            |                                                                              |    -     |    +    |
+| $H_{12}$ | $RPart$                                                           |                                                                              |      +   |   +     |
+| $H_{13}$ | $OtROp$                                                           |                                                                              |      +   |   +     |
+| $H_{14}$ | $OpEmp$                                                           |                                                                              |     -    |    +    |
+| $H_{15}$ | $OpFin$                                                           |                                                                              |     -    |    -    |   
+| $H_{16}$ | $OtOp$)                                                           |                                                                              |      -   |    -    |
+| $H_{17}$ | $ImpRend$                                                         |                                                                              |      +   |     -   |
+| $H_{18}$ |  $ImpInd$                                                         |                                                                              |    +     |    -    | 
+| $H_{19}$ | $SelOvr$                                                          | $Sel_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}SelDrAn$                            |      +   |     +   | 
+| $H_{20}$ | $VelMo$                                                           | $PIB_{t} = \frac{k Pib_{t-1}}{BMr_{t-1}}$                                    |       -  |     +   |
+| $H_{21}$ | $Com$                                                             | $Comp_{t} = \frac{Rc_{it}}{\sum_{t=1}^{n}Rc_{it}}$                           |    +     |     -   |
+| $H_{22}$ |  $GrCon$                                                          | $GC_{it} = \frac{1}{n} + n\frac{\sum_{i=1}^{n}(\frac{R_{it} - 1}{n})^2}{n}$  |    +     |     +   |
+| $H_{23}$ | $IPCA$                                                            | $IPCA_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}IpcaMs$                            |    +     |   -     |
+| $H_{24}$ |  $BMA$                                                            | $lnBMA_{t} = \ln(BMA_{t-1})$                                                 |    -     |    +    |
+| $H_{25}$ | $OpCrMkt$                                                         | $lnOpCrMkt = \ln\sum_{i = 1}^nOpTot_{it}$                                    |    -     |    +   |
+\vspace{-7mm}
+\label{qdr:hipoteses}
+\fonte{Desenvolvido a partir do modelo}
+\vspace{20pt}
+
+\parindent 1.50cm
+
+
+
+O \autoref{qdr:datasource} traz um resumo dos dados utilizados na construção do modelo, trazendo uma breve descrição, fonte, código e periodicidade.
+
+```{r table.of.data, message=FALSE, eval=TRUE}
+data.source <- list(
+    "Demonstrações Financeiras" = list(
+        Descrição = "Balancetes (IFs e Conglomerados)",
+        Identificação = "370",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    ),
+    "PIB" = list(
+        Descrição = "O Produto Interno Bruto (PIB) denominado como PIB mensal é um indicador com frequência mensal produzido pelo Banco Central do Brasil (BCB) ",
+        Identificação = "BM12_PIB12",
+        Periodicidade = "Mensal",
+        Fonte = "IPEA"
+    ),
+    "Selic Over" = list(
+        Descrição = "Taxa de juros apurada nas operações de empréstimos de um dia entre as instituições financeiras que utilizam títulos públicos federais como garantia",
+        Identificação = "BM12_TJOVER12",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    ),
+    "Meios de Pagamentos" = list(
+        Descrição = "Meio de Pagamento - Ampliado - M4 - fim de período",
+        Identificação = "BM12_M4NCN12",
+        Periodicidade = "Mensal",
+        Fonte = "IPEA"
+    ),
+     "IPCA" = list(
+        Descrição = "IPCA Geral",
+        Identificação = "PRECOS12_IPCAG12",
+        Periodicidade = "Mensal",
+        Fonte = "IPEA"
+    ),
+    "Compulsório Poupança" = list(
+        Descrição = "Depósitos de poupança em espécie (remunerados)",
+        Identificação = "1848",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    ),
+    "Compulsório a vista" = list(
+        Descrição = "Recursos a vista em espécie (não remunerados)",
+        Identificação = "1849",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    ),
+    "Compulsório a prazo" = list(
+        Descrição = "Depósitos a prazo em espécie (remunerados)",
+        Identificação = "1850",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    ),
+    "Base Monetária Ampliada" = list(
+        Descrição = "Base Monetária Ampliada (saldo em final de período)",
+        Identificação = "1833",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    )
+)
+data.table <-  ldply(data.source, data.frame, .id = "Nome")
+```
+
+\begin{qdr}
+\vspace{20pt}
+\caption{Descrição e origens dos dados para construção dos modelos}
+\vspace{1mm}
+```{r print.table}
+data.table.p <- data.table %>% 
+    kbl(booktabs = F, vline = '|') %>% 
+        kable_styling(latex_options = c("striped",
+                                        "repeat_header",
+                                        "scale_down"
+                                        ), 
+                      font_size = 10, full_width = T,
+                      ) %>% 
+        column_spec(1, bold = T, width = "3cm", 
+                    border_left = TRUE,
+                    border_right = TRUE) %>% 
+        column_spec(2, width = "5cm",
+                    border_left = FALSE,
+                    border_right = TRUE) %>% 
+        column_spec(3, width = "3cm", 
+                    border_left = FALSE,
+                    border_right = TRUE) %>% 
+        column_spec(4, width = "2cm", 
+                    border_left = FALSE,
+                    border_right = TRUE) %>% 
+        column_spec(5, width = "2cm", 
+                    border_left = FALSE,
+                    border_right = TRUE) #%>%
+    #save_kable("~/Desktop/04-DISSERTATION/12-exportedfigures/data.table.png")
+data.table.p
+```
+\vspace{1mm}
+\label{qdr:datasource}
+\fonte{Desenvolvido com base nas fontes citadas}
+\vspace{-2mm}
+\end{qdr}
+
+Este capítulo buscou demonstrar os principais conceitos e procedimentos metodológicos a serem seguidos para realização das análises dos objetivos propostos. No próximo capítulo serão aplicados os procedimentos metodológicos para tratamento e análise de dados e estimação dos modelos.
+
+

@@ -1,0 +1,13 @@
+\ifthenelse{\equal{\terApendice}{Sim}}
+{\begin{apendicesenv}
+
+\renewcommand{\thechapter}{\arabic{chapter}}
+
+\chapter{Replicação de Estudos}
+
+\textcolor{red}{REPLICAR OS PASSOS DAS DEDUÇÕES DE EQUAÇÕES}
+
+\section{}
+ 
+\end{apendicesenv}
+}{}

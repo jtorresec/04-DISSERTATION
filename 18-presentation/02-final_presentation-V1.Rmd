@@ -1,0 +1,1147 @@
+---
+title: "Determinantes do **spread ex-post** e rentabilidade bancária: Um modelo em painel dinâmico com vetores autorregressivos e estimação por método de momentos generalizados"
+author: "JACKSON DA SILVA TORRES"
+date: "30 DE JUNHO DE 2021"
+output:
+  beamer_presentation:
+    keep_tex: yes
+    slide_level: 2
+  slidy_presentation: default
+bibliography: referencias.bib
+documentclass: beamer
+header-includes:
+- \input{packages}
+- \input{preamble}
+- \usepackage{helvet}
+- \renewcommand{\familydefault}{\sfdefault}
+- \makeindex
+- \DeclareUnicodeCharacter{0301}{******}
+- \DeclareUnicodeCharacter{0303}{******}
+- \DeclareUnicodeCharacter{0327}{******}
+- \DeclareUnicodeCharacter{0302}{******}
+link-citations: yes
+classoption:
+- aspectratio=169
+- ignorenonframetext
+spacing: doublespacing
+#biblio-style: abnt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(comment = NA)
+
+packagesR <- "~/Desktop/04-DISSERTATION/09-packages/packages.R"
+source(packagesR)
+
+```
+
+```{r sources, message=FALSE, results='hide', include=FALSE, eval=FALSE}
+
+purl("~/Desktop/04-DISSERTATION/02-bankingstructure.Rmd",
+     output = "~/Desktop/04-DISSERTATION/18-presentation/banking.R",
+     documentation = 1)
+
+purl("~/Desktop/04-DISSERTATION/03-spread.Rmd",
+     output = "~/Desktop/04-DISSERTATION/18-presentation/spread.R",
+     documentation = 1)
+
+purl("~/Desktop/04-DISSERTATION/05-application.Rmd",
+     output = "~/Desktop/04-DISSERTATION/18-presentation/application.R",
+     documentation = 1)
+
+source("banking.R")
+source("spread.R")
+source("application.R")
+```
+
+## **SUMÁRIO **
+
+:::::::::::::: {.columns}
+::: {.column width="60%"}
+
+1. **INTRODUÇÃO**
+  
+   1. CONTEXTUALIZAÇÃO
+     
+   2. OBJETIVOS
+     
+   3.  JUSTIFICATIVA TEÓRICA E PRÁTICA
+     
+   4. ESTRUTURA DA DISSERTAÇÃO
+     
+2. **REFERENCIAL TEÓRICO**
+   
+   1. SETOR BANCÁRIO NO BRASIL
+      
+   2. SPREAD BANCÁRIO
+      
+   3. ESTUDOS ANTERIORES
+   
+
+:::
+::: {.column width="40%"}
+
+3. **PROCEDIMENTOS METODOLÓGICOS**
+
+4. **RESULTADOS**
+
+5. **CONSIDERAÇÕS FINAIS** 
+
+:::
+::::::::::::::
+
+## **1.1 CONTEXTUALIZAÇÃO**
+
+a. ***Spread*** como indicador de **desempenho da economia** 
+   [@WB:2005; @levine:1997; @dantas:2012;@leal:2006]
+   
+   - **Elevados níveis** de ***Spread*** atuam no **desfavorecimento do crédito**.
+   
+   - Fundo Monetário Internacional (FMI) e Banco Mundial (BM) realizam e incentivam estudos sobre o indicador a nível mundial [@WB:2005.
+   
+      - A maioria indica a **relação inversa** entre ***Spread*** e **desenvolvimento econômico**
+      
+b. ***Spread*** como **indicador de eficência** do **Sistema Financeiro**  
+   [@levine:1997;@dantas:2012;@leal:2006]
+   
+   - Relacionado com a **solidez** e **competitividade** das instituições 
+   
+\textcolor{blue}{DESENVOLVIMENTO ECONÔMICO X SISTEMA FINANCEIRO SÓLIDO}
+
+## **1.2 OBJETIVOS**
+  
+**OBJETIVO GERAL**
+
+1. Investigar variáveis microeconômicas e macroeconômicas que exerçam influência significativa sobre o *spread ex-post* e como estas afetaram a rentabilidade das instituições bancárias brasileiras, entre março de 2011 e novembro de 2020.
+   
+## **1.2 OBJETIVOS**
+
+**OBJETIVOS ESPECÍFICOS**
+
+1. **Realizar** o mapeamento e sistematização de aspectos teóricos e técnicos sobre o setor bancário e *spread* no Brasil; 
+
+2. **Identificar** e testar variáveis macroeconômicas e microeconômicas enquanto componentes implícitos e explícitos de determinação do ***Spread*** bancário **ex-post**;
+
+3. Analisar como as variações das variáveis determinantes do ***Spread*** bancário afetaram a rentabilidade dos bancos. 
+
+## **1.3 JUSTIFICATIVA TEÓRICA E PRÁTICA**
+
+* **Evidências** da **influência** do nível de ***Spread*** no desenvolvimento econômico.
+
+* **Importância** do ***Spread*** na **solidez** do **sistema financeiro**.
+
+* **Economia** e **Mercado Financeiro** em **constantes transformações**.
+
+* O **cenário brasileiro** é **considerado peculiar** por possuir histórico de [@levine:1997; @matos:2003]: 
+   - **Elevados níveis** de ***Spread*** bancário
+   
+   - **Baixa relação** entre **crédito e PIB**
+   
+   - **Cenários** de **crescimento econômico** **instáveis** e considerados **baixos**
+
+* **Carências** de **pesquisas** acerca do ***Spread ex-post***
+
+* Existência de lacunas, divergências e incogluências de pesquisas.
+ 
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+:::::::::::::: {.columns}
+::: {.column width="50%"}
+
+- **Contexto Histórico**
+
+- **Evolução**
+
+- **Organização**
+   - Sistema Financeiro Nacional 
+   - Órgãos Normativos
+   - Órgão Supervisores
+   - Operadores
+      - Bancos e Caixas Econômicas
+      - Banco Comercial
+      - Banco de Investimento 
+      - Banco de Desenvolvimento
+      - Banco de Câmbio
+      - Banco Múltiplos
+      - Caixa Econômica
+
+:::
+::: {.column width="50%"}
+
+- **Características**
+   - Concentração Bancária
+   - Tendência para domínio da participação estrangeira
+   - Elevados níveis de *Spread* bancário
+   - Histórico de baixa relação Crédito/PIB
+   - Histórico de crescimento instável
+
+:::
+::::::::::::::
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+```{r diagram.sfn, message=FALSE, fig.align='center', fig.height= 3, fig.width=5, eval=TRUE}
+diagram.sfn <- 
+DiagrammeR::grViz("digraph boxes_and_circle {
+  graph [layout = dot, 
+        rankdir = TB,
+        overlap = true,
+        fontname= Helvetica]
+  node [ shape = box
+         fontname = Helvetica
+         penwidth = 2.0
+         fillcolor = blue
+         ]        
+  rec1 [label = 'SISTEMA\n FINANCEIRO\n NACIONAL'
+        color = MidnightBlue,
+        fillcolor = MidnightBlue
+        style = filled
+        fontcolor = white]
+  
+  node [ shape = rounded,
+         fillcolor = blue]
+  rec2 [label = 'MOEDA, CRÉDITO,\n CAPITAIS E CÂMBIO',
+        color = MidnightBlue,
+        fillcolor = MidnightBlue
+        style = filled
+        fontcolor = white]
+  rec3 [label = 'SEGUROS\n PRIVADOS']
+  rec4 [label = 'PREVIDÊNCIA\n FECHADA']
+  
+  node[  shape = oval
+         fillcolor = blue]
+  rec5 [label = 'CMN']; rec6 [label = 'CNSP']; rec7 [label = 'CNPC']
+  
+  node[shape = sdl_start]
+  rec8 [label = 'BANCO CENTRAL']; rec9 [label = 'CVM']; rec10 [label = 'SUSEP']
+  rec11 [label = 'PREVIC']
+  
+  node[shape = box]
+  rec12 [label = 'Bancos e Caixa econômicas']
+  #rec13 [label = 'Cooperativas de crédito']
+  #rec14 [label = 'Instituições de Pagamento']
+  #rec15 [label = 'Bolsa de Valores']
+  
+  node[shape = box]
+  rec16 [label = 'Banco\n Comercial']
+  rec17 [label = 'Banco\n Múltiplo']
+  rec18 [label = 'Banco de\n Investimento']
+  rec19 [label = 'Banco de\n Desenvolvimento']
+  rec20 [label = 'Banco de\n Câmbio']
+  rec21 [label = 'Caixas\n Econômicas']
+  
+  # edge definitions with the node IDs
+  edge[arrowhead = diamond]
+  rec1 -> {rec2 rec3 rec4}; rec2 -> rec5; rec3 -> rec6
+  rec4 -> rec7
+  rec5 -> rec8; rec5 -> rec9; rec6 -> rec10; rec7 -> rec11
+  rec8 -> rec12; rec12 -> {rec16 rec17 rec18 rec19 rec20 rec21 }
+  
+  #
+  graph[nodesep = 0.5]
+
+  }" , 
+  width = 300, height = 150)
+diagram.sfn
+```
+
+
+## **2.2 SPREAD BANCÁRIO**
+
+- **CONCEITOS**
+   - O termo *spread* significa — tradução livre — **amplitude**, **crescimento** e **extensão**.
+   - Utilizado no **setor financeiro** no sentido de **margem**
+   - É obtido através da **diferença** entre a **taxa de aplicação** e a **taxa de captação**
+      - Diferença entre custos operacionais [@BCB:2016] [@BCB:2000].
+   
+$$ 
+\textbf{Spread} = \textbf{Taxa de Aplicação} - \textbf{Taxa de Captação}
+$$
+$$
+\textbf{Spread} = \textbf{Juros Tomador} - \textbf{Juros Investidor}
+$$ 
+
+- O ***Spread*** bancário representa uma medida que sinaliza o desempenho dos bancos [@levine:1997] e indicador de eficiência da economia[@WB:2005].
+
+## **2.2 SPREAD BANCÁRIO**
+
+:::::::::::::: {.columns}
+::: {.column width="50%"}
+
+**ÓTICAS** [@dick:1999]
+
+```{r diagram.otic, message=FALSE, fig.align='center'}
+DiagrammeR::grViz("digraph boxes_and_circle {
+  graph [layout = dot, rankdir = LR, 
+  fontname = Helvetica]
+  node [shape = rectangle, fontname = Helvetica, fontsize = 10]        
+  rec1 [label = 'Spread Bancário']
+  rec2 [label = 'Evolução']
+  rec3 [label = 'Estrutura']
+  rec4 [label = 'Determinantes']
+  rec5 [label = 'Avaliar o comportamento\n ao longo do tempo']
+  rec6 [label = 'Identificar e analisar \ncomponentes de resultado']
+  rec7 [label = 'Analisar os efeitos de \nvariáveis ao longo do tempo']
+  
+  # edge definitions with the node IDs
+  rec1 -> rec2
+  rec1 -> rec3
+  rec1 -> rec4
+  rec2 -> rec5
+  rec3 -> rec6
+  rec4 -> rec7
+  }", 
+  height = 250, width = 200)
+```
+
+:::
+::: {.column width="50%"}
+
+**CARACTERÍSTICAS**  [@leal:2006]
+
+```{r diagram.carac, message=FALSE, fig.align='center'}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = LR]
+  node [shape = rectangle, fontname = Helvetica, fontsize = 10]        
+  rec1 [label = 'Spread Bancário']
+  rec2 [label = 'Abrangência\n da Amostra']
+  rec3 [label = 'Conteúdo']
+  rec4 [label = 'Origem\n da Informação']
+  rec5 [label = 'Especificidades das\n operações de crédito\n das instituições']
+  rec6 [label = 'Subcomponentes de\n Receitas e Despesas']
+  rec7 [label = 'Cenários \nEx-ante e Ex-Post']
+  
+  # edge definitions with the node IDs
+  rec1 -> rec2
+  rec1 -> rec3
+  rec1 -> rec4
+  rec2 -> rec5
+  rec3 -> rec6
+  rec4 -> rec7
+  }", 
+  height = 250, width = 200)
+```
+
+:::
+::::::::::::::
+
+**DIMENSÃO**
+
+```{r d.spread.dim, message=FALSE, fig.align='center'}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = LR]
+  node [shape = rectangle, fontname = Helvetica, fontsize = 10]        
+  rec1 [label = 'Spread Bancário']
+  
+  node [shape = ellipse]
+  rec2 [label = 'Tomador']
+  rec5 [label = 'Tipo de Recurso']
+  
+  node [shape = rectangle] 
+  rec3 [label = 'Pessoa Jurídica']
+  rec4 [label = 'Pessoa Física']
+  
+  node [shape = ellipse]
+  
+  node [shape = rectangle]
+  rec6 [label = 'Crédito Livre']
+  rec7 [label = 'Crédito Direcionado']
+  rec8 [label = 'Não Rotativo']
+  rec9 [label = 'Não Rotativo\n com Recurso Livre']
+  
+  # edge definitions with the node IDs
+  rec1 -> {rec2,rec5}; rec2 -> rec3; rec2 -> rec4
+  rec5 -> {rec6,rec7, rec8, rec9}; rec3 -> rec5; rec4 -> rec5
+  }", 
+  height = 300, width = 200)
+```
+
+## **2.2 SPREAD BANCÁRIO**
+
+**VOLUME-PRAZO-RISCO**
+
+```{r diagram.spread.vol.tem.ris, message=FALSE, fig.align='center'}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = TB]
+  node [shape = rectangle, fontname = Helvetica, fontsize = 10]        
+  rec1 [label = 'Spread Bancário']
+  node [shape = ellipse] 
+  rec2 [label = 'Volume']
+  rec3 [label = 'Tempo']
+  rec4 [label = 'Risco']
+  rec8 [label = 'Garantia']
+  node [shape = rectangle] 
+  rec5 [label = 'Referente ao volume\n de recursos captados\n e emprestados']
+  rec6 [label = 'O prazo de duração das\n operações de crédito']
+  rec7 [label = 'O nível de riscos\n das operações']
+  rec9 [label = 'A existência garantias para\n operações']
+  
+  # edge definitions with the node IDs
+  rec1 -> {rec2, rec3, rec4, rec8}
+  rec2 -> rec5
+  rec3 -> rec6
+  rec4 -> rec7
+  rec8 -> rec9
+  rec4 -> rec8
+  }", 
+  height = 150, width = 300)
+```
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+- Séries mantidas pelo Banco Central:
+
+   - **Spread** Médio das operações de crédito (MOC) 
+   
+   - **Spread** do Indicador de Custo de Crédito (ICC)
+   
+- Componentes explícitos do **Spread** [@BCB:2000]:
+
+   - Inadimplência ($Ind$)
+   
+   - Despesas administrativas ($DA$)
+   
+   - Impostos diretos ($ID$) e indiretos ($II$)
+   
+   - Custo de captação ($CP$)
+   
+   - Margem de lucro ($ML$)
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+- Considerável diferença entre os spread por tipo de tomador e tipo de crédito
+
+```{r spread.icc, message=FALSE, fig.align='center', fig.width=4, fig.height=2}
+#spread.series <- ggplot(spreads.icc, aes(x = Data)) +
+#  geom_line(aes(y = Valor, color = as.factor(Tipo))) +
+#  labs(color= NULL, y = NULL, x = NULL, 
+#       title = "Sepread ICC" ) +
+#  theme_minimal() + 
+#  theme(legend.position = c(0.85,1.1),
+#        legend.key.height = unit(0.1, 'cm'),
+#        legend.text = element_text(size = 5),
+#        axis.text = element_text(size = 5),
+#        axis.title.y.left = element_text(size = 7),
+#        title = element_text(size = 7))
+
+#saveRDS(spread.series, file = "/Users/jacksontorres/Desktop/04-DISSERTATION/18-presentation/gplot.RDS")
+
+ggplot.spread <- readRDS(file = "/Users/jacksontorres/Desktop/04-DISSERTATION/18-presentation/gplot.RDS")
+
+ggplot.spread
+```
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+**ESTUDOS EMPÍRICOS**
+
+- Na **literatura acadêmica** **não existe** uma **teoria formalizada** acerca do ***Spread*** bancário [@timotio:2018]
+
+- A **grande maioria** dos **estudos** realizados no Brasil **utilizam** as medidas de
+***Spread*** bancário divulgadas pelo Banco Central, que remetem a uma perspectiva
+***ex-ante*** [@dantas:2012]
+
+- Estudos empíricos ***spread ex-post***: 
+   - GUIMARÃES (2002) 
+   - DANTAS (2012) 
+   - ALMEIDA (2013)
+   - TIMOTIO (2018)
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+**VARIÁVEIS IDENTIFICADAS**
+
+:::::::::::::: {.columns}
+::: {.column width="50%"}
+
+- Modalidade de Instituições
+- Controle de Capital 
+- Relação Crédito/PIB
+- Saldo da carteira de crédito
+- Indicador do Custo de Crédito
+- Selic
+- Depósitos Compulsórios
+- Despesas Operacionais
+
+:::
+::: {.column width="50%"}
+
+- Inadimplência 
+- Risco de Crédito
+- Dados contábeis padronizadados
+- Base Monetária
+- Agregados Monetários
+- Velocidade da Moeda
+- Selic
+- Índice HHI - Concentração 
+
+:::
+::::::::::::::
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+**FERRAMENTAS**
+
+- Trabalho foi desenvolvido e editado em ambiente **R Markdown**
+
+- Utilização de linguagem **Latex** para padronização de textos, figuras e tabelas
+
+- Linguagens **R** e **Python** para coleta, tratamento modelagem e estimação dos conjuntos de dados.
+
+- Utilizados e construídos **frameworks**
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+**DELIMITAÇÃO DOS DADOS**
+
+- Serão selecionadas a "população" de instituições bancárias das modalidades:
+
+   - Banco Múltiplo
+   - Banco Comercial 
+   - Banco de Investimento 
+   - Banco de Desenvolvimento 
+   - Caixas Econômicas
+   
+- Período entre março 2011 e o novembro de 2020.
+
+- Dados serão obtidos de forma secundária nos bancos de dados abertos do Banco Central, IPEA e IBGE e CVM
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+**RESUMO DE DADOS**
+
+| **Nome**      |  **Código** | **Periodicidade** | **Fonte** |
+| :------- | :--------- | :-------- | :--------- |
+| Dados Financeiros                                                            | 370 | Mensal |  Banco Central
+| PIB                                                                          |    BM12_PIB12    |    Mensal     |     IPEA      |     
+| Selic Over                                                                   |  BM12_TJOVER12   |    Mensal     | Banco Central | 
+| Meios de Pagamentos                                                          |   BM12_M4NCN12   |    Mensal     |     IPEA      | 
+| IPCA                                                                         | PRECOS12_IPCAG12 |    Mensal     |     IPEA      |                 
+| Compulsório Poupança                                                         |       1848       |    Mensal     | Banco Central | 
+| Compulsório a vista                                                          |       1849       |    Mensal     | Banco Central | 
+| Compulsório a prazo                                                          |       1850       |    Mensal     | Banco Central | 
+| Base Monetária Ampliada                                                      |       1833       |    Mensal     | Banco Central | 
+
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+Para fins de modelagem, o *spread* será abordado dentro do conceito de precificação, seguindo a decomposição desenvolvida no APÊNDICE A a partir da forma tautógica (\autoref{eq:taut}), na forma da equação \autoref{eq:amor100} e dos componentes da taxa de juros conforme a equação \autoref{eq:txjur100}.
+
+\begin{equation}\label{eq:taut}
+Spr = i_{apl} - i_{cap} 
+\end{equation}
+
+:::::::::::::: {.columns}
+::: {.column width="60%"}
+
+- Período de tempo ($n$)
+- Tipo de tomador ($a$) 
+- Tipo de recurso ($b$) 
+- Modalidade de operação ($c$) 
+
+:::
+::: {.column width="40%"}
+
+- Parcela de receita futura ($ROP_{n}$) 
+- Tipo de operação ($d$) e origem do capital($e$). 
+- Sensibilidades de Volume ($v$), Prazo ($p$), Risco ($r$) e Garantia ($g$)
+
+:::
+::::::::::::::
+
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+\begin{equation}\label{eq:amor100}
+SprEp_{[n,a,b,c,d,e]} = \left[ \frac{ROp_{n}[\frac{   ijr_{}  }{  [1 + ijr_{}]^n -1  }]}{Op_{n}} -1 \right] - \left[ \frac{DC_{n}}{C_{n}} \right]
+\end{equation}
+ 
+\begin{equation}\label{eq:txjur100}
+\begin{aligned}
+ijr_{[n(a,b,c,d,e)]} = & \frac{[i_{adm} + i_{Inad} + i_{IOF} + r +  \frac{(i_{cap} + i_{fgc} + i_{ac}.i_{comp} - i_{r}.i_{fgc}+ i_{cs}.i_{fgc})}{1 - i_{comp} - i_{fgc}}]}
+{[1 - (\frac{i_{ll}}{1 - i_{r} - i_{cs}} + i_{pis}.(1 - i_{r} - i_{cs}) + i_{cof}.(1 - i_{r} - i_{cs}) + 0,99i_{r} + i_{cs})]}v'p'g'
+\end{aligned}
+\end{equation}
+ 
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- Foram testados métodos SUR: *Pooling*, Efeitos Fixos e Efeitos Aleatórios
+   - Os resultados apresentaram heterocedasticidade e correlação serial 
+- Testes de dependência *cross-seccional* e correlação serial não significam essencialmente que exista essa condição para o modelo  [@sargan:1964] e [@hendry:1978]
+   - Mas um problema de especificação dinâmica, com a omissão de variáveis defasadas.
+
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- Foi identificada a metodologia de painel de vetores autoregressivos (PVAR) [@sigmund:2008]
+   - Comporta mais de uma variável dependente defasada
+   - Variáveis preditoras endógenas 
+   - Variáveis preditoras exógenas
+   - Estimação por método de momentos generalizados (GMM), 
+   - Transformação *Forward orthogonal deviations* 
+   - Duas etapas
+   
+\begin{equation}\label{eq:pvar}
+\mathbf{W}_{it} = \mathbf{a}_{i} + \Phi \mathbf{W}_{i, t-1} + \epsilon_{it}  
+\end{equation}
+
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- O modelo PVAR-GMM (System) de [@blundelbond:1998] (\autoref{eq:pvarsys}) 
+   - Atua corrigindo o viés causado pelos efeitos fixos aplicados em painéis dinâmicos
+      - Através da modificação, ou seja, a retirada em primeira ordem, dos instrumentos, passando a serem exógenos aos efeitos fixos
+      - Assumindo que as variações nas variáveis instrumentais não são correlacionadas com os efeitos fixos e com o erro. 
+
+
+\begin{equation}
+\mathbf{W}_{it} - \Phi\mathbf{W}_{i, t-1} = \mathbf{a}_{i} + \epsilon_{it}  
+\end{equation}
+
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- De acordo com [@bontempi:2015] os modelos PVAR-GMM apresentam problema proliferação de instrumentos.
+   - Geram sobreajuste das preditoras endógenas
+   - Viés nas variáveis instrumentais estimadores GMM 
+   - Enfraquecimento do poder dos testes de superidentificação. 
+   
+- Para tal problema [@bontempi:2015] defendem utilização da análise de componentes principais (PCA).
+
+- Os instrumentos PCA atuam [@bontempi:2015]: 
+   - reduzindo os instrumentos disponíveis, 
+   - reescrevendo as informações transmitidas por variáveis altamente correlacionadas em termos de um conjunto de combinações lineares ortogonais ideais das variáveis originais 
+      - retendo um número menor deles, sumarizando o painel e formando um espécie de índice-resumo . 
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- O modelo PVAR-GMM (System) será testado pelo método J-Hansen, 
+   - Analisa a superidentificação de restrições (*overidentifying restrictions*), gerando a estatística J. 
+   - A hipotese nula é a validade de todas a variáveis do modelo, através do teste Qui Quadrado e seu respectivo valor P. 
+
+\begin{equation}\label{eq:jhansen}
+J_{n}(b,c) = n \hspace{10pt} \text{inf}_{\theta_{[b]} \in \theta_{[b]}} G_{nc} (\Theta_{[b]})^{'}W_{nc}(b,c)G_{nc}(\Theta_{[b]}) 
+\end{equation}
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- Será utilizado modelo consistente de critérios de seleção de momento (MMSC) 
+   - Desenvolvido por  [@andrews-lu:2001], baseado no teste J-Hansen para superidentificação de restrições, 
+   - Nos Critério Bayesiano de Schwarz (BIC)
+   - Critério de informação Hannan–Quinn (HQIC) 
+   - Critério de informação de Akaike (AIC),  
+- Indicado para modelos em painéis dinâmicos, para efeitos fixos não observados, estimados por GMM [@sigmund:2008] [@zivotwang:2003].
+
+\begin{equation}\label{eq:andrewslu}
+\begin{aligned}{}
+& MMSC-BIC = k_{n} = \ln n \hspace{10pt} \text{and} \hspace{10pt} MMSC_{BIC,n}(b,c) = J_{n}(b,c) — (|c| - |b| )ln,n \\
+& MMSC-AIC = k_{n} = 2 \hspace{10pt} \text{and} \hspace{10pt} 
+MMSC_{AIC,n}(b,c) = J_{n}(b,c) — 2(|c| - |b| ) \\
+& MMSC-HQIC = k_{n} = Q \ln \ln n  \hspace{10pt} \text{for some} \hspace{10pt} Q > 2 \hspace{10pt} \hspace{10pt} \text{and} \hspace{10pt}  \\
+& MMSC_{HQIC,n}(b,c) = J_{n}(b,c) — Q(|c| - |b|)\ln\ln n
+\end{aligned}
+\end{equation}
+
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- O modelo PVAR-GMM System será avaliado pela condição de estabilidade padrão dos coeficientes VAR do painel, 
+   - Baseado no módulo de cada valor próprio do modelo estimado. 
+   - Um modelo VAR é estável se todos os módulos da matriz par forem estritamente menores que um. 
+   - A estabilidade implica que o painel VAR é invertível e tem uma representação de média móvel vetorial de ordem infinita.
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+Para a análise do modelo PVAR-GMM (System) será utilizada a função impulso resposta octogonal (OIRF)
+   - Visando analisar a resposta de uma variável ao impulsos das demais variável de forma isolada dentro da mesma equação
+   - Eliminando desta forma o problema de correlação endógena, que ocorre no método de impulso resposta convencional (IRF) [@sigmund:2008]
+
+\begin{equation}\label{eq:oirf}
+OIRF(k,r) = \frac{\delta\mathbf{W}_{i,t+k}}{\delta(\mathbf{u}_{it})_{r}} = \mathbf{\Theta}_{k}\mathbf{e}_{r}  
+\end{equation}
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- Os intervalos de confiança para as análises das funções impulso reposta OIRF serão construídos através do procedimento de *bootstrap cross-sectional*
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+**MODELO**
+
+O modelo PVAR-GMM a ser construído se baseia na hipótese que o \emph{spread ex-post} ($y'$) e rentabilidade ($y''$), utilizadas como preditoras com ($p$) defasagens, são determinados diante um conjunto de variáveis endógenas ($m$) representando suas cateterísticas operacionais e um conjunto de variáveis exógenas ($n$), diante do tempo ($\eta$), conforme representado na equação \autoref{eq:modelfinal} 
+
+
+\begin{equation}\label{eq:modelfinal}
+\begin{aligned}
+y_{it} = & \alpha y_{it-1}+ \cdots +\alpha y_{it-p} + \beta_{DAdm} +  \beta_{DesCap} + \beta_{OtDes} + \beta_{Inad} + \beta_{RcPd} + \beta_{EPr} \\ 
+& + \beta_{DepAv} + \beta_{DepAp} + \beta_{DepPop} + \beta_{ROpCr} + \beta_{RSrv} + \beta_{RPart} + \beta_{OtROp} + \beta_{OpEmp} \\
+& + \beta_{OpFin} + \beta_{tOp} + \beta_{ImpInd} + \beta_{Rend} + \gamma_{SelOvr} + \gamma_{VelMo} + \gamma_{Comp} + \gamma_{GrCon} + \gamma_{IPCA}  \\ 
+& + \gamma_{lnBMA} + \gamma_{lnOpCrMkt} + \eta_{i} + \phi_{t} + \epsilon_{it} 
+\end{aligned}
+\end{equation}
+
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+$SprEp_{it}$: O *Spread Ex-post* ($SprEp$) será calculado a partir dos resultados contábeis, resultante da diferença entre a relação de receitas operacionais ($RcOp$ — Conta 71000008) e operações de crédito média ($OpCrMe$ — Conta 16000001), e a relação de despesas de captação ($DesCap$ — Conta 81100008 ) e depósitos médio ($Dep$ — Conta 41000007). 
+
+\begin{equation}\label{eq:sprbase}
+SprEp_{it} = \frac{RcOp_{it}}{\frac{1}{2}(OpCr_{it} + OpCr_{it-1}) } - \frac{DesCap_{it}}{\frac{1}{2}(Dep_{it} + Dep_{it-1})}
+\end{equation}
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+$Rent$: A rentabilidade bancária será calculada para cada instituição a partir da relação entre o lucro líquido ($LLqd$ — Conta 61800005) e as receitas das operações de crédito ($R$ — Conta 71100001).
+ 
+\begin{equation}
+Rent_{it} = \frac{LLqd_{it}}{R_{it}}
+\end{equation}
+ 
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+**HIPÓTESES**
+
+| Hipótese | Variável    | Fórmula                   | $SprEp$  | $Rent$  |
+|:-----:   | :---------: | :-----------------------: | :-----:  | :-----: |
+| $H_{1}$  | $EPr_{it}$                                                        | $\frac{OpTot_{it} - DepTot_{it}}{OpTot_{it}}$                                |    +     |    +    |
+| $H_{2}$  | $DepAv$                                                           | $EAv_{it} = \frac{DepAv_{it}}{OpTot_{it}}$                                   |    +     |     +   |
+| $H_{3}$   | $EAp$                                                            | $EAp_{it} = \frac{DepAp_{it}}{OpTot_{it}}$                                   |    +     |    -    |
+| $H_{4}$  |  $EPop$                                                           | $EPop_{it} = \frac{DepPop_{it}}{OpTot_{it}}$                                 |     +    |   -     |
+| $H_{5}$  | $DAdm$                                                            | $DAdm_{it} = \frac{DA_{it}}{OpCr_{it}}$                                      |    +     |   -     |
+| $H_{6}$  | $DesCap$                                                          | $DesCap_{it} = \frac{DC_{it}}{DepTot_{it}}$                                  |   +      |    +    |
+
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+**HIPÓTESES**
+
+| Hipótese | Variável    | Fórmula                   | $SprEp$  | $Rent$  |
+|:-----:   | :---------: | :-----------------------: | :-----:  | :-----: |
+| $H_{7}$  | $OtDes$                                                           | $OtDes_{it} = \frac{ DO_{it} - DA_{it} - DC_{it} }{ OpTot_{it} }$            |   +      |    -    |
+|$H_{8}$   | $Inad$                                                            | $Inad = \frac{ OP_{it} + OC_{it} }{OpTot_{it}}$                              |   +      |     -   |
+| $H_{9}$ | $RcPd$                                                             | $RcPd_{it} = \frac{\frac{\sum_{RCAa}^HOC_{RC}*P_{RC}}{\sum_{}P_{RC}}}{\sum_{OC_{RC}}}$                                                                      |   +      |    -    |
+| $H_{10}$ |  $ROpCr$                                                          |                                                                              |     -    |    +    |
+| $H_{11}$ | $RSrv$                                                            |                                                                              |    -     |    +    |
+| $H_{12}$ | $RPart$                                                           |                                                                              |      +   |   +     |
+
+
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+**HIPÓTESES**
+
+| Hipótese | Variável    | Fórmula                   | $SprEp$  | $Rent$  |
+|:-----:   | :---------: | :-----------------------: | :-----:  | :-----: |
+| $H_{13}$ | $OtROp$                                                           |                                                                              |      +   |   +     |
+| $H_{14}$ | $OpEmp$                                                           |                                                                              |     -    |    +    |
+| $H_{15}$ | $OpFin$                                                           |                                                                              |     -    |    -    |   
+| $H_{16}$ | $OtOp$)                                                           |                                                                              |      -   |    -    |
+| $H_{17}$ | $ImpRend$                                                         |                                                                              |      +   |     -   |
+| $H_{18}$ |  $ImpInd$                                                         |                                                                              |    +     |    -    | 
+
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+**HIPÓTESES**
+
+| Hipótese | Variável    | Fórmula                   | $SprEp$  | $Rent$  |
+|:-----:   | :---------: | :-----------------------: | :-----:  | :-----: |
+| $H_{19}$ | $SelOvr$                                                          | $Sel_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}SelDrAn$                            |      +   |     +   | 
+| $H_{20}$ | $VelMo$                                                           | $PIB_{t} = \frac{k Pib_{t-1}}{BMr_{t-1}}$                                    |       -  |     +   |
+| $H_{21}$ | $Com$                                                             | $Comp_{t} = \frac{Rc_{it}}{\sum_{t=1}^{n}Rc_{it}}$                           |    +     |     -   |
+| $H_{22}$ |  $GrCon$                                                          | $GC_{it} = \frac{1}{n} + n\frac{\sum_{i=1}^{n}(\frac{R_{it} - 1}{n})^2}{n}$  |    +     |     +   |
+| $H_{23}$ | $IPCA$                                                            | $IPCA_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}IpcaMs$                            |    +     |   -     |
+| $H_{24}$ |  $BMA$                                                            | $lnBMA_{t} = \ln(BMA_{t-1})$                                                 |    -     |    +    |
+| $H_{25}$ | $OpCrMkt$                                                         | $lnOpCrMkt = \ln\sum_{i = 1}^nOpTot_{it}$                                    |    -     |    +   |
+
+
+## **4. RESULTADOS**
+
+|  TEMPO | OBSERVAÇÕES | INSTITUIÇÕES | VARIÁVEIS EXPLICATIVAS  |
+|:-----: | :---------: | :----------: | :---------------------: |
+| 116    | 10.897      | 193          |   25                    |
+
+## **4. RESULTADOS**
+
+**TESTE MMSC**
+
+|           | Lag.01	  | Lag.02	  | Lag.03	  | Lag.04     |
+|:--------- | :-------- | :-------- | :-------- | :--------- |
+| MMSC_BIC	| -3119.36	| -3054.954	| -2971.843 | -2900.821  |
+| MMSC_AIC	| -342.7489	| -392.7625	| -402.5782	| -391.3003  |
+| MMSC_HQIC	| -1374.081	| -1385.675	| -1363.996	| -1332.864  |
+
+
+## **4. RESULTADOS**
+
+| Variável    | SprEp       |  Rent      | Variável | SprEp     |  Rent     |
+| :---------- | :---------- | :--------  |:-------- | :-------- | :-------- |
+| lag1 _SprEp |  0.0415 *** | -0.0271    | Inad     |  0.0862   | -0.1189** |
+|             | (0.0123)    | (0.0251)   |          | (0.0513)  | (0.0453)  |
+| lag1_Rent   | -0.2785 *** |  0.3194*** | RcPd     |  0.0682   | -0.2040***|
+|             | (0.0348)    | (0.0125)   |          | (0.0380)  | (0.0413)  |
+| lag2_SprEp  | -0.0388 *** | -0.0043    | EPr      | -0.0720***| -0.0223   |
+|             | (0.0117)    | (0.0168)   |          | (0.0195)  | (0.0132)  |
+| lag2_Rent   |  0.0889 *   |  0.2916*** | DepAv    | -0.0002   | -0.1144***|
+|             | (0.0430)    | (0.0230)   |          | (0.0473)  | (0.0270)  | 
+| DAdm        |  0.4504 *** |  0.0358 *  | DepAp    | -0.0227   | -0.0193   |
+|             | (0.0296)    | (0.0172)   |          | (0.0233)  | (0.0147)  |
+| DesCap      |  0.4563 *** |  0.0445    | DepPop   |  0.0736***| -0.0588   |
+|             | (0.0447)    | (0.0323)   |          | (0.0105)  | (0.0364)  |
+
+
+
+
+## **4. RESULTADOS**
+
+| Variável    | SprEp       |  Rent      | Variável | SprEp     |  Rent     |
+| :---------- | :---------- | :--------  |:-------- | :-------- | :-------- |
+| OtDes       |  1.2571 *** |  0.0514    | ROpCr    |  1.0471***| -0.2077***|
+|             | (0.0227)    | (0.0275)   |          | (0.0759)  | (0.0547)  |
+| RSrv        |  0.1304 *** |  0.0101    | ImpRend  | -0.0080   | -0.3328***|
+|             | (0.0083)    | (0.0090)   |          | (0.0458)  | (0.0301)  |
+| RPart       |  0.0457 *** | -0.0415*** | SelOvr   | -0.0239*  | -0.0202** |
+|             | (0.0022)    | (0.0103)   |          | (0.0115)  | (0.0078)  |
+| OtROp       |  0.8462 *** | 0.1017     | VelMo    |  0.2660***|  0.1788***|
+|             | (0.0432)    | (0.0546)   |          | (0.0529)  | (0.0434)  |
+| OpEmp       |  0.0458     | -0.1486 ***| Comp     |  0.0006***|  0.0001   |
+|             | (0.0292)    | (0.0420)   |          | (0.0001)  | (0.0001)  |
+| OpFin       | 0.0088      | -0.1411 ***| GrCon    | -0.1250   |  0.0093   |
+|             | (0.0328)    | (0.0421)   |          | (0.0705)  | (0.0395)  |
+
+
+## **4. RESULTADOS**
+
+| Variável    | SprEp       |  Rent      | Variável | SprEp     |  Rent     |
+| :---------- | :---------- | :--------  |:-------- | :-------- | :-------- |
+| OtOp        |  0.0779 *** | -0.0762    | IPCA     | -0.0320***| -0.0046   |  
+|             | (0.0205)    | (0.0497)   |          | (0.0040)  | (0.0049)  |
+| ImpInd      | -0.0281     |  0.1033 ***| lnMPA4   | 0.0707*** |  0.0038   |
+|             | (0.0215)    | (0.0228)   |          | (0.0170)  | (0.0104)  |
+| lnOpCrMkt   | -0.0735 *** |  0.0007    |          |           |           |
+|             | (0.0176)    | (0.0095)   |          |           |           |
+| *** p<0.001 | ** p < 0.01 | * p < 0.05 |          |           |           |
+  
+
+## **4. RESULTADOS**
+
+**TESTE J HANSEN**
+
+| Estatística	| Valor.P 	 | Parâmetros	| Instrumentos	| Método  |
+|:----------- | :--------- |:---------- |:-----------   |:------- |
+| 365.2375	  | 0.2766298	 | 350	      |  408          |	Hansen-J|
+
+## **4. RESULTADOS**
+
+**ESTABILIDADE DO MODELO**
+
+```{r stability.plot, fig.align='center', fig.width=4, fig.height=2}
+fit.pvargmm.2.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/fit.pvargmm.2.lags.RDS")
+
+st.pvar.gmm <- stability(fit.pvargmm.2.lags)
+
+plot(st.pvar.gmm)
+```
+
+## **5. CONSIDERAÇÕES FINAIS**
+
+- As variáveis que apresentaram significância simultaneamente no *spread* e na rentabilidade foram:
+   - Rentabilidade com uma e duas defasagens
+   - Despesas administrativas
+   - Receitas de operação de crédito
+   - Receitas de participação 
+   - Selic over
+   - Velocidade da moeda.
+
+
+## **5. CONSIDERAÇÕES FINAIS**
+
+- Entre as principais variáveis determinantes que exercem influência direta no *spread* estão, em ordem de peso: 
+   - Outras despesas operacionais, 
+   - Receitas de operação de crédito, 
+   - Outras receitas operacionais, 
+   - Despesas administrativas, 
+   - Velocidade da moeda 
+   - Receita de serviços. 
+
+## **5. CONSIDERAÇÕES FINAIS**
+
+- Entre as principais variáveis determinantes que exercem influência direta no *spread* estão, em ordem de peso:
+   - Rentabilidade de dois períodos anteriores, 
+   - outras operações, 
+   - depósitos de poupança,
+   - meios de pagamento M4, 
+   - receita de participação, 
+   - *spread* de um período anterior 
+   - compulsório. 
+
+## **5. CONSIDERAÇÕES FINAIS**
+
+- Variáveis que apresentaram influência inversa no *spread*, em ordem de peso estão: 
+   - Selic Over, 
+   - IPCA, 
+   - *Spread* de dois períodos anteriores, 
+   - Capital próprio 
+   - Operação total do mercado 
+   - Rentabilidade de um período anterior.
+
+## **5. CONSIDERAÇÕES FINAIS**
+
+- Variáveis que exercem influência direta com a rentabilidade, em ordem de peso, estão:
+   - Rentabilidade de um e dois períodos anteriores, 
+   - Velocidade da moeda, 
+   - Impostos Indiretos e 
+   - Despesas Administrativas. 
+
+## **5. CONSIDERAÇÕES FINAIS**
+
+- Entre as variáveis que apresentaram influência inversa com a rentabilidade, em ordem de peso estão: 
+   - Imposto de renda
+   - Receita de operações de crédito
+   - Risco ponderado de crédito
+   - Operações de crédito
+   - Operações de financiamento
+   - Inadimplência
+   - Depósitos a vista
+   - Receitas de participações
+   - Selic over
+
+## **5. CONSIDERAÇÕES FINAIS**
+
+- Principal determinante simultâneo no **spread** e rentabilidade com relação direta
+   - Velocidade da Moeda
+
+Quanto maior a velocidade da moeda, maior os níveis de **spread ex-post** e rentabilidade
+  
+
+## **5. CONSIDERAÇÕES FINAIS**
+
+- Diante o resultado da pesquisa e da modelagem econométrica este estudo chega ao conceito que o  **spread** e a rentabilidade bancária são definidos diante:
+   - Conjunto de fatores endógenos remetendo as características operacionais de cada grupo e ou instituições
+   - Conjunto de fatores exógenos relacionados com a conjuntura social e econômica e de regulação.
+
+## **5. CONSIDERAÇÕES FINAIS**
+
+**ESTUDOS FUTUROS**
+
+- Avaliação dos efeitos dos determinantes do *spread* atuando simultaneamente sobre a taxa de aplicação, taxa de captação e rentabilidade bancária. 
+- Orientação de trabalhar os dados no maior nível de desagregação possível para visualização do nível por tipo de tomador, tipo de operação, tipo de recurso, volume, prazo e nível de risco.
+
+## **REFERÊNCIAS**
+
+ALMEIDA, F. D. Determinantes do spread bancário ex-post no Brasil: uma análise de fatores micro e macroeconômicos. Brasíli: Universidade Católica de Brasíl, 2013. 
+
+ALMONACID, Ruben D.; PASTORE, Affonso Celso. Uma nota sobre o multiplicador da oferta monetária. Pesq. Plan. Econômico, IPEA, Rio de Janeiro, 1976. Disponível em: <http: //repositorio.ipea.gov.br/bitstream/11058/6813/1/PPE_v6_n2_Uma%20nota.pdf>. 
+
+ANDREWS, Donald W.K.; LU, Biao. Consistent model and moment selection procedures for GMM estimation with application to dynamic panel data models. Journal of Econometrics, MI, USA, 12 jul. 2000.
+
+## **REFERÊNCIAS**
+
+ARELLANO, Manuel; BOND, Stephen. Some Tests of Specification for Panel Data: Monte Carlo Evidence and an Application to Employment Equations. Review of Economic Studies, v. 58, p. 277–297, 1991. Disponível em: <http://people.stern.nyu.edu/wgreene/ Econometrics/Arellano-Bond.pdf>. 
+
+ARONOVICH, Selmo. Uma nota sobre os efeitos da inflação e do nível de atividade sobre o spread bancário. Revista Brasileira de Economia, v. 48, n. 1, p. 125–40, 1994. 
+
+ASSAF NETO, Alexandre. Finanças corporativas e valor. São Paulo: Atlas, 2020. BABA, Y.; HENDRY, D. F.; STARR, R. M. The Demand for Ml in the USA 1960-1988. 
+
+
+## **REFERÊNCIAS**
+
+___. Juros e Spread Bancário no Brasil. Brasília, 1999. Disponível em: <https://www.bcb.gov.br/ftp/juros-spread1.pdf>.  [S.l.], 1999. Brasília, 2000. Disponível em: <https://www.bcb.gov.br/ftp/ jurospread112000.pdf>.
+
+____. Programação Monerária 2019. [S.l.], 2019. Disponível em: <https://www.bcb.gov.br/content/publicacoes/programacaomonetaria/pm-022019p.pdf>. 
+
+BACEN, SGS - Sistema Gerenciador de Séries Temporais. Agregados Monetários. [S.l.: s.n.]. Disponível em: https://www3.bcb.gov.br/sgspub/consultarmetadados/consultarMetadadosSeries.do? method=consultarMetadadosSeriesInternet&hdOidSerieSelecionada=27789. Acesso em: 30/11/2020. 
+
+
+## **REFERÊNCIAS**
+
+BACEN, Sistema Gerenciador de Séries Temporais. Base Monetária. [S.l.: s.n.]. Disponível em https://www3.bcb.gov.br/sgspub/consultarmetadados/ consultarMetadadosSeries.do?method=consultarMetadadosSeriesInternet. Acesso em: /12/2020.
+
+_____. Meios de Pagamentos Ampliados. [S.l.: s.n.]. Disponível em: https://www3.bcb.gov.br/sgspub/consultarmetadados/consultarMetadadosSeries.do? method=consultarMetadadosSeriesInternet&hdOidSerieSelecionada=27810. Acesso em 12/05/2020. 
+
+BANK, WORLD; IMF. Financial sector Assessment: a handbook. Washington DCo: The World Bank, 2005. Disponível em: <http://documents1.worldbank.org/curated/en/ 306701468337879923/pdf/337970rev0Fina10Assessment01PUBLIC1.pdf>. 
+
+
+## **REFERÊNCIAS**
+
+BINDER, Michael; HSIAO, Cheng; PESARAN, M. Hashem. Estimation and Inference in Short Panel Vector Autoregressions with Unit Roots and Cointegration. Econometric Theory, Cambridge University Press, v. 21, n. 4, p. 795–837, 2005. ISSN 02664666, 14694360. Disponível em: <http://www.jstor.org/stable/3533397>.
+
+BLUNDELL, Richard; BOND, Stephen. Initial conditions and moment restrictions in dynamic panel data models. Journal of Econometrics, v. 87, n. 1, p. 115–143, 1998. Disponível em: <https://www.ucl.ac.uk/~uctp39a/Blundell-Bond-1998.pdf>. 
+
+BONTEMPI, Maria Elena; MAMMI, Irene. Implementing a strategy to reduce the instrument count in panel GMM. The Stata Journal, v. 15, n. 4, p. 1075–1097, 12 jul. 2000. 
+
+
+## **REFERÊNCIAS**
+
+BORDO, M. D; L., JONUNG; L., SIKLOS P. Institutional and the Velocity of Money: a century of evidence. Economic Inquiry, p. 710–724, 1997. 
+
+BRASIL. CONSTITUIÇÃO DA REPÚBLICA FEDERATIVA DO BRASIL DE 1988. Diário Oficial da República Federativa do Brasil, Brasília, DF, 5 out. 1988. Disponível em: <http://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm>. Acesso em: 7 set. 2020. 
+
+____. DECRETO No 1.455. Diário Oficial da República Federativa do Brasil, Brasília, DF, 30 dez. 1905. Disponível em: 
+<https://www2.camara.leg.br/legin/fed/decret/1900-1909/decreto-1455-30-dezembro- 1905-582773-publicacaooriginal-105568-pl.html>. Acesso em: 5 set. 2020. 
+
+
+## **REFERÊNCIAS**
+
+_____. DECRETO No 14.728. Diário Oficial da República Federativa do Brasil, Brasília, DF, 16 mar. 1921. Disponível em: 
+<https://www2.camara.leg.br/legin/fed/decret/1920-1929/decreto-14728-16-marco- 1921-504798-publicacaooriginal-1-pe.html>. Acesso em: 15 mar. 2021. 
+_____. DECRETO-LEI No 759, DE 12 DE AGOSTO DE 1969. Diário Oficial da República Federativa do Brasil, Brasília, DF, 12 ago. 1969. Disponível em: 
+<http://www.planalto.gov.br/ccivil_03/decreto-lei/del0759.htm>. Acesso em: 4 set. 2020. 
+
+
+## **REFERÊNCIAS**
+
+_____. Lei no 4.595, de 31 de dezembro de 1964. Diário Oficial da República Federativa do Brasil, Brasília, DF, 31 dez. 1964. Disponível em: <http://www.planalto.gov.br/ccivil_03/leis/L4595.htm>. Acesso em: 4 set. 2020. 
+
+BROCK, Philip L.; ROJAS SUAREZ, Liliana. Understanding the behavior of bank spreads in Latin America. Journal of Development Economics, v. 63, n. 1,p. 113–134, 2000. Disponível em: <https://EconPapers.repec.org/RePEc:eee:deveco:v:63:y:2000:i:1:p:113-134>. 
+
+CAMARGO, Patrícia Olga. A evolução recente do setor bancário no Brasik. São Paulo: Cultura Acadêmica, 2009. 
+
+
+## **REFERÊNCIAS**
+
+CAMPELLO, Mauro Luiz Costa; BRUNSTEIN, Israel. UMA ANÁLISE DA COMPETITIVIDADE DOS BANCOS DE VAREJO NO BRASIL. REVISTA GESTÃO DA PRODUÇÃO OPERAÇÕES E SISTEMAS, Unesp, v. 1, n. 1, p. 83–99, 2005.
+
+CARDOSO, Renato Fragelli; KOYAM, Sérgio Mikioa. A CUNHA FISCAL SOBRE A INTERMEDIAÇÃO FINANCEIRA. In: [s.l.]: Banco Central do Brasil, 1999. P. 129–158. 
+
+CMN. Resolução CMN 2.624, de 1999. Diário Oficial da República Federativa do Brasil, Brasília, DF, 29 jul. 1999. Disponível em: <https://www.bcb.gov.br/pre/normativos/busca/downloadNormativo.asp?arquivo= /Lists/Normativos/Attachments/45083/Res_2624_v1_O.pdf>. Acesso em: 4 set. 2020. 
+
+
+## **REFERÊNCIAS**
+
+_____. Resolução CMN 3.426, de 2006. Diário Oficial da República Federativa do Brasil, Brasília, DF, 26 dez. 2006. Disponível em: 
+<https://www.bcb.gov.br/pre/normativos/res/1976/pdf/res_0394_v13_P.pdf>. Acesso em: 4 set. 2020. 
+
+___. Resolução CMN 394, de 1976. Diário Oficial da República Federativa do Brasil, Brasília, DF, 20 out. 1976. Disponível em: 
+<https://www.bcb.gov.br/pre/normativos/res/1976/pdf/res_0394_v13_P pdf>. Acesso em: 4 set. 2020. 
+
+____. Resolução No 1.524 de 1988. Diário Oficial da República Federativa do Brasil, Brasília, DF, 24 set. 1988. Disponível em: <https://www.bcb.gov.br/pre/normativos/res/1988/pdf/res_1524_v8_P.pdf>. Acesso em: 24 fev. 2017. 
+
+
+## **REFERÊNCIAS**
+
+_____. Resolução no 2.099. Diário Oficial da República Federativa do Brasil, Brasília DF, 17 ago. 1994. Disponível em: 
+<https://www.bcb.gov.br/pre/normativos/res/1994/pdf/res_2099_v1_O.pdf>. Acesso em: 4 set. 2020. 
+
+CÓRDOBA, Miguel. Análisis Financiero de los Mercados Monetarios y de Valores. Madrid: Saraiva, 1996. 
+
+COSTA, Ana Carla Abrão; NAKANE, Márcio I. Spread bancário no Brasil: dois esclarecimentos e duas constatações. Tecnologia de Crédito, 2004. 
+
+
+## **REFERÊNCIAS**
+
+COSTA NETO, Yttrio Corrêa da. Bancos oficiais no Brasil: origem e aspectos de seu desenvolvimento. Brasília: Banco Central do Brasil, 2004. Disponível em: 
+<https://www.bcb.gov.br/htms/public/BancosEstaduais/livros_bancos_oficiais.pdf>.
+
+COUTO, Rodrigo Luís Rosa. Metodologia de avaliação da capacidade de geração de resultados de instituições financeiras. [S.l.], 2002. (Notas Técnicas do Banco Central do Brasil). Disponível em: <Dispon%C3%ADvel%20em%20%5Curl%7Bhttps://www.bcb.gov.br/pec/notastecnicas/port/2002nt26avalgeracaoresultp.pdf%7D% 20Acesso%20em:%2020/11/2020>.
+
+DANTAS, José A. Determinantes do spread bancário ex post no mercado brasileiro. REV. ADM. MACKENZIE, UNIVERSIDADE PRESBITERIANA MACKENZIE, v. 13, n. 4, p. 48–74, 2012. 
+
+
+## **REFERÊNCIAS**
+
+DEMIRGÜÇ-KUNT, Ash; HUIZINGAGA, Harry. Determinants of commercial bank interest margins and profitability: some international evidence. The World Bank Economic Review, v. 13, p. 379–408, 1 mai. 1999. Disponível em: <https: //citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.194.3108&rep=rep1&type=pdf>. Acesso em: 8 set. 2020.
+
+DICK, Astrid. Banking Spreads in Central America: Evolution, Structure, and Behavior. HIID Development Discussion Papers, Harvard Institute for International Development, Cambridge, 1999. 
+
+DURIGAN, Junior et al. Fatores macroeconômicos, indicadores industriais e o spread bancário no Brasil. Revista de Ciências da Administração - RCA, 2018. DOI: 10.5007/2175-8077.2018v20n51p26. 
+
+
+## **REFERÊNCIAS**
+
+FARIA, Miguel Figueira de Faria; MENDES, José Amado. Dicionário de História Empresarial Portuguesa, Séculos XIX e XX. Porto: INCM, 2014. v. I. 
+
+FIPECAFI. ESTUDO SOBRE A APURAÇÃO DO SPREAD DA INDÚSTRIA BANCÁRIA. [S.l.], 2005. Disponível em: 
+<https://www.bcb.gov.br/ftp/jurospread112000.pdf>. 
+
+FRIEDMAN, M.; SCHWARTZ, A. J. A monetary history of the United States, 1867 – 1960. Princeton: Princeton University Press, 1963. 
+
+
+## **REFERÊNCIAS**
+
+_____. Monetary Trends in the United States and the United Kingdom Their Relation to Income, Prices, and Interest Rates, 1867-1975. Chicago: University of Chicago Press for NBER, 1982. 
+
+GRAHAM, Benjamin; MEREDITH, Spencer B. A interpretação das demonstrações financeiras. 3. ed. São Paulo: Saraiva, 2012. 
+
+GUIMARÃES, Carlos Gabriel. O Estado Imperial brasileiro e os bancos estrangeiros: o caso do London and Brazilian Bank (1862-1871). Anais do XXVI Simpósio Nacional de História – AUHNP São Paulo, julho 2011, 2011. Disponível em:  <http://www.snh2011.anpuh.org/resources /anais/14/1298818435_ARQUIVO_ TextoLBBnovo.pdf>. 
+
+
+## **REFERÊNCIAS**
+
+HAFER, R. W.; JANSEN, D. W. The Demand for Money in the United States: Evidence from Cointegration Test. Journal of Money, Credit, and Banking, p. 155–68, 1991. 
+
+HENDRY, David F.; MIZON, Grayham E. Serial Correlation as a Convenient Simplification, Not a Nuisance: A Comment on a Study of the Demand for Money by the Bank of England. The Economic Journal, [Royal Economic Society, Wiley], v. 88,n. 351, p. 549–563, 1978. ISSN 00130133, 14680297. Disponível em:  <http://www.jstor.org/stable/2232053>.HILL, R. Carter. Economertia. 3. ed. São Paulo: Saraiva, 2010. 
+
+HO, Thomas S. Y.; SAUNDERS, Anthony. The Determinants of Bank Interest Margins: Theory and Empirical Evidence. Journal of Financial and Quantitative Analysis,v. 16, n. 4, p. 581–600, 1981. Disponível em:<https://EconPapers.repec.org/RePEc:cup:jfinqa:v:16:y:1981:i:04:p:581-600_00>. 
+
+
+## **REFERÊNCIAS**
+
+HOLTZ-EAKIN, D.; NEWEY, W.; ROSEN, H.S. Estimating vector autoregressions with panel data. Econometrica, v. 56, n. 1371-1395, 1988. Disponível em: <6>. 
+
+JAMES, Gareth et al. An Introduction to Statistical Learning. 8. ed. New York: Springer, 2017. 
+
+KAPETANIOS, G. A bootstrap procedure for panel data sets with many cross-sectional units. The Econometrics Journal, [Royal Economic Society, Wiley], v. 11, n. 2,p. 377–395, 2008. ISSN 13684221, 1368423X. Disponível em: <http://www.jstor.org/stable/23116081>. 
+
+
+## **REFERÊNCIAS**
+
+KLEIN, Michael A. A Theory of the Banking Firm. Journal of Money, Credit and Banking, Ohio State University Press, v. 3, n. 2, p. 205–218, mai. 1971. Disponível em: <http://www.jstor.org/stable/1991279>. 
+
+LEITE, J. C. Tecnologia e organizações: um estudo sobre os efeitos da introdução de novas tecnologias no setor bancário brasileiro. 1996. Tese (Doutorado) – São Paulo. 
+
+LEVINE, Ross. Financial Development and Economic Growth: Views and Agenda. Journal of Economic Literature, American Economic Association, v. 35, n. 2,p. 688–726, 1997. ISSN 00220515. Disponível em:  <http://www.jstor.org/stable/2729790>. 
+
+
+## **REFERÊNCIAS**
+
+MAFFILI, Dener William; BRESSAN, Aureliano Angel; SOUZA, Antônio Artur da. Estudo da Rentabilidade dos Bancos Brasileiros de Varejo no Período de 1999 a 2005. Contabilidade Vista e Revista, SI, v. 238, n. 2, p. 117–138, 12 mai. 2009. Disponível em: <Dispon%C3%ADvel%20em%20%5Curl%7Bhttps: //www.imf.org/external/pubs/ft/op/238/index.htm%7D%20Acesso%20em: %2017%20fev.%202021>. 
+
+MAGALHÃES-TIMOTIO, João G. RELAÇÃO ENTRE INDICADORES CONTÁBEIS E O SPREAD EX-POST DOS BANCOS BRASILEIROS. RACEF – Revista de Administração, Contabilidade e Economia da Fundace, v. 9, n. 2, p. 31–44, 2018. 
+
+MATOS, Orlando Carneiro de. Inter-relações entre Desenvolvimento Financeiro, Exportações e Crescimento Econômico: Análise da Experiência Brasileira. In: NOTAS Técnicas do Banco Central do Brasil. Brasília: BCB, 2003. Disponível em:  <https://www.bcb.gov.br/content/publicacoes/notastecnicas/2003nt40Inter- relentreDesenvFinanp.pdf>. 
+
+
+## **REFERÊNCIAS**
+
+MILLER, Stephen. Monetary Dynamics: An Application of Cointegration and Error-Correction Modeling. Journal of Money, Credit and Banking, v. 23, n. 2, p. 139–54, 1991. Disponível em: <https://EconPapers.repec.org/RePEc:mcb:jmoncb:v:23:y:1991:i:2:p:139-54>. 
+
+NEVES JÚNIOR, Idalberto José das; SOARES RIBEIRO, Francilanes;MENDES, Frederico. EFICIÊNCIA OPERACIONAL: UMA ANÁLISE EXPLORATÓRIA DOS 50 MAIORES BANCOS BRASILEIROS PELO RANKING BACEN. 4o Congresso USP de Iniciação Científica em Contabilidade, USP, 2007. Disponível em: <https://intercostos.org/documentos/apellidos/Das%20Neves%201.pdf>. 
+OREIRO, José Luís da Costa; PAULO, Luiz Fernando de. Determinantes macroeconômicos do spread bancário no Brasil: teoria e evidência recente. Economia Aplicada, v. 10, n. 4, p. 609–634, 2006. 
+
+## **REFERÊNCIAS**
+
+REY, Letícia Dias. Spread Bancário Brasileiro: um indicador de excessos? Insper, 2017. Disponível em: <http://dspace.insper.edu.br/xmlui/bitstream/handle/11224/1799/Let% C3%ADcia%20Dias%20Rey_Trabalho.pdf?sequence=1>. 
+
+ROVER, Suliani; TOMAZZIA, Eduardo Cardeal; FÁVER, Luiz Paulo. Determinantes Econômico-Financeiros e Macroeconômicos da Rentabilidade: Evidências Empíricas do Setor Bancário Brasileo. Revista Brasileira de Economia, XXXV Encontro da ANPAD, 2011. 
+
+SARGAN, Denis J. Wages and Prices in the U.K.: A Study in Econometric Methodology. in Econometric Analysis for National Economic Planning, Paul Hart, Gary Mills and John K. Whitaker (eds) Colston Papers1, Butterworths, London, v. 16, p. 25–54, 1964. 
+
+## **REFERÊNCIAS**
+
+SIGMUND, Michael; FERSTL, Robert. Panel Vector Autoregression inR with the Package panelvar, 2008. Disponível em: <https://www.researchgate.net/publication/ 312165764_Panel_Vector_Autoregression_in_R_with_the_Package_Panelvar>. 
+
+SINGH, Anoop et al. Stabilization and Reform in Latin America: A Macroeconomic Perspective on the Experience Since the Early 1990s. Occasional Paper, International Monetary Fund, v. 238, n. 2, fev. 2005. Disponível em:  <https://www.imf.org/external/pubs/ft/op/238/index.htm>. 
+
+SOUZA, Rodrigo Mendes Leal de. Estrutura e determinantes do spread bancário no Brasil:uma resenha comparativa da literatura empírica. Rio de Janeiro: Universidade do Estado do Rio de Janeiro, 2006. 
+
+
+## **REFERÊNCIAS**
+
+VASCONCELLOS, Marco Antonio Sandoval de. Macroeconomia. 3. ed. São Paulo: Atlas, 2001. 
+
+VIEIRA, Heleno Piazentini; PEREIRA, Pedro Luiz Valls. Velocidade da moeda e ciclos econômicos no Brasil, 1900-2016. Insper Working Paper, New York, NY, p. 1–38, 2016. Disponível em: <https://www.insper.edu.br/wp-content/uploads/2018/10/Velocidade- moeda-ciclos-economicos-Brasil.pdf>.
+
+ZIVOT, Eric; WANG, Jiahui. Vector Autoregressive Models for Multivariate Time Series. In: Modeling Financial Time Series with S-Plus. Springer, New York, NY, p. 369–413, 2003. Disponível em: <https://doi.org/10.1007/978-0-387-21763-5_11>. 
+
+
+## **AGRADECIMENTOS**
+
+**OBRIGADO**
+
+## **REFERÊNCIAS**
+
+

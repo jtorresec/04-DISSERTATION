@@ -1,0 +1,55 @@
+--- 
+date: 2021
+author: "Jackson da Silva Torres"
+documentclass: abntex2
+classoption: [12pt, openright, oneside, a4paper, chapter=TITLE, section=TITLE, subsection=TITLE, subsubsection=TITLE, english, portugues, sumario=tradicional]
+header-includes:
+- \input{09-packages/00-pacotes}
+- \input{00-input/00-dados}
+- \makeindex
+- \usepackage{helvet}
+- \renewcommand{\familydefault}{\sfdefault}
+- \DeclareUnicodeCharacter{0301}{******}
+- \DeclareUnicodeCharacter{0303}{******}
+- \DeclareUnicodeCharacter{0327}{******}
+- \DeclareUnicodeCharacter{0308}{******}
+#- \usepackage{amsmath}
+site: bookdown::bookdown_site
+#bibliography: '10-references/referencias.bib'
+#biblio-style: abnt
+#biblio-title: \hspace{10pt}{REFERÊNCIAS}
+#suppress_bibliography: true
+link-citations: no
+toc: false
+references: false
+always_allow_html: true
+fontsize: 12pt
+mathjax: true
+---
+
+```{r set location, echo=FALSE, message=FALSE, results='hide'}
+location <- '~/desktop/04-DISSERTATION'
+dados.2019 <- '01-data/bacen/Quadros 2019.xlsx'
+data.bacen <- '01-data/bacen/'
+data.csv <- "~/Desktop/04-DISSERTATION/01-data/datacsv/"
+setwd(location)
+```
+
+```{r setup, include=TRUE, echo=FALSE, message=FALSE, eval=TRUE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE,
+                      tidy = FALSE, 
+                      #eval = FALSE,
+                      fig.path = "12-exportedfigures/",
+                      fig.width = 5, fig.height = 3,
+                      fig.align = 'center',
+                      comment = ""
+                      )
+#options(scipen = 10, digits = 4)
+```
+
+```{r include=FALSE, echo=FALSE, message=FALSE, results='hide', eval=TRUE}
+packagesR <- "~/Desktop/04-DISSERTATION/09-packages/packages.R"
+source(packagesR)
+```
+
+

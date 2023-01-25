@@ -1,0 +1,1443 @@
+\textual
+\pagestyle{simple}
+\parindent 1.50cm
+
+\chapter{Apresentação e análise dos resultados}
+
+
+```{r sources.temp, message=FALSE, include=FALSE, eval=FALSE, results='hide', warning=FALSE}
+#purl("~/Desktop/04-DISSERTATION/04-method.Rmd", documentation = 1,
+#     output = "~/Desktop/04-DISSERTATION/01-data/method.R")
+#purl("~/Desktop/04-DISSERTATION/02-bankingstructure.Rmd", documentation = 1,
+#     output = "~/Desktop/04-DISSERTATION/01-data/banking.R")
+#purl("~/Desktop/04-DISSERTATION/TEMP/03-spread.Rmd", documentation = 1,
+#    output = "~/Desktop/04-DISSERTATION/01-data/spread.R")
+
+source("~/Desktop/04-DISSERTATION/01-data/method.R")
+source("~/Desktop/04-DISSERTATION/01-data/banking.R")
+source("~/Desktop/04-DISSERTATION/01-data/spread.R")
+```
+
+```{r sources.banks, message=FALSE, warning=FALSE, results='hide'}
+data.bank.location <- "~/Desktop/04-DISSERTATION/17-functions/databank.R"
+
+data.zip <- "~/Desktop/04-DISSERTATION/01-data/bacen/bankdata/ZIP/"
+data.csv <- "~/Desktop/04-DISSERTATION/01-data/bacen/bankdata/CSV/"
+balance.location <- "~/Desktop/04-DISSERTATION/01-data/bacen/bankdata/"
+
+source(data.bank.location)
+```
+
+```{r data.model, eval=FALSE, include=TRUE, message=FALSE, results='hide'}
+banks.data <- readRDS(paste(balance.location, "banks.data.rds", sep = ""),
+                      refhook = NULL)
+
+banks.data.tax <- banks.data[118:239]
+
+banksDfTaxJoin <- ldply(banks.data.tax, data.frame)
+
+DfTaxNames <- c('DATA_BASE', "DOCUMENTO", "CNPJ", "AGENCIA",
+                "NOME_INSTITUICAO", "COD_CONGL", "NOME_CONGL", 
+                "TAXONOMIA", "CONTA", "NOME_CONTA", "SALDO", "DATA")
+
+colnames(banksDfTaxJoin) <- DfTaxNames
+
+banksDfTax <- 
+        banksDfTaxJoin[c(-12:-14)] %>%
+        filter(DOCUMENTO != "", DOCUMENTO != "DOCUMENTO")  %>% slice(2:n()) %>%
+        mutate(DATA = as.yearmon(paste(str_sub(DATA_BASE, start = 1, end = -3),
+                            str_sub(DATA_BASE, start = 5), sep = "-"))) %>% 
+        type_convert(col_types = cols(DOCUMENTO = col_factor(),
+                                      CNPJ = col_factor(),
+                                      TAXONOMIA = col_character(),
+                                      NOME_INSTITUICAO = col_factor(),
+                                      DATA = col_number(),
+                                      CONTA = col_factor()),
+                     trim_ws = TRUE,
+                     locale = locale(decimal_mark = ",")) %>%
+        select(-AGENCIA, -COD_CONGL, -NOME_CONGL) %>%
+        filter(DOCUMENTO == 4010) %>% 
+        na.omit()
+
+banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCO DO BRASIL - BANCO MULTIPLO"] <- "BANCO DO BRASIL"
+
+banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCO NACIONAL DE DESENVOLVIMENTO ECONOMICO SOCIAL"] <- "BNDES"
+
+banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCOS DE CÂMBIO"] <-
+  "BANCOS DE CAMBIO"
+
+#######
+#banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCO DO BRASIL - BANCO MULTIPLO"] <- "BANCOS MULTIPLOS"
+
+#banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCO NACIONAL DE DESENVOLVIMENTO ECONOMICO SOCIAL"] <- "BANCOS DE DESENVOLVIMENTO"
+
+#banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCOS DE CÂMBIO"] <- "BANCOS DE CAMBIO"
+######
+
+banksDfTaxSub <- 
+        banksDfTax #%>%  
+        #subset(year(DATA) == c(2012:2020)) #| DATA_BASE == 201202 | DATA_BASE == 201203 | DATA_BASE == 201204 | DATA_BASE == 201205 | DATA_BASE == 201206
+         #     ) %>%
+        #select(DATA, NOME_INSTITUICAO, TAXONOMIA, CONTA, SALDO)
+        #subset(NOME_INSTITUICAO == "BCO DO BRASIL S.A." | NOME_INSTITUICAO == "CAIXA ECONOMICA FEDERAL" #| NOME_INSTITUICAO == "BANCO INTERMEDIUM S/A"
+          #     )
+
+banksDfSpfill <- banksDfTax %>% expand(DATA, CNPJ, CONTA)
+
+banksDfSp <- banksDfSpfill %>% 
+        left_join(banksDfTaxSub) %>%
+        select(DATA, CNPJ, NOME_INSTITUICAO, TAXONOMIA, CONTA, SALDO) %>% 
+        spread(CONTA, SALDO, fill = 0) %>%
+        filter(`16000001` != 0 & `71100001` != 0 & `81100008` !=0 
+               & `41000007` != 0 & year(DATA) != 2010 
+               #& year(DATA) != 2011
+               )
+saveRDS(banksDfSp, file = "~/Desktop/04-DISSERTATION/01-data/model/banksDfSp.RDS")
+
+saveRDS(banksDfTax, file = "~/Desktop/04-DISSERTATION/01-data/model/banksDfTax.RDS")
+
+```
+
+```{r read.DfSp, eval=FALSE}
+
+banksDfTax <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksDfTax.RDS")
+
+banksDfSp <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksDfSp.RDS")
+
+back.acc <- banksDfSp %>% select(DATA, CNPJ, NOME_INSTITUICAO, `41000007`, `16000001` ) %>% mutate(DATA = DATA + (1/12)) %>% mutate(`41000007 -1` = `41000007`, `16000001 -1` = `16000001` ) %>% select(DATA, CNPJ, `41000007 -1`, `16000001 -1`)
+```
+
+```{r data.model.agregates, eval=TRUE, message=FALSE, warning=FALSE, include=TRUE}
+#IPCA
+ipca_cod <- as.character(data.table[5,3])
+ipca <- ipeadata(code = ipca_cod, language = c('br'))
+
+ipcaDt <- ipca %>% 
+        mutate(DATA = as.yearmon(date) + 0.2, 
+                  IPCA = value / 100) %>% select(DATA, IPCA) 
+
+selic.copom <- ipeadata(code = 'BM366_TJOVER366', language = "br") 
+selicMeta <- selic.copom %>% 
+        mutate(DATA = as.yearmon(date) + 0, 
+               SelMet = value / 100) %>%
+        group_by(DATA) %>% 
+        summarise(SelMet = mean(SelMet)) %>% 
+        select(DATA, SelMet)
+
+selic_cod <- as.character(data.table[3,3])
+selic <- ipeadata(code = selic_cod, language = "br")
+selicDt <- selic %>% 
+        mutate(DATA = as.yearmon(date) + 0.2, SelOvr = value / 100) %>% 
+        select(DATA, SelOvr)
+
+Mpa4Dt <- m2m3m4.data %>% 
+        mutate(DATA = as.yearmon(Data) + 0.2) %>%
+        mutate(MPA4 = (M4 * 1000) / 1) %>% 
+        select(DATA, MPA4)
+
+Mpa2Dt <- m2m3m4.data %>% 
+        mutate(DATA = as.yearmon(Data) + 0.2) %>%
+        mutate(MPA2 = (M2 * 1000) / 1) %>% 
+        select(DATA, MPA2)
+
+TitPub <- money.base.comps %>% 
+  select(Data, Titulos.Públicos.Totais) %>% 
+  filter(Titulos.Públicos.Totais != "-") %>% 
+  mutate(DATA = as.yearmon(Data),
+         TitPub = as.numeric(as.character(Titulos.Públicos.Totais))) %>% 
+  select(DATA, TitPub)
+
+PIB_cod <- as.character(data.table[2,3])
+PIB <- ipeadata(code = PIB_cod, language = "br")
+
+PIBDt <- PIB %>% 
+        mutate(DATA = as.yearmon(date) + 0.2, 
+               PIB = (value * 1000000) / 1) %>% 
+        select(DATA, PIB)
+
+BMa_cod <- as.character(data.table[9,3]) 
+Bma <- money.base %>% 
+        transform(DATA = as.yearmon(Data) + 0.2) %>%
+        filter(Base.Monetária.Ampliada != "-") %>%
+        slice(7:n()) %>% 
+        transform(BMA = (as.numeric(as.character(Base.Monetária.Ampliada)) *
+                          1000) / 1) %>% 
+        select(DATA, BMA)
+
+Bmr <- money.base %>%  
+        transform(DATA = as.yearmon(Data) + 0.2) %>%
+        slice(7:n()) %>% 
+        transform(BMR = (as.numeric(as.character(Base.Monetária)) *
+                          1000) / 1) %>% 
+        select(DATA, BMR)
+
+dc.local <- "~/Desktop/04-DISSERTATION/01-data/bacen/compulsory/STP-20210312091217949.xlsx"
+
+DepCom  <-  
+        read_xlsx(dc.local, sheet = "STP-20210312091217949", 
+                  col_types = c("date", "numeric", "numeric", 
+                                "numeric", "numeric"),
+                  trim_ws = TRUE)
+
+DepComDt <- DepCom %>% transform(DATA = as.yearmon(DATA),
+                                 (COMP_TOTAL = COMPULSORIO_TOTAL * 1000) /
+                                         1) %>% 
+        select(DATA, COMPULSORIO_TOTAL) 
+
+SprEa <- spread.moct %>% separate(data, sep = "/", 
+                                  into = c("DIA", "MES", "ANO")) %>%
+        mutate(DATA = as.yearmon(paste(ANO, MES, sep = "-")) + 0) %>%
+        mutate(SprEa = Spread.MOCT / 100) %>% 
+        select(DATA, SprEa)
+```
+
+```{r market.total, eval=FALSE}
+
+OpCrT <- banksDfSp %>% group_by(DATA) %>% 
+        summarize(OpCrTotal = sum(`16000001`) +  sum(`18000009`))
+
+NInst <- banksDfTax %>% group_by(DATA) %>% 
+        summarise(NUM_INSTITUICOES = length(unique(NOME_INSTITUICAO)))
+
+RcTotal <- banksDfSp %>% group_by(DATA) %>% 
+        summarise(RECEITA_TOTAL = sum(`71000008`))
+
+GCSum <- banksDfSp %>% 
+        inner_join(NInst, by = "DATA") %>%
+        inner_join(OpCrT, by = "DATA") %>% 
+        group_by(DATA) %>%
+        summarise(GCSum = sum(((`16000001` / OpCrTotal) -
+                                         (1 / NUM_INSTITUICOES)) ^ 2)
+        )
+
+GC <- GCSum %>% 
+        inner_join(NInst, by = "DATA") %>%
+        group_by(DATA) %>%
+        summarise(GrCon = (1 / NUM_INSTITUICOES) + 
+                          (NUM_INSTITUICOES * (GCSum / NUM_INSTITUICOES)) )
+
+# PERCENTUAL DE PROVISÃO OBRIGATÓRIO DE ACORDO COM O RISCO DE CRÉDITO
+ra <- 0.005 ; rb <- 0.01 ; rc <- 0.03; rd <- 0.10; re <- 0.30; rf <- 0.5; rg <- 0.7; rh <- 1
+
+```
+
+```{r pure.panel, message=FALSE, eval=FALSE}
+
+purePanel <- banksDfSp %>%
+        left_join(back.acc) %>% 
+        inner_join(OpCrT, by = "DATA") %>%
+        inner_join(NInst, by = "DATA") %>%
+        inner_join(RcTotal, by = "DATA") %>%
+        inner_join(GC, by = "DATA") %>%
+        inner_join(selicDt, by = "DATA") %>%
+        left_join(selicMeta, by = "DATA") %>%
+        inner_join(ipcaDt, by = "DATA") %>%
+        inner_join(Mpa2Dt, by = "DATA") %>%
+        inner_join(Mpa4Dt, by = "DATA") %>%
+        inner_join(DepComDt, by = "DATA") %>%
+        inner_join(PIBDt, by = "DATA") %>%
+        inner_join(SprEa, by = "DATA") %>%
+        inner_join(Bmr, by = "DATA") %>%
+        inner_join(Bma, by = "DATA") %>%
+        left_join(TitPub, by = "DATA") %>%
+        mutate(OSprEp = ( (`71100001`)  / 
+                             ( (1/2)*(`16000001` + `16000001 -1`))) -
+                       ((`81100008`*-1) / ((1/2)*(`41000007`+`41000007 -1`)) )
+                                               ) %>%
+        mutate(SprEp = (`71000008` / ( (1/2)*(`16000001` + `18000009`))) -
+                       ((`81100008`*-1) / ((1/2)*(`41000007`+`41000007`)) )
+                                               ) %>%
+        mutate(TxApl = (`71000008` / ( (1)*(`16000001` + `18000009`))) ) %>%
+        mutate(TxCap = ( (`81100008`*-1) / ((1/2)*(`41000007`+`41000007`)) )) %>%
+        mutate(TpIns = as.factor(TAXONOMIA)) %>% 
+        mutate(BANCO = as.factor(NOME_INSTITUICAO)) %>%
+        mutate(lnOpCrMkt =  log(OpCrTotal / 1)   ) %>%
+        mutate(lnMPA2 = log((MPA2)/1)) %>%
+        mutate(lnMPA4 = log((MPA4)/1)) %>%
+        mutate(lnBMR = log((BMR)/1)) %>%
+        mutate(lnBMA = log((BMA)/1)) %>%
+        mutate(OpCr = (((`16000001` + (`16900008` * -1))) / 1) ) %>%
+        mutate(OtCr = (((`18000009` + (`18900006` * -1)))/ 1)) %>%
+        mutate(OpTot = (  (  (`16000001` + (`16900008` * -1)  ) + 
+                     (`18000009` + (`18900006` * -1) )  ) /1  )  ) %>%  
+        mutate(lnOpTot = log(  (  (`16000001` + (`16900008` * -1)  ) + 
+                     (`18000009` + (`18900006` * -1) )  ) /1  )  ) %>%
+        mutate(OpEmp = log(`16100004` / (1))) %>% 
+        mutate(OpFin = log((`16200007`+ `16300000` + `16400003`) / (1)) ) %>% 
+        mutate(OtOp = log((`16800005` + `18000009`) / (1)) ) %>% 
+        mutate(Inad = ( ( (`16900008` + `18900006`) * -1) / (1)) )%>%
+        mutate(Rent = (`89000007` / `71000008`) * 1) %>%
+        mutate(Disp = ((`11000006`) / 1)) %>% 
+        mutate(lnAtv = log(`39999993` / 1)  ) %>% 
+        mutate(RcPd = (((`31100003` * ra) +
+                              (`31200006` * ra) + (`31300009` * rb) +
+                              (`31400002` * rc) + (`31500005` * rd) +
+                              (`31600008` * re) + (`31700001` * rf) +
+                              (`31800004` * rg) + (`31900007` * rh) /
+                              (ra + ra + rb + rc + rd + re + rf + rg + rh)) /
+                              (`16000001`) ) * 1  ) %>%
+        mutate(RcCr = (`31000000`/1) ) %>%
+        mutate(MkSh = ( ((`16000001` + `18000009`)  / OpCrTotal) * 1) ) %>%
+        mutate(lnComp = log(COMPULSORIO_TOTAL) / 1) %>%
+        mutate(Comp = ((COMPULSORIO_TOTAL) / OpCrTotal)  )  %>%
+        mutate(VelMo =  (  (  (PIB * 1) * (1 - IPCA) ) / 
+                                   (BMA * 1)  )   
+               ) %>%
+
+        mutate(Cx = (`11100009`) / 1) %>%
+        mutate(lnROp = (`71000008` / 1)  ) %>% # receitas operacionais
+        mutate(ROp = ((`71000008`/1)) ) %>% # receitas operacionais
+        mutate(ROpCr = ((`71100001` / 1) / 1)  ) %>% # receitas operações de crédito 
+        mutate(RSrv = ((`71700009` / 1) / 1)  ) %>% # receitas serviços 
+        mutate(RPart = ((`71800002` / 1) / 1)  ) %>% # receitas participações 
+        mutate(OtROp = ((  (`71000008` - 
+                       (`71100001` + `71700009` + `71700009` 
+                        + `71800002`) 
+                                ) / 1 )  / 1) ) %>% 
+        mutate(Inv = ((`21000003`) / 1 )  ) %>%
+        mutate(ImpInd = ((`49100002` / (1)))  ) %>% 
+        mutate(ImpRend = ( (`89400009` * -1) / (1) ) ) %>%
+        mutate(DepTot = (`41000007` / 1 )) %>%
+        mutate(lnDepTot = log(DepTot / 1 )) %>%
+        mutate(DepAv = (`41100000` / (1)) ) %>% 
+        mutate(DepPop = (`41200003` / (1) )  ) %>% 
+        mutate(DepIf = (`41300006` / (1)) ) %>% 
+        mutate(DepAp = (`41500002` / (1)) ) %>% 
+        mutate(OtDep = (`41000007`- `41100000` - `41200003` - `41300006` -
+                       `41500002`) / (1)) %>%
+        mutate(EPr = (((`16000001` + `18000009` ) - DepTot) / (1))
+               ) %>%
+        mutate(DesOp = log((`81000005` * -1) / 1 )) %>% 
+        mutate(DesCap = log((`81100008` * -1) / 1) ) %>% 
+        mutate(DAdm = log((`81700006` * -1) / ( 1 ) ) ) %>%
+        mutate(OtDes = log(  (  (`81000005` * -1) - 
+                       (`81100008` * -1) - (`81700006`* -1 ) ) 
+                       / ( 1 ) ) 
+               ) %>%
+        mutate(PrtLc = ((`89700008` * -1) / 1)  ) %>%
+        mutate(PtLq = (`61000001` / 1) ) %>% 
+        mutate(Int = (`25000009` / 1 ) ) %>% 
+        subset(TpIns != "BANCOS COMERCIAIS COOPERATIVOS"  
+               & TpIns != "BANCOS MULTIPLOS COOPERATIVOS"
+               & TpIns != "BANCOS COMERCIAIS ESTRAGEIROS - FILIAL PAIS"
+               & year(DATA) != 2021
+               #& SprEp > -0.10 & SprEp < 0.56
+               )  %>% 
+        na.omit() %>%
+        as_tibble()
+
+saveRDS(purePanel, file = "~/Desktop/04-DISSERTATION/01-data/model/purePanel.RDS")
+```
+
+```{r banks.model, message=FALSE, eval=FALSE}
+
+banksPanel <- banksDfSp %>%
+        left_join(back.acc) %>% 
+        inner_join(OpCrT, by = "DATA") %>%
+        inner_join(NInst, by = "DATA") %>%
+        inner_join(RcTotal, by = "DATA") %>%
+        inner_join(GC, by = "DATA") %>%
+        inner_join(selicDt, by = "DATA") %>%
+        left_join(selicMeta, by = "DATA") %>%
+        inner_join(ipcaDt, by = "DATA") %>%
+        inner_join(Mpa2Dt, by = "DATA") %>%
+        inner_join(Mpa4Dt, by = "DATA") %>%
+        inner_join(DepComDt, by = "DATA") %>%
+        inner_join(PIBDt, by = "DATA") %>%
+        inner_join(SprEa, by = "DATA") %>%
+        inner_join(Bmr, by = "DATA") %>%
+        inner_join(Bma, by = "DATA") %>%
+        left_join(TitPub, by = "DATA") %>%
+        mutate(OSprEp = ( (`71100001`)  / 
+                             ( (1/2)*(`16000001` + `16000001 -1`))) -
+                       ((`81100008`*-1) / ((1/2)*(`41000007`+`41000007 -1`)) )
+                                               ) %>%
+        mutate(SprEp = (`71000008` / ( (1/2)*(`16000001` + `18000009`))) -
+                       ((`81100008`*-1) / ((1/2)*(`41000007`+`41000007`)) )
+                                               ) %>%
+        mutate(TxApl = (`71000008` / ( (1/2)*(`16000001` + `18000009`))) ) %>%
+        mutate(TxCap = ( (`81100008`*-1) / 
+                           (( 1/2 )*(`41000007`+`41000007`)) )) %>%
+        mutate(TpIns = as.factor(TAXONOMIA)) %>% 
+        mutate(BANCO = as.factor(NOME_INSTITUICAO)) %>%
+        mutate(lnOpCrMkt =  log(OpCrTotal / 1)   ) %>%
+        mutate(lnMPA2 = log((MPA2)/1)) %>%
+        mutate(lnMPA4 = log((MPA4)/1)) %>%
+        mutate(lnBMR = log(BMR)/1) %>%
+        mutate(lnBMA = log(BMA)/1) %>%
+        mutate(OpCr = ((`16000001` + (`16900008` * -1))) / 1) %>%
+        mutate(OtCr = ((`18000009` + (`18900006` * -1)))/ 1) %>%
+        mutate(OpTot = (  (  (`16000001` + (`16900008` * -1)  ) + 
+                     (`18000009` + (`18900006` * -1) )  ) /1  )  ) %>%
+        mutate(lnOpTot = log(  (  (`16000001` + (`16900008` * -1)  ) + 
+                     (`18000009` + (`18900006` * -1) )  ) /1  )  ) %>%
+        mutate(OpEmp = `16100004` / (OpCr + OtCr)) %>% 
+        mutate(OpFin = (`16200007`+ `16300000` + `16400003`) 
+               / (OpCr + OtCr) ) %>% 
+        mutate(OtOp = (`16800005` + `18000009`) / (OpCr + OtCr) ) %>% 
+        mutate(Inad = ( ( (`16900008` + `18900006`) * -1) / (OpCr + OtCr))) %>%
+        mutate(Rent = (`89000007` / `71000008`) * 1) %>%
+        mutate(Disp = (`11000006`) / OpTot) %>% 
+        mutate(lnAtv = log(`39999993` / 1)  ) %>% 
+        mutate(RcPd = (  (  (`31100003` * ra) +
+                              (`31200006` * ra) + (`31300009` * rb) +
+                              (`31400002` * rc) + (`31500005` * rd) +
+                              (`31600008` * re) + (`31700001` * rf) +
+                              (`31800004` * rg) + (`31900007` * rh) /
+                              (ra + ra + rb + rc + rd + re + rf + rg + rh) ) /
+                              ( OpTot ) ) * 1  ) %>%
+        mutate(RcCr = (`31000000`/ OpTot)) %>%
+        mutate(lnRcCr = (RcCr) ) %>%
+        mutate(MkSh = ( ((`16000001` + `18000009`)  / OpCrTotal) * 1) ) %>%
+        mutate(lnComp = log(COMPULSORIO_TOTAL) / 1) %>%
+        mutate(Comp = ((COMPULSORIO_TOTAL) / OpCrTotal)  )  %>%      
+        mutate(VelMo =  (  (  (PIB * 1) * (1 - IPCA) ) / 
+                                   (BMA * 1)  )   ) %>%
+
+        mutate(Cx = (`11100009`) / OpTot) %>%
+        mutate(lnROp = log(`71000008` / 1)  ) %>% # operacionais
+        mutate(ROp = (`71000008`/1)) %>% # receitas operacionais
+        mutate(ROpCr = ((`71100001` / 1) / ROp)) %>% #  crédito 
+        mutate(RSrv = ((`71700009` / 1) / ROp)) %>% # serviços 
+        mutate(RPart = ((`71800002` / 1) / ROp)) %>% #  participações 
+        mutate(OtROp = (  (`71000008` - 
+                       (`71100001` + `71700009` + `71700009` 
+                        + `71800002`) 
+                                ) / 1 )  / ROp ) %>% 
+        mutate(Inv = (`21000003`) / `39999993` ) %>%
+        mutate(ImpInd = (`49100002` / ROp)) %>% 
+        mutate(ImpRend = ( (`89400009` * -1) / ROp) ) %>%
+        mutate(DepTot = (`41000007`)) %>% 
+        mutate(lnDepTot = log(`41000007`)) %>% 
+        mutate(DepAv = (`41100000` / (DepTot))) %>% 
+        mutate(DepPop = (`41200003` / (DepTot))) %>% 
+        mutate(DepIf = (`41300006` / (DepTot))) %>% 
+        mutate(DepAp = (`41500002` / (DepTot))) %>% 
+        mutate(OtDep = (`41000007`- `41100000` - `41200003` - `41300006` -
+                       `41500002`) / (DepTot)) %>%
+        mutate(EPr = (((`16000001` + `18000009` ) - DepTot) / (OpCr + OtCr))
+               ) %>%
+        mutate(DesOp = (`81000005` * -1) / 1) %>% 
+        mutate(DesCap = (`81100008` * -1) / DepTot) %>% 
+        mutate(DAdm = ((`81700006` * -1) / ( OpTot ) )) %>%
+        mutate(OtDes = (  (  (`81000005` * -1) - 
+                       (`81100008` * -1) - (`81700006`* -1 )) 
+                       / ( OpTot ) ) 
+               ) %>%
+        mutate(PrtLc = ((`89700008` * -1) / 1)  ) %>%
+        mutate(PtLq = `61000001` / 1) %>% 
+        mutate(Int = (`25000009` / `39999993`)) %>% 
+        subset(TpIns != "BANCOS COMERCIAIS COOPERATIVOS"  
+               & TpIns != "BANCOS MULTIPLOS COOPERATIVOS"
+               & TpIns != "BANCOS COMERCIAIS ESTRAGEIROS - FILIAL PAIS"
+               & year(DATA) != 2021
+               )  %>% 
+        na.omit() %>%
+        as_tibble()
+
+saveRDS(banksPanel, file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.RDS")
+```
+
+```{r read.panel}
+banksPanel <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.RDS")
+
+purePanel <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/purePanel.RDS")
+```
+
+```{r summary.data, eval=FALSE}
+
+banksColsP <- purePanel %>% select(-DATA, -BANCO, -TAXONOMIA, -CNPJ, -NOME_INSTITUICAO, -TpIns) %>% colnames()
+
+banksColsOrP <- banksColsP[1:204]
+
+qDAdmP <- quantile(purePanel$DAdm, probs=c(.25, .75), na.rm = FALSE)
+iqrDAdmP <- IQR(purePanel$DAdm)
+
+upDAdmP <- qDAdmP[2] + (iqrDAdmP * 1.5)
+lowDAdmP <- qDAdmP[1] - (iqrDAdmP * 1.5)
+
+qInadP <- quantile(purePanel$Inad, probs=c(.25, .75), na.rm = FALSE)
+iqrInadP <- IQR(purePanel$Inad)
+
+upInadP <- qInadP[2] + (iqrInadP * 1.5)
+lowInadP <- qInadP[1] - (iqrInadP * 1.5)
+
+qOtDesP <- quantile(purePanel$OtDes, probs = c(.25, .75), na.rm = FALSE)
+iqrOtDesP <- IQR(purePanel$OtDes)
+
+upOtDesP <- qOtDesP[2] + (iqrOtDesP * 1.5)
+lowOtDesP <- qOtDesP[1] - (iqrOtDesP * 1.5)
+
+qRcPdP <- quantile(purePanel$RcPd, probs = c(.25, .75), na.rm = FALSE)
+iqrRcPdP <- IQR(purePanel$RcPd)
+
+upRcPdP <- qRcPdP[2] + (iqrRcPdP * 1.5)
+lowRcPdP <- qRcPdP[1] - (iqrRcPdP * 1.5)
+
+qSprEpP <- quantile(purePanel$SprEp, probs = c(.25, .75), na.rm = FALSE)
+iqrSprEpP <- IQR(purePanel$SprEp)
+
+upSprEpP <- qSprEpP[2] + (iqrSprEpP * 1.5)
+lowSprEpP <- qSprEpP[1] - (iqrSprEpP * 1.5)
+
+qDesCapP <- quantile(purePanel$DesCap, probs = c(.25, .75), na.rm = FALSE)
+iqrDesCapP <- IQR(purePanel$DesCap)
+
+upDesCapP <- qDesCapP[2] + (iqrDesCapP * 1.5)
+lowDesCapP <- qDesCapP[1] - (iqrDesCapP * 1.5)
+
+obs.banksP <- purePanel %>% 
+  group_by(BANCO) %>% 
+  summarise(OBS = sum(length(BANCO))) %>% select(BANCO, OBS)
+
+purePanel.00 <- purePanel %>% 
+  select(-all_of(banksColsOrP)) %>% 
+  left_join(obs.banksP, by = "BANCO") %>% 
+  subset(DAdm < upDAdmP
+         #& SprEp > lowSprEp & SprEp < upSprEp
+         #&Inad <= upInad 
+         #& RcPd <= upRcPd
+         & DesCap > lowDesCapP & DesCap < upDesCapP
+         & OtDes <= upOtDesP)
+
+saveRDS(purePanel.00, file = "~/Desktop/04-DISSERTATION/01-data/model/purePanel.00.RDS")
+
+fitP <- lm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad 
+          + RcPd 
+          + Int + EPr
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp + OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+          data = purePanel.00)
+
+
+cooksdP <- cooks.distance(fitP)
+
+sample_sizeP <- nrow(purePanel.00)
+
+influentialP <- as.numeric(names(cooksdP)[(cooksdP > (4/sample_sizeP))])
+
+purePanel.00 <- purePanel.00[-influentialP, ]
+
+saveRDS(purePanel.00, file = "~/Desktop/04-DISSERTATION/01-data/model/purePanel.00.RDS")
+
+
+
+```
+
+```{r summary.data, eval=FALSE}
+
+banksCols <- banksPanel %>% select(-DATA, -BANCO, -TAXONOMIA, -CNPJ, -NOME_INSTITUICAO, -TpIns) %>% colnames()
+
+banksColsOr <- banksCols[1:204]
+
+qDAdm <- quantile(banksPanel$DAdm, probs=c(.25, .75), na.rm = FALSE)
+iqrDAdm <- IQR(banksPanel$DAdm)
+
+upDAdm <- qDAdm[2] + (iqrDAdm * 1.5)
+lowDAdm <- qDAdm[1] - (iqrDAdm * 1.5)
+
+qInad <- quantile(banksPanel$Inad, probs=c(.25, .75), na.rm = FALSE)
+iqrInad <- IQR(banksPanel$Inad)
+
+upInad <- qInad[2] + (iqrInad * 1.5)
+lowInad <- qInad[1] - (iqrInad * 1.5)
+
+qOtDes <- quantile(banksPanel$OtDes, probs = c(.25, .75), na.rm = FALSE)
+iqrOtDes <- IQR(banksPanel$OtDes)
+
+upOtDes <- qOtDes[2] + (iqrOtDes * 1.5)
+lowOtDes <- qOtDes[1] - (iqrOtDes * 1.5)
+
+qRcPd <- quantile(banksPanel$RcPd, probs = c(.25, .75), na.rm = FALSE)
+iqrRcPd <- IQR(banksPanel$RcPd)
+
+upRcPd <- qRcPd[2] + (iqrRcPd * 1.5)
+lowRcPd <- qRcPd[1] - (iqrRcPd * 1.5)
+
+qSprEp <- quantile(banksPanel$SprEp, probs = c(.25, .75), na.rm = FALSE)
+iqrSprEp <- IQR(banksPanel$SprEp)
+
+upSprEp <- qSprEp[2] + (iqrSprEp * 1.5)
+lowSprEp <- qSprEp[1] - (iqrSprEp * 1.5)
+
+qDesCap <- quantile(banksPanel$DesCap, probs = c(.25, .75), na.rm = FALSE)
+iqrDesCap <- IQR(banksPanel$DesCap)
+
+upDesCap <- qDesCap[2] + (iqrDesCap * 1.5)
+lowDesCap <- qDesCap[1] - (iqrDesCap * 1.5)
+
+obs.banks <- banksPanel %>% 
+  group_by(BANCO) %>% 
+  summarise(OBS = sum(length(BANCO))) %>% select(BANCO, OBS)
+
+banksPanel.00 <- banksPanel %>% 
+  select(-all_of(banksColsOr)) %>% 
+  left_join(obs.banks, by = "BANCO") %>% 
+  subset(DAdm < upDAdm
+         #& SprEp > lowSprEp & SprEp < upSprEp
+         #&Inad <= upInad 
+         #& RcPd <= upRcPd
+         & DesCap > lowDesCap & DesCap < upDesCap
+         & OtDes <= upOtDes)
+
+#outliers <- boxplot(banksPanel.00$SprEp, plot=FALSE)$out
+
+#banksPanel.00 <- banksPanel.00[-which(banksPanel.00$SprEp %in% outliers), ]
+
+
+
+saveRDS(banksPanel.00, file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.00.RDS")
+
+```
+
+```{r read.panel.00}
+banksPanel.00 <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.00.RDS")
+```
+
+```{r lm.model, results='hide', eval=FALSE}
+library(car)
+fit <- lm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad 
+          + RcPd 
+          + Int + EPr
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp + OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+          data = banksPanel.00)
+
+fit %>% summary()
+vif(fit) > 5
+```
+
+
+```{r remove.outliers, results='hide', eval=FALSE}
+cooksd <- cooks.distance(fit)
+
+sample_size <- nrow(banksPanel.00)
+#plot(cooksd, pch="*", cex=2, main="Influential Obs by Cooks distance") %>%  # plot cook's distance
+#abline(h = 4/sample_size, col="red")  %>% # add cutoff line
+#text(x=1:length(cooksd)+1, y=cooksd, labels=ifelse(cooksd>4/sample_size, names(cooksd),""), col="red")  # add labels
+```
+
+
+
+```{r remove.influence, eval=FALSE}
+
+# Removing Outliers
+# influential row numbers
+influential <- as.numeric(names(cooksd)[(cooksd > (4/sample_size))])
+
+# Alternatively, you can try to remove the top x outliers to have a look
+# top_x_outlier <- 2
+# influential <- as.numeric(names(sort(cooksd, decreasing = TRUE)[1:top_x_outlier]))
+
+banksPanel.01 <- banksPanel.00[-influential, ]
+
+saveRDS(banksPanel.01, file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.01.RDS")
+
+```
+
+```{r read.panel.01 }
+banksPanel.01 <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.01.RDS")
+```
+
+```{r statistics.01}
+
+mod01Obs <- data.frame(TEMPO = length(unique(banksPanel.01$DATA)),
+           OBSERVAÇÕES = length(banksPanel.01$SprEp),
+           INSTITUICÕES = length(unique(banksPanel.01$BANCO)),
+           "VARIÁVEIS EXPLICATIVAS" = length(varInd)
+           ) 
+
+mod01nObs <- mod01Obs$OBSERVAÇÕES
+mo01nTemp <- mod01Obs$TEMPO
+mo01nIns <- mod01Obs$INSTITUICÕES
+```
+
+
+O painel dinâmico desenvolvido para a construção dos modelos resultou no total `r mod01nObs` observações, `r mo01nTemp` períodos de tempo, contemplando um total de `r mo01nIns` instituições, flutuando a cada período, conforme \autoref{tb:rsumoobs}, caracterizando-se em um painel não balanceado. 
+
+\begin{table}[!h]
+\caption{Resumo de dados do Painel}
+```{r statistics.table}
+mod01Obs %>% kbl(booktabs = T) %>% 
+  kable_styling(latex_options = c("striped"),
+                font_size = 10, full_width = T)
+```
+\label{tb:rsumoobs}
+\fonte{Densenvolvido a partir dos dados coletados}
+\end{table}
+
+
+```{r pvargmm.dynamic, eval=FALSE, message=FALSE, results='hide'}
+#detach(package:splines, unload = TRUE)
+
+Id_Data <- banksPanel.01 %>% group_by(DATA) %>% summarise(Id_Data = 1:length(unique(DATA))) %>% mutate(Id_Data = row_number())
+
+Id_Banks <- banksPanel.01 %>% group_by(BANCO) %>% summarise(Id_Banco = 1:length(unique(BANCO))) %>% mutate(Id_Banco = row_number())
+
+Id_TpIns <- banksPanel.01 %>% group_by(TpIns) %>% summarise(Id_TpIns = 1:length(unique(TpIns))) %>% mutate(Id_TpIns = row_number()) 
+
+obs.panel <- banksPanel.01 %>% 
+  group_by(BANCO) %>% 
+  summarise(OBS.B = sum(length(BANCO))) %>% select(BANCO, OBS.B)
+
+model.pvrgmm <- 
+        banksPanel.01 %>%
+        left_join(Id_Data, by = "DATA") %>% 
+        left_join(Id_Banks, by = "BANCO") %>% 
+        left_join(Id_TpIns, by = "TpIns") %>%
+        left_join(obs.panel, by = "BANCO") %>%
+        #mutate(DAdm = (DAdm * OpTot) ) %>% 
+        #mutate(OtDes = (OtDes * OpTot) ) %>% 
+        #mutate(DesCap = (DesCap * DepTot) ) %>%
+        #mutate(DepAv = (DepAv * DepTot) / OpTot ) %>% 
+        #mutate(DepAp = (DepAp * DepTot) / OpTot ) %>%
+        #mutate(DepIf = (DepIf * DepTot) / OpTot ) %>%
+        #mutate(DepPop = (DepPop * DepTot) / OpTot ) %>%
+        #mutate(OtDep = (OtDep * DepTot) / OpTot ) %>%
+        #mutate(SprEp = exp(SprEp)) %>%
+        #mutate(Rent = exp(Rent)) %>% 
+        #mutate(Inad = (Inad * OpTot) ) %>%
+        #subset(OBS.B > 100) %>% 
+        mutate(DATA = as.factor(DATA)) %>%
+        na.omit() %>%
+        select("DATA", "SprEp", "TxApl", "TxCap", "BANCO", "Rent", "DAdm",
+               "DesCap", "OtDes", "Inad", "RcPd", "Int", "EPr", "DepAv",
+               "DepAp", "DepPop", "ROpCr", "RSrv", "RPart", "OpEmp", "OpFin",
+               "OtOp",  "ImpInd", "ImpRend",  "SelOvr", "VelMo", "Comp",
+               "GrCon", "Id_Banco", "Id_Data", "Id_TpIns", "OSprEp", 
+               "IPCA", "lnBMR", "lnOpCrMkt", "SelOvr", "lnMPA2", "lnComp",
+               "lnOpTot", "lnAtv", "lnROp", "SelMet", "lnBMA", "OtROp",
+               "DepIf", "OtDep", "lnDepTot", "OpTot", "OBS" #, "OtROp", "TitPub"
+          ) %>% 
+        as.data.frame()
+
+saveRDS(model.pvrgmm, file = "~/Desktop/04-DISSERTATION/01-data/model/model.pvrgmm.RDS")
+
+````
+
+```{r model.pvar.gmm}
+model.pvrgmm <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/model.pvrgmm.RDS")
+
+
+#cols <- pure.panel %>% select(-DATA, -BANCO, -TAXONOMIA, -CNPJ, -NOME_INSTITUICAO, -TpIns) %>% colnames()
+
+#cols <- cols[1:202]
+#endo <- cols
+
+depVar <- c(
+            "SprEp",
+            #"TxApl",
+            #"TxCap"
+            "Rent"
+            )
+
+endo <- c(
+          "DAdm", 
+          "DesCap", 
+          "OtDes",
+          "Inad",
+          "RcPd",
+          #"lnOpTot",
+          #"lnDepTot",
+          "EPr", "DepAv", "DepAp", "DepPop", #"DepIf", #"OtDep",
+          "ROpCr", "RSrv", "RPart", #"OtROp",
+          "OpEmp", "OpFin", "OtOp", 
+          "ImpInd", "ImpRend"
+          #"lnAtv", "lnROp"
+          )
+
+exo <- c(
+          "SelOvr",
+          "VelMo",
+          "Comp",
+          "GrCon",
+          "IPCA",
+          "lnBMA",
+          "lnOpCrMkt"
+         )
+
+fit.pvargmm.3.lags <-  
+        pvargmm(dependent_vars = depVar,
+                lags = 1,
+                predet_vars = endo,
+                exog_vars = exo,
+                transformation = "fod",
+                data = model.pvrgmm,
+                panel_identifier = c("BANCO", "DATA"),
+                steps = c(
+                          #"onestep"
+                          "twostep"
+                          ),
+                system_instruments = TRUE, # HABILITADO FALSE
+                system_constant = FALSE, # DESABILITADO  TRUE
+                pca_instruments = TRUE, # DESABILITADO FALSE
+                pca_eigenvalue = 1, #DESABILITADO = 1
+                max_instr_dependent_vars = 99,
+                max_instr_predet_vars = 99,
+                min_instr_dependent_vars = 2L,
+                min_instr_predet_vars = 1L,
+                collapse = TRUE,
+                #tol = 1e-09,
+                progressbar = TRUE
+ )
+  
+sumPvarGmm.2.lags <- summary(fit.pvargmm.2.lags)
+
+sumPvarGmm.4.lags
+
+saveRDS(fit.pvargmm.3.lags,  file = "~/Desktop/04-DISSERTATION/01-data/model/fit.pvargmm.1.lags.RDS")
+
+saveRDS(sumPvarGmm.1.lags,  file = "~/Desktop/04-DISSERTATION/01-data/model/sumPvarGmm.1.lags.RDS")
+```
+
+```{r read.pvargmm}
+fit.pvargmm.2.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/fit.pvargmm.2.lags.RDS")
+
+sumPvarGmm <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/sumPvarGmm.RDS")
+```
+
+Em teste preliminar a estimação em PVAR-GMM, conforme a \autoref{tb:pvargmm}, com 40% dos dados remontou resultados inconsistente com aceitação da hipótese nula através do teste Chi-Quadrado.
+
+Para o *Spread Ex-Post* foi remontada siginificância para a Spread Ex-Post e Rentabilidade desasados, Despesas adminstrativas, Despesas de Captação, Outras Despesas, Inadimplência, Risco de crédito, Intagível, Capital Próprio, Depósitos a vista, Receita de participação, Operações de Financiamento, Imposto de Renda, Selic Over e Velociadade da Moeda.
+
+No teste preliminar, das variáveis componentes do Spread Ex-Post, foi encontrada siginificância sobre a Rentabilidade a o spread e a própria rentabilidade defasados, Despesas Administrativas, receitas de serviços e imposto de renda.
+
+\vspace{20pt}
+\captionof{table}{Resultado do modelo PVAR-GMM}
+\vspace{-1mm}
+```{r table.pvargmm, eval=FALSE}
+#sumPvarGmm
+#tb.pvargmm <- panelvar::knit_print.pvarfeols(fit.pvargmm)
+#tb.pvargmm
+```
+
+\vspace{1mm}
+\label{tb:pvargmm}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\vspace{20pt}
+
+\parindent 1.50cm
+
+A \autoref{tb:mmsc} demonstra o resultado dos testes Andrews_Lu_MMSC, revelando a inconsistência do modelo (até o momento), porém indicando que ainda é matematicamente possível. 
+
+\vspace{20pt}
+
+\begin{table}[!hbtp]
+\caption{Testes MMSC para modelos PVAR-GMM}
+\vspace{-1mm}
+```{r test.andrews}
+library(panelvar)
+al.01 <- Andrews_Lu_MMSC(fit.pvargmm.1.lags, HQ_criterion = 2.1)
+al.02 <- Andrews_Lu_MMSC(fit.pvargmm.2.lags, HQ_criterion = 2.1)
+al.03 <- Andrews_Lu_MMSC(fit.pvargmm.3.lags, HQ_criterion = 2.1)
+al.04 <- Andrews_Lu_MMSC(fit.pvargmm.4.lags, HQ_criterion = 2.1)
+
+al <- cbind(al.01,al.02, al.03, al.04)
+
+al %>% as.data.frame() %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", 
+                full_width = T, font_size = 10)
+```
+\vspace{1mm}
+\label{tb:mmsc}
+\fonte{Desenvolvido com resultados do modelo}
+\vspace{-2mm}
+\end{table}
+
+```{r stability}
+st.pvar.gmm <- stability(fit.pvargmm.2.lags)
+```
+
+O \autoref{graf:stability} traz a visualização do teste de estabilidade do modelo, demonstrando que é atendida as condições de estabilidade, uma vez que todos os autovalores estão dentro do círculo unitário.
+
+\begin{grafico}[!hbtp]
+\vspace{20pt}
+\caption{Gráfico de estabilidade do modelo PVAR GMM}
+\vspace{-4mm}
+```{r stability.plot}
+plot(st.pvar.gmm)
+```
+\vspace{-3mm}
+\label{graf:stability}
+\fonte{Desenvolvido a partir de dados coletados}
+\vspace{-2mm}
+\end{grafico}
+
+\vspace{20pt}
+
+\begin{table}[!hbtp]
+\caption{Teste J Hansen para modelo PVAR-GMM}
+\vspace{-1mm}
+```{r hansen.test, eval=TRUE}
+
+# H0: restrições de superidentificação são válidas
+# A hipótese nula do teste implica que todos os instrumentos são válidos
+#O valor de p maior que 5% (0,05) implica, aceitamos o Ho, ou seja, todos os instrumentos são válidos.
+
+hansen_j_test(fit.pvargmm.2.lags) %>% as.data.frame() %>% 
+  kbl(booktabs = TRUE) %>%
+  kable_styling(latex_options = "striped", full_width = TRUE)
+```
+\vspace{1mm}
+\label{tab:hansen}
+\fonte{Desenvolvido a partir dos resultados do modelo}
+\vspace{-2mm}
+\end{table}
+
+```{r test.othog, eval=FALSE, results='hide', include=FALSE}
+#fevd_orthogonal(fit.pvargmm) %>% table()
+```
+
+```{r tests.pvargmm, eval=FALSE, results='hide', include=FALSE}
+###tests
+
+oirf <- oirf(fit.pvargmm.2.lags, n.ahead = 12)
+
+girf <- girf(fit.pvargmm.2.lags, n.ahead = 12, ma_approx_steps= 12)
+
+bs.oirf <-
+  bootstrap_irf(
+    model = fit.pvargmm.2.lags,
+    typeof_irf = c("OIRF"),
+    n.ahead = 8,
+    nof_Nstar_draws = 193,
+    confidence.band = 0.95
+)
+
+bs.girf <-
+  bootstrap_irf(
+    model = fit.pvargmm.2.lags,
+    typeof_irf = c("GIRF"),
+    n.ahead = 8,
+    nof_Nstar_draws = 193,
+    confidence.band = 0.95
+)
+  
+saveRDS(oirf, file = "~/Desktop/04-DISSERTATION/01-data/model/oirf.RDS")
+saveRDS(girf, file = "~/Desktop/04-DISSERTATION/01-data/model/girf.RDS")
+
+
+saveRDS(bs.oirf, file = "~/Desktop/04-DISSERTATION/01-data/model/bs_oirf.RDS")
+saveRDS(bs.girf, file = "~/Desktop/04-DISSERTATION/01-data/model/bs_girf.RDS")
+
+plot(girf)
+
+```
+
+No \autoref{graf:impulse} será demonstrada a função impulso-respo
+
+\vspace{20pt}
+
+\begin{grafico}[!htbp]
+\caption{Função de impulso resposta generalizado}
+\vspace{-4mm}
+```{r impulse.plot}
+#oirf <- readRDS("~/Desktop/04-DISSERTATION/01-data/model/oirf.RDS")
+#girf <- readRDS(girf, 
+#                file = "~/Desktop/04-DISSERTATION/01-data/model/girf.RDS")
+
+
+oirf <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/oirf.RDS")
+girf <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/girf.RDS")
+bs.oirf <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/bs_oirf.RDS")
+bs.girf <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/bs_girf.RDS")
+
+plot(girf, bs.girf)
+
+```
+\vspace{-3mm}
+\label{graf:impulse}
+\vspace{-2mm}
+\fonte{Desenvolvido a partir dos resultados do modelo }
+\end{grafico}
+
+
+
+```{r gmm:gmm, eval=FALSE, results='hide', include=FALSE}
+
+library(gmm)
+
+ gmm(g,x,t0=NULL,gradv=NULL, type=c("twoStep","cue","iterative"),
+        wmatrix = c("optimal","ident"), vcov=c("HAC","MDS","iid","TrueFixed"),
+kernel=c("Quadratic Spectral","Truncated", "Bartlett", "Parzen", "Tukey-Hanning"), crit=10e-7,bw = bwAndrews, prewhite = 1, ar.method = "ols", approx="AR(1)",
+tol = 1e-7, itermax=100,optfct=c("optim","optimize","nlminb", "constrOptim"),
+        model=TRUE, X=FALSE, Y=FALSE, TypeGmm = "baseGmm", centeredVcov = TRUE,
+        weightsMatrix = NULL, traceIter = FALSE, data, eqConst = NULL,
+        eqConstFullVcov = FALSE, mustar = NULL, onlyCoefficients=FALSE, ...)
+    evalGmm(g, x, t0, tetw=NULL, gradv=NULL, wmatrix = c("optimal","ident"),
+        vcov=c("HAC","iid","TrueFixed"), kernel=c("Quadratic Spectral","Truncated",
+        "Bartlett", "Parzen", "Tukey-Hanning"),crit=10e-7,bw = bwAndrews,
+        prewhite = FALSE, ar.method = "ols", approx="AR(1)",tol = 1e-7,
+        model=TRUE, X=FALSE, Y=FALSE,  centeredVcov = TRUE, weightsMatrix = NULL,
+        data, mustar = NULL)
+
+
+
+```
+
+```{r pgmm.plm, eval=FALSE, results='hide', include=FALSE}
+#### PVAR GMM DYNIMIC PANEL
+model.pgmm <- 
+        pgmm(formula = SprEp ~ lnOpTot | DepAv | DepAp | DepIf | DepPop,
+      data = model.pvrgmm,
+      #subset = c(TpIns),
+      #na.action,
+      effect = c("twoways"
+                 #, "individual"
+                 ),
+      model = c(
+              #"onestep"
+                "twosteps"
+                ),
+      collapse = TRUE,
+      #$lost.ts = 1,
+      transformation = c(
+              "d" 
+              #"ld"
+              ),
+      fsm = NULL,
+      index = c("TpIns"),
+      robust = TRUE,
+      time.dummies = TRUE,
+      digits = 4,
+      width = 100
+)
+
+moddel.pgmm %>% summary()
+
+```
+
+```{r kfold, message=FALSE, eval=FALSE, results='hide', include=FALSE}
+library(caret)
+library(kernlab)
+
+kfInTrain <- createDataPartition(banksPanel$SprEp, p = 0.60, list = FALSE)
+
+kfTraining <- banksPanel[kfInTrain,]
+khTesting <- banksPanel[-kfInTrain,]
+
+set.seed(32323)
+kfFolds <- createFolds(y = banksPanel$SprEp, k = 10,
+                       list = TRUE, returnTrain = TRUE)
+
+sapply(kfFolds, length)
+
+kfFolds[[1]][1:10]
+
+set.seed(32323)
+kfResample <- createResample(y = banksPanel$SprEp, 
+                             times = 10,
+                             list = TRUE)
+sapply(kfResample, length)
+
+kfResample[[1]][1:10]
+
+set.seed(32323)
+
+kfSlices <- createTimeSlices(y = banksPanel$SprEp,
+                             initialWindow = 20,
+                             horizon = 10)
+names(kfSlices)
+
+kfSlices$train[[1]]
+kfSlices$test[[1]]
+
+kfTraining$SelMet
+
+kfTraining$`81100008` %>% view()
+
+set.seed(1225)
+kfModelFit <- train(SprEp ~ log(`16000001`) + log(`71100001`) + log(`41000007`) +
+                            `81100008` + SelMet + `16900008` +
+                            log(`31000000`) + `21000003` + Tam + 
+                            `71700009` + 
+                            log((`71000008` -  `71700009` - `71100001`)) +
+                            `81700006` + `49100002` +  
+                            log(BMA) + GrCon,
+                    data = kfTraining, method = "lm")
+kfModelFit %>% summary()
+
+install.packages("ISLR")
+library(ISLR)
+
+featurePlot(x = kfTraining, y = kfTraining$SprEp,
+            c("`16000001`", "`71100001`", "`41000007`", "`81100008`"),
+            plot = "pairs")
+
+
+```
+
+```{r statistic.analisys, eval=FALSE, results='hide', include=FALSE}
+
+#CHART CORRELATION
+model.01 %>% select(-DATA, -BANCO, -TpIns) %>% chart.Correlation()
+
+fit2 <- predict(fit.mod01, newdata = model.01.test)
+model.01.test
+
+model.02$Rent
+
+library(AER)
+require(plm)
+
+my_fn <- function(data, mapping, method="loess", ...){
+      p <- ggplot(data = data, mapping = mapping) + 
+      geom_point() + 
+      geom_smooth(method=method, ...)
+      p
+    }
+
+ggpairs(model.01[,-1:-2], lower = list(continuous = my_fn))
+
+banksPanel$SprEp %>% summary()
+
+
+```
+
+```{r kmeans, eval=FALSE, results='hide', include=FALSE}
+library(stats)
+library(factoextra)
+
+km.model <- banksPanel %>% 
+        left_join(Id_Banks) %>% 
+        left_join(Id_Data) %>% 
+        left_join(Id_TpIns) %>% 
+        select(SprEp, Inad ,DAdm ,DesCap ,OtDes, lnOpCrTotal , SelMet ,
+               lnMPA4 ,VelMo, MkSh, DepAv ,DepAp ,DepIf ,OtDep, Tam,
+               lnOpCr ,lnOtCr ,EPr ,Inv ,ImpRend ,PrtLc ,GrCon, ROpCr ,RSrv,
+               RPart , OtROp ,RcPd ,Int, Id_Data, Id_Banco, Id_TpIns)
+
+km.model$Id_TpIns %>% class()
+kmeans.model %>% str()
+
+### DEFININDO O NÚMERO IDDEAL DDE CLUSTERS
+
+n.clusters <- fviz_nbclust(km.model, FUNcluster = kmeans)
+
+
+###Computing k-means clustering
+
+set.seed(123)
+km.res <- kmeans(km.model, 2, nstart = 25)
+print(km.res)
+
+aggregate(km.model, by=list(cluster=km.res$cluster), mean)
+
+
+dd <- cbind(km.model, cluster = km.res$cluster)
+dd
+
+###Accessing to the results of kmeans() function
+
+head(km.res$cluster, 4)
+
+km.res$size
+km.res$centers
+getwd()
+
+?fviz_cluster()
+
+###Visualizing k-means clusters
+gg <- fviz_cluster(object = km.res, data = km.model,
+                   choose.vars = c("SprEp", "SelMet", "Inad"s),
+             ggtheme = theme_minimal(),
+             labelsize = 7,
+             pointsize = .5)
+print(gg)
+```
+
+```{r modelo.01, message=FALSE, eval=FALSE, results='hide', include=FALSE}
+varDep.m1 <- "SprEp"
+varDep.m2 <- "LcLq"
+
+varInd <- c("EPr", "EAv", "EAp", 
+            "DAdm", "Inad", "Comp",
+           #"Vol", 
+           "Tam", 
+            #"MkSh", 
+            "Rent",
+            #"Rc", 
+            "TpIns", 
+            "RcSrv",
+            "SprEa", "Cx",# "Rent",
+            #"IPCA", 
+            "SelMet", #"MPA4", "MPA2",  "BMR",
+            #"SelOvr", #"BMA", 
+            "GrCon", "VelMo" 
+            )
+
+varInds <- paste("EPr", "EAv", "EAp", 
+            "DAdm", "Inad", "Comp",
+            #"Vol", 
+            "Tam", 
+            #"MkSh", 
+            "Rent",
+            #"Rc", 
+            "TpIns", 
+            "RcSrv",
+            "SprEa", "Cx",# "Rent",
+            #"IPCA", 
+            "SelMet", #"MPA4", "MPA2",  "BMR",
+            #"SelOvr", #"BMA", 
+            "GrCon", "VelMo",
+            sep = " + ")
+
+mod01Fomula <- paste(varDep.m1, varInds, sep = " ~ ")
+mod02Fomula <- paste(varDep.m2, varInds, sep = " ~ ")
+
+model.01 <- banksPanel %>% 
+        select(DATA, BANCO, 
+               combine(varDep.m1, varInd))
+
+model.02 <- banksPanel %>% 
+        select(DATA, BANCO, 
+               combine(varDep.m2, varInd))
+```
+
+```{r training, eval=FALSE, results='hide', include=FALSE}
+
+##### CONFIDENCE INTERVAL 
+
+fit.interval <- plm(SprEp ~ DAdm + Tam + Inad, data = banksPanel)
+sumCoef <- summary(fit.interval)$coefficients
+sumCoef
+sumCoef[1,1] + c(-1,1) * qt(.975, df = fit.interval$df) * sumCoef[1,2]
+sumCoef[2,1] + c(-1,1) * qt(.975, df = fit.interval$df) * sumCoef[2,2]
+sumCoef[3,1] + c(-1,1) * qt(.975, df = fit.interval$df) * sumCoef[3,2]
+
+
+### MULTIVARIABLE REGRESSION 
+
+n = 100; x = rnorm(n); x2 = rnorm(n); x3 = rnorm(n)
+y = 1 + x + x2 + x3 + rnorm(n, sd = 0.1)
+ey = resid(lm(y ~ x2 + x3))
+ex = resid(lm(x ~ x2 + x3))
+coef(lm(y ~ x + x2 + x3))
+
+require(datasets); data("swiss"); ?swiss; require(GGally)
+library(GGally)
+
+my_fn <- function(data, mapping, method="loess", ...){
+      p <- ggplot(data = data, mapping = mapping) + 
+      geom_point() + 
+      geom_smooth(method=method, ...)
+      p
+    }
+
+ggpairs(model.01[,-1:-2], lower = list(continuous = my_fn))
+summary(lm(Fertility ~ ., data = swiss)) #$coefficients
+
+summary(lm(SprEp ~ . , data = model.01[,-1:-2])) #$coefficients
+
+swiss
+ggplot(swiss, aes(x = Agriculture, y = Fertility, color = Education)) +
+        geom_point(color = "grey50", size = 5) + 
+        geom_smooth(method = lm, se = FALSE, color = "black") + 
+        geom_point(size = 4)
+
+# VARIÁVEIS DUMMY
+
+library(datasets); data("InsectSprays"); library(stats)
+
+ggplot(InsectSprays,  aes(y = count, x = spray, fill= spray))+ 
+        geom_violin(colour = "black",size= 2) + 
+        xlab("Type") + ylab("Insect count")
+
+summary(lm(count ~ spray, data = InsectSprays))#$coefficients
+
+summary(lm(count ~
+                   I(1 * (spray == "B")) + I(1 * (spray == "C")) + 
+                   I(1 * (spray == "D")) + I(1 * (spray == "E")) + 
+                   I(1 * (spray == "F")),
+           data = InsectSprays
+           ))$coefficients
+
+##### ANCOVA
+
+hist(swiss$Catholic)
+
+swiss = mutate(swiss,CatholicBin = 1 * (Catholic > 50))
+swiss %>% head()
+
+g <- ggplot(swiss, aes(x = Agriculture, y = Fertility,  
+                  colour =  factor(CatholicBin))) + 
+               geom_point(size = 6, colour = 'black') + 
+               geom_point(size = 4)
+
+g
+fit.swiss <- lm(Fertility ~ Agriculture, data = swiss)
+
+g1 = g + geom_abline(intercept = coef(fit.swiss)[1], slope = coef(fit.swiss)[2], size = 2)
+g1
+
+summary(fit.swiss)$coefficients
+
+fit.swiss.b <- lm(Fertility ~ Agriculture * factor(CatholicBin), data= swiss)
+summary(fit.swiss.b)$coefficients
+
+g2 = g + geom_abline(intercept = coef(fit.swiss.b)[1], 
+                     slope = coef(fit.swiss)[2], size = 2) +
+        geom_abline(intercept = coef(fit.swiss.b)[1] + coef(fit.swiss.b)[3], 
+                     slope = coef(fit.swiss)[2], size = 2)
+g2
+
+
+g3 = g + geom_abline(intercept = coef(fit.swiss.b)[1], 
+                     slope = coef(fit.swiss)[2], size = 2) +
+        geom_abline(intercept = coef(fit.swiss.b)[1] + coef(fit.swiss.b)[3], 
+                     slope = coef(fit.swiss)[2] + coef(fit.swiss)[4], size = 2)
+g3
+
+## ADJUSTMENT 
+library(rgl)
+
+
+
+
+
+
+###### SLICING
+
+library(caret)
+library(kernlab)
+
+
+inTrain <- createDataPartition(banksPanel$SprEp, p = 0.60, list = FALSE)
+
+training <- banksPanel[inTrain,]
+testing <- banksPanel[-inTrain,]
+training %>% dim() ; testing %>% dim()
+
+modelFit <- train(SprEp ~ log(`16000001`) + log(`71100001`) + log(`41000007`) +
+                            `81100008` + SelMet + `16900008` +
+                            log(`31000000`) + `21000003` + Tam + 
+                            `71700009` + 
+                            log((`71000008` -  `71700009` - `71100001`)) +
+                            `81700006` + `49100002` +  
+                            log(BMA) + GrCon, 
+                  data = training, method = "glm")
+modelFit$finalModel
+
+predict <-  predict(modelFit, newdata = testing)
+
+
+confusionMatrix(predic, testing$SprEp)
+
+print(modelFit$finalModel)
+               
+
+ 
+
+#### TREE
+library(rattle)
+
+
+formulanow <- paste("EPr", "EAv", "EAp", 
+            "DAdm", "Inad", "Comp", "Vol", "Tam", "MkSh", 
+            "Rent", "Rc", 
+            "TpIns", 
+            "RcSrv",
+            "SprEa", "Cx", "Rent","IPCA", 
+            "SelMet", "MPA4", "MPA2",  "BMR",
+            "SelOvr", "BMA", 
+            "GrCon", "VelMo",
+            sep = " + ")
+
+form <- paste("SprEp", formulanow, sep = " ~ ")
+
+modelFitTree <- train(SprEp ~ Tam + Vol + VelMo + GrCon + Rc + Inad,
+                  data = banksPanel, method = "rpart")
+
+fancyRpartPlot(modelFitTree$finalModel)
+```
+
+```{r dyn.panel, eval=FALSE, results='hide', include=FALSE}
+
+## DYNAMIC PANEL
+library(dynpanel)
+
+
+dyn.form <- formula(SprEp ~ lnOpTot + lnAtv +
+                    + DAdm + DesCap + OtDes +
+                    + Inad + RcPd + lnMPA4
+                    + SelMet + VelMo + ImpRend  + ImpInd
+                    + DepAv + DepAp + DepIf + DepPop
+                    + lnROp + ROpCr + RSrv + RPart)
+
+dyn.model <-  
+        model.pvrgmm %>% 
+        select(SprEp, lnOpTot, lnAtv, DAdm , DesCap, OtDes, Inad, RcPd, 
+               lnMPA4, SelMet, VelMo, ImpRend, ImpInd, DepAv, DepAp, DepIf,
+               DepPop, lnROp, ROpCr, RSrv, RPart, BANCO) 
+
+dyn.effects <- dpd(formula = dyn.form, data = dyn.model,
+                   index = c("DATA", "BANCO"), 1, 20)
+
+```
+
+```{r sur.model, eval=FALSE, results='hide', include=FALSE}
+library(units)
+library(systemfit)
+library(spsur)
+
+sur.model <- spsurml(formula = SprEp ~ Inad + DAdm + DesOp
+                     + lnOpTot
+                     + ROpCr + RSrv + RPart
+                     + DepAv + DepAp + DepPop + DepIf
+                     + SelOvr + lnMPA4, 
+        type = "sim",         
+               data = model.pvrgmm,
+        listw = c("BANCO"),
+               method = "eigenw")
+
+summary(sur.model)
+
+spsur::lmtestspsur(sur.model)
+```
+
+```{r random.forest, eval=FALSE, results='hide', include=FALSE}
+library(randomForest)
+
+fit.random <- 
+        randomForest(SprEp ~ lnOpTot + lnAtv +
+                    + DAdm + DesCap + OtDes +
+                    + Inad + RcPd + lnMPA4
+                    + SelMet + VelMo + ImpRend  + ImpInd
+                    + DepAv + DepAp + DepIf + DepPop
+                    + lnROp + ROpCr + RSrv + RPart, 
+                           data =  banksPanel, importance = TRUE)
+
+fit.random
+
+cforest(SprEp ~ lnOpTot + lnAtv +
+                    + DAdm + DesCap + OtDes +
+                    + Inad + RcPd + lnMPA4
+                    + SelMet + VelMo + ImpRend  + ImpInd
+                    + DepAv + DepAp + DepIf + DepPop
+                    + lnROp + ROpCr + RSrv + RPart, 
+                           data =  banksPanel,
+        controls=cforest_control(mtry=2, mincriterion=0))
+
+getTree(fit.random, k = 1, labelVar = TRUE) %>% plot()
+
+a <- rpart(SprEp ~ lnOpTot + lnAtv +
+                    + DAdm + DesCap + OtDes +
+                    + Inad + RcPd + lnMPA4
+                    + SelMet + VelMo + ImpRend  + ImpInd
+                    + DepAv + DepAp + DepIf + DepPop
+                    + lnROp + ROpCr + RSrv + RPart, 
+           data =  banksPanel, method = "class", subset = TRUE)
+
+rpart
+rpart.plot(a)
+```

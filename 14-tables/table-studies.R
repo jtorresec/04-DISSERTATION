@@ -1,3 +1,9 @@
+#conflict_prefer("arrange", "dplyr")
+#conflict_prefer("filter", "dplyr")
+#conflict_prefer("mutate", "dplyr")
+#conflict_prefer("summarise", "dplyr")
+
+
 studies.b <- list('KOYAMA e NAKANE (2001a e 2001b)' = list(
         Método = 'Ex-ante',
         Selic = '+',
@@ -393,11 +399,11 @@ studies.v <- c('Autor', 'Método' , 'Selic', 'Volatilidade da Selic', 'Spread Ov
 
 studies.t <- ldply(studies.b, data.frame, .id = 'Autor')
 names(studies.t) <-  studies.v
+studies.t
 studies.r <- studies.t %>%
         gather(Variável, Relação, 2:37) %>% 
         spread(Autor, Relação) %>% 
         arrange(desc(`KOYAMA e NAKANE (2001a e 2001b)`))
-studies.r  %>% dim()      
 
 studies.post <- studies.r %>% 
         select(1,7,9,10) %>% 
@@ -432,5 +438,4 @@ studies.ante.b <- studies.r %>%
                        `ARONOVICH (1994)` != '') %>% 
         slice(2:n())
 
-studies.ante.b %>% view()
-studies.post %>% view()
+

@@ -1,0 +1,504 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+  aspectratio=169,
+  ignorenonframetext]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={OS EFEITOS DOS COMPONENTES DO SPREAD EX-POST NA RENTABILIDADE DAS INSTITUIÇÕES BANCÁRIAS},
+  pdfauthor={JACKSON DA SILVA TORRES},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\newif\ifbibliography
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\input{packages}
+\input{preamble}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\makeindex
+\DeclareUnicodeCharacter{0301}{******}
+\DeclareUnicodeCharacter{0303}{******}
+\DeclareUnicodeCharacter{0327}{******}
+\DeclareUnicodeCharacter{0302}{******}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{OS EFEITOS DOS COMPONENTES DO \emph{SPREAD} \emph{EX-POST} NA
+RENTABILIDADE DAS INSTITUIÇÕES BANCÁRIAS}
+\author{JACKSON DA SILVA TORRES}
+\date{2021}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias}{}
+ALMEIDA, F. D. Determinantes do spread bancário ex-post no Brasil: uma
+análise de fatores micro e macroeconômicos. Brasíli: Universidade
+Católica de Brasíl, 2013.
+
+ALMONACID, Ruben D.; PASTORE, Affonso Celso. Uma nota sobre o
+multiplicador da oferta monetária. Pesq. Plan. Econômico, IPEA, Rio de
+Janeiro, 1976. Disponível em: \textless http:
+//repositorio.ipea.gov.br/bitstream/11058/6813/1/PPE\_v6\_n2\_Uma\%20nota.pdf\textgreater.
+
+ANDREWS, Donald W.K.; LU, Biao. Consistent model and moment selection
+procedures for GMM estimation with application to dynamic panel data
+models. Journal of Econometrics, MI, USA, 12 jul. 2000.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-1}{}
+ARELLANO, Manuel; BOND, Stephen. Some Tests of Specification for Panel
+Data: Monte Carlo Evidence and an Application to Employment Equations.
+Review of Economic Studies, v. 58, p.~277--297, 1991. Disponível em:
+\textless{}\url{http://people.stern.nyu.edu/wgreene/}
+Econometrics/Arellano-Bond.pdf\textgreater.
+
+ARONOVICH, Selmo. Uma nota sobre os efeitos da inflação e do nível de
+atividade sobre o spread bancário. Revista Brasileira de Economia, v.
+48, n.~1, p.~125--40, 1994.
+
+ASSAF NETO, Alexandre. Finanças corporativas e valor. São Paulo: Atlas,
+2020. BABA, Y.; HENDRY, D. F.; STARR, R. M. The Demand for Ml in the USA
+1960-1988.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-2}{}
+\_\_\_. Juros e Spread Bancário no Brasil. Brasília, 1999. Disponível
+em: \url{https://www.bcb.gov.br/ftp/juros-spread1.pdf}. {[}S.l.{]},
+1999. Brasília, 2000. Disponível em:
+\textless{}\url{https://www.bcb.gov.br/ftp/}
+jurospread112000.pdf\textgreater.
+
+\_\_\_\_. Programação Monerária 2019. {[}S.l.{]}, 2019. Disponível em:
+\url{https://www.bcb.gov.br/content/publicacoes/programacaomonetaria/pm-022019p.pdf}.
+
+BACEN, SGS - Sistema Gerenciador de Séries Temporais. Agregados
+Monetários. {[}S.l.: s.n.{]}. Disponível em:
+\url{https://www3.bcb.gov.br/sgspub/consultarmetadados/consultarMetadadosSeries.do}?
+method=consultarMetadadosSeriesInternet\&hdOidSerieSelecionada=27789.
+Acesso em: 30/11/2020.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-3}{}
+BACEN, Sistema Gerenciador de Séries Temporais. Base Monetária. {[}S.l.:
+s.n.{]}. Disponível em
+\url{https://www3.bcb.gov.br/sgspub/consultarmetadados/}
+consultarMetadadosSeries.do?method=consultarMetadadosSeriesInternet.
+Acesso em: /12/2020.
+
+\_\_\_\_\_. Meios de Pagamentos Ampliados. {[}S.l.: s.n.{]}. Disponível
+em:
+\url{https://www3.bcb.gov.br/sgspub/consultarmetadados/consultarMetadadosSeries.do}?
+method=consultarMetadadosSeriesInternet\&hdOidSerieSelecionada=27810.
+Acesso em 12/05/2020.
+
+BANK, WORLD; IMF. Financial sector Assessment: a handbook. Washington
+DCo: The World Bank, 2005. Disponível em:
+\textless{}\url{http://documents1.worldbank.org/curated/en/}
+306701468337879923/pdf/337970rev0Fina10Assessment01PUBLIC1.pdf\textgreater.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-4}{}
+BINDER, Michael; HSIAO, Cheng; PESARAN, M. Hashem. Estimation and
+Inference in Short Panel Vector Autoregressions with Unit Roots and
+Cointegration. Econometric Theory, Cambridge University Press, v. 21,
+n.~4, p.~795--837, 2005. ISSN 02664666, 14694360. Disponível em:
+\url{http://www.jstor.org/stable/3533397}.
+
+BLUNDELL, Richard; BOND, Stephen. Initial conditions and moment
+restrictions in dynamic panel data models. Journal of Econometrics, v.
+87, n.~1, p.~115--143, 1998. Disponível em:
+\url{https://www.ucl.ac.uk/~uctp39a/Blundell-Bond-1998.pdf}.
+
+BONTEMPI, Maria Elena; MAMMI, Irene. Implementing a strategy to reduce
+the instrument count in panel GMM. The Stata Journal, v. 15, n.~4,
+p.~1075--1097, 12 jul. 2000.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-5}{}
+BORDO, M. D; L., JONUNG; L., SIKLOS P. Institutional and the Velocity of
+Money: a century of evidence. Economic Inquiry, p.~710--724, 1997.
+
+BRASIL. CONSTITUIÇÃO DA REPÚBLICA FEDERATIVA DO BRASIL DE 1988. Diário
+Oficial da República Federativa do Brasil, Brasília, DF, 5 out. 1988.
+Disponível em:
+\url{http://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm}.
+Acesso em: 7 set. 2020.
+
+\_\_\_\_. DECRETO No 1.455. Diário Oficial da República Federativa do
+Brasil, Brasília, DF, 30 dez. 1905. Disponível em:
+\textless{}\url{https://www2.camara.leg.br/legin/fed/decret/1900-1909/decreto-1455-30-dezembro-}
+1905-582773-publicacaooriginal-105568-pl.html\textgreater. Acesso em: 5
+set. 2020.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-6}{}
+\_\_\_\_\_. DECRETO No 14.728. Diário Oficial da República Federativa do
+Brasil, Brasília, DF, 16 mar. 1921. Disponível em:
+\textless{}\url{https://www2.camara.leg.br/legin/fed/decret/1920-1929/decreto-14728-16-marco-}
+1921-504798-publicacaooriginal-1-pe.html\textgreater. Acesso em: 15 mar.
+2021. \_\_\_\_\_. DECRETO-LEI No 759, DE 12 DE AGOSTO DE 1969. Diário
+Oficial da República Federativa do Brasil, Brasília, DF, 12 ago. 1969.
+Disponível em:
+\url{http://www.planalto.gov.br/ccivil_03/decreto-lei/del0759.htm}.
+Acesso em: 4 set. 2020.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-7}{}
+\_\_\_\_\_. Lei no 4.595, de 31 de dezembro de 1964. Diário Oficial da
+República Federativa do Brasil, Brasília, DF, 31 dez. 1964. Disponível
+em: \url{http://www.planalto.gov.br/ccivil_03/leis/L4595.htm}. Acesso
+em: 4 set. 2020.
+
+BROCK, Philip L.; ROJAS SUAREZ, Liliana. Understanding the behavior of
+bank spreads in Latin America. Journal of Development Economics, v. 63,
+n.~1,p.~113--134, 2000. Disponível em:
+\url{https://EconPapers.repec.org/RePEc:eee:deveco:v:63:y:2000:i:1:p:113-134}.
+
+CAMARGO, Patrícia Olga. A evolução recente do setor bancário no Brasik.
+São Paulo: Cultura Acadêmica, 2009.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-8}{}
+CAMPELLO, Mauro Luiz Costa; BRUNSTEIN, Israel. UMA ANÁLISE DA
+COMPETITIVIDADE DOS BANCOS DE VAREJO NO BRASIL. REVISTA GESTÃO DA
+PRODUÇÃO OPERAÇÕES E SISTEMAS, Unesp, v. 1, n.~1, p.~83--99, 2005.
+
+CARDOSO, Renato Fragelli; KOYAM, Sérgio Mikioa. A CUNHA FISCAL SOBRE A
+INTERMEDIAÇÃO FINANCEIRA. In: {[}s.l.{]}: Banco Central do Brasil, 1999.
+P. 129--158.
+
+CMN. Resolução CMN 2.624, de 1999. Diário Oficial da República
+Federativa do Brasil, Brasília, DF, 29 jul. 1999. Disponível em:
+\textless{}\url{https://www.bcb.gov.br/pre/normativos/busca/downloadNormativo.asp?arquivo=}
+/Lists/Normativos/Attachments/45083/Res\_2624\_v1\_O.pdf\textgreater.
+Acesso em: 4 set. 2020.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-9}{}
+\_\_\_\_\_. Resolução CMN 3.426, de 2006. Diário Oficial da República
+Federativa do Brasil, Brasília, DF, 26 dez. 2006. Disponível em:
+\url{https://www.bcb.gov.br/pre/normativos/res/1976/pdf/res_0394_v13_P.pdf}.
+Acesso em: 4 set. 2020.
+
+\_\_\_. Resolução CMN 394, de 1976. Diário Oficial da República
+Federativa do Brasil, Brasília, DF, 20 out. 1976. Disponível em:
+\textless{}\url{https://www.bcb.gov.br/pre/normativos/res/1976/pdf/res_0394_v13_P}
+pdf\textgreater. Acesso em: 4 set. 2020.
+
+\_\_\_\_. Resolução No 1.524 de 1988. Diário Oficial da República
+Federativa do Brasil, Brasília, DF, 24 set. 1988. Disponível em:
+\url{https://www.bcb.gov.br/pre/normativos/res/1988/pdf/res_1524_v8_P.pdf}.
+Acesso em: 24 fev. 2017.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-10}{}
+\_\_\_\_\_. Resolução no 2.099. Diário Oficial da República Federativa
+do Brasil, Brasília DF, 17 ago. 1994. Disponível em:
+\url{https://www.bcb.gov.br/pre/normativos/res/1994/pdf/res_2099_v1_O.pdf}.
+Acesso em: 4 set. 2020.
+
+CÓRDOBA, Miguel. Análisis Financiero de los Mercados Monetarios y de
+Valores. Madrid: Saraiva, 1996.
+
+COSTA, Ana Carla Abrão; NAKANE, Márcio I. Spread bancário no Brasil:
+dois esclarecimentos e duas constatações. Tecnologia de Crédito, 2004.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-11}{}
+COSTA NETO, Yttrio Corrêa da. Bancos oficiais no Brasil: origem e
+aspectos de seu desenvolvimento. Brasília: Banco Central do Brasil,
+2004. Disponível em:
+\url{https://www.bcb.gov.br/htms/public/BancosEstaduais/livros_bancos_oficiais.pdf}.
+
+COUTO, Rodrigo Luís Rosa. Metodologia de avaliação da capacidade de
+geração de resultados de instituições financeiras. {[}S.l.{]}, 2002.
+(Notas Técnicas do Banco Central do Brasil). Disponível em:
+\textless Dispon\%C3\%ADvel\%20em\%20\%5Curl\%7Bhttps://www.bcb.gov.br/pec/notastecnicas/port/2002nt26avalgeracaoresultp.pdf\%7D\%
+20Acesso\%20em:\%2020/11/2020\textgreater.
+
+DANTAS, José A. Determinantes do spread bancário ex post no mercado
+brasileiro. REV. ADM. MACKENZIE, UNIVERSIDADE PRESBITERIANA MACKENZIE,
+v. 13, n.~4, p.~48--74, 2012.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-12}{}
+DEMIRGÜÇ-KUNT, Ash; HUIZINGAGA, Harry. Determinants of commercial bank
+interest margins and profitability: some international evidence. The
+World Bank Economic Review, v. 13, p.~379--408, 1 mai. 1999. Disponível
+em: \textless https:
+//citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.194.3108\&rep=rep1\&type=pdf\textgreater.
+Acesso em: 8 set. 2020.
+
+DICK, Astrid. Banking Spreads in Central America: Evolution, Structure,
+and Behavior. HIID Development Discussion Papers, Harvard Institute for
+International Development, Cambridge, 1999.
+
+DURIGAN, Junior et al.~Fatores macroeconômicos, indicadores industriais
+e o spread bancário no Brasil. Revista de Ciências da Administração -
+RCA, 2018. DOI: 10.5007/2175-8077.2018v20n51p26.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-13}{}
+FARIA, Miguel Figueira de Faria; MENDES, José Amado. Dicionário de
+História Empresarial Portuguesa, Séculos XIX e XX. Porto: INCM, 2014. v.
+I.
+
+FIPECAFI. ESTUDO SOBRE A APURAÇÃO DO SPREAD DA INDÚSTRIA BANCÁRIA.
+{[}S.l.{]}, 2005. Disponível em:
+\url{https://www.bcb.gov.br/ftp/jurospread112000.pdf}.
+
+FRIEDMAN, M.; SCHWARTZ, A. J. A monetary history of the United States,
+1867 -- 1960. Princeton: Princeton University Press, 1963.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-14}{}
+\_\_\_\_\_. Monetary Trends in the United States and the United Kingdom
+Their Relation to Income, Prices, and Interest Rates, 1867-1975.
+Chicago: University of Chicago Press for NBER, 1982.
+
+GRAHAM, Benjamin; MEREDITH, Spencer B. A interpretação das demonstrações
+financeiras. 3. ed.~São Paulo: Saraiva, 2012.
+
+GUIMARÃES, Carlos Gabriel. O Estado Imperial brasileiro e os bancos
+estrangeiros: o caso do London and Brazilian Bank (1862-1871). Anais do
+XXVI Simpósio Nacional de História -- AUHNP São Paulo, julho 2011, 2011.
+Disponível em: \textless{}\url{http://www.snh2011.anpuh.org/resources}
+/anais/14/1298818435\_ARQUIVO\_ TextoLBBnovo.pdf\textgreater.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-15}{}
+HAFER, R. W.; JANSEN, D. W. The Demand for Money in the United States:
+Evidence from Cointegration Test. Journal of Money, Credit, and Banking,
+p.~155--68, 1991.
+
+HENDRY, David F.; MIZON, Grayham E. Serial Correlation as a Convenient
+Simplification, Not a Nuisance: A Comment on a Study of the Demand for
+Money by the Bank of England. The Economic Journal, {[}Royal Economic
+Society, Wiley{]}, v. 88,n.~351, p.~549--563, 1978. ISSN 00130133,
+14680297. Disponível em: \url{http://www.jstor.org/stable/2232053}.HILL,
+R. Carter. Economertia. 3. ed.~São Paulo: Saraiva, 2010.
+
+HO, Thomas S. Y.; SAUNDERS, Anthony. The Determinants of Bank Interest
+Margins: Theory and Empirical Evidence. Journal of Financial and
+Quantitative Analysis,v. 16, n.~4, p.~581--600, 1981. Disponível
+em:\url{https://EconPapers.repec.org/RePEc:cup:jfinqa:v:16:y:1981:i:04:p:581-600_00}.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-16}{}
+HOLTZ-EAKIN, D.; NEWEY, W.; ROSEN, H.S. Estimating vector
+autoregressions with panel data. Econometrica, v. 56, n.~1371-1395,
+1988. Disponível em: \textless6\textgreater.
+
+JAMES, Gareth et al.~An Introduction to Statistical Learning. 8. ed.~New
+York: Springer, 2017.
+
+KAPETANIOS, G. A bootstrap procedure for panel data sets with many
+cross-sectional units. The Econometrics Journal, {[}Royal Economic
+Society, Wiley{]}, v. 11, n.~2,p.~377--395, 2008. ISSN 13684221,
+1368423X. Disponível em: \url{http://www.jstor.org/stable/23116081}.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-17}{}
+KLEIN, Michael A. A Theory of the Banking Firm. Journal of Money, Credit
+and Banking, Ohio State University Press, v. 3, n.~2, p.~205--218, mai.
+1971. Disponível em: \url{http://www.jstor.org/stable/1991279}.
+
+LEITE, J. C. Tecnologia e organizações: um estudo sobre os efeitos da
+introdução de novas tecnologias no setor bancário brasileiro. 1996. Tese
+(Doutorado) -- São Paulo.
+
+LEVINE, Ross. Financial Development and Economic Growth: Views and
+Agenda. Journal of Economic Literature, American Economic Association,
+v. 35, n.~2,(p.~688--726, 1997. ISSN 00220515. Disponível em:
+\url{http://www.jstor.org/stable/2729790}.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-18}{}
+MAFFILI, Dener William; BRESSAN, Aureliano Angel; SOUZA, Antônio Artur
+da. Estudo da Rentabilidade dos Bancos Brasileiros de Varejo no Período
+de 1999 a 2005. Contabilidade Vista e Revista, SI, v. 238, n.~2,
+p.~117--138, 12 mai. 2009. Disponível em:
+\textless Dispon\%C3\%ADvel\%20em\%20\%5Curl\%7Bhttps:
+//www.imf.org/external/pubs/ft/op/238/index.htm\%7D\%20Acesso\%20em:
+\%2017\%20fev.\%202021\textgreater.
+
+MAGALHÃES-TIMOTIO, João G. RELAÇÃO ENTRE INDICADORES CONTÁBEIS E O
+SPREAD EX-POST DOS BANCOS BRASILEIROS. RACEF -- Revista de
+Administração, Contabilidade e Economia da Fundace, v. 9, n.~2,
+p.~31--44, 2018.
+
+MATOS, Orlando Carneiro de. Inter-relações entre Desenvolvimento
+Financeiro, Exportações e Crescimento Econômico: Análise da Experiência
+Brasileira. In: NOTAS Técnicas do Banco Central do Brasil. Brasília:
+BCB, 2003. Disponível em:
+\textless{}\url{https://www.bcb.gov.br/content/publicacoes/notastecnicas/2003nt40Inter-}
+relentreDesenvFinanp.pdf\textgreater.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-19}{}
+MILLER, Stephen. Monetary Dynamics: An Application of Cointegration and
+Error-Correction Modeling. Journal of Money, Credit and Banking, v. 23,
+n.~2, p.~139--54, 1991. Disponível em:
+\url{https://EconPapers.repec.org/RePEc:mcb:jmoncb:v:23:y:1991:i:2:p:139-54}.
+
+NEVES JÚNIOR, Idalberto José das; SOARES RIBEIRO, Francilanes;(MENDES,
+Frederico. EFICIÊNCIA OPERACIONAL: UMA ANÁLISE EXPLORATÓRIA DOS 50
+MAIORES BANCOS BRASILEIROS PELO RANKING BACEN. 4o Congresso USP de
+Iniciação Científica em Contabilidade, USP, 2007. Disponível em:
+\url{https://intercostos.org/documentos/apellidos/Das\%20Neves\%201.pdf}.
+OREIRO, José Luís da Costa; PAULO, Luiz Fernando de. Determinantes
+macroeconômicos do spread bancário no Brasil: teoria e evidência
+recente. Economia Aplicada, v. 10, n.~4, p.~609--634, 2006.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-20}{}
+REY, Letícia Dias. Spread Bancário Brasileiro: um indicador de excessos?
+Insper, 2017. Disponível em:
+\textless{}\url{http://dspace.insper.edu.br/xmlui/bitstream/handle/11224/1799/Let\%}
+C3\%ADcia\%20Dias\%20Rey\_Trabalho.pdf?sequence=1\textgreater.
+
+ROVER, Suliani; TOMAZZIA, Eduardo Cardeal; FÁVER, Luiz Paulo.
+Determinantes Econômico-Financeiros e Macroeconômicos da Rentabilidade:
+Evidências Empíricas do Setor Bancário Brasileo. Revista Brasileira de
+Economia, XXXV Encontro da ANPAD, 2011.
+
+SARGAN, Denis J. Wages and Prices in the U.K.: A Study in Econometric
+Methodology. in Econometric Analysis for National Economic Planning,
+Paul Hart, Gary Mills and John K. Whitaker (eds) Colston Papers1,
+Butterworths, London, v. 16, p.~25--54, 1964.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-21}{}
+SIGMUND, Michael; FERSTL, Robert. Panel Vector Autoregression inR with
+the Package panelvar, 2008. Disponível em:
+\textless{}\url{https://www.researchgate.net/publication/}
+312165764\_Panel\_Vector\_Autoregression\_in\_R\_with\_the\_Package\_Panelvar\textgreater.
+
+SINGH, Anoop et al.~Stabilization and Reform in Latin America: A
+Macroeconomic Perspective on the Experience Since the Early 1990s.
+Occasional Paper, International Monetary Fund, v. 238, n.~2, fev. 2005.
+Disponível em:
+\url{https://www.imf.org/external/pubs/ft/op/238/index.htm}.
+
+SOUZA, Rodrigo Mendes Leal de. Estrutura e determinantes do spread
+bancário no Brasil:uma resenha comparativa da literatura empírica. Rio
+de Janeiro: Universidade do Estado do Rio de Janeiro, 2006.
+\end{frame}
+
+\begin{frame}{\textbf{REFERÊNCIAS}}
+\protect\hypertarget{referuxeancias-22}{}
+VASCONCELLOS, Marco Antonio Sandoval de. Macroeconomia. 3. ed.~São
+Paulo: Atlas, 2001.
+
+VIEIRA, Heleno Piazentini; PEREIRA, Pedro Luiz Valls. Velocidade da
+moeda e ciclos econômicos no Brasil, 1900-2016. Insper Working Paper,
+New York, NY, p.~1--38, 2016. Disponível em:
+\textless{}\url{https://www.insper.edu.br/wp-content/uploads/2018/10/Velocidade-}
+moeda-ciclos-economicos-Brasil.pdf\textgreater.
+
+ZIVOT, Eric; WANG, Jiahui. Vector Autoregressive Models for Multivariate
+Time Series. In: Modeling Financial Time Series with S-Plus. Springer,
+New York, NY, p.~369--413, 2003. Disponível em:
+\url{https://doi.org/10.1007/978-0-387-21763-5_11}.
+\end{frame}
+
+\end{document}

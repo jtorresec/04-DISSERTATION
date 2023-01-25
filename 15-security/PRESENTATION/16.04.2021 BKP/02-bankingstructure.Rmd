@@ -1,0 +1,859 @@
+\textual
+\pagestyle{simple}
+
+\parindent 1.50cm
+
+\chapter{Referencial Teórico}
+
+\section{Setor Bancário no Brasil}
+
+Neste capítulo serão abordados os conceitos, características, composição e evolução do setor bancário brasileiro, com objetivo de identificar variáveis quantitativas e qualitativas relevantes para as análises dos componentes e determinantes do *spread* bancário. A primeira parte trará um breve histórico do mercado bancário, e a segunda parte sobre conceitos e evolução de dados.
+
+O sistema financeiro exerce papel socioeconômico fundamental, atuando na intermediação, promoção da circulação do fluxo de crédito, disponibilização de meios de pagamentos e opções para alocação de recursos, investimentos, seguros, transações cambiais, operações de proteção de capital, guardando relação com grau de desenvolvimento econômico de um país ou região \cite{maffili:2009}. 
+
+Devido a importância de um sistema financeiro sólido no desenvolvimento econômico, o lucros auferidos no setor despertam constantes atenções, girando em torno dos riscos que envolvem descontinuidade e insolvência \cite{couto:2002}. De acordo com Freitas e Khöler (2009) *apud* \textcite{dantas:2012}, o Brasil apresenta uma conjuntura bancária peculiar em comparação a outros países, principalmente no que se refere aos lucros.
+
+Esta observação remete ao conceito que o desenvolvimento do setor bancário em cada país e região pode ser influenciado por diversos fatores endógenos — relacionados com a gestão, tecnologia e eficiência de cada instituição — e exógenos — envolvendo a regulação e as conjunturas econômica e social \cite{rover:2011}. Nesse sentido os aspectos políticos, econômicos, sociais e culturais se tornam determinantes para essa avaliação.
+
+\subsection{Aspectos Históricos}
+
+A história bancária no Brasil tem sua "pedra fundamental" com a instituição, em 1808, do Banco do Brasil, em consequência da chegada da família real portuguesa e as medidas de aberturas dos portos e acordos comercias. A instituição teve suas atividade encerradas em 1829, devido a uma série de prejuízos com exportações e o retorno de D. João VI à Portugal, levando maior parte do lastro metálico \cite{costaneto:2004, camargo:2009}.
+
+No ano de 1833 o Banco do Brasil foi recriado, porém não ocorreram os aportes de capital necessários para instalação e operação. O ano de 1836 foi marcado pela fundação do Banco do Ceará, o primeiro banco comercial privado, que operou até 1839. O Banco do Brasil foi constituído pela terceira vez, agora sob controle privado, fundado pelo Barão de Mauá, no ano  de 1851 \cite{costaneto:2004, camargo:2009}. 
+
+Em 1853 o Banco do Brasil realizou a primeira operação fusão do país, com o Banco Comercial do Rio de Janeiro, criado em 1838, considerada a quarta versão deste instituição \cite{camargo:2009}. O Banco do Brasil da atualidade tem sua origem em 1906, resultante do decreto nº 1.455 de 30/12/1905, que autorizou a fusão do Banco do Brasil de 1853 com o Banco da República do Brasil \cite{camargo:2009, Lei:1455:1905, costaneto:2004}. 
+
+No ano de 1863  foram instalados o primeiros bancos estrangeiros, sendo eles o London & Brazilian Bank e The Brazilian and Portuguese Bank, ambos com sede no Rio de Janeiro. Posteriormente os bancos estrangeiros passaram a dominar o mercado. A conjuntura nesse momento ainda não se configurava como sistema bancário desenvolvido, em termos de integração entre as instituições \cite{camargo:2009, guimaraes:2011, mendes:2014}.
+
+A Lei Bancária de 1921 trouxe um grande movimento para nacionalização bancária e construção de um efetivo sistema financeiro. O bancos estrangeiros tiveram suas atividades limitadas, passando a serem proibidas pelas Constituições de 1934 e 1937, voltando a serem autorizadas a funcionar pela Constituição de 1946, posição reitarada pela Constituição de 1967 \cite{camargo:2009, decreto:1921, guimaraes:2011}.
+
+O movimento para criação e fortalecimento do sistema bancário nacional iniciado na década de 1920 perdurou até o ano de 1964 com a reforma financeira que resultou no Sistema Financeiro Nacional (SFN). Esse período foi marcado pela criação de mecanismos de controle e fiscalização, fomento e expansão da rede bancária \cite{camargo:2009, guimaraes:2011}.
+
+Entre o período de 1964 a 1980 foram implementadas diversas reformas, criações de mecanismos, instituições e subsistemas. Foram definidas modalidades e atividades, onde os Bancos Comerciais se limitariam a operações de créditos de curto prazo, enquanto os bancos de investimento e desenvolvimento atuariam na concessão de crédito de longo prazo \cite{camargo:2009}. 
+
+O setor bancário brasileiro passou por significativas transformações em sua estrutura no final da década de 1980 e ao longo da década de 1990. Estas modificações ocorreram em grande parte como reflexo às mudanças internacionais, ao processo de abertura comercial e financeira que se iniciou no Brasil, e das próprias modificações das conjunturas econômica e social \cite{camargo:2009}.
+
+Alguns dos efeitos da abertura comercial-financeira e das modificações na estrutura bancária provenientes das medidas governamentais foram o aumento da participação de instituições estrangeiras no país e, um consistente processo de fusões e aquisições, de ambas as origens de capital, que resultou em considerável elevação do grau de concentração \cite{camargo:2009}.
+
+Entre as principais mudanças iniciadas na década de 1980 está a reforma bancária ocorrida em 1988, advindas da Constituição e principalmente através da Resolução nº 1.524, que instituiu diversas medidas de desregulamentação, entre elas a extinção da necessidade de carta-patente para constituição de Bancos Múltiplos \cite{Res:1524:1988}. 
+
+Mesmo com as limitações impostas pela Constituição de 1988 \cite{constituicao:1988} para instalação de bancos estrangeiros, não houveram restrições para que ocorressem aumentos na participação de capital estrangeiro em bancos nacionais, comportamento esse que se tornou até os dias atuais a principal forma de participação desta instituições no Brasil \cite{camargo:2009}. 
+
+```{r instituicoes.financeiras, message=FALSE, results='hide'}
+#conflict_prefer("mutate", "plyr")
+data.csv <- "~/Desktop/04-DISSERTATION/01-data/datacsv/"
+
+ifb <- read_xlsx(path = '~/desktop/04-DISSERTATION/01-data/bacen/Quadros 2019.xlsx',
+                      sheet = 'quadro 1',
+                      col_names = FALSE)
+
+df.banks <- data.frame(slice(ifb[9:14,]))
+
+df.banks[2,1] <- 'Banco Comercial' 
+
+df.banks[4,1] <- 'Caixas Econômicas'
+
+y.df <- ifb[7,]
+
+m.df <- ifb[8,]
+
+ym.df <- paste(y.df, m.df, sep = '_')
+
+colnames(df.banks) <- c('Segmento', 'Sigla', ym.df[3:160])
+
+em.banks  <- 
+        df.banks %>% 
+        gather(Ano, Quantidade, starts_with(c('19','20'))) %>% 
+        separate(Ano, into = c('Ano', 'Mês'), sep = '_') %>% 
+        transform(Quantidade = as.integer(Quantidade),
+                  Segmento = as.factor(Segmento)) %>% 
+        mutate(Período = paste(Mês, Ano, sep = ' '))
+
+write_csv(em.banks, paste(data.csv,"em.banks.csv", sep = ''))
+```
+
+No Brasil, o Sistema Financeiro Nacional (SFN) consolidado é composto por um conjunto de instituições e subsistemas com a divisão em Bancos e Caixas Econômicas, Corretoras de Câmbio, Fintechs, Administradora de consórcios, Cooperativa de crédito, Instituições de pagamento, Corretora e a distribuidora e outras instituições não bancárias \cite{Lei:4595:1964}.
+
+O setor bancário está sob hierarquia normativa do Conselho Monetário Nacional (CMN) e supervisão do Banco Central do Brasil (BACEN). As instituições que formam o setor bancário assumem o papel de operadoras no mercado de crédito, atuando como intermediadoras financeiras junto às pessoas físicas e jurídicas, podendo ser de caráter público ou privado \cite{Lei:4595:1964}.
+
+```{r banks.origin, results='hide'}
+ifoc <- read_xlsx("~/desktop/04-DISSERTATION/01-data/bacen/Quadros 2019.xlsx", 
+                     sheet = 'Quadro 3 ', 
+                     col_names = FALSE)
+
+df.o.banks <- data.frame(Tipo = c('Público','Privado', 'Privado', 
+                                     'Privado', 'Privado', 'Privado'), 
+                         slice(ifoc[9:14,]))
+
+df.o.banks[1,2] <- 'Públicos'
+
+df.o.banks[4:6,2] <-  str_sub(df.o.banks[4:6,2], end = -3)
+
+str_sub(df.o.banks$Ano[111:121], end = -3)
+
+df.o.banks <- slice(df.o.banks[-2,])
+
+o.year <- ifoc[7,]
+
+o.month <- ifoc[8,]
+
+o.ym <- paste(o.year, o.month, sep = '_')
+
+colnames(df.o.banks) <- c('Caráter', 'Capital', o.ym[2:31])
+
+o.banks <- 
+        df.o.banks %>% 
+        gather(Ano, Quantidade, starts_with(c('19', '20'))) %>% 
+        separate(Ano, into = c('Ano', 'Mês'), sep = '_') %>% 
+        transform(Quantidade = as.integer(Quantidade),
+                  Tipo = as.factor(Caráter),
+                  Capital = as.factor(Capital)) %>% 
+        mutate(Período = paste(Mês, Ano, sep = ' '))
+
+o.banks$Ano[111:120] <- str_sub(o.banks$Ano[111:120], end = -3)
+write_csv(o.banks, paste(data.csv,"o.banks.csv", sep = ''))
+```
+
+\begin{table}[!hbtp]
+\vspace{20pt}
+\caption{Composição do setor bancário brasileiro por tipo de iniciativa  — Dezembro 2019}
+\vspace{1mm}
+```{r table.origin}
+o.banks.2019 <- 
+        o.banks %>%
+        select(Caráter, Quantidade, Ano) %>% 
+        filter(Ano == '2019') %>%
+        group_by(Caráter) %>% 
+        summarise(Quantidade = sum(Quantidade)) %>% 
+        mutate(Participação = scales::percent(Quantidade / sum(Quantidade))) %>%
+        select(Caráter, Participação)
+
+write_csv(o.banks.2019, paste(data.csv , "o.banks.2019.csv"))
+
+kbl(o.banks.2019, booktabs = T) %>% 
+        kable_styling(latex_options = c("striped"), #"scale_down"),
+                      font_size = 10, full_width = T) %>% 
+        column_spec(1, width = "8cm") %>% 
+        column_spec(2, width = "7cm")
+```
+\vspace{1mm}
+\label{tab:iniciativa}
+\fonte{Desenvolvido pelo autor, com dados do Banco Central}
+\vspace{-2mm}
+\end{table}
+
+As modalidades de instituições no setor bancário brasileiro são os Bancos
+Comerciais, Bancos de Investimentos, Bancos de Desenvolvimento, Bancos de
+Câmbio, Bancos Múltiplos e Caixas Econômicas. Atualmente na modalidade de Caixas Econômicas somente a Caixa Econômica Federal está em funcionamento
+\cite{Lei:4595:1964, Res:2099:1994, Res:2624:1999, Res:394:1976, Res:3426:2006, DL:759:1969}.
+
+Na \autoref{tab:banks} é possível verificar, no ano de 2019, a quantidade de instituições por modalidade com uma massiva concentração em bancos múltiplos, com 76%,3 de participação, onde apenas 11,5% das instituições bancárias operam exclusivamente com carteira comercial, 6,3% exclusivamente com investimento, 2,89% em câmbio, 2,31% em desenvolvimento, e a Caixa econômica Federal.
+
+\begin{table}[!hb]
+\vspace{20pt}
+\caption{Composição do setor bancário brasileiro por segmento em dezembro de 2019}
+\vspace{1mm}
+```{r resume.banks}
+table.banks <- 
+        em.banks %>% 
+        filter(Ano == '2019', Mês == 'Dez') %>% 
+        select(c(- Período, - Mês)) %>%
+        mutate(Participação =  Quantidade / sum(Quantidade),
+               Participação = scales::percent(Participação)) %>% 
+       arrange(desc(Quantidade)) %>% 
+        select(Segmento, Quantidade, Participação)
+total.banks.2019 <- sum(table.banks$Quantidade)
+
+write_csv(table.banks, paste(data.csv, "table.banks.csv", sep = ""))
+
+kbl(table.banks, booktabs = T) %>% 
+        kable_styling(latex_options = c("striped"), #"scale_down"),
+                      font_size = 10, full_width = T) %>% 
+        column_spec(1, width = "5cm") %>% 
+        column_spec(2, width = "4cm") %>% 
+        column_spec(3, width = "5cm")
+```
+\vspace{1mm}
+\label{tab:banks}
+\fonte{Desenvolvido com dados do Banco Central}
+\vspace{-2mm}
+\end{table}
+
+Entre as características gerais na formalização das instituições bancárias, estão a obrigatoriedade de serem instituídas como sociedades anônimas, possuirem em sua denominação as nomenclaturas: banco, banco de investimento, banco de desenvolvimento, banco de câmbio, caixa econômica, conforme sua categoria \cite{Lei:4595:1964, Res:2099:1994, Res:2624:1999, Res:394:1976, Res:3426:2006, DL:759:1969}. 
+
+Os Bancos Comerciais são instituições financeiras de caráter público ou privado, atuando na intermediação de recursos financeiros de curto e médio prazo para financiamento de atividades comerciais, industriais, serviços para pessoas físicas e terceiros, realizando captações através de operações de depósitos a vista de livre movimento e depósitos a prazo \cite{Res:2099:1994}.
+
+Na modalidade de Bancos de Investimento, as instituições devem possuir caráter privado, podendo operar participações temporárias em sociedades, financiamentos produtivos para ativo fixo e capital de giro e gestão de recursos de terceiros. Realizam captação através de depósitos a prazo, repasses externos e internos e comercialização de cotas de fundos de investimentos que administram \cite{Res:2624:1999}.
+
+O Bancos de Desenvolvimento são instituições de caráter público, de controle federal ou estadual, com foco em financiamento de atividades que promovam o desenvolvimento econômico regional no médio e longo prazo, realizando operações passivas de depósitos a prazo, recursos externos, endossos hipotecários e operações ativas de empréstimos e financiamentos ao setor privado \cite{Res:394:1976}. 
+
+Os Bancos Múltiplos se caracterizam por instituições financeiras que podem assumir caráter público ou privado, com a autorização para realizarem operações ativas e passivas por meio do acúmulo de múltiplas carteiras, sendo elas a comercial, investimento, desenvolvimento, crédito imobiliário, arrendamento mercantil e crédito, financiamento e investimento \cite{Res:2099:1994}.  
+
+Em sua composição os Bancos Múltiplos são obrigados a assumir no mínimo duas carteiras, sendo que de forma obrigatória, uma delas deve ser ou a carteira comercial, ou a de investimento. As que optarem por carteira comercial podem realizar captação de recursos via depósito a vista, e somente os Bancos Públicos podem acumular a carteira de desenvolvimento \cite{Res:2099:1994}. 
+
+Os Bancos de Câmbio, são instituições financeiras que possuem autorização para realizar operações de compra e venda de crédito cambial. Entre as operações de crédito estão o financiamento de exportações e importações e antecipação mediante contratos cambiais. Podem captar depósitos em contas com movimentação restrita e sem remuneração, exclusivo às operações cambiais \cite{Res:3426:2006}.
+
+A Caixa Econômica Federal (CEF), fundada em 1861, e regulamentada pelo Decreto-Lei nº 759 de 1969 é uma empresa pública subordinada ao Ministério da Economia, com operações similares a de um Banco Comercial, priorizando projetos e programas relacionados a área social e infraestrutura, detendo o monopólio  sobre o penhor de bens pessoais e venda de bilhetes de loteria. \cite{DL:759:1969}. 
+
+A CEF atua com operações de crédito ao consumidor, para financiamento de bens
+de consumo duráveis, operações de garantia de penhor industrial e caução de
+títulos.  É integrante do Sistema Financeiro da Habitação (SFH) e Sistema
+Brasileiro de Poupança e Empréstimo (SBPE), além da detenção centralizado do recolhimento e aplicação dos recursos do FGTS \cite{DL:759:1969}.
+
+O \autoref{graf:segmento} demonstra a evolução número de instituições bancárias por segmento entre 1978 à 2019, podendo ser visualizada uma mudança na composição da estrutura, com significativo aumento de instituições aderindo a modalidades de múltiplas carteiras \footnote{As primeiras instituições com carteira múltipla começaram a operar no ano de 1988} e redução de instituições que operam exclusivamente com carteira comercial e exclusivamente com carteira
+de investimento.
+
+\begin{grafico}[!htbp]
+\vspace{20pt}
+\caption{Evolução do setor bancário brasileiro por segmento}
+\vspace{-4mm}
+```{r bank.evolution, message=FALSE, fig.width= 5, fig.height=3}
+ev.banks <- 
+        em.banks %>% 
+        transform(Ano = as.integer(Ano)) %>%
+        filter(Mês == 'Dez') %>% 
+        select(Segmento, Ano, Quantidade)
+        #slice(127:252)
+
+write_csv(ev.banks, paste(data.csv, "ev.banks.csv", sep = ""))
+
+g.banks <-  ggplot(ev.banks, aes(x = Ano)) +
+                geom_line(aes(y = Quantidade, color = as.factor(Segmento))) +
+        facet_wrap(~Segmento) +
+         theme_minimal() +
+        theme(legend.position = 'none',
+              axis.text.x = element_text(size = 7)) +
+        labs(x = NULL, y = NULL)
+
+print(g.banks)
+```
+\vspace{-3mm}
+\label{graf:segmento}
+\fonte{Desenvolvido a partir de dados do Banco Central}
+\vspace{-2mm}
+\end{grafico}
+
+A observação sobre o aumento da concentração bancária no Brasil, realizada por \textcite{camargo:2009}, pode ser visualizada na \autoref{graf:concentracao}. Entre as metades das décadas de 1980 e 1990, com redução da concentração, levando em consideração o número de instituições. Esse cenário passou se inverter a partir de 1994, chegando em 2019 a um nível aproximado ao observado no início da década de 1980.
+
+\begin{grafico}[!hbtp]
+\vspace{20pt}
+\caption{Evolução da quantidade de instituições no setor bancário brasileiro}
+\vspace{-4mm}
+```{r concetration, fig.width=6, fig.height=4}
+con.banks <- 
+        em.banks %>%
+        transform(Ano = as.integer(Ano)) %>% 
+        filter(Mês == 'Dez') %>%
+        group_by(Ano) %>% 
+        summarise(Quantidade = sum(Quantidade))
+
+write_csv(con.banks, paste(data.csv, "con.banks", sep = ""))
+
+g.con.banks <- 
+        ggplot(con.banks, aes(x = Ano)) +
+        geom_line(aes(y = Quantidade)) +
+        theme_bw()
+
+print(g.con.banks)
+```
+\vspace{-3mm}
+\label{graf:concentracao}
+\fonte{Desenvolvido pelo autor, com dados do Banco Central}
+\vspace{-2mm}
+\end{grafico}
+
+O aumento da concentração bancária pode ser prejudicial ao crescimento econômico, uma vez que, com maior participação no mercado, as instituições bancárias acabam por obter a prerrogativa de determinar os preços de juros e serviços, comportamento este observado pelos autores Strachman e Vasconcelos *apud* \textcite{camargo:2009} e \textcite{klein:1971}.
+
+Segundo \textcite{camargo:2009} e \textcite{dantas:2012}, por outra perspectiva, o ganho de escala, em um cenário de aumento da participação de mercado das instituições, refletindo nas suas operações de crédito e redução de custos operacionais atuaria melhorando a remuneração dos depósitos e refletindo na redução dos juros finais pagos pelos clientes.
+
+Outra possível tendência para a concentração bancária seria a redução do risco
+das operações, implicando em redução de custos, obtida por meio expansão
+geográfica, setorial e de produtos financeiros. Porém os possíveis efeitos da
+concentração dependem de uma série de condições, principalmente em torno da
+eficiência e do nível de concorrência no mercado \cite{camargo:2009}.
+
+Entre os principais indicadores para medir a concentração de mercado está o índice Herfindahl–Hirschmanahl(HHI), desenvolvido pelos economistas Orris C. Herfindahl e Albert O. Hirschman. É utilizado amplamente para medidas de regulação da concorrência e leis antitrust.
+
+O HHI tem sido utilizado como uma medida de competição e bancária em nível mundial como exposto em  Santos e Kuroda (2012), e nos estudos Rodamilans (2016), Ferreira (2016), Cardoso (2016) esta variável apresentou considerável siginificância estatística nos modelos propostos. 
+
+Frequentemente o HHI tem sido utilizado em modelos econométricos como variável explanatória para o nível de *spread* bancário, como em \textcite{dantas:2012}, PERIA e MODY (2004) *apud* \textcite{leal:2006} e \textcite{almeida:2013}, todos remontando siginificância estatística para esta variável. 
+
+O HHI refere-se a uma medida de concentração de mercado que mede a participação de uma determinada firma no mercado do qual participa. É obtida pela somatória quadrática da parcela de mercado a ser considerada, variando entre $1/N$ e $1$, conforme \autoref{eq:hhi01}.
+
+\begin{equation}\label{eq:hhi01}
+HHI = \sum_{i=1}^{N}q_i^2
+\end{equation}
+
+A versão normalizada do HHI traz uma variação entre $0$ e $1$, perdendo em seu resultado a captação diante o número de firmas:
+
+\begin{equation}
+HHIN = \frac{\frac{HHI - 1}{N}}{\frac{1-1}{N}}
+\end{equation}
+
+A versão decomposta do HHI avalia a assimetria da concentração de mercado inserindo um componente de variabilidade das participações das firmas, assim se verifica se as firmas possuem uma participação de mercado simétrica resultando em $HHIN = 0$ e $HHI= 1/N$.
+
+\begin{equation}
+HHID = \frac{1}{N} + N\frac{\sum_{i=1}^{N}(\frac{q_i - 1}{N})^2}{N}
+\end{equation}
+
+A elevação da participação estrangeira no setor bancário brasileiro durante a década de 1990, evidenciado por \textcite{camargo:2009} pode ser observado no \autoref{graf:ev.capital} e \autoref{tab:origemcapital}. Ocorrendo principalmente através do controle acionário, com elevação acentuada na segunda metade da década de 1990 até o início da década de 2000.  
+
+\begin{table}
+\vspace{20pt}
+\caption{Setor bancário brasileiro por origem de capital — Dezembro de 2019}
+\vspace{1mm}
+```{r capital.banks.a}
+c.banks <- 
+        o.banks %>% 
+        filter(Ano == '2019') %>% 
+        select(Capital,Quantidade) %>% 
+        mutate(Participação = 
+                       scales::percent(Quantidade / sum(Quantidade))) %>%
+        arrange(desc(Quantidade))
+
+write_csv(c.banks, paste(data.csv, "c.cbanks.cv", sep = ""))
+
+kbl(c.banks, booktabs = T) %>% 
+        kable_styling(latex_options = c("striped"), #"scale_down"),
+                      font_size = 10, full_width = T) #%>% 
+        #column_spec(1, width = "6cm")
+```
+\vspace{1mm}
+\label{tab:origemcapital}
+\fonte{Desenvolvida pelo autor, com dados do Banco Central}
+\vspace{-2mm}
+\end{table}
+
+
+A expectativa com o aumento de instituições nacionais com controle estrangeiro era que, houvesse elevação da concorrência e, consequentemente, redução no *spread* bancário, aumento da concessão de crédito, melhoria da qualidade e   dos produtos financeiros, avanços em tecnologias, ou seja, uma elevação na eficiência do setor \cite{camargo:2009}. 
+
+Porém, o que se observou foi a adoção de postura conservadora por partes dos bancos estrangeiros, com estratégia de ativos inclinada para negociação de títulos públicos, e passivos direcionados para a captação de recursos advindos de grupos de rendas média e alta, com exceção dos bancos públicos que concentraram em operações de crédito \cite{camargo:2009}.
+
+\begin{grafico}[!hbtp]
+\vspace{20pt}
+\caption{Evolução da origem de capital das instituições bancárias no Brasil}
+\vspace{-4mm}
+```{r capital.graphic, fig.width=6, fig.height=4}
+ev.o.banks <- 
+        o.banks %>% 
+        select(Capital, Ano, Quantidade) %>% 
+        transform(Ano = as.integer(Ano))
+
+write_csv(ev.o.banks, paste(data.csv, 'ev.o.banks.csv', sep = ''))
+
+o.g.banks <- 
+        ggplot(ev.o.banks, aes(x = Ano)) +
+                geom_line(aes(y = Quantidade, color = Capital)) +
+        #facet_wrap(~Capital) +
+        labs(x = NULL, y = "Quantidade", color = NULL) +
+        guides(guide_legend(nrow = 2, byrow = TRUE)) +
+        theme_bw() +
+        theme(legend.position = 'bottom', 
+              legend.text = element_text(size = 5),
+              legend.margin = margin(1, 1, 1, 1),
+              legend.title = element_text(NULL))
+
+print(o.g.banks)
+```
+\label{graf:ev.capital}
+\fonte{Desenvolvido pelo autor, com dados do Banco Central}
+\end{grafico}
+
+A inclinação para aplicação massiva em títulos públicos por parte das instituicões estrangeiras e de controle estrangeiro se dava diante a manutenção de elevadas taxas de juros, tornando o crédito para empreendimentos privados de elevado risco, e consequentemente elevando substancialmente o *spread* bancário e reduzindo a oferta de crédito \cite{camargo:2009}.
+
+Outra variável importante na determinação do nível de desenvolvimento do sistema financeiro e econômica é relação crédito/PIB, que demonstra participação do total de concessão de crédito sobre o produto interno bruto do país. Quanto maior o percentual desta relação, espera-se um cenário de custo de crédito menor e favorecimento de empreendimentos capazes de impulsionar o crescimento. 
+
+```{r credit.gdp.data}
+credit.gdb <- read.csv('http://api.bcb.gov.br/dados/serie/bcdata.sgs.20622/dados?formato=csv', sep = ';', dec = ",", encoding = 'UTF-8')
+
+credit.gdb <- transform(credit.gdb, Data = dmy(data))
+
+write_csv(credit.gdb, paste(data.csv, "credit.gdb.csv", sep = ""))
+
+max.credit.gdp <- max(credit.gdb$valor)
+```
+
+\begin{grafico}[!tb]
+\vspace{20pt}
+\caption{Evolução da relação Crédito/PIB no Brasil}
+\vspace{-4mm}
+```{r credit.gdp, fig.width=6, fig.height=4}
+ggplot(credit.gdb, aes(x = Data)) +
+        geom_line(aes(y = valor)) +
+        labs(y = 'Crédito/PIB %', x = NULL) +
+        theme_bw()
+```
+\vspace{-3mm}
+\label{graf:credgdp}
+\fonte{Desenvolvido pelo autor, com dados o Banco Central}
+\vspace{-2mm}
+\end{grafico}
+
+
+O \autoref{graf:credgdp} demonstra o comportamento da relação crédito/PIB no Brasil, que entre a segunda metade da década de 1990 até a meados da primeira metade da década de 2000 sofreu significativa queda, ficando abaixo dos 25%. Após esse período a oferta de crédito ocorreu uma expansão exponencial atingindo um pico de `r max.credit.gdp`% do PIB.
+
+Durante o período citado, foi observado no setor bancário brasileiro os maiores níveis de *spread* praticados no mundo, associado a um quadro econômico instabilidades e baixos crescimento e desenvolvimento. Esse cenário encontra embasamento em estudos teóricos e empíricos que demonstram que um sistema financeiro desenvolvido favorece o crescimento e desenvolvimento econômico \cite{levine:1997, matos:2003}.
+
+\begin{grafico}[!ht]
+\vspace{20pt}
+\caption{Evolução anual do saldo carteira de crédito}
+\vspace{-4mm}
+```{r balance.credit, fig.width=6, fig.height=4}
+balance.credit <- read.csv('http://api.bcb.gov.br/dados/serie/bcdata.sgs.20539/dados?formato=csv', sep = ';', dec = ',', col.names = c('data', 'Saldo.Crédito'))
+
+balance.credit.d <- read.csv('http://api.bcb.gov.br/dados/serie/bcdata.sgs.20593/dados?formato=csv', sep = ';', dec = ',', col.names = c('data', 'Saldo.Crédito.Direcionado'))
+
+balance.credit.l <- read.csv('http://api.bcb.gov.br/dados/serie/bcdata.sgs.20542/dados?formato=csv', sep = ';', dec = ',', col.names = c('data', 'Saldo.Crédito.Livre'))
+
+b.credit.dl <- join(balance.credit.d, balance.credit.l) %>% 
+        gather(Serie, Valor, 2:3)
+
+b.credit <- balance.credit %>% 
+        filter(Saldo.Crédito != 0) %>% 
+        slice(1:360)
+
+write_csv(b.credit.dl, paste(data.csv, 'b.credit.dl', sep = ''))
+write_csv(b.credit, paste(data.csv, 'b.credit.csv', sep = ''))
+
+balance <- ggplot(b.credit, aes(x = dmy(data))) +
+        geom_line(aes(y = Saldo.Crédito)) +
+        labs(x = NULL, y = "R$ Milhões") +
+        scale_y_continuous(labels = scales::dollar) +
+        theme_classic()
+
+print(balance)
+```
+\vspace{-3mm}
+\label{graf:saldocredito}
+\fonte{Elaborado com dados do Banco Central}
+\vspace{-2mm}
+\end{grafico}
+
+O \autoref{graf:saldocredito} demonstra a evolução do saldo da carteira de crédito de crédito livre direcionado mensal em termos correntes, entre 1990 e 2020, podendo ser visualizada uma expansão exponencial de crédito a partir da metade da década de 2000, com leve recuo iniciado na metade da década de 2010, e posteriormente ultrapassando máxima anterior.   
+
+O Sistema Financeiro em sua organização entre agentes normatizadores, supervisores, operadores e tomadores, além suas instâncias, possui um papel fundamental na determinação de políticas para definição dos níveis adequados de base monetária e e meios de pagamentos capazes de atender a atividade econômica, oferecendo liquidez e estabilidade.
+
+\begin{comment}
+\textcolor{red}{EMBASAR E CONTEXTUALIZAR O PORQUE DE TRAZER A BASE MONETÁRIA}
+\textcolor{red}{EMBASAR A ABORDAGEM DE PRECIFICAÇÃO DO SPREAD}
+\end{comment}
+
+Em consonância com o Conselho Monetário Nacional o Banco Central do Brasil tem como suas principais atribuições, a condução das políticas monetária, cambial e de crédito. Onde a oferta de crédito é influenciada pela políticas monetárias envolvendo e emissão de papel-moeda, taxa de compulsório, emissão de títulos públicos, entre outros, refletindo na base moentária e nos meios e pagamentos. 
+
+A Base Monetária restrita ($M_0 = BMr$) cosiste no total de papel moeda emitido ($PME$) e das Reservas Bancárias ($RB$) em poder das instituições ou depositadas no Banco Central. Os dados são extraídos de contas analíticas no balanço do BACEN, consistindo na emissão primária de moeda e configurando o passivo monetário, resultado líquido de suas operações ativas e passivas \cite{bcb:2019}. 
+
+\begin{equation}
+BMr = M_0 = PME + RB
+\end{equation}
+
+Em 1995 foi introduzido o conceito de Base Monetária ampliada ($BMa = M_0$), que possui maior capacidade de explanar os preços da economia no Brasil, uma vez que traz maior percepção do fator substituição entre a moeda, em seu conceito convencional, e os demais ativos financeiros disponíveis, incluindo os passivos, como os depósitos compulsórios ($DC$) e títulos públicos federais ($TPF$) \cite{bcb:2019}.
+
+\begin{equation}
+BMa = M_0 = BMr + DC +  TPF
+\end{equation}
+
+O \autoref{graf:moneybases} demonstra a evolução das bases monetárias restrita e ampliada, em termos correntes, entre os anos de 1995 e 2020. No inicío do período avaliado as séries estavam em patamares aproximados, ocorrendo um distanciamento exponencial ainda durante a década de 1990 e se tornando massivamente expressiva até o final do período. 
+
+\begin{grafico}[!htbp]
+\vspace{20pt}
+\caption{Evolução das bases monetárias restrita e ampliada — 1995 a 2020}
+\vspace{-4mm}
+```{r money.base.d, fig.width=6, fig.height=4}
+money.file <- "~/Desktop/04-DISSERTATION/01-data/bacen/moneybase/STP-20210214163332355.xlsx"
+
+money.base <- read.xlsx(money.file, sheetName = "STP-20210214163332355")
+
+money.base.plot <- 
+        money.base %>%
+        transform(Data = as.yearmon(Data)) %>%
+        filter(Base.Monetária.Ampliada != "-") %>%
+        slice(7:n()) %>% 
+        transform(Base.Monetária = 
+                          as.numeric(as.character(Base.Monetária)) * 
+                          1000 / 1000000000000) %>% 
+        transform(Base.Monetária.Ampliada =
+                          as.numeric(as.character(Base.Monetária.Ampliada)) *
+                          1000 / 1000000000000) %>% 
+        gather(Tipo, Valor, 2:3)
+        
+ggplot(money.base.plot, aes(x = Data)) +
+        geom_line(aes(y = Valor, color = as.factor(Tipo))) +
+        labs(y = "Trilhões R$ Correntes", x = NULL, color = NULL) +
+        scale_y_continuous(labels = scales::dollar) +
+        theme_bw() +
+        theme(panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank(),
+              panel.background = element_blank(), 
+              axis.line = element_line(colour = "black"),
+              legend.position = "bottom",
+              #legend.title = element_text(NULL)
+              legend.title = 
+                      element_text(color = 'black', size = 10), 
+              legend.text = 
+                      element_text(colour = 'black', size = 10))
+```
+\vspace{-3mm}
+\label{graf:moneybases}
+\fonte{Desenvolvido com dados do Departamento de Estatísticas do Banco Central}
+\vspace{-2mm}
+\end{grafico}
+
+O \autoref{graf:evpperb} demonstra a evolução do saldo de emissão de papel moeda e das reservas bancárias em termos correntes, entre 1995 e 2020, componentes da base monetária restrita. É possível observar que houve expressiva expansão do papel moeda emitido em termos correntes, e mesmo com elevação das reservas bancárias, houve uma desconexão entre as variáveis.
+
+```{r money.comps.file, eval=TRUE, message=FALSE, results='hide'}
+base.comps <- "~/Desktop/04-DISSERTATION/01-data/bacen/moneybase/STP-20210214202647612.xlsx"
+
+money.base.comps <- read.xlsx(base.comps, sheetName = "STP-20210214202647612")
+```
+
+\begin{grafico}[!htbp]
+\vspace{20pt}
+\caption{Evolução da emissão de Papel Moeda e Reservas Bancárias}
+\vspace{-4mm}
+```{r base.moneybase.e, message=FALSE, fig.width=5, fig.height=2}
+money.comps.e <- 
+        money.base.comps %>% 
+        transform(Data = as.yearmon(Data)) %>% 
+        filter(Depósitos.compulsórios != "-" , 
+               Titulos.Públicos.Totais != "-") %>%
+        transform(Papel.Moeda.Emitido = 
+                          Papel.Moeda.Emitido * 1000 / 1000000000,
+                  Reservas.Bancárias = 
+                          Reservas.Bancárias * 1000 / 1000000000,
+                  Depósitos.compulsórios = 
+                          as.numeric(as.character(Depósitos.compulsórios)) 
+                  * 1000 / 1000000000,
+                  Titulos.Públicos.Totais = 
+                          as.numeric(as.character(Titulos.Públicos.Totais)) 
+                  * 1000 / 1000000000) %>% 
+        select(Data, Papel.Moeda.Emitido, Reservas.Bancárias) %>%
+        gather(Tipo, Valor, 2:3)
+
+
+write_csv(money.comps.e, paste(data.csv, 'money.comps.e.csv', sep = ''))
+
+ggplot(money.comps.e, aes(x = Data)) +
+        geom_line(aes(y = Valor, color = as.factor(Tipo))) +
+        facet_wrap(~Tipo) +
+        theme_bw() +
+        labs(color = NULL, x = NULL, y = "bilhões R$ Correntes") + 
+        theme(legend.position = 'none', 
+              legend.text = element_text(size = 8),
+              legend.margin = margin(-5, 6, 6, 6),
+              legend.title = element_text(NULL),
+              axis.text.x = element_text(size = 5))
+```
+\vspace{-3mm}
+\label{graf:evpperb}
+\fonte{Desenvolvido com dados do Departamento de Estatísticas do Banco Central}
+\vspace{-2mm}
+\end{grafico}
+
+O \autoref{graf:evcomptit} traz a visualização das variáveis de Depósitos compulsórios e emissão de títulos públicos, sendo os componentes adicionais da base monetária ampliada que a diferencia da base monetária restrita. E mostra a larga expansão de emissão de títulos públicos totais, o que vem essencialmente explicar a diferenciação entre as séries de base monetária. 
+
+\begin{grafico}[!htbp]
+\vspace{20pt}
+\caption{Evolução dos Depósitos Compulsórios e emissão de títulos públicos}
+\vspace{-4mm}
+```{r base.components, message=FALSE, fig.width=5, fig.height=2}
+money.comps.d <- 
+        money.base.comps %>% 
+        transform(Data = as.yearmon(Data)) %>% 
+        filter(Depósitos.compulsórios != "-" , 
+               Titulos.Públicos.Totais != "-") %>%
+        transform(Papel.Moeda.Emitido = 
+                          Papel.Moeda.Emitido * 1000 / 1000000000,
+                  Reservas.Bancárias = 
+                          Reservas.Bancárias * 1000 / 1000000000,
+                  Depósitos.compulsórios = 
+                          as.numeric(as.character(Depósitos.compulsórios)) 
+                  * 1000 / 1000000000,
+                  Titulos.Públicos.Totais = 
+                          as.numeric(as.character(Titulos.Públicos.Totais)) 
+                  * 1000 / 1000000000) %>% 
+        select(Data, Depósitos.compulsórios, Titulos.Públicos.Totais) %>%
+        gather(Tipo, Valor, 2:3)
+
+write_csv(money.comps.d, paste(data.csv, 'money.comps.d.csv', sep = ''))
+
+ggplot(money.comps.d, aes(x =  Data)) +
+        geom_line(aes(y = Valor, color = as.factor(Tipo))) +
+        facet_wrap(~Tipo) +
+        theme_bw() +
+        labs(color = NULL, x = NULL, y = "bilhões R$ Correntes") + 
+        theme(legend.position = 'none', 
+              legend.text = element_text(size = 8),
+              legend.margin = margin(-5, 6, 6, 6),
+              legend.title = element_text(NULL),
+              axis.text.x = element_text(size = 5))
+```
+\vspace{-3mm}
+\label{graf:evcomptit}
+\fonte{Desenvolvido com dados do Departamento de Estatísticas do Banco Central}
+\vspace{-2mm}
+\end{grafico}
+
+Entre os Agregados Monetários estão o Meios de Pagamento na forma restrita ($M_1$), configurado por cédulas e moedas em poder do público ($PMPP$) e seus depósitos a vista ($DAV$), disponíveis prontamente para pagamentos de bens e serviços. O conceito de Meios de Pagamentos Ampliado adiciona à moeda legal os agregados considerados de elevada liquidez ($M_2$) e ($M_3$) \cite{bcb:2019, sgs:mpa}.
+
+\begin{equation}
+M_1 = PMPP + DAV
+\end{equation}
+
+O Papel-moeda em poder do público ($PMPP$) é encontrado pelo resultado do papel moeda emitido ($PME$) subtraído dos encaixes do sistema bancário, obtidos diariamente em conta específica do balanço analítico Banco Central. Os depósitos a vista são aqueles remetem às captações pelos bancos criadores de moeda e transacionáveis por cheques ou meios eletrônicos \cite{sgs:m1}. 
+
+Os meios de pagamentos $M_1$ consistem no passivo monetário de liquidez imediata do Banco Central e de instituições com poder emissão de moeda escritural e cooperativas de crédito, sendo registrados por regime de competência e gerados por estas instituições através do COSIF\footnote{ Realizados por meio de dados das demonstrações contábeis padronizadas},  SISBACEN\footnote{Dados de relatórios extracontábeis} e por instituições emissoras instrumentos monetários \cite{sgs:m1, sgs:mpa}.
+
+O \autoref{graf:m1} traz a visualização da evolução dos saldos mensais de papel moeda em poder do público e dos depósitos a vista entre 1995 e 2020, em termos correntes. Nota-se que até o ano de 2015 ou depósitos a vista superavam o papel moeda em poder do público, quando essa relação se inverteu até meados de 2019 e passou a apresentar comportamento de igualdade até 2020. 
+
+\begin{grafico}[!hbtp]
+\vspace{20pt}
+\caption{Evolução dos componentes que formam os Meios de pagamentos restritos M1 — 1995 à 2020}
+\vspace{-4mm}
+```{r m1, fig.width=6, fig.height=4}
+m1.file <- "~/Desktop/04-DISSERTATION/01-data/bacen/moneybase/STP-20210215111647290.xlsx"
+m1.data <- read.xlsx(m1.file, sheetName = "STP-20210215111647290")
+
+m1.df <- m1.data %>% 
+        transform(Data = as.yearmon(Data)) %>%
+        transform(Papel.Moeda.em.poder.do.público = 
+                         Papel.Moeda.em.poder.do.público * 1000 / 1000000000,
+                  Depósitos.à.Vista = 
+                          Depósitos.à.Vista * 1000 / 1000000000,
+                  Meios.de.pagamento...M1 = 
+                          Meios.de.pagamento...M1 * 1000 / 1000000000) %>% 
+        #select(Data, Depósitos.à.Vista) %>% 
+        gather(Série, Valor, 2:3)
+
+write_csv(m1.df, paste(m1.file, 'm1.df.csv', sep = ''))
+
+ggplot(m1.df, aes(x = Data)) +
+        geom_line(aes(y = Valor, colour = as.factor(Série))) +
+        theme_bw() +
+        theme(legend.position = "bottom") + 
+        labs(color = NULL, x = NULL, y = "bilhões R$ Correntes")
+```
+\vspace{-3mm}
+\label{graf:m1}
+\fonte{Desenvolvido com dados do Departamento de Estatísticas do Banco Central}
+\vspace{-2mm}
+\end{grafico}
+
+O Meios de Pagamentos Ampliados $MPa$ consistem no conjunto de instumentos monetários que remetem de forma antecipada à demanda por moeda, configurando uma avaliação do grau de liquidez da economia de uma forma mais precisa. Os meios de pagamentos amplos são formados pelos agregados monetários $M_1$, $M_2$, $M_3$) e $M_4$ \cite{sgs:mpa}. 
+
+No Brasil, a apuração e divulgação dos agregados monetários seguem as normas internacionais instituídas no Manual de Estatísticas Monetárias e Financeiras (MEMF), elaborado pelo Fundo Monetário Internacional (FMI) com a colaboração dos países participantes \cite{sgs:mpa}, o que vem trazer grandes vantagens técnicas para os países que aderem a estas normas.  
+
+O Agregado Monetário $M_2$, contempla o Agregado Monetário $M_1$ mais o resultante das emissões primárias por instituições depositárias no mercado interno, que realizam a multiplicação de crédito, consistindo em depósitos de poupança ($DP$) e títulos privados emitidos pelas instituições depositárias ($TEID$)\footnote{Os títulos privados são compostos por Depósitos a prazo; Letras financeiras (LF); Letras de crédito do agronegócio (LCA); Letras de crédito imobiliárias (LCI); entre outros como aceites de letras de câmbio, Letras hipotecárias, Letras imobiliárias e Certificados de operações estruturadas \cite{sgs:mpa}. 
+
+\begin{equation}
+M_2 = M_1 + DP + TEID
+\end{equation}
+
+O Agregado Monetário $M_3$ contempla o Agregado Monetário ($M_2$) adicionado das captações internas intermediadas pelos posição líquida de detentores moeda de renda fixa e das carteiras de títulos públicos federais registrados no Sistema Especial de liquidação e Custodia (Selic) e Bolsa de Valores. Consiste em quotas de fundos de renda fixa ($QFRF$)\footnote{São considerados somente os fundos cambiais, renda fixa  e multimercado. excluídos os fundos de ações, fundos de dívida externa e os fundos de investimentos em quotas de fundos de investimentos , por serem considerados agentes não depositários, que não produzem liquidez ao mercado \cite{sgs:mpa}} e operações compromissadas registradas no Selic\footnote{As que são lastreadas em títulos públicos federais} ($OCRS$) \cite{bcb:2019} \cite{sgs:mpa}.
+
+\begin{equation}
+M_3 = M_2 + QFRF + OCRS
+\end{equation}
+
+O Agregado Monetário $M_4$, que recebe o conceito de poupança financeira, contempla o Agregado Monetário $M_3$ mais a carteira livre de títulos públicos federais\footnote{Consistindo somente os que estão devidamente registrados no Sistema Especial de Liquidação e Custódia (Selic), mesmo com elevada liquidez, há consenso que a classificação de quase-moeda deve ser restrita por não se configurar em uma instituição componente do Sistema Financeiro} de elevada liquidez ($TPF$) \cite{bcb:2019}.
+
+\begin{equation}
+M_4 = M_3 + TPF
+\end{equation}
+
+É possível chegar ao conceito de Agregado Monetário $M_5$ que engloba o Agregado Monetário $M_4$ incluindo a capacidade disponível de aquisição de cartões de crédito ativos ($CACC$) \cite{cordoba:1996}.
+
+\begin{equation}
+M_5 = M_4 + CACC
+\end{equation}
+
+O \autoref{graf:agrag} demonstra a evolução dos agregados monetários $M_1$, $M_2$, $M_3$ e $M_4$ em termos correntes, entre 2001 e 2020. É notado que os meios de pagamentos restritos $M1$ sofreram expansão irrisória. Nos meios de pagamentos ampliados, no $M_2$ é percebida uma considerável elevação, no $M_3$ e $M_4$ a expansão seguiu níveis exponenciais até o final do período.
+
+\begin{grafico}[!hbtp]
+\vspace{20pt}
+\caption{Evolução dos Agregados monetários — 2001 à 2020}
+\vspace{-4mm}
+```{r m2m3m4, fig.width=6, fig.height=4}
+m2m3m4.file <- "~/Desktop/04-DISSERTATION/01-data/bacen/moneybase/STP-20210215151624501.xlsx"
+m2m3m4.data <- read.xlsx(m2m3m4.file, sheetName = "STP-20210215151624501")
+
+m2m3m4.df <- m2m3m4.data %>% 
+        transform(Data = as.yearmon(Data)) %>%
+        mutate(M1 = m1.data$Meios.de.pagamento...M1) %>% 
+        transform(M1 = M1 * 1000 / 1000000000,
+                  M2 = M2 * 1000 / 1000000000,
+                  M3 = M3 * 1000 / 1000000000,
+                  M4 = M4 * 1000 / 1000000000) %>%
+        #select(Data, Depósitos.à.Vista) %>% 
+        gather(Série, Valor, 2:5)
+
+write_csv(m2m3m4.df, paste(data.csv, 'm2m3m4.df.csv', sep = ''))
+
+mp.plot <- ggplot(m2m3m4.df, aes(x = Data)) +
+        geom_line(aes(y = Valor, colour = as.factor(Série))) +
+        theme_bw() +
+        theme(legend.position = "bottom") + 
+        labs(color = NULL, x = NULL, y = "bilhões R$ Correntes")
+print(mp.plot)
+```
+\vspace{-3mm}
+\label{graf:agrag}
+\fonte{Desenvolvido com dados do Departamento de Estatísticas do Banco Central}
+\vspace{-2mm}
+\end{grafico}
+
+A teoria quantitativa da moeda, prega que o nível de preços ($P$) em uma economia guarda relação com a quantidade de moeda em circulação ($M$) e a velocidade ($V$) de cirulação — frequência média em que uma unidade monetária é consumida em um período de tempo —, diante seu produto real ($y$), com a premissa que no curto prazo o produto e a velocidade a moeda são constantes \cite{vasconcellos:2011}.
+
+\begin{equation}
+MV = Py => P = \frac{MV}{y} => V = \frac{Py}{M}\
+\end{equation}
+
+No que tange a abordagem microeconômica, as instituições bancárias como sociedade anônimas e instituições supervisionadas pelo Banco Central, são obrigadas a divulgar seus resultados em forma de demonstrações contábeis. A partir destas demostrações podem ser observados e extraídos dados e indicadores generalizados sobre a operação das instituições.
+
+Os dados e estatísticas do Sistema Financeiro Nacional são compilados e  divulgados pelo Banco Central com a legislação vigente, essencialmente seguindo a Lei nº 4.595, de 31 de dezembro de 1964 e Resoluções do Conselho Monetário Nacional, garantindo o sigilo de dados relativos às instituições financeiras, empresas e indivíduos\footnote{conforme disposto no artigo 2 da Lei Complementar nº 105, de 11 de janeiro de 2001} \cite{sgs:bm}.
+
+A \autoref{tab:tabledocs} traz o resumo dos documentos que constituem as demonstrações contábeis padronizadas, enviadas pelas próprias instituições financeiras através do Sistema Contábil das Instituições Financeiras (COSIF), seguindo um conjunto de normas contábeis e plano de contas padronizados para os períodos definidos. 
+
+\begin{qdr}
+\vspace{20pt}
+\caption{Resumo das Demonstrações Contábeis Padronizadas}
+\vspace{1mm}
+```{r table.accounting}
+accounting.docs <- list(
+        "Balancete" = list(
+                Tipo = "Analítico",
+                Códigos = "4010, 4020, 4413, 4433",
+                Periodicidade = "Mensal ou Trimestral"
+        ),
+        "Balancete" = list(
+                Tipo = "Analítico Consolidado",
+                Códigos = "4040",
+                Periodicidade = "Mensal ou Trimestral"
+        ),
+        "Balancete" = list(
+                Tipo = "Analítico - Conglomerado Prudencial",
+                Códigos = "4060",
+                Periodicidade = "Mensal ou Trimestral"
+        ),
+        "Balanço" = list(
+                Tipo = "Analítico",
+                Códigos = "4016, 4026",
+                Periodicidade = "Semestral"
+        ),
+        "Balanço" = list(
+                Tipo = "Analítico Consolidado",
+                Códigos = "4046",
+                Periodicidade = "Semestral"
+        ),
+        "Balanço" = list(
+                Tipo = "Analítico - Conglomerado Prudencial",
+                Códigos = "4066",
+                Periodicidade = "Semestral"
+        )
+)
+
+accounting.docs <- ldply(accounting.docs, data.frame, .id = "Documento")
+
+write_csv(accounting.docs, paste(data.csv, 'accounting.docs.csv', sep = ''))
+
+kbl(accounting.docs, booktabs = T) %>% 
+        kable_styling(latex_options = c("striped"), #"repeat_header"), 
+                      font_size = 10, full_width = T)
+```
+\vspace{1mm}
+\label{tab:tabledocs}
+\fonte{Desenvolvido a partir das fontes citadas}
+\vspace{-2mm}
+\end{qdr}
+
+Os dados são divulgados seguindo uma padronização para o setor, onde podem ser observados as receitas, despesas, ativos, passivos, patrimônio líquido, entre outros em multiplos níveis, para cada período de registo, buscando refletir a situação econômica e financeira, possibilitando a realização de análises evolutivas e comparativas e agregadas do setor financeiro.  
+
+\section{Indicadores Financeiros}
+
+Com acesso aos resultados contábeis é possível obter os principais indicadores para avaliação de resultados das instituições bancárias, como os índices de Liquidez Geral e Liquidez Corrente, Endividamento e Composição do Endividamento, retorno sobre o ativo, retorno sobre o patrimônio líquido, margem EBITDA, margem líquida e grau de alavancagem financeira. 
+
+O índice de Liquidez Corrente ($LC$) mede a capacidade da instituição em honrar os compromissos com credores, definindo seu nível de solvência no curto prazo. É obtido pela razão entre o ativo circulante ($AC$) e o passivo circulante ($PC$), indicando o quanto do ativo circulante está disponível para cumprir com cada unidade monetária da dívida de curto prazo \cite{graham:2012} \cite{assaf:2020}.
+
+\begin{equation}
+LC = \frac{AC}{PC}
+\end{equation}
+
+O índice de Liquidez Geral ($LG$) mede a capacidade da instituição honrar os compromissos com seus credores no longo prazo, definindo seu nível de solvência geral, é obtido pela razão entre a soma do ativo circulante ($AC$) e recursos realizáveis no longo prazo ($RLP$) e a soma do passivo circulante ($PC$) e exigível no longo prazo ($ELP$) \cite{assaf:2020}.
+
+\begin{equation}
+LG_ = \frac{AC + RLP}{PC + ELP}
+\end{equation}
+
+O índice de endividamento ($CT$), mede a participação de capital de terceiros em relação aos financiamentos realizados com capital próprio. Quanto maior o indicador, maior a dependência da instituição de capital de terceiros para financiamento das suas operações, obtido pela razão entre o passivo ($P$) e o patrimônio líquido ($PL$) \cite{assaf:2020}.
+
+\begin{equation}
+CT = [\frac{P}{PL}]
+\end{equation}
+
+A composição do endividamento ($CE$) indica o percentual da dívida em relação a dívida que vence no curto prazo. Quanto maior for esse indicador, mais crítica é a situação, necessitando de melhores resultados para cumprir os compromissos no curto prazo. É obtido pela razão entre o passivo circulante ($PC$) e a soma do passivo circulante e exigível a longo prazo ($ELP$) \cite{assaf:2020}. 
+
+\begin{equation}
+CE = \frac{PC}{PC + ELP}
+\end{equation}
+
+O Índice de Eficiência bancária ($IE$) avalia o quanto a instituição desembolsa para gerar uma unidade de receita. É obtido por meio da razão entre a soma das despesas administrativas ($DA$), despesas com pessoal ($DP$) líquidas da participação nos lucros ($PLR$) sobre a soma entre Margem Financeira ($MF$) e receita ($R$) \cite{timotio:2018}.  
+
+\begin{equation}
+IE = \frac{DA + DP - PLR}{MF + R} 
+\end{equation}
+
+Outro indicador utilizado para avaliação da situação financeira das instituições bancárias é o obtido da relação entre as receitas de prestação de serviços ($RSrv$) e as despesas administrativas ($DAdm$) \cite{dantas:2012}. 
+
+\begin{equation}
+RSDA = \frac{RSrv_{}}{DAdm{}}
+\end{equation}
+
+O retorno sobre o Ativo ($ROA$), mede a rentabilidade da instituição diante a totalidade dos seus ativos. O quanto para cada unidade monetária investida na instituição é convertida em lucro líquido, obtida da relação entre o lucro operacional ($LO$) e o ativo total ($AT$)  \cite{assaf:2020}.  
+
+\begin{equation}
+ROA = \frac{LO}{AT}
+\end{equation}
+
+O Retorno sobre o Patrimônio Liquido ($ROE$) mensura a relação entre o lucro líquido  ($LL$) em o Patrimônio Líquido ($PL$) da instituição, configurando o retorno dos investimentos para os sócios e acionista, para cada unidade monetária com recursos próprios aplicados na empresa \cite{assaf:2020}.   
+
+\begin{equation}
+ROE = \frac{LL}{PL}
+\end{equation}
+
+A margem EBITDA ($MEB$) é obtida da relação entre o EBITDA — lucro antes dos juros, depreciação, amortização e impostos sobre a renda, configurando o lucro operacional da instituição — e a Receita Líquida ($RL$), revelando a capacidade da instituição na geração de caixa \cite{assaf:2020}. 
+
+\begin{equation}
+MEB_it = \frac{EBITDA_it}{RL_it}
+\end{equation}
+
+A Margem Líquida ($ML$) é um indicador que demonstra a parte de cada unidade monetária das intermediações financeiras que foi convertida em Lucro Líquido, sendo obtida da relação entre o lucro líquido ($LL$) e o resultado líquido da intermediação financeira ($RLIF$) \cite{assaf:2020}. 
+
+\begin{equation}
+ML = \frac{LL}{RLIF}
+\end{equation}
+
+O grau de alavancagem financeira ($GAF$) captura o efeito da tomada de recursos de terceiros a um dado custo, alocados para ativos com distintas taxas de retornos. E mostra como se dá o aumento do lucro líquido através da estrutura de financiamento, definindo a parcela do retorno melgor ou pior se estivessem financiando a operações totalmente com capital próprio \cite{assaf:2020}. 
+
+\begin{equation}
+GAF = \frac{RPL}{ROA}
+\end{equation}
+
+O risco de crédito das instituições bancárias pode ser obtido por meio da relação entre o saldo da Provisão para Créditos de Liquidação Duvidosa ($PCLD$) e do total da carteira de crédito ($OPCR$), obtidos através das contas 16900008 e 16000001 \cite{dantas:2012}
+
+\begin{equation}
+RC_{} = \frac{PCLD_{}}{OPCR_{}}
+\end{equation}
+
+A participação de mercado ($MS$) de cada instituição pode ser mensurada a partir da relação entre suas operações de crédito {$OPCR$} no total das operações de crédito do mercado, sendo obtido através da conta 1600001 \cite{dantas:2012}. 
+
+\begin{equation}
+MS_{} = \frac{OPCR_{}}{\sum_{i}^{n}OPCR_{}} 
+\end{equation}
+
+Diante o levantamento, o setor bancário brasileiro durante o período avaliado passou por diversas transformações em sua estrutura no que tange a concentração de mercado, aumento da participação de capital estrangeiro por meio de controle acionário, redução da participação pública. 
+
+Em relação aos indicadores foi verificado que, entre a década de 1980 até metade da década de 1990, no cenário hiperinflacionário, mesmo com redução da concentração bancária, os indicadores de eficiência de intermediação financeiras como o *spread* bancário e a relação crédito/PIB estavam em níveis considerados ineficientes e muito destoantes em comparação a outros países e regiões. 
+
+A partir de 1995 se observou mudanças significativas no setor bancário, com nova concentração, redução de instituições nacionais devido o controle acionário por capital estrangeiro, e expressiva redução no *spread* bancário e a partir de 2004 uma mudança significativa no saldo da carteira de crédito e na relação crédito/PIB e na expansão das bases monetárias e meios de pagamentos ampliados.
+
+Esta seção levantou informações amplas sobre o setor bancário brasileiro, identificando variáveis macroeconômicas e microeconômicas referentes a economia como um todo, setor financeiro, ao setor bancário e as instituições em si.  No próximo capítulo serão levantados conceitos, definições e estudos sobre a evolução, decomposição e determinantes do *spread* bancário.  
+

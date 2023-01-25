@@ -1,0 +1,96 @@
+---
+output:
+  beamer_presentation:
+    keep_tex: yes
+    slide_level: 2
+    #latex_engine: xelatex
+  slidy_presentation: default
+documentclass: beamer
+header-includes:
+- \input{packages}
+#- \input{preamble}
+- \usepackage{helvet}
+- \renewcommand{\familydefault}{\sfdefault}
+- \makeindex
+- \DeclareUnicodeCharacter{0301}{******}
+- \DeclareUnicodeCharacter{0303}{******}
+- \DeclareUnicodeCharacter{0327}{******}
+- \DeclareUnicodeCharacter{0302}{******}
+link-citations: yes
+classoption:
+- aspectratio=169
+- ignorenonframetext
+spacing: doublespacing
+biblio-style: abnt
+fontsize: 12pt
+---
+
+<div class="verysmall">
+
+| Hipótese | Descrição                  | Fórmula          | *Spread* Ex-Post  | Rentabilidade |
+|:-----: | :--------------------------- | :--------------------- | :-------:  | :----------: |
+| $H_{1}$  | Operações capital próprio ($EPr$)                                                  | $Epr_{it} = \frac{OpCr_{it} - Dep_{it}}{OpCr_{it}}$                            | +               | +             |
+| $H_{2}$  | Proporção entre os depósitos a vista ($EAv$) e as as operações de crédito ($OpCr$)                                                               | $EAv_{it} = \frac{DepAv_{it}}{OpCr_{it}}$                                      | +               | +             |
+| $H_{3}$  | Proporção entre os depósitos a prazo ($EAp$) e as as operações de crédito ($OpCr$)                                                               | $EAp_{it} = \frac{DepAp_{it}}{OpCr_{it}}$                                    | +               | -             |
+| $H_{4}$  | Proporção das despesas administrativas ($DA$) sobre as operações de crédito ($OpCr$)                                                            | $DAdm_{it} = \frac{DA_{it}}{OpCr_{it}}$                                      | +               | -             |
+| $H_{5}$  | O volume das operações de crédito ($Vol$)                         | $Vol_{it} = \ln(OpCr_{it})$                                                  | -               | +             |
+
+
+---
+
+
+| Hipótese | Descrição                  | Fórmula          | *Spread* Ex-Post  | Rentabilidade |
+|:-----: | :--------------------------- | :--------------------- | :-------:  | :----------: |
+| $H_{6}$  | O tamanho da instituição ($Tam$)                                  | $Tam_{it} = \ln(AtvTot_{it})$                                                | -               | +             |
+| $H_{7}$  | O risco de crédito da carteira ($RC$)                             | $TRC_{it} = \frac{\frac{\sum_{RC = Aa}^HOC_{RC}*P_{RC}}{\sum_{}P_{RC}}}{\sum_{OC_{RC}}}$                          | +               | +             |
+| $H_{8}$  | A participação de mercado das instituições ($MkSh$)               | $MkSh_{it} = \frac{OpCr_{it}}{\sum_{t=1}^nOpCr_{it}}$                        | -               | +             |
+| $H_{9}$  | o grau de concentração de mercado ($GC$)                          | $GC_{it} = \frac{1}{n} + n\frac{\sum_{i=1}^{n}(\frac{R_{it} - 1}{n})^2}{n}$  | +               | +             |
+| $H_{10}$  | O tipo de instituição ($TpIns$)                                  | $D_{1}...D_{5}$                                                              | *dummy*               | *dummy*             |
+
+---
+
+
+| Hipótese | Descrição                  | Fórmula          | *Spread* Ex-Post  | Rentabilidade |
+|:-----: | :--------------------------- | :--------------------- | :-------:  | :----------: |
+| $H_{11}$  | O caráter da instituição ($CrIns$)                               | $D_{6}...D_{10}$                                                             | *dummy*               | *dummy*             |
+| $H_{12}$  | taxa Selic Over $SelOver$                                        | $Sel_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}SelDrAn$                            | +               | +             |
+| $H_{13}$  | A taxa de inflação ($Ipca$)                                      | $Ipca_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}IpcaMs$                            | +               | -             |
+| $H_{14}$  | A taxa de compulsório ($Com$)                                    | $Comp_{t} = \frac{RcDAv_{t} + RcDAp_{t}}{\sum_{t=1}^{n}DAv_{it} + \sum_{t=1}^{n}DAp_{it}}$                                                       | +               | -             |
+| $H_{15}$  | O volume dos meios de pagamentos $Mpag$                          | $Mapg_{t} = \ln(MPM4_{t-1})$                                                 | -               | +             |
+| $H_{16}$  | A velocidade da moeda ($VelMo$)                                  | $VelMo_{t} = \frac{Pib_{t-1}}{BMr_{t-1}}$                                    | -               | +             |
+| $H_{17}$  | *Spread ex-ante* ($SprEa_{t-1}$)                                 | $SprEa_{t} = SEA_{t-1}$                                                      | +               | +             |
+
+
+</div>
+
+
+
+
+| Hipótese | Variável      | $SprEp$ Previsto  | $Rent$ Previsto |  $SprEp$ Resultado  | $Rent$ Resultado |
+|:-----:   | :---------:   |:------------: | :--: | :------------: | :--: |
+| $H_{1}$  | $EPr_{it}$    |    -          |  -   |     -          |  -   |
+| $H_{2}$  | $DepAv$       |    -          |  -   |     -          |  -   |
+| $H_{3}$  | $DepAp$       |    +          |  -   |     -          |  -   |
+| $H_{4}$  | $DepPop$      |    +          |  -   |     -          |  -   |
+| $H_{5}$  | $DAdm$        |    +          |  -   |     +          |  +   |
+| $H_{6}$  | $DesCap$      |    +          |  +   |     +          |  +   |
+| $H_{7}$  | $OtDes$       |    +          |  -   |     +          |  +   |
+| $H_{8}$  | $Inad$        |    +          |  -   |     +          |  -   |
+| $H_{9}$  | $RcPd$        |    +          |  -   |     +          |  -   |
+| $H_{10}$ | $ROpCr$       |    -          |  +   |     +          |  -   |
+| $H_{11}$ | $RSrv$        |    -          |  +   |     +          |  +   |
+| $H_{12}$ | $RPart$       |    +          |  +   |     +          |  -   |
+| $H_{13}$ | $OtROp$       |    +          |  +   |     +          |  +   |
+| $H_{14}$ | $OpEmp$       |    -          |  +   |     +          |  -   |
+| $H_{15}$ | $OpFin$       |    -          |  -   |     +          |  -   |
+| $H_{16}$ | $OtOp$)       |    -          |  -   |     +          |  -   |
+| $H_{17}$ | $ImpRend$     |    +          |  -   |     -          |  +   |
+| $H_{18}$ | $ImpInd$      |    +          |  -   |     -          |  -   |
+| $H_{19}$ | $SelOvr$      |    +          |  +   |     -          |  -   |
+| $H_{20}$ | $VelMo$       |    -          |  +   |     +          |  +   |
+| $H_{21}$ | $Com$         |    +          |  -   |     +          |  +   |
+| $H_{22}$ |  $GrCon$      |    +          |  +   |     -          |  +   |
+| $H_{23}$ | $IPCA$        |    +          |  -   |     -          |  -   |
+| $H_{24}$ | $BMA$         |    -          |  +   |     +          |  +   |
+| $H_{25}$ | $OpCrMkt$     |    -          |  +   |     -          |  +   |
+

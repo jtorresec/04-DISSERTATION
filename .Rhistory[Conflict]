@@ -1,0 +1,512 @@
+PIB = '',
+Desemprego = '',
+EMBI = '',
+Saldo.Carteira.Crédito.RL =  '',
+I.Vol.Vendas.Varejo = '',
+Inadimplência = '',
+Ativo.Total = '',
+Receita.Serviços = '+',
+Impostos.Indiretos = '+',
+Custo.Administrativo.Op = '+',
+Caixa.Depósitos = '',
+Market.Share = '',
+Requerimento.de.Reserva = '',
+Captação.sem.juros = '+',
+Risco.Juros = '',
+Risco.Crédito = '',
+Liquidez = '',
+Bancos.Estrangeiros = '-',
+Grau.Concentração = '',
+Atividade.Econômica = ''
+),
+'BIGNOTTO e RODRIGUES (2006)' = list(
+Método = 'Ex-ante',
+Selic = '+',
+Volatilidade.Selic = '',
+Spread.Over.Treasury = '',
+IGP = '',
+IPCA = '-',
+Produto.Industrial = '',
+"Crescimento PIB Industrial" = '',
+Compulsório = '+',
+IPIbc = '',
+IPIgeral = '',
+IPIbcap = '',
+IPIbi = '',
+IPIbcd = '',
+IPIbsd = '',
+IPIad = '',
+PIB = '',
+Desemprego = '',
+EMBI = '',
+Saldo.Carteira.Crédito.RL =  '',
+I.Vol.Vendas.Varejo = '',
+Inadimplência = '',
+Ativo.Total = '+',
+Receita.Serviços = '+',
+Impostos.Indiretos = '',
+Custo.Administrativo.Op = '+',
+Caixa.Depósitos = '',
+Market.Share = '-',
+Requerimento.de.Reserva = '',
+Captação.sem.juros = '',
+Risco.Juros = '+',
+Risco.Crédito = '+',
+Liquidez = '+',
+Bancos.Estrangeiros = '',
+Grau.Concentração = '',
+Atividade.Econômica = ''
+),
+'OREIRO et al. (2006)' = list(
+Método = 'Ex-ante',
+Selic = '+',
+Volatilidade.Selic = '+',
+Spread.Over.Treasury = '',
+IGP = '',
+IPCA = '',
+Produto.Industrial = '+',
+"Crescimento PIB Industrial" = '',
+Compulsório = '',
+IPIbc = '',
+IPIgeral = '',
+IPIbcap = '',
+IPIbi = '',
+IPIbcd = '',
+IPIbsd = '',
+IPIad = '',
+PIB = '',
+Desemprego = '',
+EMBI = '',
+Saldo.Carteira.Crédito.RL =  '',
+I.Vol.Vendas.Varejo = '',
+Inadimplência = '',
+Ativo.Total = '',
+Receita.Serviços = '',
+Impostos.Indiretos = '',
+Custo.Administrativo.Op = '',
+Caixa.Depósitos = '',
+Market.Share = '',
+Requerimento.de.Reserva = '',
+Captação.sem.juros = '',
+Risco.Juros = '',
+Risco.Crédito = '',
+Liquidez = '',
+Bancos.Estrangeiros = '',
+Grau.Concentração = '',
+Atividade.Econômica = ''
+),
+'GUIMARÃES (2002)' = list(
+Método = 'Ex-post',
+Selic = '',
+Volatilidade.Selic = '',
+Spread.Over.Treasury = '',
+IGP = '',
+IPCA = '',
+Produto.Industrial = '',
+"Crescimento PIB Industrial" = '',
+Compulsório = '',
+IPIbc = '',
+IPIgeral = '',
+IPIbcap = '',
+IPIbi = '',
+IPIbcd = '',
+IPIbsd = '',
+IPIad = '',
+PIB = '',
+Desemprego = '',
+EMBI = '',
+Saldo.Carteira.Crédito.RL =  '',
+I.Vol.Vendas.Varejo = '',
+Inadimplência = '',
+Ativo.Total = '',
+Receita.Serviços = '',
+Impostos.Indiretos = '',
+Custo.Administrativo.Op = '',
+Caixa.Depósitos = '+',
+Market.Share = '',
+Requerimento.de.Reserva = '',
+Captação.sem.juros = '',
+Risco.Juros = '',
+Risco.Crédito = '',
+Liquidez = '',
+Bancos.Estrangeiros = '+',
+Grau.Concentração = '',
+Atividade.Econômica = ''
+),
+'DURIGAN (2018)' = list(
+Método = 'Ex-ante',
+Selic = '+',
+Volatilidade.Selic = '',
+Spread.Over.Treasury = '',
+IGP = '',
+IPCA = '-',
+Produto.Industrial = '',
+"Crescimento PIB Industrial" = '',
+Compulsório = '',
+IPIbc = '-',
+IPIgeral = '-',
+IPIbcap = '+',
+IPIbi = '+',
+IPIbcd = '+',
+IPIbsd = '+',
+IPIad = '+',
+PIB = '+',
+Desemprego = '+',
+EMBI = '+',
+Saldo.Carteira.Crédito.RL =  '-',
+I.Vol.Vendas.Varejo = '-',
+Inadimplência = '+',
+Ativo.Total = '',
+Receita.Serviços = '',
+Impostos.Indiretos = '',
+Custo.Administrativo.Op = '',
+Caixa.Depósitos = '',
+Market.Share = '',
+Requerimento.de.Reserva = '',
+Captação.sem.juros = '',
+Risco.Juros = '',
+Risco.Crédito = '',
+Liquidez = '',
+Bancos.Estrangeiros = '',
+Grau.Concentração = '',
+Atividade.Econômica = ''
+),
+'DANTAS (2012)' = list(
+Método = 'Ex-post',
+Selic = '',
+Volatilidade.Selic = '',
+Spread.Over.Treasury = '',
+IGP = '',
+IPCA = '',
+Produto.Industrial = '',
+"Crescimento PIB Industrial" = '',
+Compulsório = '',
+IPIbc = '',
+IPIgeral = '',
+IPIbcap = '',
+IPIbi = '',
+IPIbcd = '',
+IPIbsd = '',
+IPIad = '',
+PIB = '',
+Desemprego = '',
+EMBI = '',
+Saldo.Carteira.Crédito.RL =  '',
+I.Vol.Vendas.Varejo = '',
+Inadimplência = '',
+Ativo.Total = '',
+Receita.Serviços = '',
+Impostos.Indiretos = '',
+Custo.Administrativo.Op = '',
+Caixa.Depósitos = '',
+Market.Share = '-',
+Requerimento.de.Reserva = '',
+Captação.sem.juros = '',
+Risco.Juros = '',
+Risco.Crédito = '+',
+Liquidez = '',
+Bancos.Estrangeiros = '',
+Grau.Concentração = '+',
+Atividade.Econômica = '+'
+),
+'ALMEIDA (2013)' = list(
+Método = 'Ex-post',
+Selic = '',
+Volatilidade.Selic = '',
+Spread.Over.Treasury = '',
+IGP = '',
+IPCA = '',
+Produto.Industrial = '',
+"Crescimento PIB Industrial" = '',
+Compulsório = '',
+IPIbc = '',
+IPIgeral = '',
+IPIbcap = '',
+IPIbi = '',
+IPIbcd = '',
+IPIbsd = '',
+IPIad = '',
+PIB = '+',
+Desemprego = '',
+EMBI = '',
+Saldo.Carteira.Crédito.RL =  '',
+I.Vol.Vendas.Varejo = '',
+Inadimplência = '',
+Ativo.Total = '',
+Receita.Serviços = '-',
+Impostos.Indiretos = 'Não significativo',
+Custo.Administrativo.Op = '+',
+Caixa.Depósitos = '',
+Market.Share = '+',
+Requerimento.de.Reserva = '+',
+Captação.sem.juros = '',
+Risco.Juros = '',
+Risco.Crédito = 'Não significativo',
+Liquidez = 'Não significativo',
+Bancos.Estrangeiros = '',
+Grau.Concentração = '+',
+Atividade.Econômica = ''
+),
+'ARONOVICH (1994)' = list(
+Método = 'Ex-ante',
+Selic = '',
+Volatilidade.Selic = '',
+Spread.Over.Treasury = '',
+IGP = '',
+IPCA = '+',
+Produto.Industrial = '',
+"Crescimento PIB Industrial" = '',
+Compulsório = '',
+IPIbc = '',
+IPIgeral = '',
+IPIbcap = '',
+IPIbi = '',
+IPIbcd = '',
+IPIbsd = '',
+IPIad = '',
+PIB = '',
+Desemprego = '',
+EMBI = '',
+Saldo.Carteira.Crédito.RL =  '',
+I.Vol.Vendas.Varejo = '',
+Inadimplência = '',
+Ativo.Total = '',
+Receita.Serviços = '',
+Impostos.Indiretos = '',
+Custo.Administrativo.Op = '',
+Caixa.Depósitos = '',
+Market.Share = '',
+Requerimento.de.Reserva = '',
+Captação.sem.juros = '',
+Risco.Juros = '',
+Risco.Crédito = '',
+Liquidez = '',
+Bancos.Estrangeiros = '',
+Grau.Concentração = '',
+Atividade.Econômica = '-'
+)
+)
+studies.v <- c('Autor', 'Método' , 'Selic', 'Volatilidade da Selic', 'Spread Over Treasury',
+'IGP', 'IPCA', 'Produto Industrial', 'Crescimento PIB Industrial',
+'Compulsório', 'IPI Bens de Consumo', 'IPI Geral', 'IPI Bens de Capital',
+'IPI Bens i', 'IPI bcd', 'IPI bsd', 'IPIad', 'PIB', 'Desemprego',
+'EMBI', 'Saldo Carteira Crédito RL', 'Índice Volume Vendas Varejo',
+'Inadimplência', 'Ativo Total', 'Receita Serviços', 'Impostos Indiretos',
+'Custos Administrativos', 'Caixa.Depósitos', 'Market Share',
+'Requerimento de Reserva', 'Captação sem juros', 'Risco Juros',
+'Risco Crédito', 'Liquidez', 'Bancos Estrangeiros', 'Grau Concentração',
+'Atividade Econômica')
+studies.t <- ldply(studies.b, data.frame, .id = 'Autor')
+names(studies.t) <-  studies.v
+studies.t
+studies.r
+studies.t
+studies.r <- studies.t %>%
+gather(Variável, Relação, 2:37) %>%
+spread(Autor, Relação) %>%
+arrange(desc(`KOYAMA e NAKANE (2001a e 2001b)`))
+data.source <- list(
+"Demonstrações" = list(
+Fonte = "Banco Central",
+Descrição = "Balancetes (IFs e Conglomerados)",
+Id = "370",
+)
+)
+data.source <- list(
+"Demonstrações" = list(
+Fonte = "Banco Central",
+Descrição = "Balancetes (IFs e Conglomerados)",
+Id = "370"
+)
+)
+data.source
+ldaply()
+ldply()
+studies.t
+ldply(data.source, data.frame, id= "")
+ldply(data.source, data.frame, id= "Nome")
+data.source <- list(
+"Demonstrações" = list(
+Fonte = "Banco Central",
+Descrição = "Balancetes (IFs e Conglomerados)",
+Identificação = "370"
+)
+)
+ldply(data.source, data.frame, id= "Nome")
+ldply(data.source, data.frame, id = "Nome")
+ldply(data.source, data.frame, .id = "Nome")
+data.source <- list(
+"Demonstrações" = list(
+Descrição = "Balancetes (IFs e Conglomerados)",
+Identificação = "370",
+Fonte = "Banco Central"
+)
+)
+ldply(data.source, data.frame, .id = "Nome")
+ldply(data.source, data.frame, .id = "Nome")
+ldply(data.source, data.frame, .id = "Nome")
+data.source <- list(
+"" = list(
+Descrição = "",
+Identificação = "",
+Fonte = ""
+),
+"Demonstrações" = list(
+Descrição = "Balancetes (IFs e Conglomerados)",
+Identificação = "370",
+Fonte = "Banco Central"
+),
+"PIB" = list(
+Descrição = "PIB trimestral - Dados observados - Produto Interno Bruto a preços de mercado",
+Identificação = "Série 22099",
+Fonte = "Banco Central"
+),
+"Selic Meta" = list(
+Descrição = "Taxa de juros - Meta Selic definida pelo Copom",
+Identificação = "432",
+Fonte = "Banco Central"
+)
+)
+data.source <- list(
+"0" = list(
+Descrição = "",
+Identificação = "",
+Fonte = ""
+),
+"Demonstrações" = list(
+Descrição = "Balancetes (IFs e Conglomerados)",
+Identificação = "370",
+Fonte = "Banco Central"
+),
+"PIB" = list(
+Descrição = "PIB trimestral - Dados observados - Produto Interno Bruto a preços de mercado",
+Identificação = "Série 22099",
+Fonte = "Banco Central"
+),
+"Selic Meta" = list(
+Descrição = "Taxa de juros - Meta Selic definida pelo Copom",
+Identificação = "432",
+Fonte = "Banco Central"
+)
+)
+ldply(data.source, data.frame, .id = "Nome")
+data.source <- list(
+"o" = list(
+Descrição = "",
+Identificação = "",
+Fonte = ""
+),
+"Demonstrações" = list(
+Descrição = "Balancetes (IFs e Conglomerados)",
+Identificação = "370",
+Fonte = "Banco Central"
+),
+"PIB" = list(
+Descrição = "PIB trimestral - Dados observados - Produto Interno Bruto a preços de mercado",
+Identificação = "Série 22099",
+Fonte = "Banco Central"
+),
+"Selic Meta" = list(
+Descrição = "Taxa de juros - Meta Selic definida pelo Copom",
+Identificação = "432",
+Fonte = "Banco Central"
+)
+)
+ldply(data.source, data.frame, .id = "Nome")
+install.packages("ipeadatar")
+library(ipeadatar)
+ipeadata()
+available_series()
+ipea.series <- available_series()
+ipea.series
+pib.ipea.series <- search_series(terms = c("PIB"), fields = c("names"))
+pib.ipea.series <- search_series(terms = c("PIB"), fields = c("name"))
+pib.ipea.series
+pib.ipea.series <- search_series(terms = c("PIB"), fields = c("name","monthly"))
+pib.ipea.series <- search_series(terms = c("PIB"), fields = c("name"))
+pib.ipea.series
+pib.ipea.series <- search_series(terms = c("PIB", "Monthly"), fields = c("name", "freq"))
+pib.ipea.series
+pib.ipea.series <- search_series(terms = c("PIB", "Monthly"), fields = c("name", "freq"))
+pib.ipea.series
+pib.ipea.series <- search_series(terms = c("PIB"), fields = c("name"))
+pib.ipea.series
+pib.ipea.series %>%
+filter(freq = "Monthly")
+pib.ipea.series %>%
+filter(freq = "Monthly")
+pib.ipea.series %>%
+filter(freq == "Monthly")
+pib.monthly <- ipeadata(BM12_PIB12, language = c("br"))
+pib.ipea.series %>%
+filter(freq == "Monthly")
+pib.monthly <- ipeadata(BM12_PIB12, language = c("br"))
+pib.monthly <- ipeadata(PIB12, language = c("br"))
+pib.monthly <- ipeadata(BM12, language = c("br"))
+pib.monthly <- ipeadata(code = "BM12_PIB12", language = c("br"))
+pib.monthly
+search_series(terms = c("selic"), fields = c("name"))
+search_series(terms = c("Selic"), fields = c("name"))
+money <- out.money %>%
+transform(Data = as.Date(Data)) %>%
+mutate(Ano = year(Data)) %>%
+mutate(Mes = month(Data))%>%
+select(Ano, Valor) %>%
+filter(Ano != 1994) %>%
+group_by(Ano) %>%
+summarise(M0 = max(Valor)/1000000000000) #%>%
+ggplot(money, aes(x = Ano)) +
+geom_line(aes(y = M0))+
+labs(y = ' Trilhões R$ correntes', x = NULL)
+money <- out.money %>%
+transform(Data = as.Date(Data)) %>%
+mutate(Ano = year(Data)) %>%
+mutate(Mes = month(Data))%>%
+select(Ano, Valor) %>%
+filter(Ano != 1994) %>%
+group_by(Ano) %>%
+summarise(M0 = max(Valor)/1000000000) #%>%
+money <- out.money %>%
+transform(Data = as.Date(Data)) %>%
+mutate(Ano = year(Data)) %>%
+mutate(Mes = month(Data))%>%
+select(Ano, Valor) %>%
+filter(Ano != 1994) %>%
+group_by(Ano) %>%
+summarise(M0 = max(Valor)/1000000000) #%>%
+ggplot(money, aes(x = Ano)) +
+geom_line(aes(y = M0))+
+labs(y = ' Trilhões R$ correntes', x = NULL)
+money <- out.money %>%
+transform(Data = as.Date(Data)) %>%
+mutate(Ano = year(Data)) %>%
+mutate(Mes = month(Data))%>%
+select(Ano, Valor) %>%
+filter(Ano != 1994) %>%
+group_by(Ano) %>%
+summarise(M0 = max(Valor)/1000000) #%>%
+ggplot(money, aes(x = Ano)) +
+geom_line(aes(y = M0))+
+labs(y = ' Trilhões R$ correntes', x = NULL)
+money <- out.money %>%
+transform(Data = as.Date(Data)) %>%
+mutate(Ano = year(Data)) %>%
+mutate(Mes = month(Data))%>%
+select(Ano, Valor) %>%
+filter(Ano != 1994) %>%
+group_by(Ano) %>%
+summarise(M0 = max(Valor)/1000000000000) #%>%
+ggplot(money, aes(x = Ano)) +
+geom_line(aes(y = M0))+
+labs(y = ' Trilhões R$ correntes', x = NULL)
+money <- out.money %>%
+transform(Data = as.Date(Data)) %>%
+mutate(Ano = year(Data)) %>%
+mutate(Mes = month(Data))%>%
+select(Ano, Valor) %>%
+filter(Ano != 1994) %>%
+group_by(Ano) %>%
+summarise(M0 = max(Valor)/1000000000) #%>%
+ggplot(money, aes(x = Ano)) +
+geom_line(aes(y = M0))+
+labs(y = ' Trilhões R$ correntes', x = NULL)

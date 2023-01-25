@@ -1,0 +1,72 @@
+\textual
+\pagestyle{simple}
+\parindent 1.50cm
+
+\chapter[INTRODUÇÃO]{INTRODUÇÃO}
+
+Esta pesquisa tem a proposição de averiguar os aspectos técnicos fundamentais sobre mercado bancário brasileiro em função dos determinantes do *spread* e suas influências na rentabilidade bancária, através de abordagem teórica, analítica e aplicada.
+
+\section{Contextualização}
+
+Ao longo da história, os instrumentos financeiros passaram por profundas modificações e evoluções, assumindo papel determinante na geração e acúmulo de riqueza para as famílias e nações. E nesse contexto histórico, durante o renascimento, as atividades de negociação de dinheiro e câmbio de moeda estranheira se formalizaram, surgindo o que viriam a se tornar as primeiras instituições bancárias.
+
+Na contrapartida destas atividades, as instituições bancárias são remuneradas basicamente de duas formas. A primeira delas é através de taxas sobre os serviços envolvendo a custódia. A segunda se dá pelo valor oriundo da cobrança de uma taxa de juros sobre o capital emprestado, configurando assim o *spread* bancário \cite{leite:1996, campello:2005, neves:2007}.
+
+A medida que a oferta de crédito desponta como um fator fundamental para o desenvolvimento econômico de longo prazo, incentivando empreendimentos produtivos, contribuindo com a geração de emprego, renda e lucros, o *spread* bancário passa a ser um indicador estratégico para determinação do nível de desenvolvimento de países e regiões \cite{WB:2005, levine:1997}.
+
+A primeira via da importância do *spread* bancário está relacionada com a solidez do sistema financeiro. O nível deste indicador deve ser suficiente para garantir lucros atrativos, fazendo com que as instituições mantenham suas atividades e que novas tenham interesse em entrar no mercado, resultando em um setor forte, com segurança e liquidez \cite{levine:1997, dantas:2012, leal:2006}.
+
+A segunda via, remete a relação entre o *spread* e o nível de atividade econômica. Segundo estudos recentes, um elevado nível de *spread* bancário desfavoreceria o crédito produtivo e consequentemente o nível de atividade econômica, impactando no crescimento e desenvolvimento do país ou região \cite{WB:2005, dantas:2012, leal:2006}.
+
+Tais premissas são sustentadas pelo Fundo Monetário Internacional (FMI) e Banco Mundial (BM), que realizam e incentivam estudos sobre o indicador a nível mundial. A grande maioria dos estudos demonstram a relação inversa entre a taxa de *spread* bancário e os indicadores de desenvolvimento dos países e regiões \cite{WB:2005}.
+
+Estudos constataram que a América Latina possui as maiores taxas de juros, bancos mais ineficientes, implicando assim em níveis de *spread* elevados. Dentre os países da América Latina, o caso brasileiro é destacado como o cenário mais crítico, com níveis de lucros considerados elevados, afetando principalmente o setor produtivo \cite{dantas:2012}.
+
+Entre diversos países estudados, desde a década de 1990, é evidenciado o caso brasileiro com elevados níveis de *spread* bancário, baixa relação entre crédito e PIB e cenários de crescimento econômicos instáveis e considerados baixos \cite{levine:1997, matos:2003}. Mesmo com recentes modificações no cenário, o  caso brasileiro desperta constantes iniciativas de estudos.
+
+Durante a década de 1990, o *spread* bancário brasileiro esteve superior a 50% a.a., enquanto na América Latina o observado foi entre 10% e 15% a.a.. A relação crédito/PIB no Brasil, em 2003, era de 23%, considerado muito baixo em comparação ao Chile com 68,5%, Uruguai com 64,3%, Estados Unidos com 60,8%, Japão com 64,3%, Coréia com 98,9% e Europa com 140,6% \cite{camargo:2009, singh:2005}.
+
+Observa-se assim, a relevância do estudo acerca das variáveis que influenciam o *spread* bancário *ex-post* no Brasil. Sendo assim, esta pesquisa parte das indagações: (1) Quais variáveis endógenas e exógenas exercem influência significativa no *spread* bancário *ex-post* e (2) como os determinantes dos *spread* afetam o *spread ex-post* e a rentabilidade das instituições bancárias no Brasil?
+
+\section{Objetivos}
+
+\subsection{Objetivo Geral}
+
+Este estudo buscará investigar variáveis microeconômicas e macroeconômicas que exerçam influência significativa sobre o *spread ex-post* e como estas afetaram a rentabilidade das instituições bancárias brasileiras, entre março de 2011 e novembro de 2020.
+
+\subsection{Objetivos Específicos}
+
+1. Realizar o mapeamento e sistematização de aspectos teóricos e técnicos sobre o setor bancário e *spread* no Brasil; 
+2. Identificar e testar variáveis macroeconômicas e microeconômicas enquanto componentes implícitos e explícitos de determinação do *spread* bancário *ex-post*;
+3. Analisar como as variações das variáveis determinantes do *spread* bancário afetaram a rentabilidade dos bancos.
+
+\section{Justificativa teórica e prática}
+
+A medida que o nível de dinamismo da economia se eleva, ocorrendo evoluções e modificações estruturais em espaços de tempo mais curtos, o setor financeiro deve acompanhar tais perspectivas, devido sua importância no processo, principalmente no que se refere ao oferecimento de novos produtos, ampliação de crédito, oportunidades para investidores, solidez e liquidez ao sistema.
+
+E nesse cenário dinâmico e evolutivo, o *spread* bancário desponta como o indicador que capta o nível de desenvolvimento do sistema financeiro, no sentido de equacionar a relação entre a remuneração dos superavitários e os juros cobrados dos deficitários de capital, englobando os custos de intermediação, com maior relevância aos créditos destinados a empreendimentos produtivos.
+
+Nesse sentido, os estudos acerca do *spread* bancário se tornam necessários e importantes, diante da perspectiva do dinamismo e constantes transformações na economia. O caso brasileiro demonstra ser ainda mais relevante, por se colocar em posição considerada peculiar, diante os históricos de baixo crescimento e desenvolvimento e um setor bancário concentrado com elevados níveis de *spread*.
+
+Foi verificado o panorama das publicações de pesquisas relacionadas ao setor bancário no brasil, através da plataforma Capes, entre os anos 2000 e 2020
+\footnote{Foram utilizados operadores booleanos em inglês: banking(structure or
+market or sector or industry) and brazil* e revisados por pares.}, remontando um total de 4.512 publicações, indicando a relevância do tema. Enquanto as pesquisas relacionadas especificamente com o *spread* bancário brasileiro, através da plataforma Capes foram identificados 3.435 estudos entre os anos de 2000 e 2020 \footnote{Foram utilizados os operadores boleanos em
+inglês (bank or banking) and spread and brazil, revisados por pares.}, o que também vem destacar a importância da temática na literatura acadêmica.
+
+Mesmo com um número considerado de estudos sobre o setor bancário brasileiro e outros diversos citando o *spread* bancário, ainda se fazem necessárias novas iniciativas, diante da importância deste indicador na solidez do setor financeiro e seu papel no desenvolvimento econômico, e principalmente por ainda existirem incongruências, divergências entre resultados e lacunas sobre seus determinantes a serem explanadas.
+
+\section{Estrutura}
+
+A presente dissertação está estruturada em três capítulos. Este primeiro apresenta a introdução do trabalho: contextualização, objetivos e a justificativa e a presente estrutura, que visa sintetizar as principais questões sobre o tema proposto, com ótica direcionada para a proposição e objetivos, bem como nortear o andamento da pesquisa.  
+
+No segundo capítulo está apresentado o referencial teórico  contemplando os aspectos fundamentais e dados amplos a respeito do  setor bancário e *spread* no Brasil, por meio de pesquisa bibliográfica e busca em bancos de dados. Bem como apresentrar as principais pesquisas sobre o *spread* bancário.  
+
+O terceiro capítulo traz os procedimentos metodológicos para  seleção e execução do modelo econométrico empregado para a avaliação dos efeitos dos determinantes do *spread* simultaneamente no *spread ex-post* e na rentabilidade bancária.
+
+No quarto capítulo se almeja explanar e analisar, diante das premissas empregadas, os resultados obtidos no modelo, conforme planejado no capítulo terceiro, visando descrever e embasar as relações entre as variáveis, confrontando com as pesquisas identificadas. 
+
+Por fim, são apresentadas as considerações finais, buscando contextualizar os resultados obtidos com o cenário e os estudos identificados e sugerindo estudos complementares.
+
+Este trabalho atuará em duas perspectivas que tangem os estudos acerca do *spread* bancário. A primeira está moldada na consensual importância do *spread* no processo de desenvolvimento econômico via concessão de crédito, o que traz a importância de verificar suas variáveis determinantes. A segunda, parte da importância de um nível de rentabilidade bancária que proporcione um sistema financeiro sustentável.
+
+O próximo capítulo aborda sobre aspectos conceituais, teóricos, técnicos e históricos do setor e *spread* bancário brasileiro, buscando demonstrar as principais características deste mercado, através da descrição e demonstração da evolução da estrutura e seus principais indicadores.

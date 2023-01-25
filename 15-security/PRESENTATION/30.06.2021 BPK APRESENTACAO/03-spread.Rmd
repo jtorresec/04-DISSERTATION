@@ -1,0 +1,592 @@
+\textual
+\pagestyle{simple}
+\parindent 1.50cm
+
+\section{Spread Bancário}\label{sec:spread}
+
+```{r sources.data.spread, include=FALSE, message=FALSE}
+source("~/Desktop/04-DISSERTATION/01-data/bacen/data-icc.R")
+source("~/Desktop/04-DISSERTATION/14-tables/table-studies.R")
+source("~/Desktop/04-DISSERTATION/01-data/bacen/data-spread.R")
+```
+
+Esta seção irá tratar sobre os principais aspectos e características do *spread* bancário. Na primeira parte serão abordados os conceitos e definições gerais. Na segunda parte as características amplas do mercado brasileiro. Na terceira parte sobre os estudos empíricos realizados no Brasil. O foco é identificar elementos que possam contribuir com o objeto deste estudo.
+
+\begin{comment}
+\textcolor{red}{DIFERENCIAR VARIÁVEIS IMPLÍCITAS E EXPLÍCITAS DO SPREAD}
+\textcolor{red}{DIFERENCIAR VARIÁVEIS MICRO E MACRO}
+\end{comment}
+
+\subsection{Conceitos e Definições}
+
+Por definição o termo *spread* ($Spr$), que em tradução livre significa amplitude, crescimento e extensão, é utilizado no setor financeiro no sentido de margem, sendo obtido através da diferença entre a taxa de aplicação ($TxApl$) incidente nas operações de crédito e a taxa de captação ($TxCap$) que remunera as aplicações financeiras \cite{BCB:2000, BCB:1999}.
+
+Em outra perspectiva, o *spread* bancário implica na diferença entre a taxa de juros cobrada aos tomadores deficitários de recursos e a taxa básica de juros, referência para a remuneração das captações via depósitos, dos investidores superavitários de recursos financeiros, se configurando como a diferença entre a composição dos custos destas operações \cite{BCB:1999}.
+
+\begin{equation}
+Spr = TxApl - TxCap
+\end{equation}
+
+O *spread* bancário representa uma medida que sinaliza o desempenho dos bancos \cite{levine:1997}. É considerado um indicador de eficiência da economia, influenciando o nível de crédito e a atividade econômica. Em níveis elevados pode desfavorecer o crédito destinado para produção e consumo produtivos e estar associado com baixo desenvolvimento econômico \cite{WB:2005}. 
+
+Os estudos em torno do *spread* bancário ocorrem em três óticas: evolução, estrutura e determinantes \cite{dick:1999}. Em \textcite{dick:1999} é destacada a importância de distinguir as abordagens em torno da estrutura e determinantes do *spread* bancário, porém no sentido de complementariedade. O diagrama na \autoref{fig:diagram.a} ilustra as óticas de estudo do *spread* bancário.
+
+\begin{figure}[!htbp]
+\vspace{20pt}
+\caption{Diagrama de ilustração da perspectiva de óticas de estudo do \emph{spread}}
+\vspace{-4mm}
+```{r diagram.spread.otic, message=FALSE, fig.path = "12-exportedfigures/"}
+DiagrammeR::grViz("digraph boxes_and_circle {
+  graph [layout = dot, rankdir = TB, 
+  fontname = Helvetica]
+  node [shape = rectangle, fontname = Helvetica, fontsize = 10]        
+  rec1 [label = 'Spread Bancário']
+  rec2 [label = 'Evolução']
+  rec3 [label = 'Estrutura']
+  rec4 [label = 'Determinantes']
+  rec5 [label = 'Avaliar o comportamento\n ao longo do tempo']
+  rec6 [label = 'Identificar e analisar \ncomponentes de resultado']
+  rec7 [label = 'Analisar os efeitos de \nvariáveis ao longo do tempo']
+  
+  # edge definitions with the node IDs
+  rec1 -> rec2
+  rec1 -> rec3
+  rec1 -> rec4
+  rec2 -> rec5
+  rec3 -> rec6
+  rec4 -> rec7
+  }", 
+  height = 250, width = 600)
+```
+\vspace{-3mm}
+\label{fig:diagram.a}
+\fonte{Desenvolvido com base em \cite{dick:1999}}
+\vspace{-2mm}
+\end{figure}
+
+A abordagem em torno da evolução visa analisar o comportamento ao longo do tempo, através de análises quantitativas e qualitativas. Enquanto a ótica da estrutura busca identificar e analisar os componentes de resultados envolvendo receitas, despesas e provisões. Na abordagem sobre os determinantes é vislumbrado identificar as variáveis que explicam as variações do indicador ao longo dos períodos \cite{dick:1999}. 
+
+Nas últimas décadas vem se tornando relevantes os estudos em torno da decomposição do *spread* bancário ($Sprd$), em torno dos seus componentes. Entre os componentes explícitos estão a inadimplência ($Ind$), despesas administrativas ($DAdm$), impostos diretos ($ImpDir$) e indiretos ($ImpInd$), custos e despesas de captação ($DesCap$) e margem de lucro ($MgLqd$) dos bancos conforme ilustrado abaixo \cite{BCB:2000, BCB:1999}.
+
+\begin{equation}
+Sprd=f(Ind, DAdm, ImpInd, ImpDir, MgLqd, DesCap)
+\end{equation}
+
+Esta configuração contemplando a margem de lucro, despesas e riscos envolvidos nas operações de crédito vem desmistificar a comum abordagem do *spread* como o rendimento auferido pelos bancos \cite{costa;nakane:2004, dantas:2012}. Desta forma implica na diferença entre o custos operacionais na ótica de precificação, que após descontados das receitas, remontam o lucro do banco \cite{BCB:2016}.
+
+Além da avaliação de seus componentes, o *spread* pode ser analisado
+conjuntamente por três características: enquanto a abrangência da amostra,
+conteúdo e origem da informação, conforme ilustrado na \autoref{fig:diagramb} \cite{leal:2006}. Estes três elementos estão interligados, podendo serem analisados separadamente ou em conjunto, trazendo vários níveis de informações.  
+
+\begin{figure}[!hbtp]
+\vspace{20pt}
+\caption{Diagrama de ilustração da perspectiva de características do \emph{spread}}
+\vspace{-4mm}
+```{r diagram.spread.carac, message=FALSE, fig.path = "12-exportedfigures/"}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = TB]
+  node [shape = rectangle, fontname = Helvetica, fontsize = 10]        
+  rec1 [label = 'Spread Bancário']
+  rec2 [label = 'Abrangência\n da Amostra']
+  rec3 [label = 'Conteúdo']
+  rec4 [label = 'Origem\n da Informação']
+  rec5 [label = 'Especificidades das\n operações de crédito\n das instituições']
+  rec6 [label = 'Subcomponentes de\n Receitas e Despesas']
+  rec7 [label = 'Cenários \nEx-ante e Ex-Post']
+  
+  # edge definitions with the node IDs
+  rec1 -> rec2
+  rec1 -> rec3
+  rec1 -> rec4
+  rec2 -> rec5
+  rec3 -> rec6
+  rec4 -> rec7
+  }", 
+  height = 200, width = 500)
+```
+\vspace{-3mm}
+\label{fig:diagramb}
+\fonte{Desenvolvido com base em \cite{leal:2006}}
+\vspace{-2mm}
+\end{figure}
+
+A abrangência da amostra consiste nas especificidades das operações de crédito das instituições e seu nível de agregação e granularidade \cite{costa;nakane:2004}. Uma análise agregada dessa característica pode ser dificultada pela existência de heterogeneidade do setor, ressaltando a importância de realizar análises do *spread* bancário em diferentes características e óticas \cite{block:2000}. 
+
+A abordagem em torno do conteúdo está relacionada com os subcomponentes que envolvem a receita e as despesas das intermediações financeiras, podendo englobar, ou não, as tarifas e comissões sobre as taxas de captações e aplicação \cite{block:2000}. Porém com o formato atual dos dados divulgados, não é possível uma análises deste nível. 
+
+A origem da informação é analisada em dois cenários: *ex-ante* e *ex-post* \cite{kunt:1999, levine:1997}. A perspectiva *ex-ante* refere-se ao planejamento e expectativas das instituições bancárias em relação ao mercado de crédito e os riscos envolvidos, obtido por método de precificação envolvendo as taxas de captação e empréstimo \cite{durigan:2018, leal:2006, dantas:2012}.
+
+O *spread* *ex-ante*, por se tratar de um indicador de planejamento, refletindo as expectativas das instituições bancárias em relação ao mercado, finda demonstrando-se mais volátil, não representando as taxas efetivas realizadas. As informações *ex-ante* são repassadas ao Banco Central que as divulga \cite{durigan:2018, leal:2006, dantas:2012}.
+
+No *spread ex-post* as margens são obtidas mediante a apuração dos resultados contábeis, através dos demonstrativos, considerando as receitas e custos efetivos, implicando nos resultados realizados pelas instituições financeiras \cite{kunt:1999, durigan:2018}. Nesse sentido, em termos médios, as taxas *ex-post* se demonstram mais estáveis \cite{leal:2006, dantas:2012}.
+
+Em oposição a medida de planejamento *spread ex-ante*, disponibilizada de forma agregada, o *spread ex-post*, por mostrar a diferença entre as taxas de aplicação e captação obtidas diretamente das demonstrações contábeis, se configura na efetiva margem realizada por cada instituições no período avaliado, e por isso com um maior para fins de análises \cite{dantas:2012}.
+
+Como observado em \textcite{klein:1971} e \textcite{ho-saunders:1981} o *spread* bancário é determinado de acordo com as características e os riscos envolvidos nas operações, inerentes em cada estrutura de mercado.Reduções no *spread* *ex-post* não necessariamente significam aumento da eficiência de intermediação, pois podem estar associadas a uma redução da inadimplência \cite{kunt:1999}. 
+
+\subsection{Spread Bancário no Brasil}
+
+O Banco Central, em 1999, iniciou uma série de estudos e medidas com objetivo de reduzir a taxa de juros e o *spread* realizados no setor bancário brasileiro, atuando na identificação e ajustes em variáveis econômicas influentes. Entre as primeiras medidas estavam a redução da taxa de compulsório para depósitos a vista e até a extinção para depósitos a prazo, redução do IOF e a redução da Selic \cite{BCB:2000}.
+
+De acordo com o \textcite{BCB:1999}, adoção de política cambial de flutuação reduziram a necessidade de controlar o balanço de pagamentos através da imposição de elevadas taxas de juros básicas. Tais medidas combinadas com políticas de austeridade fiscal tiveram impactos positivos sobre a taxa de juros e sobre o *spread* bancário. 
+
+No Brasil, a taxa de aplicação para crédito de recursos livres é pactuado entre instituição e tomador. Somente as operações de crédito envolvendo recursos direcionados são sujeitas à limites, não podendo exceder 12% a.a. mais a taxa referencial de juros \cite{BCB:2016}.O que faz  *spread* bancário estar inserido nos mecanismos de mercado, sujeito a flutuações de oferta e demanda.
+
+No mercado bancário brasileiro, o modelo consolidado de mensuração do *spread* bancário, de acordo com demonstrado na \autoref{tab:spread.tb}, leva em consideração o saldo médio de capital emprestado, e a diferença entre as receitas de aplicação e despesas de captação, ocorrendo a classificação em *spread* bruto, direto e líquido \cite{fipecafi:2005}
+
+\begin{table}[!htbp]
+\vspace{20pt}
+ \centering
+   \caption{Esquema de obtenção do \emph{Spread} mais adotado no mercado} 
+   \vspace{1mm}
+    \label{tab:spread.tb}
+     \begin{tabular}{l|r|r|r}
+      \hline
+                                           &   PJ   &   PF    & Total \\
+       \hline
+       Saldo Médio do Capital Emprestado   & 100.00 & 100.00  & 100.00 \\
+       A — Receita de Aplicação Financeira & 9.4    & 16.5    & 12,7   \\
+       B — Despesas de Captação            & (4.8)  & (4.9)   & (4.8)  \\   
+       Spread Bruto                        & 4.6    & 11.6    & 7.9    \\
+       Spread Direto                       & 3.2    & 7.6     & 5.3    \\
+       Spread Líquido                      & 0.5    & 1.6     & 1.0    \\
+       \hline
+       \end{tabular}
+\vspace{1mm}
+\fonte{in \cite{fipecafi:2005}}
+\vspace{-2mm}
+\end{table}
+
+
+
+\begin{grafico}[!hbtp]
+\vspace{20pt}
+\caption{Evolução do \emph{spread} bancário brasileiro até 2011}
+\vspace{-4mm}
+```{r average spread, fig.width=5, fig.height=3}
+spread.1994.2012 <- read.csv('~/Desktop/04-DISSERTATION/01-data/bacen/STI-20200908000010811.csv', sep = ';', dec = ',', encoding = 'UTF-8', stringsAsFactors = FALSE)
+
+colnames(spread.1994.2012) <- c('Data', 'Spread')
+
+date <-seq(from = as.Date("1994-07-01"), to = as.Date("2012-12-01"), by="month")
+
+spread.ev <- transform(spread.1994.2012, 
+                       Spread =  as.numeric(Spread))
+
+spread.ev <- separate(spread.ev, Data, into = c('Mês', 'Ano'), sep = '/')
+
+spread.ev <- slice(spread.ev, 1:222)
+
+spread.ev.f <- mutate(spread.ev, Data = date)
+
+s.ev.m <- max(spread.ev.f$Spread)
+
+last.s.em <- spread.ev.f[,3] %>% tail(1)
+
+spread.m.1994.2012 <- ggplot(spread.ev.f, aes(x = Data)) +
+  geom_line(aes(y = Spread)) +
+  labs(x = '', y = "Spread Médio %") +
+  theme_bw()
+
+print(spread.m.1994.2012)
+```
+\vspace{-3mm}
+\label{graf:spread2012}
+\fonte{Desenvolvido a partir de dados do Banco Central}
+\vspace{-2mm}
+\end{grafico}
+
+O \autoref{graf:spread2012} mostra a evolução do *spread* bancário brasileiro médio entre os anos de 1994 e 2012, chegando a atingir `r s.ev.m`%, com significativa queda ao longo desse período, atingindo `r last.s.em`% ao final. Esta série foi descontinuada em 2012, passando a ser utilizada nova metodologia de cálculo.
+
+O Banco Central, até 2007 utilizava metodologia para avaliação do *spread* bancário contemplando somente os recursos livres, o que não vinha a proporcionar uma avaliação mais aprofundada. Em 2008 houve uma modificação na metodologia de decomposição do *spread*, alterando o cálculo do custo médio de captação e detalhando classificações do crédito \cite{dantas:2012}
+
+Para o custo médio de captação passou a se utilizar a taxa média ponderada entre as taxas dos depósitos a prazo (CDB), caderneta de poupança e a vista, a participação dos custos efetivos dos recolhimentos compulsórios em detrimento do custo de oportunidade \cite{dantas:2012}
+
+O BACEN mantém atualmente duas séries para o indicador: *Spread* Médio das operações de crédito (MOC) e *Spread* do Indicador de Custo de Crédito (ICC). As séries são disponibilizadas em termos totais e nas subdivisões por tipo de
+recursos, crédito e tomador. 
+
+```{r table.spreads, echo=FALSE, eval=TRUE, include=FALSE}
+spread.icc.serie <- c("Spread do ICC - Total",
+                      "Spread do ICC - Crédito Direcionado", 
+                      "Spread do ICC - Crédito Livre",
+                      "Spread do ICC - Pessoas físicas",
+                      "Spread do ICC - Pessoas jurídicas",
+                      "Spread do ICC - Crédito não rotativo - Total",
+                      "Spread do ICC - Crédito Direcionado - Pessoas físicas",
+                      "Spread do ICC - Crédito Direcionado - 
+                      Pessoas jurídicas",
+                      "Spread do ICC - Crédito Livre - Pessoas físicas", 
+                      "Spread do ICC - Crédito Livre - Pessoas jurídicas",
+                      "Spread do ICC - Crédito não rotativo 
+                      - Recursos livres - Pessoas físicas",
+                      "Spread do ICC - Crédito não rotativo 
+                      - Recursos livres - Pessoas jurídicas",
+                      "Spread do ICC - Crédito não rotativo - Recursos livres",
+                      "Spread do ICC - Crédito não rotativo - Pessoas físicas",
+                      "Spread do ICC - Crédito não rotativo - 
+                      Pessoas jurídicas")
+                      
+                      
+spread.moc.series <- c("Spread médio das operações de crédito - Total",
+                       "Spread médio das operações de crédito não rotativo 
+                       - Total",
+                       "Spread médio das operações de crédito com 
+                       recursos direcionados - Total",
+                       "Spread médio das operações de crédito 
+                       com recursos livres - Total",
+                       "Spread médio das operações de crédito - 
+                       Pessoas físicas - Total",
+                       "Spread médio das operações de crédito 
+                       - Pessoas jurídicas - Total",
+                       "Spread médio das operações de crédito não 
+                       rotativo com recursos livres - Pessoas Jurídicas",
+                       "Spread médio das operações de crédito não rotativo 
+                       com recursos livres - Pess oas Físicas",
+                       "Spread médio das operações de crédito não 
+                       rotativo com recursos livres - Total",
+                       "Spread médio das operações de crédito não 
+                       rotativo - Pessoas físicas - Total",
+                       "Spread médio das operações de crédito não 
+                       rotativo - Pessoas jurídicas - Total",
+                       "Spread médio das operações de crédito com recursos
+                       direcionados - Pessoas físicas",
+                       "Spread médio das operações de crédito com 
+                       recursos direcionados - Pessoas jurídicas",
+                       "Spread médio das operações de crédito com recursos
+                       livres - Pessoas físicas", 
+                       "Spread médio das operações de crédito com recursos
+                       livres - Pessoas jurídicas")
+
+spread.table <- data.frame("Spread ICC" = spread.icc.serie,
+                           "Spread MOC" = spread.moc.series)
+
+spread.table %>% kbl(booktabs = T) %>% 
+        kable_styling(latex_options = c("striped"), #, "repeat_header"), 
+                      font_size = 10, 
+                      full_width = T) %>%  
+        column_spec(1, bold = F, width = "7cm") %>% 
+        column_spec(2, width = "8cm")
+```
+
+Estas séries estatísticas representam estimativas baseadas nas informações repassadas pelas instituições bancárias das taxas de juros das operações de crédito e indicadores do mercado financeiro do custo médio do dinheiro para o custo médio de captação \cite{BCB:2016}. 
+
+A série do *Spread* médio das operações de crédito é calculada a partir da diferença entre a taxa média de juros de novas operações de crédito no SFN e o custo de captação referencial médio de operações de crédito livre, direcionado e não rotativo podendo ser observados por tomador \cite{BCB:2016}.
+
+\begin{grafico}[!htbp]
+\vspace{20pt}
+\caption{Evolução do Spread médio das operações de crédito}
+\vspace{-4mm}
+```{r spread.2019.moc,  fig.width=5, fig.height=3}
+n <- length(spread.icc$data) + 22
+
+df.spreads.moc <- data.frame(Data = dmy(spread.icc$data),
+                         Médio = spread.moct$Spread.MOCT[23:n],
+                         Não.Rotativo =
+                           spread.moct.nr$Spread.MOCT.NR[23:n],
+                         Direcionado = spread.moct.rd$Spread.MOCT.RD[23:n],
+                         Livre = spread.moct.rl$Spread.MOCT.RL[23:n],
+                         Não.Rotativo.Livre =
+                                 spread.moct.nr.rl$Spread.MOCT.NR.RL[23:n])
+
+spreads.moc <- df.spreads.moc %>% 
+        gather(Tipo, Valor, 2:6 ) %>% 
+        transform(Tipo = as.factor(Tipo)) %>% 
+        arrange(Data)
+
+ggplot(spreads.moc, aes(x = Data)) +
+        geom_line(aes(y = Valor, color = as.factor(Tipo))) +
+        labs(color= NULL, y = 'Spreads %', x = NULL) +
+        theme_minimal() + 
+        theme(legend.position = 'bottom')
+```
+\vspace{-3mm}
+\label{graf:spreadmoc}
+\fonte{Desenvolvido a partir de dados do Banco Central do Brasil — Departamento de Estatísticas}
+\vspace{-2mm}
+\end{grafico}
+
+```{r max spread moc, results='hide', message=FALSE}
+smoct.summary <- summary(spread.moct)
+moct.max.min <- max(spread.moct$Spread.MOCT) - min(spread.moct$Spread.MOCT)
+moct.dif <- max(spread.moct$Spread.MOCT) - 15.49
+```
+
+O \autoref{graf:spreadmoc} mostra a visualização da evolução mensal do spread médio das novas operações de crédito contratadas entre janeiro de 2013 e julho de 2020. No período entre 2014 e 2017 se verifica uma elevação de 10 p.p no *spread* total, recuando 8 p.p a patamar próximo ao início do período. É possível notar a grande disparidade entre os *spread* de recursos livres e direcionados. 
+
+O *Spread* do ICC, considera a diferença entre o Índice de Custo de Crédito — equivalente ao custo médio de juros das operações ativas da carteira do SFN — e o custo de captação médio ponderado, levando em consideração operações de crédito livre, direcionado e não rotativo, subdividido por pessoa física e jurídica \cite{BCB:2016}.
+
+\begin{grafico}[!htbp]
+\vspace{20pt}
+\caption{Evolução do \emph{Spread} do Índice do Custo de Crédito}
+\vspace{-4mm}
+```{r spread 2019 icc, fig.width=5, fig.height=3}
+df.spreads.icc <- data.frame(Data = dmy(spread.icc$data),
+                         Médio = spread.icc$Spread.ICC,
+                         Direcionado = spread.icc.cd$Spread.ICC.CD,
+                         'Crédito Livre' = spread.icc.cl$Spread.ICC.CL,
+                         'Não Rotativo'  = spread.icc.cnr$Spread.ICC.CNR,
+                         'Não Rotativo Livre' = spread.icc.cnr.rl$Spread.ICC.CNR.RL)
+
+spreads.icc <- df.spreads.icc %>% 
+        gather(Tipo, Valor, 2:6) %>% 
+        transform(Tipo = as.factor(Tipo)) %>% 
+        arrange(Data)
+
+ggplot(spreads.icc, aes(x = Data)) +
+        geom_line(aes(y = Valor, color = as.factor(Tipo))) +
+        labs(color= NULL, y = 'Spreads ICC %', x = NULL) +
+        theme_minimal() +
+        theme(legend.position = 'bottom')
+```
+\vspace{-3mm}
+\label{graf:spreadicc}
+\fonte{Desenvolvido a partir de dados do Banco Central do Brasil - Departamento de Estatísticas}
+\vspace{-2mm}
+\end{grafico}
+
+No \autoref{graf:spreadicc} pode ser visualizada a evolução do *spread* do ICC, entre janeiro de 2013 e julho de 2020 com expressiva elevação entre 2014 e 2017, passando a decair até retormar a patamares similares ao início do período. Também pode ser notada a expressiva diferença entre o *spread* de recursos livres e direcionados.
+
+Ao analisar as séries do *Spread* ICC e *Spread* MOC é possível destacar outra perspectiva de avaliação do *Spread* no que tange a dimensão — ilustrada na \autoref{fig:diagramc} —, consistindo no tipo de recurso, modalidade e tomador, onde esta última aumenta o nível de granularidade abrangendo as demais. A perspectiva de dimensão atua de forma congruente com as perspectivas de ótica e de características.
+
+O Indicador do Custo de Crédito (ICC) consiste no custo médio de todas as operações de crédito abertas — independentes do período em que foram contratadas — que compõem a carteira de empréstimos, financiamentos e arrendamento mercantil das instituições do Sistema Financeiro Nacional (SFN) \cite{BCB:2000}.
+
+```{r max.icc, results='hide', message=FALSE}
+max.icc <- max(icc$ICC)
+
+min.icc <- min(icc$ICC)
+```
+
+O \autoref{graf:evicc} traz a visualização da evolução do Índice de Custo de Crédito entre janeiro de 2013 e dezembro de 2020, com máxima de `r max.icc`% em 2017, demonstrando  queda significativa a partir de 2020, chegando a atingir `r min.icc`% em agosto de 2020.
+
+\begin{grafico}[!hbtp]
+\vspace{20pt}
+\caption{Evolução do Indicador de Custo de Crédito (ICC)}
+\vspace{-4mm}
+```{r ICC, fig.width=5, fig.height=3}
+
+ggplot(icc, aes(x = dmy(Data))) +
+  geom_line(aes(y = ICC)) +
+  labs(x = NULL, y = 'ICC %') +
+  theme_bw()
+```
+\vspace{-3mm}
+\label{graf:evicc}
+\fonte{Desenvolvido a partir de dados do Banco Central do Brasil — Departamento de Estatísticas}
+\vspace{-2mm}
+\end{grafico}
+
+\begin{figure}[!htbp]
+\vspace{20pt}
+\caption{Diagrama de ilustração da perspectiva de dimensão  \emph{spread}}
+\vspace{-4mm}
+```{r diagram.spread.dim, message=FALSE, fig.path = "12-exportedfigures/"}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = TB]
+  node [shape = rectangle, fontname = Helvetica, fontsize = 10]        
+  rec1 [label = 'Spread Bancário']
+  
+  node [shape = ellipse]
+  rec2 [label = 'Tomador']
+  rec5 [label = 'Tipo de Recurso']
+  
+  node [shape = rectangle] 
+  rec3 [label = 'Pessoa Jurídica']
+  rec4 [label = 'Pessoa Física']
+  
+  node [shape = ellipse]
+  
+  node [shape = rectangle]
+  rec6 [label = 'Crédito Livre']
+  rec7 [label = 'Crédito Direcionado']
+  rec8 [label = 'Não Rotativo']
+  rec9 [label = 'Não Rotativo\n com Recurso Livre']
+  
+  # edge definitions with the node IDs
+  rec1 -> {rec2,rec5}; rec2 -> rec3; rec2 -> rec4
+  rec5 -> {rec6,rec7, rec8, rec9}; rec3 -> rec5; rec4 -> rec5
+  }", 
+  height = 250, width = 600)
+```
+\vspace{-3mm}
+\label{fig:diagramc}
+\fonte{Desenvolvido com base nos dados}
+\vspace{-2mm}
+\end{figure}
+
+A perspectiva de dimensão demonstra ser relevante, uma vez que existem diferenças consideráveis para os níveis de *spread* de acordo com tomador, tipo de crédito e modalidade. Levantando a indagação se uma análise agregada é capaz identificar de forma realística os efeitos desta variáveis sobre os setores produtivos.
+
+Em \textcite{BCB:1999} é abordado sobre a diversidade das operações de crédito que envolvem o volume, prazos, garantias, tipo de recursos e tomadores. Tal abordagem vem corroborar com perspectiva de dimensão e levanta uma outra perspectiva no que tange o volume-prazo-risco, conforme ilustrado na \autoref{fig:diagramd}.
+
+\begin{figure}[!htbp]
+\vspace{20pt}
+\caption{Diagrama de ilustração da perspectiva volume-tempo-risco  \emph{spread}}
+\vspace{-4mm}
+```{r diagram.spread.vol.tem,ris, message=FALSE, fig.path = "12-exportedfigures/"}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = TB]
+  node [shape = rectangle, fontname = Helvetica, fontsize = 10]        
+  rec1 [label = 'Spread Bancário']
+  node [shape = ellipse] 
+  rec2 [label = 'Volume']
+  rec3 [label = 'Tempo']
+  rec4 [label = 'Risco']
+  rec8 [label = 'Garantia']
+  node [shape = rectangle] 
+  rec5 [label = 'Referente ao volume\n de recursos captados\n e emprestados']
+  rec6 [label = 'O prazo de duração das\n operações de crédito']
+  rec7 [label = 'O nível de riscos\n das operações']
+  rec9 [label = 'A existência garantias para\n operações']
+  
+  # edge definitions with the node IDs
+  rec1 -> {rec2, rec3, rec4, rec8}
+  rec2 -> rec5
+  rec3 -> rec6
+  rec4 -> rec7
+  rec8 -> rec9
+  rec4 -> rec8
+  }", 
+  height = 250, width = 600)
+```
+\vspace{-3mm}
+\label{fig:diagramd}
+\fonte{Desenvolvido com base nos dados}
+\vspace{-2mm}
+\end{figure}
+
+\subsection{Estudos anteriores}
+
+Na literatura acadêmica não existe uma teoria formalizada acerca do *spread* bancário \cite{timotio:2018}. Sendo verificados estudos empíricos que visam classificar, analisar e identificar variáveis microeconômicas e macroeconômicas influentes nesse indicador em diversas perspectivas.
+
+Em estudo, \textcite{BCB:1999}\footnote{Neste estudo foram desconsiderados dados de operações de repasses governamentais, crédito imobiliário, crédito rural e taxas estabelecidas} apresenta como composição do *spread* a inadimplência, despesas administrativas impostos indiretos, imposto de renda, contribuição social do lucro líquido e a margem de lucro dos bancos e despesas de captação. Nos resultados o estudo concluiu que a taxa básica de juros explicam somente uma parte das juros e *spread*.
+
+Ainda em \textcite{BCB:1999}, é abordado a relação inversa entre a taxa básica de juros e spread com a demanda interna, atuando via a elevação da oferta de crédito, combinados com redução da taxa de compulsório e políticas de concessão de crédito. E que alterações na taxa básica de juros afetam toda a cadeira de taxas até consumidor final, em uma estrutura de custos das operações em degraus\footnote{Configurado por taxas preferenciais mais baixas e risco de crédito elevado}.
+
+Outro aspecto levantado por \textcite{BCB:1999}, é que no período levantado, o *spread* não demonstrou instabilidade diante a volatilidade da taxa básica de juros, que apresentou grande variação durante o período. Verificando que o custo de crédito em suas modalidades refletem as alterações na taxa básica de juros.
+
+De acordo com \textcite{BCB:1999}, a inadimplência é o componente mais oneroso do *spread*, representado 35%. Os componentes de markup: impostos indiretos (14%\footnote{Nesse cálculo está incluída a extinta CMPF}), despesa administrativas (22%), IR e CSLL (11%) e margem de lucro do bancos (18%) são apresentado como relevantes e determinantes na explicação do spread. 
+
+Em \textcite{BCB:1999},  o risco de crédito foi apresentado como determinante, no custo da operação, por implicar na decisão de concessão, onerando as demais operações realizadas. Pois ao emprestar o capital de terceiros os bancos assumem o risco, e buscam minimizar com uma cobrança adicional associada a probabilidade de não receber, onde tal avaliação poder ser arbitrária.
+
+O risco de crédito e inadimplência estão relacionados em parte com fatores definidos no ambiente macroeconômico e outra parte com as características institucionais individuais, no que tangem a capacidade de avaliação de crédito. 
+Segundo \textcite{BCB:1999} as despesas administrativas estão relacionadas com a eficiência, quantidade de agências e grau de alavancagem das operações de crédito. E quanto menor o volume da operações, maior será a participação das despesas administrativas, com tendência ser repassada ao tomador final.
+
+No estudo, \textcite{BCB:1999} verificou que o repasse do juros ocorre mesmo com o utilização do capital próprio, incluindo a parcela de imposto de renda e contribuição social inerentes as operações de captação. E que os maiores níveis de spread são os de cheque especial, no qual não guarda relação risco, mas elevadas margens de lucros associada o poder de mercado das instituições. 
+
+Em \textcite{BCB:1999} foi verificado  que o impactos dos impostos indiretos são mais elevados para as pessoas físicas do que para pessoas jurídica , principalmente por conta do IOF. O mesmo ocorre com as despesas administrativas, repasse de riscos e margem de lucro, que por conseguinte elevam o PIS e COFINS.
+
+O comportamento social e cultura também são apontados como fatores determinantes, em \textcite{BCB:1999}, afetando a inadimplência na perspectiva de risco moral. E que o aspectos jurídicos em torno de cobrança acabam agravando a inadimplência. Sugerindo que as instituições financeiras deveriam ser vistas como parceiras no processo econômico.   
+
+Para \textcite{BCB:1999}, em grande parcela o *spread* pode ser explicado pela inadimplência, e pelo reduzido nível de alavancagem financeira, reduzindo a dispersão dos custos administrativos e de capital nas operações de crédito. A inadimplência age limitando a carteira de crédito, mantendo a alavancagem baixa, como uma forma de proteção para as instituições.
+
+Entre outros aspectos relevantes apontados em \textcite{BCB:1999}, estão a importância de um ambiente macroeconômico favorável, redução da cunha fiscal, controle da inflação, aumento da oferta de crédito, redução de compulsórios e créditos direcionados e redução das taxas básicas de juros.
+
+A grande maioria dos estudos realizados no Brasil utilizam as medidas de
+*spread* bancário divulgadas pelo Banco Central, que remetem a uma perspectiva
+*ex-ante*, registrando as taxas planejadas na fase de concessão de crédito. E
+para as variáveis explicativas a grande maioria utiliza indicadores
+macroeconômicos \cite{dantas:2012}
+
+No ano de 1994, \textcite{aronovich:1994} realizou estudo econométrico para
+verificar a influência da inflação e nível de atividade econômica no *spread*
+bancário *ex-ante*, encontrando relação direta do *spread* com a inflação e
+indireta com o nível de atividade econômica.
+
+Em estudo dos determinantes macroeconômicos do *spread* bancário *ex-ante*, \textcite{oreiro-2006} utilizou modelo de regressão múltipla\footnote{$ln spread = \beta_0 trend + \beta_1 ln selic + \beta_2 ln adm + \beta_3 ln risk + \beta_4 ln imp + \beta_5 ln comp$}\footnote{trend = tendência determinista que controla outras variáveis; selic = taxa Selic; adm = despesa administrativas; risk =  proxy para o risco de crédito (spread do C-Bond sobre o rendimento dos títulos do Tesouro Americano de mesma maturidade; imp são impostos indiretos; comp = compulsório incidente sobre os depósitos a vista.} — para identificar as variáveis influentes. O estudo chegou ao resultado que a alta volatilidade e as taxas da Selic são um dos principais determinantes desse indicador no setor bancário brasileiro, identificando também a significância do nível de atividade industrial.
+
+Em análise dos determinantes do *spread* bancário *ex-post*, \textcite{dantas:2012} utilizou modelo de dados microeconômicos em painel dinâmico (jan-2000 a out-2009), encontrando níveis significativos e diretos com o risco de crédito, concentração, atividade econômica, e indireta com a participação de mercado, não encontrando níveis significativos com origem de capital e tipo de organismo. 
+
+Outra observação em \textcite{dantas:2012}, foi a forte relação do *spread* *ex-post* no momento atual com o momento anterior imediato, e que as instituições tendem a cobrar maiores taxas, quando maior o nível de concentração do mercado e não encontrou significância da Selic na determinação deste indicador. 
+
+Em \textcite{almeida:2013} foi desenvolvido modelo de dados macroeconômicos e microeconômicos em painel de 64 instituições bancárias para avaliação de determinantes do *spread* *ex-post* no Brasil entre o primeiro trimestre de 2001 e o segundo trimestre de 2012, encontrando como relevantes as despesas administrativas, receita de serviços, índice de cobertura, PIB e o grau de concentração.
+
+Em \textcite{durigan:2018} foi realizada análise dos fatores macroeconômicos e indicadores industriais que influenciam o *spread* bancário *ex-ante*, através de análise de regressão linear multivariada utilizando 18 variáveis em quatro modelos. Chegando a conclusão que o aumento da atividade industrial, a redução
+do desemprego e o consumo atuam na diminuição do *spread* bancário. 
+
+Os modelos desenvolvidos por \textcite{durigan:2018} demonstraram que há uma relação significativa e direta entre *spread* e: inadimplência, IPIs (bens de capital, intermediários, semiduráveis, não duráveis e consumo duráveis), Selic, PIB, desemprego e o EMBI+\footnote{Medida de taxa de risco-país}. As relações indiretas foram encontradas em: IPI (bens de consumo e geral), IPCA, saldo da carteira de crédito e índice de vendas no varejo.
+
+O estudo de \textcite{timotio:2018} teve foco em abordagem microeconômica ao buscar identificar a influência das variações de indicadores financeiros-contábeis no *spread ex-post* em 26 instituições bancárias, através de regressão em dados em painel. Encontrando relações significativas diretas com a alavancagem financeira, retorno sobre o patrimônio líquido, EBITDA, Ativo Total e eficiência.
+
+No modelo de \textcite{timotio:2018} foi encontrada relação significativa e indireta do *spread* com a participação de capital de terceiros e, não identificada relação significativa com a composição do endividamento, retorno sobre ativos e a liquidez corrente.
+
+De acordo com \textcite{durigan:2018, dantas:2012}, existem poucos estudos inclinados para os determinantes do *spread* *ex-post* no Brasil, onde identificaram o estudos de Guimarães (2002). Foram identificados ainda os estudos acerca do *spread* ex-post de Fipecafi (2004) *apud* \textcite{dantas:2012} e Matias (2006) *apud* \textcite{leal:2006}.
+
+Em \textcite{fipecafi:2005} foi realizado estudo de apuração de resultados, *ex-post*, baseado em demonstrações contábeis entre o 1º semestre de 2005 de instituições que representavam 75,8% do ativo total e 76% do total de crédito. Chegando a um resultado médio de *spread* bruto de 7,6% para pessoa física e 3,2% para pessoa jurídica, e *spread* líquido de 1,6% para pessoa física e 0,5% para pessoa jurídica.
+
+O \autoref{qdr:exantea} e o \autoref{qdr:exanteb} trazem o resumo dos principais estudos empíricos sobre *spread* bancário *ex-ante* no Brasil, com resultados obtidos através de modelagem econométrica com utilização de regressão, tomando variáveis micro e macroeconômicas como explanatórias e demonstrando a relação com o *spread ex-ante*. 
+
+\begin{qdr}
+\vspace{20pt}
+\caption{Resumo de estudos sobre o \emph{spread ex-ante} no Brasil — Parte 1}
+\vspace{1mm}
+```{r studies exante.a, fig.path = "tables", eval=TRUE}
+studies.ante.a %>% kbl(booktabs = T) %>% 
+        kable_styling(latex_options = c("striped", "repeat_header"), 
+                      font_size = 10, 
+                      full_width = T,
+                      ) %>% 
+        column_spec(1, bold = T, width = "4cm") %>% 
+        column_spec(2, width = "2cm") %>% 
+        column_spec(3, width = "2cm") %>% 
+        column_spec(4, width = "2cm") %>% 
+        column_spec(5, width = "2cm") #%>% 
+  #save_kable("12-exportedfigures/studies_extante_a.png")
+```
+\vspace{1mm}
+\label{qdr:exantea}
+\fonte{Desenvolvido a partir das fontes citadas}
+\vspace{-2mm}
+\end{qdr}
+
+Entre os estudos do \autoref{qdr:exantea} e \autoref{qdr:exanteb} que avaliaram a Selic e as despesas administrativas, há um consenso que estas variáveis possuem uma relação de determinação direta com o *spread ex-ante*. Em três estudos que avaliaram impostos indiretos e receita de serviços foi encontrada relação direta com o *spread ex-ante*.
+
+\begin{qdr}
+\vspace{20pt}
+\caption{Resumo de estudos sobre o \emph{spread ex-ante} no Brasil — Parte 2}
+\vspace{1mm}
+```{r studies exante.b, message=FALSE, eval=TRUE}
+studies.ante.b %>% kbl(booktabs = T) %>% 
+        kable_styling(latex_options = c("striped", "repeat_header"), 
+                      font_size = 10, full_width = T,
+                      ) %>% 
+        column_spec(1, bold = F, width = "4cm") %>% 
+        column_spec(2, width = "3cm") %>% 
+        column_spec(3, width = "3cm") %>% 
+        column_spec(4, width = "3cm") #%>% 
+  #save_kable("12-exportedfigures/studies_extante_b.png")
+```
+\vspace{1mm}
+\label{qdr:exanteb}
+\fonte{Desenvolvido a partir das fontes citadas}
+\vspace{-2mm}
+\end{qdr}
+
+Ainda no \autoref{qdr:exantea} e \autoref{qdr:exanteb}, dois estudos chegaram a resultados diferentes para a volatilidade da Selic. Os efeitos do IPCA foram testados em três estudos, os dois mais recentes encontraram uma relação indireta. Em três estudos que examinaram o IGP, dois encontram relação direta, um deles foi repetido posteriormente e encontrou relação indireta.
+
+\begin{qdr}
+\vspace{20pt}
+\caption{Resumo de estudos sobre o \emph{spread ex-post} no Brasil}
+\vspace{1mm}
+```{r studies expost, message=FALSE, eval=TRUE}
+table.expost <- studies.post %>% kbl(booktabs = T) %>% 
+        kable_styling(latex_options = c("striped"), 
+                      font_size = 10, full_width = T) %>% 
+        column_spec(1, bold = T, width = "4cm") %>% 
+        column_spec(2, width = "3cm") %>% 
+        column_spec(3, width = "3cm") %>% 
+        column_spec(4, width = "3cm") #%>% 
+  #save_kable("12-exportedfigures/studies_expost.pdf")
+table.expost
+```
+\vspace{1mm}
+\label{qdr:expost}
+\fonte{Desenvolvido a partir das fontes citadas}
+\vspace{-2mm}
+\end{qdr}
+
+O \autoref{qdr:expost} traz o resumo dos estudos empíricos dos determinantes do*spread ex-post* no Brasil, por meio de modelos econométricos utilizando regressão. Destaca-se que, entre os estudos, dois encontraram significância de influência direta com o grau de concentração e o *spread ex-post*. E dois dos estudos chegaram a resultados opostos para posição de market share e a variável dependente.
+
+Este capítulo verificou os principais conceitos, características e estudos acerca do *spread* bancário no Brasil, identificando as óticas de análise por evolução, composição e determinantes através da abrangência da amostra, conteúdo e origem da informação e por dimensão por tipo de empréstimo e tomador.
+
+Ainda foi verificado que as maiores limitações estão na dificuldade de desagregação de informações para uma análise mais aprofundada, prejudicando as análises de determinantes do *spread ex-post*. E a maioria dos estudos mais significativos estão relacionados ao *spread ex-ante*.
+
+No próximo capítulo, será descrita a metodologia de trabalho com a formulação das hipóteses baseado nas informações e levantamentos dos capítulos anteriores, nos estudos pesquisados e na teoria econômica, através da coleta, tratamento e análise de dados.

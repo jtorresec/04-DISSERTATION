@@ -1,0 +1,1118 @@
+---
+title: OS EFEITOS DOS COMPONENTES DO *SPREAD* *EX-POST* NA RENTABILIDADE DAS INSTITUIÇÕES
+  BANCÁRIAS
+author: "JACKSON DA SILVA TORRES"
+date: "2021"
+output:
+  beamer_presentation:
+    keep_tex: yes
+    slide_level: 2
+  slidy_presentation: default
+bibliography: referencias.bib
+documentclass: beamer
+header-includes:
+- \input{packages}
+- \input{preamble}
+- \usepackage{helvet}
+- \renewcommand{\familydefault}{\sfdefault}
+- \makeindex
+- \DeclareUnicodeCharacter{0301}{******}
+- \DeclareUnicodeCharacter{0303}{******}
+- \DeclareUnicodeCharacter{0327}{******}
+- \DeclareUnicodeCharacter{0302}{******}
+link-citations: yes
+classoption:
+- aspectratio=169
+- ignorenonframetext
+spacing: doublespacing
+biblio-style: abnt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(comment = NA)
+```
+
+```{r sources, message=FALSE, results='hide', include=FALSE, eval=TRUE}
+source("packages.R")
+
+purl("~/Desktop/04-DISSERTATION/02-bankingstructure.Rmd",
+     output = "~/Desktop/04-DISSERTATION/18-presentation/banking.R",
+     documentation = 1)
+
+purl("~/Desktop/04-DISSERTATION/03-spread.Rmd",
+     output = "~/Desktop/04-DISSERTATION/18-presentation/spread.R",
+     documentation = 1)
+
+source("banking.R")
+source("spread.R")
+```
+
+## **SUMÁRIO **
+
+:::::::::::::: {.columns}
+::: {.column width="60%"}
+
+**1. INTRODUÇÃO**
+  
+   1. CONTEXTUALIZAÇÃO
+     
+   2. OBJETIVOS
+     
+   3. JUSTIFICATIVA TEÓRICA E PRÁTICA
+     
+   4. ESTRUTURA DA DISSERTAÇÃO
+     
+**2. REFERENCIAL TEÓRICO**
+   
+   1. SETOR BANCÁRIO
+      
+   2. SPREAD BANCÁRIO
+      
+   3. ESTUDOS ANTERIORES
+
+:::
+::: {.column width="40%"}
+
+**3. PROCEDIMENTOS METODOLÓGICOS**
+
+:::
+::::::::::::::
+
+## **1.1 CONTEXTUALIZAÇÃO**
+
+
+a. *Spread* como indicador de desempenho da economia  
+   [@WB:2005; @levine:1997; @dantas:2012;@leal:2006]
+   
+- Elevados níveis de *Spread* atuam no desfavorecimento do crédito.
+   
+- Fundo Monetário Internacional (FMI) e Banco Mundial (BM), que realizam e incentivam estudos sobre o indicador a nível mundial [@WB:2005.
+   
+- A maioria indica a relação inversa entre *Spread* e Desenvolvimento
+      
+
+b. Spread como indicador de eficência do sistema financeiro  
+   [@levine:1997;@dantas:2012;@leal:2006]
+   
+- Relacionado com a solidez e competitividade das instituições 
+
+## **1.2 OBJETIVOS**
+  
+a. **OBJETIVO GERAL**
+
+1. Verificar quais variáveis microeconômicas e macroeconômicas exercem influência significativa sobre o *spread ex-post* e como estas afetaram a rentabilidade das instituições bancárias brasileiras, entre os anos de 2001 e 2020.
+   
+## **1.2 OBJETIVOS**
+
+b. **OBJETIVOS ESPECÍFICOS**
+
+1. Realizar levantamento teórico e bibliográfico sobre setor bancário e estudos sobre o *Spread* bancário no Brasil; 
+
+2. Identificar e testar variáveis macroeconômicas e microeconômicas enquanto componentes implícitos e explícitos de determinação do *spread* bancário *ex-post*;
+
+3. Analisar como as variações dos componentes do *spread* bancário afetaram a rentabilidade dos bancos, no período de 2001 a 2020.
+
+\textcolor{blue}{COMBINAÇÃO DAS PERSPECTIVAS DE DESENVOLVIMENTO E SOLIDEZ}
+
+## **1.3 JUSTIFICATIVA TEÓRICA E PRÁTICA**
+
+* Evidências da influência do nivel de *Spread* no desenvolvimento econômico.
+
+* Importância do *Spread* na solidez do sistema financeiro.
+
+* Mercado Financeiro em constantes transformações.
+
+* O cenário brasileiro é considerado peculiar por possuir [@levine:1997; @matos:2003]: 
+   - Elevados níveis de *spread* bancário
+   
+   - Baixa relação entre crédito e PIB
+   
+   - Cenários de crescimento econômico instáveis e considerados baixos
+
+* Carências de pesquisas acerca do *Spread ex-post* 
+
+* Existência de lacunas, divergências e incogluências de pesquisas.
+ 
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+a. **CONTEXTO HISTÓRICO**
+
+- A história bancária no Brasil tem sua "pedra fundamental" com a instituição, em 1808, do Banco do Brasil [@camargo:2009]
+
+- Entre 1863 e 1920 os bancos estrangeiros passaram a dominar o mercado brasileiro [@camargo:2009]
+
+- Até 1920 não havia constituído um sistema bancário
+
+- A Lei Bancária de 1921 trouxe um grande movimento para nacionalização bancária e construção de um efetivo sistema financeiro [@camargo:2009]
+
+- Entre 1920 e 1964 foram criados subsistemas de controle e fiscalização e incentivo a expansão geográfica e de crédito [@camargo:2009]
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+a. **CONTEXTO HISTÓRICO**
+
+- Em 1964, na Constituição é formalizado o Sistema Financeito Nacional (SFN)
+
+- Entre 1964 e 1980 ocorram diversas reformas e criaçao subsistemas e diversas reformar, principalmente de inflência internacional [@camargo:2009]
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+a. **SISTEMA FINANCEIRO NACIONAL**
+
+```{r diagram.sfn, message=FALSE, fig.align='center', fig.height= 3, fig.width=5}
+diagram.sfn <- 
+DiagrammeR::grViz("digraph boxes_and_circle {
+  graph [layout = dot, 
+        rankdir = TB,
+        overlap = true,
+        fontname= Helvetica]
+  node [ shape = box
+         fontname = Helvetica
+         penwidth = 2.0
+         fillcolor = blue
+         ]        
+  rec1 [label = 'SISTEMA\n FINANCEIRO\n NACIONAL'
+        color = MidnightBlue,
+        fillcolor = MidnightBlue
+        style = filled
+        fontcolor = white]
+  
+  node [ shape = rounded,
+         fillcolor = blue]
+  rec2 [label = 'MOEDA, CRÉDITO,\n CAPITAIS E CÂMBIO',
+        color = MidnightBlue,
+        fillcolor = MidnightBlue
+        style = filled
+        fontcolor = white]
+  rec3 [label = 'SEGUROS\n PRIVADOS']
+  rec4 [label = 'PREVIDÊNCIA\n FECHADA']
+  
+  node[  shape = oval
+         fillcolor = blue]
+  rec5 [label = 'CMN']; rec6 [label = 'CNSP']; rec7 [label = 'CNPC']
+  
+  node[shape = sdl_start]
+  rec8 [label = 'BANCO CENTRAL']; rec9 [label = 'CVM']; rec10 [label = 'SUSEP']
+  rec11 [label = 'PREVIC']
+  
+  node[shape = box]
+  rec12 [label = 'Bancos e Caixa econômicas']
+  #rec13 [label = 'Cooperativas de crédito']
+  #rec14 [label = 'Instituições de Pagamento']
+  #rec15 [label = 'Bolsa de Valores']
+  
+  node[shape = box]
+  rec16 [label = 'Banco\n Comercial']
+  rec17 [label = 'Banco\n Múltiplo']
+  rec18 [label = 'Banco de\n Investimento']
+  rec19 [label = 'Banco de\n Desenvolvimento']
+  rec20 [label = 'Banco de\n Câmbio']
+  rec21 [label = 'Caixas\n Econômicas']
+  
+  # edge definitions with the node IDs
+  edge[arrowhead = diamond]
+  rec1 -> {rec2 rec3 rec4}; rec2 -> rec5; rec3 -> rec6
+  rec4 -> rec7
+  rec5 -> rec8; rec5 -> rec9; rec6 -> rec10; rec7 -> rec11
+  rec8 -> rec12; rec12 -> {rec16 rec17 rec18 rec19 rec20 rec21 }
+  
+  #
+  graph[nodesep = 0.5]
+
+  }" , 
+  width = 300, height = 150)
+diagram.sfn
+```
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+b. **SETOR BANCÁRIO**
+
+- As modalidades de instituições no setor bancário brasileiro são:
+   
+   - Bancos Comerciais;
+      
+   - Bancos de Investimentos;
+      
+   - Bancos de Desenvolvimento;
+      
+   - Bancos de Câmbio;
+      
+   - Bancos Múltiplos;
+      
+   - Caixas Econômicas. 
+   
+[@Lei:4595:1964] [@Res:2099:1994] [@Res:2624:1999] [@Res:394:1976] [@Res:3426:2006] [@DL:759:1969].
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+c. **CONCENTRAÇÃO BANCÁRIA**
+
+- **Aumento** da **concentração bancária** associado maior **poder de determinação de preços** (Strachman e Vasconcelos *apud* [@camargo:2009]) [@klein:1971].
+
+- Por outra perspectiva, o ganho de escala refletiria em redução de custos, riscos e redução dos juros finais pagos pelos clientes [@camargo:2009] [@dantas:2012].
+
+- Os efeitos da concentração dependem de uma série de condições, principalmente em torno da eficiência e do nível de concorrência no mercado [@camargo:2009].
+
+- Índice Herfindahl–Hirschmanahl(HHI) como o principal indicador para medir a concentração de mercado
+$$
+HHID = \frac{1}{N} + N\frac{\sum_{i=1}^{N}(\frac{q_i - 1}{N})^2}{N}
+$$
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+c. **CONCENTRAÇÃO BANCÁRIA**
+
+```{r count.banks, message=FALSE, results='hide', fig.width=3, fig.height=2, fig.align='center', fig.cap="Evolução da quantidade de instituições bancárias"}
+g.con.banks +
+        theme_minimal() + 
+  theme(axis.text = element_text(size = 5),
+        axis.title.x = element_text(size = 7),
+        axis.title.y = element_text(size = 7))
+```
+
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+```{r kind.banks, message=FALSE, results='hide', fig.width=5, fig.height=2.5, fig.align='center', fig.cap='Evolução de quantidade de bancos por Modalidade'}
+g.banks + theme(axis.text = element_text(size = 5))
+```
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+d. **CONTROLE DE CAPITAL**
+   
+- Nacional
+   
+- Nacional com participação estrangeira
+   
+- Nacional com controle estrangeiro
+   
+- Estrangeiras
+   
+- Controle estrangeiro
+   
+- Públicos
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+d. **CONTROLE DE CAPITAL**
+
+* Ocorrência do aumento da participação estrangeira no setor bancário brasileiro durante a década de 1990, via controle de capital [@camargo:2009]
+
+* Havia expectativa com o aumento de instituições nacionais com controle estrangeiro que houvesse elevação na eficência no *spread* bancário [@camargo:2009].
+
+   * A bancos estrangeiros foi conservadora com estratégia de ativos inclinada para negociação de títulos públicos [@camargo:2009]. 
+   * Essa estratégia manuteve elevadas taxas de juros [@camargo:2009].
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+   
+d. **CONTROLE DE CAPITAL**
+
+```{r control.banks, message=FALSE, results='hide', fig.width=4, fig.height=2.5, fig.align='center', fig.cap="Evolução das instituições por controle de capital"}
+
+o.g.banks + 
+        theme_minimal() + 
+        theme(legend.position = 'bottom', 
+              legend.text = element_text(size = 5),
+              axis.text = element_text(size = 5),
+              axis.title = element_text(size = 5),
+              legend.margin = margin(1, 1, 1, 1),
+              legend.title = element_text(NULL))
+```
+
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+e. **CRÉDITO/PIB**
+
+- A relação crédito/PIB como importante indicador da econômia e do sistema financeiro
+
+- Brasil com histório de baixas relações Crédito/PIB e maiores níveis de *spread* praticados no mundo [@levine:1997] [@matos:2003]
+
+- Chegando a representar apenas 25% do PIB na primeira metade da década de 2000
+      
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+e. **CRÉDITO/PIB**
+
+```{r credit.pib, message=FALSE, fig.width=3, fig.height=2, fig.align='center', fig.cap='Evolução da relação Crédito/PIB'}
+ggplot(credit.gdb, aes(x = Data)) +
+        theme_minimal() +
+        geom_line(aes(y = valor)) +
+        labs(y = 'Crédito/PIB %', x = NULL) + 
+  theme(axis.text = element_text(size = 5),
+        axis.title.y = element_text(size = 7))
+```
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+f. **SALDO DA CARTEIRA DE CRÉDITO**
+
+```{r credit balance, message=FALSE, fig.width=4, fig.height=2, fig.align='center'}
+balance.present <- balance + theme_minimal() +
+  theme(axis.text = element_text(size = 5),
+        axis.title.y = element_text(size = 7))
+
+print(balance.present)
+```
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+f. **SALDO DA CARTEIRA DE CRÉDITO**
+
+```{r balance dl, message=FALSE, fig.width=4, fig.height=2, fig.align='center'}
+
+
+balance.present.dl <- 
+  ggplot(b.credit.dl, aes(x = dmy(data))) +
+        geom_line(aes(y = Valor, color = Serie)) +
+        labs(x = NULL, y = "R$ Milhões") +
+        scale_y_continuous(labels = scales::dollar) +
+        theme_minimal() +
+  theme(legend.position = "bottom",
+        legend.text = element_text(size = 5),
+        axis.text = element_text(size = 5),
+        axis.title.y = element_text(size = 5),
+        legend.title = element_text(NA))
+
+print(balance.present.dl)
+```
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+g. **AGREGADOS MONETÁRIOS**
+
+- Meios de Pagamentos restritos
+
+   - Expressiva expansão do papel moeda emitido em termos correntes
+   
+   - Modesta elevação das reservas bancárias
+   
+- Meios de Pagamentos Ampliados
+
+   - Modesta elevação de depósitos compulsórios
+   
+   - Elevação exponencial de emissão de títulos públicos
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+g. **AGREGADOS MONETÁRIOS**
+
+$$
+BMr = M_0 = PME + RB
+$$
+$$
+BMa = M_0 = BMr + DC +  TPF
+$$
+$$
+M_1 = PMPP + DAV
+$$
+$$
+M_2 = M_1 + DP + TEID
+$$
+$$
+M_3 = M_2 + QFRF + OCRS
+$$
+$$
+M_4 = M_3 + TPF
+$$
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+g. **AGREGADOS MONETÁRIOS**
+
+```{r mpplot, message=FALSE, fig.align='center', fig.width=4, fig.height=2.5}
+mp.plot.pres <- mp.plot + theme_minimal() + theme(legend.position = "bottom") +
+  theme(axis.text = element_text(size = 5),
+        axis.title.y = element_text(size = 7))
+
+print(mp.plot.pres)
+```
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+h. **VELOCIDADE DA MOEDA**
+
+- O nível de preços ($P$) em uma economia guarda relação com a quantidade de moeda em circulação ($M$) e a velocidade ($V$) de cirulação [@vasconcellos:2011]
+
+$$
+MV = Py => P = \frac{MV}{y} => V = \frac{Py}{M}\
+$$
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+i. **DADOS MICROECONÔMICOS**
+
+- As instituições bancárias são obrigadas a divulgar seus resultados em forma de demonstrações contábeis [@sgs:bm]
+
+- Através do Sistema Contábil das Instituições Financeiras (COSIF)
+
+- Seguem um conjunto de normas contábeis e plano de contas padronizados para os períodos definidos 
+
+- Com acesso aos resultados contábeis é possível obter os principais indicadores para avaliação de resultados das instituições bancárias
+
+- Possível realizar análises comparativas e evolutivas. 
+
+## **2.1 SETOR BANCÁRIO NO BRASIL**
+
+i. **DADOS MICROECONÔMICOS**
+
+```{r acc.docs, fig.align='center', eval=FALSE, include=TRUE, out.width='85%'}
+knitr::include_graphics("~/Desktop/04-DISSERTATION/12-exportedfigures/docs.png")
+```
+
+| Documento |                Tipo                 |        Códigos         |
+|:---------:|:-----------------------------------:|:----------------------:|
+| Balancete |              Analítico              | 4010, 4020, 4413, 4433 |
+| Balancete |        Analítico Consolidado        |          4040          |
+| Balancete | Analítico - Conglomerado Prudencial |          4060          |
+|  Balanço  |              Analítico              |       4016, 4026       |
+|  Balanço  |        Analítico Consolidado        |          4046          |
+|  Balanço  | Analítico - Conglomerado Prudencial |          4066          |
+
+Table: Resumo de documentos padronizados do COSIF
+
+## **2.2 SPREAD BANCÁRIO**
+
+a. **CONCEITOS**
+
+- A palavra *Spread*, em tradução livre, significa amplitude, crescimento e extensão
+
+- É utilizado no setor financeiro no sentido de margem
+
+- Obtido através da diferença entre a taxa de aplicação e a taxa de captação, diferença entre custos operacionais [@BCB:2016] [@BCB:2000].
+$$
+Spread = \text{Taxa de Aplicação} - \text{Taxa de Captação}
+$$
+
+- O *spread* bancário representa uma medida que sinaliza o desempenho dos bancos [@levine:1997] e indicador de eficiência da economia[@WB:2005].
+
+## **2.2 SPREAD BANCÁRIO**
+
+b. **ÓTICAS**
+
+```{r diagram.otic, message=FALSE, fig.align='center'}
+DiagrammeR::grViz("digraph {
+  graph [ layout = dot, rankdir = TB, bgcolor = transparent]
+  node [shape = rectangle,
+        bgcolor = 'transparent',
+        fontname= Helvetica]        
+  rec1 [label = 'Spread Bancário']
+  rec2 [label = 'Evolução']
+  rec3 [label = 'Estrutura']
+  rec4 [label = 'Determinantes']
+  rec5 [label = 'Avaliar o comportamento\n ao longo do tempo']
+  rec6 [label = 'Identificar e analisar \ncomponentes de resultado']
+  rec7 [label = 'Analisar os efeitos de \nvariáveis ao longo do tempo']
+  
+  # edge definitions with the node IDs
+  rec1 -> rec2
+  rec1 -> rec3
+  rec1 -> rec4
+  rec2 -> rec5
+  rec3 -> rec6
+  rec4 -> rec7
+  }", 
+  width = 300, height = 150)
+```
+
+[@dick:1999]
+
+## **2.2 SPREAD BANCÁRIO**
+
+b. **ÓTICAS**
+
+- A abordagem em torno da evolução visa analisar o comportamento ao longo do
+tempo, através de análises quantitativas e qualitativas [@dick:1999].
+
+- A ótica da estrutura busca identificar e analisar os componentes de resultados envolvendo receitas, despesas e provisões [@dick:1999].
+
+- Componentes explícitos [@BCB:2000]:
+   - Inadimplência ($Ind$), 
+   - Despesas administrativas ($DA$), 
+   - Impostos diretos ($ID$) e indiretos ($II$), 
+   - Custo de captação ($CP$) e 
+   - Margem de lucro ($ML$) .
+
+## **2.2 SPREAD BANCÁRIO**
+
+c. **CARACTERÍSTICAS** 
+
+```{r diagram.carac, message=FALSE, fig.align='center'}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = TB]
+  node [shape = rectangle,
+        fontname = Helvetica,
+        bgcollor = transparent]        
+  rec1 [label = 'Spread Bancário']
+  rec2 [label = 'Abrangência\n da Amostra']
+  rec3 [label = 'Conteúdo']
+  rec4 [label = 'Origem\n da Informação']
+  rec5 [label = 'Especificidades das\n operações de crédito\n das instituições']
+  rec6 [label = 'Subcomponentes de\n Receitas e Despesas']
+  rec7 [label = 'Cenários \nEx-ante e Ex-Post']
+  
+  # edge definitions with the node IDs
+  rec1 -> rec2
+  rec1 -> rec3
+  rec1 -> rec4
+  rec2 -> rec5
+  rec3 -> rec6
+  rec4 -> rec7
+  }", 
+  width = 300, height = 150)
+```
+[@leal:2006]
+
+## **2.2 SPREAD BANCÁRIO**
+
+c. **CARACTERÍSITCAS** 
+
+- A abrangência da amostra consiste nas especificidades das operações de crédito das instituições e seu nível de agregação e granularidade [@costa;nakane:2004].
+
+- A abordagem em torno do conteúdo está relacionada com os subcomponentes que
+envolvem a receita e as despesas das intermediações financeiras [@block:2000]
+
+- A origem da informação é analisada em dois cenários: *ex-ante* e *ex-post* [@kunt:1999], [@levine:1997].
+
+## **2.2 SPREAD BANCÁRIO**
+
+c. **CARACTERÍSITCAS** 
+
+- **EX-ANTE** [@durigan:2018] [@leal:2006] [@dantas:2012]
+
+- Refere-se ao planejamento e expectativas em relação ao mercado de crédito e os riscos envolvidos, obtido por método de precificação envolvendo as taxas de captação e empréstimo 
+   
+- Por se tratar de um indicador de planejamento, refletindo as expectativas das instituições bancárias em relação ao mercado, finda demonstrando-se mais volátil
+   
+- Não representa as taxas efetivas realizadas
+   
+- As informações *ex-ante* são repassadas ao Banco Central que as divulga
+
+## **2.2 SPREAD BANCÁRIO**
+
+c. **CARACTERÍSTICAS**
+
+- **EX-POST**
+
+- As margens são obtidas mediante a apuração dos resultados realizados pelas instituições [@kunt:1999] [@durigan:2018]
+   
+- Apturado de por meio de demonstrativos, considerando as receitas e custos efetivos
+   
+- Em termos médios se demonstram mais estáveis [@leal:2006], [@dantas:2012].
+   
+- Por ser uma variável de resultado possui maior valor para fins de análises [@dantas:2012].
+   
+   
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+- **TAXAS**
+
+- No Brasil, a taxa de aplicação para crédito de recursos livres é pactuado entre instituição e tomador. 
+
+- Somente as operações de crédito envolvendo recursos direcionados são sujeitas à limites, não podendo exceder 12% a.a. mais a taxa referencial de juros.
+
+- O  *spread* bancário estar inserido nos mecanismos de mercado, sujeito a flutuações de oferta e demanda.
+   
+   [@BCB:2016]
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+   
+- O modelo consolidado de mensuração do *spread* bancário, de acordo com demonstrado leva em consideração o saldo médio de capital emprestado, e a diferença entre as receitas de aplicação e despesas de captação [@fipecafi:2005]
+
+- Classificação em *spread* bruto, direto e líquido [@fipecafi:2005]
+
+| Saldo Médio do Capital Emprestado   | 100.00 | 100.00  | 100.00 | 
+| :---------------------------------- |-------:|--------:|------: |
+| A — Receita de Aplicação Financeira |  9.4   | 16.5    | 12,7   |
+| B — Despesas de Captação            | (4.8)  | (4.9)   | (4.8)  |
+| Spread Bruto                        | 4.6    | 11.6    | 7.9    |
+| Spread Direto                       | 3.2    | 7.6     | 5.3    |
+| Spread Líquido                      | 0.5    | 1.6     | 1.0    |
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+- Em 1999, o Banco Central, iniciou uma série de estudos e medidas com objetivo de reduzir a taxa de juros e o *spread* realizados no sistema financeiro
+
+- Atuando na identificação e ajustes em variáveis econômicas influentes. 
+
+- Entre as primeiras medidas estavam a redução da taxa de compulsório para depósitos a vista e até a extinção para depósitos a prazo, redução do IOF e a redução da Selic Meta.
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+- Entre 1994 e 2012, chegando a atingir `r s.ev.m`%, com
+significativa queda ao longo desse período, atingindo `r last.s.em`% ao final [@BCB:2000]. 
+
+```{r spread.m.1994.2012, fig.align='center', fig.width=3, fig.height=2}
+plot.spread.m <- spread.m.1994.2012 + theme_minimal() + 
+  theme(axis.text = element_text(size = 5),
+        axis.title.y = element_text(size = 7))
+
+print(plot.spread.m)
+```
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+- O Banco Central, até 2007 utilizava metodologia para avaliação do *spread*
+bancário contemplando somente os recursos livres [@dantas:2012]
+
+- Em 2008 houve uma modificação na metodologia de decomposição do *spread*, alterando o cálculo do custo médio de captação e detalhando classificações do crédito [@dantas:2012]
+
+- Para o custo médio de captação passou a se utilizar a taxa média ponderada
+entre [@dantas:2012]: 
+
+   - As taxas dos depósitos a prazo (CDB) 
+   
+   - Caderneta de poupança 
+   
+   - A vista
+   
+   - A participação dos custos efetivos dos recolhimentos compulsórios em detrimento do custo de oportunidade 
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+O BACEN mantém atualmente duas séries para o indicador: 
+
+- *Spread* Médio das operações de crédito (MOC) 
+   
+   - Diferença entre a taxa média de juros de novas operações de crédito no SFN e o custo de captação referencial médio de operações de crédito livre, direcionado e não rotativo.
+      
+- *Spread* do Indicador de Custo de Crédito (ICC)
+   
+   - Diferença entre o Índice de Custo de Crédito — equivalente ao custo médio de juros das operações ativas da carteira do SFN — e o custo de captação médio ponderado, levando em consideração operações de crédito livre, direcionado e não rotativo
+      
+- Estas séries estatísticas representam estimativas baseadas nas informações
+repassadas pelas instituições bancárias [@BCB:2016]
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+**SPREAD ICC**
+
+```{r spread.icc, message=FALSE, fig.align='center', fig.width=5, fig.height=2.5}
+ggplot(spreads.icc, aes(x = Data)) +
+  geom_line(aes(y = Valor, color = as.factor(Tipo))) +
+  labs(color= NULL, y = 'Spreads ICC %', x = NULL) +
+  theme_minimal() + 
+  theme(legend.position = 'bottom',
+        legend.text = element_text(size = 5),
+        axis.text = element_text(size = 5),
+        axis.title.y.left = element_text(size = 7))
+```
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+**SPREAD MOC**
+
+```{r spread.moct, message=FALSE, fig.align='center', fig.width=5, fig.height=2.5}
+ggplot(spreads.moc, aes(x = Data)) +
+  geom_line(aes(y = Valor, color = as.factor(Tipo))) +
+  labs(color= NULL, y = 'Spreads %', x = NULL) +
+  theme_minimal() + 
+  theme(legend.position = 'bottom',
+        legend.text = element_text(size = 5),
+        axis.text = element_text(size = 5),
+        axis.title.y.left = element_text(size = 7))
+```
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+j. **PERSPECTIVA DE DIMENSÃO**
+
+- Ao analisar as séries do *Spread* ICC e *Spread* MOC é possível destacar outra perspectiva de avaliação do *Spread* no que tange a dimensão
+
+```{r d.spread.dim, message=FALSE, fig.align='center'}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = TB]
+  node [shape = rectangle,
+        fontname = Helvetica]        
+  rec1 [label = 'Spread Bancário']
+  rec2 [label = 'Tomador\n Pessoa Jurídica\n ou Pessoa Física']
+  rec3 [label = 'Tipo de Recurso']
+  rec4 [label = 'Modalidade']
+  rec5 [label = 'Crédito Livre ou\n Crédito Direcionado']
+  rec6 [label = 'Não Rotativo ou\n Não Rotativo com\n Recurso Livre']
+  
+  # edge definitions with the node IDs
+  rec1 -> rec2
+  rec2 -> rec3
+  rec2 -> rec4
+  rec3 -> rec5
+  rec4 -> rec6
+  }", 
+  width = 300, height = 150)
+```
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+l. **INDICADOR DO CUSTO DE CRÉDITO**
+
+- Custo médio de todas as operações de crédito abertas que compõem a carteira de empréstimos, financiamentos e arrendamento mercantil das instituições do Sistema Financeiro Nacional (SFN)
+
+```{r icc, fig.align='center', fig.width=3, fig.height=1.5}
+ggplot(icc, aes(x = dmy(Data))) +
+  geom_line(aes(y = ICC)) +
+  labs(x = NULL, y = 'ICC %') +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 5),
+        axis.title.y = element_text(size = 7))
+```
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+m. **ESTUDOS EMPÍRICOS**
+
+- Na literatura acadêmica não existe uma teoria formalizada acerca do *spread* bancário [@timotio:2018]
+
+- A grande maioria dos estudos realizados no Brasil utilizam as medidas de
+*spread* bancário divulgadas pelo Banco Central, que remetem a uma perspectiva
+*ex-ante* [@dantas:2012]
+
+## **2.2.2 SPREAD BANCÁRIO NO BRASIL**
+
+m. **ESTUDOS EMPÍRICOS**
+
+```{r table.exante.b, echo=FALSE, fig.cap="A caption", fig.align='center', out.width = '100%',eval=FALSE}
+knitr::include_graphics("~/Desktop/04-DISSERTATION/12-exportedfigures/studies_expost.pdf")
+#table.expost
+```
+
+| Variável | GUIMARÃES (2002) | DANTAS (2012) |  ALMEIDA (2013)   |
+|:--------:|:----------------:|:-------------:|:-----------------:|
+| $DA$     |                  |               |         +         |
+| $II$     |                  |               | Não significativo |
+| $RR$     |                  |               |         +         |
+| $AE$     |                  |       +       |                   |
+| $BE$     |        +         |               |                   |
+| $CD$     |        +         |               |                   |
+| $GC$     |                  |       +       |         +         |
+| $Liq$    |                  |               | Não significativo |
+| $MSh$    |                  |       -       |         +         |
+| $PIB$    |                  |               |         +         |
+| $RS$     |                  |               |         -         |
+| $RC$     |                  |       +       | Não significativo |
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+a. **FERRAMENTAS**
+
+- Trabalho está sendo desenvolvido e editado em ambiente R Markdown
+
+- Utilização de linguagem Latex para padronização de textos, figuras e tabelas
+
+- Linguagens R e Python para coleta, limpeza, tratamento, análise, visualização, modelagem e estimação econométrica dos conjuntos de dados.
+
+- Utilização de Frameworks
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- Serão selecionadas as instituições bancárias 
+
+   - Banco Múltiplo
+   - Banco Comercial 
+   - Banco e Investimento 
+   - Banco de Desenvolvimento 
+   - Caixas Econômicas
+   
+- Período entre janeiro 2001 e o outubro de 2020.
+
+- Dados serão obtidos de forma secundária nos bancos de dados abertos do Banco Central, IPEA, IBGE e Receita Federal do Brasil.
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- **PRESSUPOSTOS**
+
+- Será assumido que o *spread* bancário é definido diante um conjunto de fatores endógenos e exógenos.
+
+- Na visão microeconômica, assume-se que o *spread* bancário não se configura na margem de lucro dos bancos.
+
+- O *spread* é determinante de níveis de atividade econômica e não o contrário.
+
+- O *spread*  ($SPR$) será abordado dentro de uma concepção de precificação
+   - Formado por um conjunto de variáveis explícitas e implícitas
+   
+$$
+Spr = f(E,D,II,DA,ML,IND)
+$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- **DECOMPOSIÇÃO** 
+
+   - Identificar testar e selecionar variáveis macroeconômicas e microeconômicas que exerçam significativa influência, de forma implícita e explícita no *spread* bancário *ex-post*.
+
+   - Partindo da forma tautológica do *spread*
+
+$$
+Spr = i_{apl} - i_{cap} 
+$$
+-  A taxa de aplicação ($i_{apl}$) é obtida da relação entre a receita das operações de crédito ($R$) e das operações de crédito ($E$). 
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- **DECOMPOSIÇÃO** 
+
+- A taxa de captação é extraída da relação entre as despesas de captação ($D_{cap}$) em relação do montante capitado ($C$)
+
+$$
+SprEp = \frac{R}{E} - \frac{D_{cap}}{C}
+$$
+
+- A receita das operações de crédito ($R$) é obtida levando em  consideração as o capital emprestado ($E$) e uma taxa de juros ($i_{jr}$) 
+   - contempla os custos de captação, os custos operacionais, inadimplência, impostos diretos e indiretos e margem líquida.
+   
+$$
+R= (E * i_{jr}) 
+$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- **DECOMPOSIÇÃO** 
+
+- A receita das operações de crédito pode ser decomposta levando em consideração:
+  - Despesas administrativas ($D_{adm}$)
+  - Provisões de inadimplência ($P_{inad}$) 
+  - Custos de captação ($D_{cap}$)
+  - Impostos variáveis ($Imp_{ind}$)
+  - Impostos sobre a renda ($Imp_{dir}$)
+  - Margem líquida ($MgLqd$).
+  
+$$
+R = D_{adm} + P_{inad} + D_{cap} + Imp_{ind} + Imp_{dir} + MgLqd
+$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- **DECOMPOSIÇÃO**  
+
+- A decomposiçao da receita pode ser ampliada com a inserção das variáveis componentes.
+   - O primeiro bloco da composição consiste na inserção das taxas e alíquotas aplicadas sobre o capital emprestado ($E$) e captação ($C$)
+   - O segundo bloco da decomposição da receita consiste na inseção de variáveis referente as taxas e alíquotas aplicados sobre a própria receita ($R$)
+   
+$$
+R = i_{adm}*E + i_{ind}*E + i_{cap}*C + i_{comp}*i_{ac}*C + i_{fgc}*C + \frac{i_{ll}}{1 - i_{r} - i_{cs}}*R + i_{pis}*R + i_{cof}*R 
+$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- **DECOMPOSIÇÃO** 
+
+- Ao isolar as variáveis e realizar as substituições e deduções algébricas obtemos a equação: 
+
+$$
+R =  \frac{E * [i_{adm} + i_{ind} + (\frac{i_{cap}+ i_{fgc} - (i_{comp}*i_{ac})}{1 - i_{comp} - i_{fgc}})]}
+{1 -  \frac{i_{ll}}{1 - i_{ir}  - i_{cs}} - i_{pis} - i_{cof}}
+$$
+
+- O denominador da equação, ao ser manipulado algebricamente, assume a função de multiplicador das despesas e custo de captação ($D_{emp}$), embutindo nestes a margem líquida e alíquotas dos impostos diretos e indiretos. 
+$$
+i_{apl} = \frac{1}{1 -  \frac{i_{ll}}{1 - i_{ir}  - i_{cs}} - i_{pis} - i_{cof}}
+$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+**DECOMPOSIÇÃO** 
+
+- Ao simplificar a equação decomposta da receita, encontramos uma forma similar ao forma tautológica inicial.
+
+$$
+R = D_{emp} * i_{apl} 
+$$
+
+Retornando a concepção inicial da taxa de juros ($i_{jr}$) aplicada sobre o capital emprestado ($E$), que pode ser obtida manipulando o multiplicador de aplicação ($i_{apl}$) incorporando as taxas referentes a custos, despesas e provisões.
+$$
+i_{jr} = \frac{i_{adm} + i_{ind} + (\frac{i_{cap}+ i_{fgc} - (i_{comp}*i_{ac})}{1 - i_{comp} - i_{fgc}})}{1 -  \frac{i_{ll}}{1 - i_{ir}  - i_{cs}} - i_{pis} - i_{cof}}
+$$
+$$
+R = E * i_{jr} 
+$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+**DECOMPOSIÇÃO** 
+
+- Receita das operações de créditos ($E$) pode ser decompostas de acordo com a origem: **Capital próprio ($E_{Pr}$)**; **Depósitos a vista ($E_{dav}$)**; **Depósitos a prazo ($E_{dap}$)** e etc..
+
+$$\begin{aligned}
+R_{pr} = \frac{E_{pr} * [i_{adm} + i_{ind}] + i_{copr}}
+{1 -  \frac{i_{ll}}{1 - i_{ir} - i_{cs}} - i_{pis} - i_{cof}}
+\end{aligned}$$
+
+$$\begin{aligned}
+R_{dap} = \frac{E_{dap} * [i_{adm} + i_{ind} + (\frac{i_{cap}+ i_{fgc} - (i_{comp}*i_{ac})}{1 - i_{comp} - i_{fgc}})]}  {1 -  \frac{i_{ll}}{1 - i_{ir} - i_{cs}} - i_{pis} - i_{cof}}
+\end{aligned}$$
+
+$$\begin{aligned}
+R_{dav} = \frac{E_{dav} * [i_{adm} + i_{ind} + i_{coav} - (\frac{(i_{comp}*i_{ac})}{1 - i_{comp}})]}{1 -  \frac{i_{ll}}{1 - i_{ir} - i_{cs}} - i_{pis} - i_{cof}}
+\end{aligned}$$
+
+$$
+R = (D_{pr} + D_{dav} + D_{dap}) * i_{apl}
+$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- **DECOMPOSIÇÃO**  
+
+Dessa forma o *spread ex-post*, nas óticas de precificação e aplicação de juros assumem as formas abaixo, na ótica de captação e empréstimo, respectivamente.
+
+$$\begin{aligned}
+& SprEp = \frac{(D_{pr} + D_{dav} + D_{dap})* i_{apl}}{E} - (\frac{D_{cap}}{C})
+\end{aligned}$$
+
+$$\begin{aligned}
+& SprEp = \frac{(E*i_{jrpr} + E*i_{jrdav} + E*i_{jrdap})}{E} - (\frac{D_{cap}}{C})
+\end{aligned}$$
+
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+**FASE ANALÍTICA** 
+
+- Será aplicada a técnica de ***Cross Validation k-fold***
+   -  Visa dividir de forma aleatória o conjunto de dados em ```k``` grupos, de dimensão aproximada [@gareth:2017]. 
+   
+   - Onde o primeiro grupo é tratado como conjunto de validação, e o método é ajustado no ```k - 1``` conjuntos restantes [@gareth:2017]. 
+   
+   - Esse método é útil para testar variáveis, selecionar parâmetros, função preditiva e acurácia para seleção do modelo final  [@gareth:2017].
+
+- Será aplicada a técnica de aprendizado não supervisionado ***K-Means*** 
+   - Particionamento do conjunto de dados em k  ***clusters*** , especificados e não sobrepostos [@gareth:2017].
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+o. **MODELO**
+
+- Modelo de regressão linear multivariada [@hill:2010] [@gareth:2017]. 
+   - Utilzação de técnicas estatísticas e matemáticas
+   - Previsão do comportamento de uma dada variável dependente, diante um conjunto de variáveis explanatórias.
+   
+$$
+Y = \beta_0 + \beta_1X_1 + \beta_2X_2...\beta_nX_n + \epsilon
+$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+o. **MODELO**
+
+- O modelo econométrico a ser utilizado será o método de dados em painel, denominado _Cross Section_
+
+   - Combina ***séries temporais*** e ***dados em corte transversal*** [@hill:2010]. 
+   
+   - Busca captar diferenças individuais de comportamento [@hill:2010]
+   
+   - Possibilitando combinar os dados para fins de estimação e inferência, posteriormente realizados testes de regressão e estimação [@hill:2010].
+   
+   - Pode ser realizado por meio de três modelos de estimação que são: **i) Modelo de regressão aparentemente não relacionadas (SUR)**; **ii) Modelo de variável binárias* — efeitos fixos —** e **iii) modelo de componentes estocásticos — efeitos aleatórios** [@hill:2010]
+
+$$
+y_{it} = \beta_{1it} + \beta_{2it}X_{2it} + \beta_{3it}X_{3it} + e_{it}
+$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+o. **MODELO 01**
+
+- O primeiro modelo irá verificar a influência das variações de variáveis componentes explícitas e implícitas do  ***_Spread Ex-post_***
+
+   - O primeiro bloco composto por variáveis microeconômicas
+   
+   - O segundo bloco com as variáveis macroeconômicas, selecionando para o segundo modelo final somente as que apresentarem significância estatística.
+   
+$$\begin{aligned}
+SprEp = &f(EPr, EAv, EAp, Atv, ImpInd, ImpId, \\ 
+& Inad, MLq, DAdm, Jcp, MSh, HHI, TIns, OCap, \\ 
+& CIns, Sel, Ipca, Comp, MPag, VMo, SprEa)
+\end{aligned}$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+- Na construção do primeiro modelo econométrico serão adotadas simplificações excluindo:
+  - Variáveis de resultadoQ
+  - Que possuam caráter constante 
+  - Por não possuirem dados adequada
+
+$$\begin{aligned}
+SprEp_{it} = & \beta_{0it} + \beta_{1it}EPr_{it} + \beta_{2it}EAv_{it} + \beta_{3it}EAp_{it} + \\
+&\beta_{4it}MApl_{it} + \beta_{5it}Jcp_{it}  + \beta_{6it}lnAtv_{it} + \beta_{7it}MSh_{it}  + \beta_{8it}HHI_{t} + \\
+& \beta_{9it}TIns + \beta_{10it}OCap + \beta_{11it}CIns + \beta_{12it}Sel_{t-1} + \beta_{13it}Ipca_{t-1} + \\
+& \beta_{14it}Com_{t} + \beta_{15it}Mpag_{t-1} + \beta_{16it}VMo_{t-1} +  \beta_{17t}SprEa_{t-1}
+\end{aligned}$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+O. **MODELO 02**
+
+ - O **segundo modelo** econométrico testará as variáveis implícitas e explícitas com significância estatística do primeiro modelo, atuando sobre a rentabilidade bancária $Rent$
+ 
+$$\begin{aligned}
+Rent_{it} = & \beta_{0it} + \beta_{1it}EPr_{it} + \beta_{2it}EAv_{it} + \beta_{3it}EAp_{it} + \\
+&\beta_{4it}MApl_{it} + \beta_{5it}Jcp_{it}  + \beta_{6it}lnAtv_{it} + \beta_{7it}MSh_{it}  + \beta_{8it}HHI_{t} + \\
+& \beta_{9it}TIns + \beta_{10it}OCap + \beta_{11it}CIns + \beta_{12it}Sel_{t-1} + \beta_{13it}Ipca_{t-1} + \\
+& \beta_{14it}Com_{t} + \beta_{15it}Mpag_{t-1} + \beta_{16it}VMo_{t-1} +  \beta_{17t}SprEa_{t-1}
+\end{aligned}$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+O. **VARIÁVEIS**
+
+- $SprEp_{it}$:  *Spread Ex-post*
+   - Calculado a partir dos resultados contábeis 
+   - Resultante da diferença entre a relação de receitas de operações de crédito ($RcOpCr$ — Conta 71100001) e operações de crédito média ($OpCrMe$ — Conta 16000001) e, 
+   - Relação de despesas de captação ($DesCap$ — Conta 81100008 ) e depósitos médio ($Dep$ — Conta 41000007). 
+
+$$
+SprEp_{it} = \frac{RcOpCr_{it}}{\frac{1}{2}(OpCr_{it} + OpCr_{it-1}) } - \frac{DesCap_{it}}{\frac{1}{2}(Dep_{it} + Dep_{it-1})}
+$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+O. **VARIÁVEIS**
+
+- $Rent$: A rentabilidade bancária será calculada para cada instituição a partir da: 
+   - Relação entre o lucro líquido ($LLqd$ — Conta 61800005) e as receitas das operações de crédito ($R$ — Conta 71100001).
+   
+$$
+Rent_{it} = \frac{LLqd_{it}}{R_{it}}
+$$
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+p. **HIPÓTESES**
+
+```{r hyp.01, message=FALSE, fig.align='center', out.width="85%"}
+knitr::include_graphics("~/Desktop/04-DISSERTATION/18-presentation/00-hipoteses-1.png")
+```
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+p. **HIPÓTESES**
+
+```{r hyp.02, message=FALSE, fig.align='center', out.width="85%"}
+knitr::include_graphics("~/Desktop/04-DISSERTATION/18-presentation/00-hipoteses-2.png")
+```
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+p. **HIPÓTESES**
+
+```{r hyp.03, message=FALSE, fig.align='center', out.width="85%"}
+knitr::include_graphics("~/Desktop/04-DISSERTATION/18-presentation/00-hipoteses-3.png")
+```
+
+## **3. PROCEDIMENTOS METODOLÓGICOS**
+
+p. **RESUMO DE DADOS**
+
+```{r data table, message=FALSE, fig.align='center', out.width = '70%', fig.cap='Tabela de resumo das fontes de dados'}
+knitr::include_graphics("~/Desktop/04-DISSERTATION/12-exportedfigures/data.table.png")
+```
+
+## **REFERÊNCIAS**
+
+`r if (knitr::is_html_output()) '
+# References {---}
+'`
+	
+

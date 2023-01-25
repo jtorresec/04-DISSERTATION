@@ -1,0 +1,205 @@
+---
+title: "A note on the Instrument Matrix"
+author: "Michael Sigmund, Robert Ferstl"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: panelvar_references.bib
+vignette: >
+  %\VignetteIndexEntry{A note on the Instrument Matrix} 
+  %\VignetteEngine{knitr::rmarkdown_notangle} 
+  \usepackage[utf8]{inputenc}
+---
+
+## Instruments for single equation dynamic panel models
+
+We take the example as in the vignette (Panelvar for STATA users). 
+
+
+```{r ex2_abdata, message=FALSE, warning=FALSE}
+require(panelvar)
+data(abdata)
+ex2_abdata <-pvargmm(
+                dependent_vars = c("emp"),
+                lags = 1,
+                predet_vars = c("wage"),
+                transformation = "fd",
+                data = abdata,
+                panel_identifier = c("id", "year"),
+                steps = c("twostep"),
+                system_instruments = FALSE,
+                max_instr_dependent_vars = 5,
+                max_instr_predet_vars = 6,
+                min_instr_dependent_vars = 3L,
+                min_instr_predet_vars = 2L,
+                collapse = FALSE
+              )
+summary(ex2_abdata)
+```
+
+The corresponding STATA code is the following:
+
+```{r ex2_abdata_stata, eval = FALSE}
+xtabond2 emp L1.emp wage, gmm(emp, lag(3 5) collapse) gmm(wage, lag (2 6))  nolevel twostep robust svmat  
+```
+
+In the second example it might be interesting to look at the stacked instrument matrix $Q_i$ for $i = 140$ (a firm with complete observations) defined by:
+
+$$
+	\mathbf{Q}_{i}:=\begin{pmatrix} 
+		\mathbf{q}_{i,p+2}^{\intercal} & \mathbf{0}  & \cdots & \mathbf{0}\\
+		\mathbf{0} & \mathbf{q}_{i,p+3}^{\intercal} & & \mathbf{0} \\
+		\vdots &  & \ddots & \vdots \\ 
+		\mathbf{0} & \mathbf{0} & \cdots & \mathbf{q}_{i,T}^{\intercal}  
+	\end{pmatrix} 
+$$
+where $q_{i,t}$ is defined as:
+
+$$
+\mathbf{q}_{i,t}^{\intercal}:=(\mathbf{y}_{i,t-p-1}^{\intercal}, \mathbf{y}_{i,t-p-2}^{\intercal}, ... , \mathbf{y}_{i,1}^{\intercal}, \mathbf{x}_{i,t-1}^{\intercal}, \mathbf{x}_{i,t-2}^{\intercal}, ... , \mathbf{x}_{i,1}^{\intercal}, \Delta \mathbf{s}_{i,t}) \quad t\in \{p+2, \cdots , T\}
+$$
+
+The restricted instrument matrix has the following structure:
+
+```{r ex2_abdata_instruments, message=FALSE, warning=FALSE}
+ex2_abdata$instruments[[140]]
+```
+
+Firm $i=140$ has $T=9$ observations. To aviod the Nickell bias, we could start with observation $t=3$. However, we set min_instr_dependent_vars = 3, so for $t=3$ the first chosen instrument would be $t=3-min\_instr\_dependent\_vars$. This observation clearly does not exist, so we can only start instrumenting observation $t=4$ with the value of $t=1$. For observation $t=5$ we can use $t=2$ and $t=1$ as valid instruments. On top of instrumenting with more distant values, we also restricted $max\_instr\_dependent\_vars=5$ which means that we only allow to use the following instruments $t-3$, $t-4$ and $t-5$, if available. So in columns 4 to 7 in the above example not more than three instruments are used. The notation might seem a bit counterintuitive but is in close conformity with STATA: xtabond2.
+
+If we used all available instruments, the results would look as follows:
+
+
+```{r ex2_abdata_instruments_full, message=FALSE, warning=FALSE}
+ex2a_abdata <-pvargmm(
+                dependent_vars = c("emp"),
+                lags = 1,
+                predet_vars = c("wage"),
+                transformation = "fd",
+                data = abdata,
+                panel_identifier = c("id", "year"),
+                steps = c("twostep"),
+                system_instruments = FALSE,
+                max_instr_dependent_vars = 99,
+                max_instr_predet_vars = 99,
+                min_instr_dependent_vars = 2L,
+                min_instr_predet_vars = 1L,
+                collapse = FALSE
+              )
+ex2a_abdata$instruments[[140]]
+```
+
+In our code we set up the full matrix of instruments and defines a linear transformation (a matrix) that transfers the full matrix $Q_i$ into the resticted matrix of instruments as defined by max_instr_dependent_vars, max_instr_predet_vars, min_instr_dependent_vars and min_instr_predet_vars. 
+
+It is also important to understand how the collapse option works.
+
+```{r ex2_abdata_instruments_collapse, message=FALSE, warning=FALSE}
+ex2b_abdata <-pvargmm(
+                dependent_vars = c("emp"),
+                lags = 1,
+                predet_vars = c("wage"),
+                transformation = "fd",
+                data = abdata,
+                panel_identifier = c("id", "year"),
+                steps = c("twostep"),
+                system_instruments = FALSE,
+                max_instr_dependent_vars = 5,
+                max_instr_predet_vars = 6,
+                min_instr_dependent_vars = 3L,
+                min_instr_predet_vars = 2L,
+                collapse = TRUE
+              )
+ex2b_abdata$instruments[[140]]
+```
+
+Finally, we set the system\_instruments option to TRUE. This option triggers the following additional moment conditions.
+
+$$
+	\begin{array}{lll}
+\mathbf{E}[(\mathbf{\epsilon}_{i,t}+(I-\sum_{j=1}^{p}A_j)\mu_{i}) (\mathbf{y}_{i,t-1}-\mathbf{y}_{i,t-2})^{\intercal}] &= & \mathbf{0} \quad t \in \{3, 4, \cdots , T\} \\
+\mathbf{E}[(\mathbf{\epsilon}_{i,t}+(I-\sum_{j=1}^{p}A_j)\mu_{i}) (\mathbf{x}_{i,t}-\mathbf{x}_{i,t-1})^{\intercal}] &= & \mathbf{0} \quad t \in \{2, 3, \cdots , T\} \\
+\mathbf{E}[(\mathbf{\epsilon}_{i,t}+(I-\sum_{j=1}^{p}A_j)\mu_{i}) z_{i,t}^{\intercal}] &= & \mathbf{0} \quad t \in \{2, 3, \cdots , T\}
+ \end{array}
+$$
+Less abstractly, in our case ($lags = 1$) the additional moment conditions look as follows:
+
+$$
+P_{i}:=\begin{pmatrix}
+\mathbf{0}              & \Delta \mathbf{y}_{i2} & \mathbf{0}             &  \cdots 		& \mathbf{0} \\
+\mathbf{0}              & \mathbf{0}             & \Delta \mathbf{y}_{i3} & 						& \mathbf{0} \\
+\vdots		              &												 &   										  & \ddots      & 			 		 \\
+\mathbf{0}              & \mathbf{0}						 & \cdots    						  &	 	          & \Delta \mathbf{y}_{i,T-1} \\
+\Delta \mathbf{x}_{i2 } & \mathbf{0}             & \mathbf{0}             &  \cdots 		& \mathbf{0} \\
+\mathbf{0}              & \Delta \mathbf{x}_{i3 }& \mathbf{0}                      & 						& \mathbf{0} \\
+\mathbf{0}              & \mathbf{0}             & \Delta \mathbf{x}_{i4} & 						& \mathbf{0} \\
+\vdots		              &												 &   										  & \ddots      & 			 		 \\
+\mathbf{0}              & \mathbf{0}						 & \cdots    						  &	 	          & \Delta \mathbf{x}_{i,T} 
+
+\end{pmatrix}
+$$
+
+
+
+
+```{r ex2_abdata_system_instruments, message=FALSE, warning=FALSE}
+ex2c_abdata <-pvargmm(
+                dependent_vars = c("emp"),
+                lags = 1,
+                predet_vars = c("wage"),
+                transformation = "fd",
+                data = abdata,
+                panel_identifier = c("id", "year"),
+                steps = c("twostep"),
+                system_instruments = TRUE,
+                max_instr_dependent_vars = 5,
+                max_instr_predet_vars = 6,
+                min_instr_dependent_vars = 3L,
+                min_instr_predet_vars = 2L,
+                collapse = FALSE
+              )
+ex2c_abdata$instruments[[140]]
+```
+
+It clearly shows that system instruments are additional moment conditions. They induce new columns in the instrument matrix $Q^{*}_{i}$. However, it is only one row per time period and the instruments are expressed in first difference not in levels. 
+
+## Instruments for PVAR models 
+
+In order to see how the instrument matrix is contructed for a PVAR model, we slightly change the example form the last section and make the predetermed variable wage endogenous. Moreover, we change the min und max number of instruments to the simplest possible case.
+
+```{r ex2d_abdata, message=FALSE, warning=FALSE}
+require(panelvar)
+data(abdata)
+ex2d_abdata <-pvargmm(
+                dependent_vars = c("emp", "wage"),
+                lags = 1,
+                transformation = "fd",
+                data = abdata,
+                panel_identifier = c("id", "year"),
+                steps = c("twostep"),
+                system_instruments = FALSE,
+                max_instr_dependent_vars = 2,
+                min_instr_dependent_vars = 2L,
+                collapse = FALSE
+              )
+summary(ex2d_abdata)
+ex2e_abdata <-pvargmm(
+                dependent_vars = c("emp"),
+                lags = 1,
+                transformation = "fd",
+                data = abdata,
+                panel_identifier = c("id", "year"),
+                steps = c("twostep"),
+                system_instruments = FALSE,
+                max_instr_dependent_vars = 2,
+                min_instr_dependent_vars = 2L,
+                collapse = FALSE
+              )
+summary(ex2e_abdata)
+```
+
+```{r ex2d_abdata_instruments, message=FALSE, warning=FALSE}
+ex2d_abdata$instruments[[140]]
+ex2e_abdata$instruments[[140]]
+```
+
+
+## References

@@ -1,50 +1,55 @@
 --- 
-date: 2020
+date: 2021
 author: "Jackson da Silva Torres"
-documentclass: 04-class-files/abntex2
-classoption: [12pt, openright, oneside, a4paper, chapter=TITLE, section=TITLE, subsection=Title, english, french, spanish, portugues, sumario=tradicional]
+documentclass: abntex2
+classoption: [12pt, openright, oneside, a4paper, chapter=TITLE, section=TITLE, subsection=TITLE, subsubsection=TITLE, portugues, sumario=tradicional]
 header-includes:
-- \input{00-input/00-dados}
 - \input{09-packages/00-pacotes}
+- \input{00-input/00-dados}
 - \makeindex
 - \usepackage{helvet}
 - \renewcommand{\familydefault}{\sfdefault}
 - \DeclareUnicodeCharacter{0301}{******}
 - \DeclareUnicodeCharacter{0303}{******}
 - \DeclareUnicodeCharacter{0327}{******}
-spacing: OnehalfSpacing
+- \DeclareUnicodeCharacter{0308}{******}
+#- \usepackage{amsmath}
 site: bookdown::bookdown_site
-bibliography: '10-references/referencias.bib'
+#bibliography: '10-references/referencias.bib'
 biblio-style: abnt
-link-citations: yes
+#biblio-title: \hspace{10pt}{REFERÊNCIAS}
+suppress_bibliography: true
+link-citations: no
 toc: false
 references: false
-always_allow_html: TRUE
+always_allow_html: true
+fontsize: 12pt
+mathjax: true
 ---
 
-```{r location, echo=FALSE, message=FALSE, results='hide'}
+```{r set location, echo=FALSE, message=FALSE, results='hide'}
 location <- '~/desktop/04-DISSERTATION'
 dados.2019 <- '01-data/bacen/Quadros 2019.xlsx'
 data.bacen <- '01-data/bacen/'
+data.csv <- "~/Desktop/04-DISSERTATION/01-data/datacsv/"
 setwd(location)
 ```
 
-```{r setup, include=FALSE, echo=FALSE, message=FALSE}
+```{r setup, include=TRUE, echo=FALSE, message=FALSE, eval=TRUE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE,
-                      fig.path = "12-exportedfigures/", fig.align = 'center'
-                      #, fig.height = 3, #fig.width = 5, 
+                      tidy = FALSE, 
+                      #eval = FALSE,
+                      fig.path = "12-exportedfigures/",
+                      fig.width = 5, fig.height = 3,
+                      fig.align = 'center',
+                      comment = ""
                       )
+#options(scipen = 10, digits = 4)
 ```
 
-```{r include=FALSE, echo=FALSE, message=FALSE, results='hide'}
-library(bookdown); library(latex2exp); library(latexpdf); library(knitLatex); library(knitr); library(tinytex); library(utf8); library(tufte); library(tibble); library(lubridate); library(plyr); library(purrr); library(dplyr); library(tidyr); library(stringr); library(readr); library(forcats); library(knitr); library(tidyverse); library(fst); library(readxl); library(RMySQL); library(XML); library(httr); library(jsonlite); library(rvest); library(xlsx); library(RSQLite); library(foreign); library(lmtest); library(corrplot); library(corrgram); library(timetk); library(lattice); library(ggplot2); library(tree); library(party); library(plotly); library(rpart.plot); library(rpart); library(XML); library(xml2); library(kableExtra); require(DiagrammeR);
-require(DiagrammeRsvg); require(webshot)
-
-#library(BatchGetSymbols)
-#library(Quandl); library(BETS); library(GetTDData); library(Rbitcoin)
+```{r include=FALSE, echo=FALSE, message=FALSE, results='hide', eval=TRUE}
+packagesR <- "~/Desktop/04-DISSERTATION/09-packages/packages.R"
+source(packagesR)
 ```
 
-```{r source datas, message=FALSE}
-source('01-data/bacen/data.spread.R')
-source('14-tables/table-studies.R')
-```
+

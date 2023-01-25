@@ -1,0 +1,46 @@
+---
+title: OS EFEITOS DOS COMPONENTES DO *SPREAD* *EX-POST* NA RENTABILIDADE DAS INSTITUIÇÕES
+  BANCÁRIAS
+author: "JACKSON DA SILVA TORRES"
+date: "2021"
+output:
+  beamer_presentation:
+    keep_tex: yes
+    slide_level: 2
+    #latex_engine: xelatex
+  slidy_presentation: default
+bibliography: referencias.bib
+documentclass: beamer
+header-includes:
+- \input{packages}
+- \input{preamble}
+- \usepackage{helvet}
+- \renewcommand{\familydefault}{\sfdefault}
+- \makeindex
+- \DeclareUnicodeCharacter{0301}{******}
+- \DeclareUnicodeCharacter{0303}{******}
+- \DeclareUnicodeCharacter{0327}{******}
+- \DeclareUnicodeCharacter{0302}{******}
+panflute-filters: [div-table]
+link-citations: yes
+classoption:
+- aspectratio=169
+- ignorenonframetext
+spacing: doublespacing
+biblio-style: abnt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(comment = NA)
+
+
+packagesR <- "~/Desktop/04-DISSERTATION/09-packages/packages.R"
+source(packagesR)
+```
+
+
+
+
+
+

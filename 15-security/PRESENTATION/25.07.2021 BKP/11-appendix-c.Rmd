@@ -1,0 +1,549 @@
+\chapter{Modelos SUR}\label{apendicec}
+
+\section{Metodologia}
+
+O primeiro modelo a ser desenvolvido buscará testar e selecionar variáveis macroeconômicas e microeconômicas que exerçam significativa influência, de forma implícita e explícita no \emph{spread} bancário \emph{ex-post}. Partindo da concepção realizada no \autoref{apendicea}, conforme a \autoref{eq:oper02}.
+
+Para a averiguação dos efeitos dos componentes do *spread ex-post* na rentabilidade das instituições bancárias serão utilizados modelos de regressão linear multivariada. Os modelos de regressão múltipla buscam, através de técnicas estatísticas e matemáticas, prever o comportamento de uma dada variável dependente, diante um conjunto de variáveis explanatórias \cite{hill:2010} \cite{gareth:2017}. 
+
+\begin{equation}
+Y = \beta_0 + \beta_1X_1 + \beta_2X_2...\beta_nX_n + \epsilon
+\end{equation}
+
+O modelo econométrico a ser utilizado será o método de dados em painel, denominado *Cross Section*, que combina séries temporais e dados em corte transversal. Este modelo busca captar diferenças individuais de comportamento, possibilitando combinar os dados para fins de estimação e inferência, posteriormente realizados testes de regressão e estimação \cite{hill:2010}.
+
+\begin{equation}
+y_{it} = \beta_{1it} + \beta_{2it}X_{2it} + \beta_{3it}X_{3it} + e_{it}
+\end{equation}
+
+O método *Cross Section* pode ser realizado por meio de três modelos de estimação que são: i) Modelo de regressão aparentemente não relacionadas (SUR); ii) Modelo de variável binárias — efeitos fixos — e iii) modelo de componentes estocásticos — efeitos aleatórios — \cite{hill:2010}. Serão testados os três métodos buscando selecionar o mais adequado ao modelo econométrico e ao conjunto de dados.
+
+No modelo de regressão de dados aparentemente não relacionados — SUR —, os parâmetros dos diferentes grupos em corte transversal diferem entre si, porém são constantes ao longo do tempo. Os modelos podem ser estimados com suas funções de forma conjunta ou separada, onde esta última é indicada quando há correlação dos erros \cite{hill:2010}
+
+\begin{equation}
+y_{it} = \beta_{1it} + \beta_{2i}X_{2it} + \beta_{3i}X_{3it} + e_{it}
+\end{equation}
+
+\vspace{20pt}
+
+No modelo de variável binárias — ou efeitos fixos —, o intercepto é abordado como um parâmetro desconhecido e fixo, onde as inferências são aplicadas somente ao cojunto de dados dos grupos do corte transversal do qual está disponível \cite{hill:2010}. 
+
+\begin{equation}
+y_{it} = \beta_{11}D_{1i} + \beta_{12}D_{2i} + ... + \beta_{1,10}D_{10i} + \beta_{2}X_{2it} + \beta_{3}X_{3it} + e_{it}
+\end{equation}
+
+\vspace{20pt}
+
+O modelo de componentes estocásticos — ou efeitos aleatórios —, considera cada grupo do conjunto de dados como uma amostra aleatória de uma população maior, onde os interceptos são encarrados como resultados aleatórios da distribuição populacional de interceptos de grupos, realizando assim uma inferência da população de grupos \cite{hill:2010}.
+
+\begin{equation}
+y_{it} = \beta_{1i} + \beta_{2it}X_{2it} + \beta_{3it}X_{3it} + e_{it}
+\end{equation}
+
+Diante os pressupostos, o primeiro modelo irá verificar a influência das variações de variáveis componentes explícitas e implícitas do  *Spread Ex-post*, tendo no primeiro bloco variáveis microeconômicas e o segundo bloco as variáveis macroeconômicas, selecionando para o segundo modelo final somente as que apresentarem significância estatística.
+
+\begin{equation}
+\begin{aligned}
+SprEp = &f(EPr, EAv, EAp, Atv, ImpInd, ImpId, \\ 
+& Inad, MLq, DAdm, Jcp, MSh, HHI, TIns, OCap, \\ 
+& CIns, Sel, Ipca, Comp, MPag, VMo, SprEa)
+\end{aligned}
+\end{equation}
+
+Na construção do primeiro modelo econométrico serão adotadas simplificações para variáveis de resultado, eliminando as que possuem caráter constante, as obtidas por meio de resultado e por não possuírem dados, utilizando uma *proxy*.
+
+\begin{equation}
+\begin{aligned}
+SprEp_{it} = & \beta_{0it} + \beta_{1it}EPr_{it} + \beta_{2it}EAv_{it} + \beta_{3it}EAp_{it} + \beta_{4it}DAdm_{it} + \beta_{5it}Vol_{it} + \\
+& \beta_{6it}lnAtv_{it} + \beta_{7it}RC_{it} + \beta_{8it}MSh_{it} + \beta_{9it}HHI_{it} + \\ 
+& \beta_{10it}Mod + \beta_{11it}OCap + \beta_{12it}SelOver_{t-1} + \beta_{13it}Ipca_{t-1} + \\
+& \beta_{14it}Com_{t} + \beta_{15}Mpag_{t-1} + \beta_{16it}VMo_{t-1} +  \beta_{17t}SprEa_{t-1}
+\end{aligned}
+\end{equation}
+
+O segundo modelo econométrico testará as variáveis implícitas e explícitas com significância estatística do primeiro modelo, atuando sobre a rentabilidade bancária $Rent$, conforme modelos especificados. Para a rentabilidade será considerada a razão entre o lucro líquido ($LcrLqd$) e a Receita das Operações de crédito ($RecOpCr$).
+
+\begin{equation}
+\begin{aligned}
+Rent_{it} = & \beta_{0it} + \beta_{1it}EPr_{it} + \beta_{2it}EAv_{it} + \beta_{3it}EAp_{it} + \beta_{4it}DAdm_{it} + \beta_{5it}Vol_{it} + \\
+& \beta_{6it}lnAtv_{it} + \beta_{7it}RC_{it} + \beta_{8it}MSh_{it} + \beta_{9it}HHI_{it} + \\ 
+& \beta_{10it}Mod + \beta_{11it}OCap + \beta_{12it}SelOver_{t-1} + \beta_{13it}Ipca_{t-1} + \\
+& \beta_{14it}Com_{t} + \beta_{15}Mpag_{t-1} + \beta_{16it}VMo_{t-1} +  \beta_{17t}SprEa_{t-1} + \epsilon_{t}
+\end{aligned}
+\end{equation}
+
+Diante a definição dos modelos, seguem abaixo as hipóteses conceituais baseadas em concepções teóricas obtidas na pesquisa bibliográfica e das concepções desenvolvidas durante a pesquisa. O conjunto de hipóteses se apresenta na forma objetiva incluindo as expectativas para cada variável e contemplando os dois modelos construídos, com breve explanação sobre a mesma.
+
+
+\section{Resultados}
+
+Os dados em painel foram estimados nos métodos *pooling*, efeitos fixos e efeitos aleatórios, com os resultados demonstrados na \autoref{tb:modpool}, \autoref{tb:modef}, \autoref{tb:intfixef}, \autoref{tb:modrand} e \autoref{tb:modsr2}. 
+
+\begin{table}[!htbp]
+\caption{Resultado Modelo Pooling}
+\vspace{1mm}
+```{r pooling}
+library(plm)
+
+mod01.Pooling <- plm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad #+ RcPd 
+          + Int + EPr + TpIns
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp #+ OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+                   index = c("TpIns"),
+                   model = 'pooling',
+                   data = banksPanel.01)
+
+summPoo <- mod01.Pooling %>% summary()
+summPoo$coefficients %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", 
+                full_width = TRUE, font_size = 10) %>%
+  column_spec(1, width = "5cm") %>%
+  column_spec(2, width = "2cm") %>% 
+  column_spec(3, width = "2cm") %>% 
+  column_spec(4, width = "2cm") %>% 
+  column_spec(5, width = "2cm")
+ 
+```
+\vspace{1mm}
+\label{tb:modpool}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+\begin{table}[!htb]
+\caption{Resultado Modelo Efeitos Fixos}
+\vspace{1mm}
+```{r fixed.effects}
+library(plm)
+
+mod01.FixEf <- plm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad #+ RcPd 
+          + Int + EPr
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp + OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+                   index = c("TpIns"),
+                   data = banksPanel.01,
+                   model = 'within'
+                   #effect = c(#"time",
+                        #      "twoways"
+                              #"individual"
+                         #     )
+                   )
+summFe <- summary(mod01.FixEf)
+summFe$coefficients %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", 
+                full_width = TRUE, font_size = 10) %>% 
+  column_spec(1, width = "5cm") %>%
+  column_spec(2, width = "2cm") %>% 
+  column_spec(3, width = "2cm") %>% 
+  column_spec(4, width = "2cm") %>% 
+  column_spec(5, width = "2cm")
+```
+\vspace{1mm}
+\label{tb:modef}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+
+\begin{table}[!hbtp]
+\caption{Interceptos do modelo de Efeitos Fixos}
+\vspace{1mm}
+```{r table.interccep}
+summary(fixef(mod01.FixEf)) %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10) %>%   column_spec(1, width = "5cm") %>%
+  column_spec(2, width = "2cm") %>% 
+  column_spec(3, width = "2cm") %>% 
+  column_spec(4, width = "2cm") %>% 
+  column_spec(5, width = "2cm")
+```
+\vspace{1mm}
+\label{tb:intfixef}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+\begin{table}[!htbp]
+\caption{Resultado Modelo Efeitos Aleatórios}
+\vspace{1mm}
+```{r random.effects}
+
+library(plm)
+
+mod01.RanEff <- plm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad #+ RcPd 
+          + Int + EPr + TpIns
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp #+ OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+                      data = banksPanel.01,
+                    index = c("TpIns"),
+                      model = 'random', 
+                    random.method  = "walhus"
+                      )
+summRand <-  mod01.RanEff %>% summary()
+summRand$coefficients %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", 
+                full_width = TRUE, 
+                font_size = 10) %>% 
+  column_spec(1, width = "5cm") %>%
+  column_spec(2, width = "2cm") %>% 
+  column_spec(3, width = "2cm") %>% 
+  column_spec(4, width = "2cm") %>% 
+  column_spec(5, width = "2cm")
+```
+\vspace{1mm}
+\label{tb:modrand}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+\vspace{20pt}
+
+\begin{table}[!hbtp]
+\caption{Resultado de coeficiente de determinação para os modelos}
+\vspace{1mm}
+```{r rsqr}
+pooR2 <- summPoo$r.squared %>% as.data.frame()
+fixR2 <- summFe$r.squared %>% as.data.frame()
+randR2 <- summRand$r.squared %>% as.data.frame()
+
+data.frame(Modelos = c("Pooling", "Efeitos Fixos", 
+                            "Efeitos Aleatórios"),
+           "R.2" = c(pooR2[1,1], fixR2[1,1], randR2[1,1]),
+           "R Ajustado" = c(pooR2[2,1], fixR2[2,1], randR2[2,1])) %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10)
+```
+\vspace{1mm}
+\label{tb:modsr2}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+```{r tables.models, results='hide'}
+library(pander); library(apsrtable); library(huxtable); library(stargazer)
+
+stargazer(mod01.Pooling, mod01.FixEf, mod01.RanEff, 
+          column.labels = c("Pooling", "Efeitos Fixos", 
+                            "Efeitos Aleatórios"),
+          label = "tb:regress",
+          type = "latex", 
+          title = "Resultados das Regressões", 
+          header = FALSE,
+          single.row = TRUE,
+          align = TRUE, 
+          style = "all", 
+          keep.stat = c("aic", "bic", "rsq", 
+        "adj.rsq", "n"))
+```
+
+
+```{r some.tests, eval=FALSE, include=FALSE}
+
+robPolling <- coeftest(mod01.Pooling, vcov.=vcovHC(mod01.Pooling, method = c("arellano")))
+robPolling
+
+robFixEf <- coeftest(mod01.FixEf, vcov.=vcovHC(mod01.FixEf, method = c("arellano")))
+robFixEf
+
+robRanEff <- coeftest(mod01.RanEff, vcov.=vcovHC(mod01.RanEff, method = c("arellano")))
+mod01.RanEff
+
+summary(mod01.Pooling, vcov = function(x) vcovHC(mod01.Pooling, method = "arellano"))
+
+####colinearidade 
+bptest(mod01.Pooling); bptest(mod01.FixEf); bptest(mod01.RanEff); bptest(fit)
+
+####autocorrelacionado com os erros
+resPooling <- as.vector(mod01.Pooling$residuals)
+durbinWatsonTest(resPooling); durbinWatsonTest(mod01.FixEf$residuals); durbinWatsonTest(fit.2)
+
+#leveragePlots(fit.02)
+```
+
+No modelo \emph{pooling}, não foi encontrada significância a 5%, para as variáveis de meios de pagamentos ($M4$), velocidade da moeda ($VelMo$), impostos indiretos ($ImpInd$) e depósitos a vista ($DepAv$). As demais variáveis apresentação elevado nível de significância. Foi aplicado o teste de Wooldridge aceitando a hipótese nula que os erros para a taxonomia não são relacionados.  
+
+Foi utilizado o teste Wooldridge para o modelo \emph{pooling} para checar a correlação nos erros no grupo de taxonomia. O resultado do teste conforme \autoref{tb:wdtest} aceita a hipotese nula, indicando que os erros entre o grupo avaliado não são correlacionados.
+
+\vspace{20pt}
+
+\begin{table}[!hbtp]
+\caption{Resultado do teste Wooldridge para o modelo pooling}
+\vspace{1mm}
+```{r test.Wooldridge}
+### 6.6.5 Teste para efeitos individuais ou de tempo
+
+## para modelos pooling
+##A hipótse nula é a não correlação entre os erros do mesmo grupo
+## p value menor que 5% rejeita a hipotese nula - tendo correlacao
+library(pander)
+wt.pooling <- pwtest(mod01.Pooling)
+
+data.frame(Estatística = wt.pooling$statistic,
+           Valor.P = wt.pooling$p.value,
+           "Hipótese Alternativa" = "Correlação nos Erros") %>% 
+  kbl(booktabs = TRUE) %>%
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10)
+
+#wt.pool.time <- pwtest(mod01.Pooling, effect = "time")
+# rejeita a hipotese nula - há correlação do efeito tempo
+```
+\vspace{1mm}
+\label{tb:wdtest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+
+```{r test.durbin.watson, results='hide', message=FALSE, eval=FALSE}
+library(lmtest)
+
+dwtest(formula = SprEp ~ lnOpTot + lnROp #+ lnAtv #+ lnOpCrMkt 
+                    + DAdm + DesCap + OtDes #+ RcPd
+                    + Inad #+ OpCr + OpFin + OtOp
+                    + SelMet + VelMo + ImpRend  #+ ImpInd
+                    + DepAv + DepAp #+ DepIf + DepPop
+                    + ROpCr + RSrv + RPart,
+                      data = banksPanel.00, 
+       order.by = NULL, alternative = c("greater", "two.sided", "less"),
+       iterations = 15, exact = NULL, tol = 1e-10)
+
+```
+
+Para comparação entre os modelos pooling e efeitos fixos foi aplicado o teste F de Chrow para avaliar os efeitos individuais, sendo rejeitada a hipótese nula de igualdade nos interceptos e coeficientes, indicando que o modelo de efeitos fixos seria mais adequado para estimação do modelo. 
+
+\vspace{20pt}
+
+\begin{table}[!hbtp]
+\caption{Teste F para igualdade nos interceptos e inclinações}
+\vspace{1mm}
+```{r test.pool.fe, message=FALSE}
+### TESTS Modelo Pooled x Modelo de Efeitos Fixos
+### test f de chrow
+### hipotese nula é de igualdade nos interceptos e nas inclinacoes para o os individuos indicando o modelo pooled
+
+pFtest <- pFtest(mod01.Pooling, mod01.FixEf)
+
+data.frame(Estatística = pFtest$statistic,
+           DF01 = pFtest$parameter[1],
+           DF02 = pFtest$parameter[2],
+           P.Valor = pFtest$p.value, 
+           Hipótese.Alternativa = "Não Igualdade nos Interceptos") %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10)
+
+# p menor que 0.05 indica que efeitos fixos é melhor 
+```
+\vspace{-1mm}
+\label{tb:pftest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+Para comparar os modelos pooling e efeitos aleatórios foi utilizado o teste Breusch-Pagan (multiplicador de lagrange) para modelos em painel não balanceados, aceitando a hipótese nula que a variância dos erros são iguais, indicando homocedasticidade.  
+
+\vspace{20pt}
+
+\begin{table}[!hbtp]
+\caption{Teste Breusch-Pagan para variância dos erros em painéis desbalanceados}
+\vspace{1mm}
+```{r test.poo.randeff}
+####TEST Modelo Pooled x Modelo de Efeitos Aleatórios
+
+### aceitação da hipotese nula implica que pooled é melhor
+### p valor menor que 5% rejeita hipotese nula e indica que efeitos aleatorios é prefeível 
+
+plmtest <- plmtest(mod01.Pooling, type = "bp")
+
+data.frame(Estatística = plmtest$statistic,
+           Df = plmtest$parameter,
+           P.Valor = plmtest$p.value,
+           Alternativa = "Variância dos Erros") %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10)
+```
+\vspace{-1mm}
+\label{tb:lbptest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+Em termos de comparação entre os modelos de efeitos fixos e efeitos aleatórios foi utilizado o teste de Hausman, com rejeição da hipotese nula (parâmetros não correlacionados), indicando assim correlação entre os parâmetros e indicando que o modelo e efeitos fixos é mais adequado para avaliação do modelo.   
+
+\begin{table}[!hbtp]
+\caption{Teste Hausman para correlação dos parâmetros}
+\vspace{1mm}
+```{r test.fix.random}
+## tests Modelo Efeitos Fixos x Modelo de Efeitos Aleatórios
+
+## rejeitar a hipotese nula implica que efeitos fixo  é mais adequado 
+
+##p valor menor que 5% rejeita hipotese nula (indicando que os parâmetros são correlacionados) indicando que efeitos fixos é mais adequado
+
+## p valor maior que 5% aceita hipotese nula (indica que os parâmetros não sao correlacionados) indicando que o modelo de efeitos aleatorios é melhor
+
+phtest <- phtest(mod01.FixEf, mod01.RanEff)
+
+data.frame(Estatística = phtest$statistic,
+           DF = phtest$parameter,
+           Valor.P = phtest$p.value,
+           Alternativa = "Correlação nos Parâmetros") %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10)
+
+
+```
+\vspace{-1mm}
+\label{tb:htest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+Para checar a dependência transversal do modelo de efeitos fixo foi utilizado o teste Pesaran, sendo rejeitada a hipótese nula (não correlação dos resíduos aos indivíduos) indicando que os resíduos entre os indivíduos estão correlacionados.
+
+\begin{table}[!hbtp]
+\caption{Teste Persan CD para dependência transversal}
+\vspace{1mm}
+```{r pcdtest}
+##### 
+#Testando dependência transversal (cross-sectional)
+#A dependência cross-sectional se apresenta em panieis com longas séries de tempo. 
+#A hipótese nula é de que os resíduos através dos indivíduos não estão correlacionados.  teste de Pesaran (2015):
+#####
+
+
+pcdtest.pool <- pcdtest(mod01.Pooling, ttest = "cd")
+pcdtest.fix <- pcdtest(mod01.FixEf, ttest = "cd")
+pcdtest.rand <- pcdtest(mod01.RanEff, ttest = "cd")
+
+data.frame(Modelo = c("Pooling",  "Efeitos Fixos", "Efeitos Aleatórios"),
+           Estatística = c(pcdtest.pool$statistic, pcdtest.rand$statistic,
+                           pcdtest.fix$statistic),
+           Valor.P = c(pcdtest.pool$p.value, pcdtest.fix$p.value,
+                          pcdtest.rand$p.value),
+           Alternativa = rep("Correlação nos resíduos dos indivíduos",3)
+           ) %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = TRUE, font_size = 10)
+
+
+```
+\vspace{-1mm}
+\label{tb:pcdtest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+
+A normalidade dos resíduos os três modelos foi testado pelo método Shapiro-Wilk, rejeitando a hipótese nula de normalidade dos resíduos, indicando que os modelo apresenta problemas de hetetocedasticidadade. 
+
+\begin{table}[!hbtp]
+\caption{Teste Shapiro-Wilk para normalidade dos resíduos}
+\vspace{1mm}
+```{r shapiro.test}
+##Normalidade dos resíduos
+
+shap.pool <- shapiro.test(mod01.Pooling$residuals[1:500])
+
+shap.fix <- shapiro.test(mod01.FixEf$residuals[1:500])
+
+shap.rand <- shapiro.test(mod01.RanEff$residuals[1:500])
+
+data.frame(Modelo = c("Pooling",  "Efeitos Fixos", "Efeitos Aleatórios"),
+           Estatística.W = c(shap.pool$statistic, shap.fix$statistic,
+                             shap.rand$statistic),
+           Valor.P = c(shap.pool$p.value, shap.fix$p.value,
+                             shap.rand$p.value)
+           ) %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = TRUE, font_size = 10)
+
+```
+\vspace{-1mm}
+\label{tb:swtest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+A normalidade dos resíduos do modelo de efeitos aleatórios foi testado pelo método, rejeitando a hipótese nula de normalidade dos resíduos, indicando que o modelo apresenta problemas de hetetocedasticidadade. 
+
+\begin{table}[!hbtp]
+\caption{Teste Breusch-Pagan estudentizado para normalidade dos resíduos em efeitos aleatórios}
+\vspace{1mm}
+```{r test.final.model}
+library(lmtest)
+
+bptest.pool <- bptest(mod01.Pooling) 
+bptest.fix <- bptest(mod01.FixEf) 
+bptest.rand <- bptest(mod01.RanEff)
+
+data.frame(Modelo = c("Pooling", "Efeitos Fixos", "Efeitos Aleatórios"),
+           Estatística = c(bptest.pool$statistic, bptest.fix$statistic,
+                           bptest.rand$statistic),
+           Valor.P = c(bptest.pool$p.value, bptest.fix$p.value, 
+                       bptest.rand$p.value)
+           ) %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = TRUE, font_size = 10)
+
+
+### Homocedasticidade dos resíduos
+## hipotese nula que há homocedasticidade
+## p value menor que 5% indica que a hipoteses nula é rejeitada e há problemas no resíduos da regressão e problema de heterocedasticidade
+## pode ser resolvido com transformacão de variaveis
+
+```
+\vspace{-1mm}
+\label{tb:sbptest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+Foi testada a correlação serial do modelo de efeitos fixos, rejeitando a hipotese nula (de não correlação serial), indicando assim que o painel de dados possui problemas de correlação serial entre dos dados. 
+
+\begin{table}[!hbtp]
+\caption{Teste Breusch-Godfrey/Wooldridge para correlação serial}
+\vspace{1mm}
+```{r pbgtest}
+## Testando correlação serial
+#hipótese nula, ou seja, não há problemas de correlação serial nos dados
+# valor maior que 5% aceita hipotese nula, de que não há problemas de correlação serial 
+
+
+pbgtest.pool <- pbgtest(mod01.Pooling)
+pbgtest.fix <- pbgtest(mod01.FixEf)
+pbgtest.rand <- pbgtest(mod01.RanEff)
+
+
+data.frame(Modelos = c("Pooling", "Efeitos Fixos", "Efeitos Aleatórios"),
+           Estatística = c(pbgtest.pool$statistic, pbgtest.fix$statistic,
+                           pbgtest.rand$statistic),
+           DF = c(pbgtest.pool$parameter, pbgtest.fix$parameter,
+                  pbgtest.rand$parameter),
+           Valor.P = c(pbgtest.pool$p.value, pbgtest.fix$p.value,
+                       pbgtest.rand$p.value),
+           Alternativa = rep("Correlação serial no erros indissiocráticos",3)
+           ) %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = TRUE, font_size = 10)
+  
+```
+\vspace{-1mm}
+\label{tb:bgwtest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+Os resultados das estimações dos modelos, demonstraram elevada significância para as variáveis, com coeficientes de determinação acima em torno de 95%, porém os testes indicaram problemas de heterocedasticidade e correlação serial dos dados, podendo estar inflando os resultados, demonstrando-se inadequados para uma estimação confiável. 
+
+
+\end{apendicesenv}}{
+}

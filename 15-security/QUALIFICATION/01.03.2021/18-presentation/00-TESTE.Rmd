@@ -1,0 +1,88 @@
+---
+title: OS EFEITOS DOS COMPONENTES DO *SPREAD* *EX-POST* NA RENTABILIDADE DAS INSTITUIÇÕES
+  BANCÁRIAS
+author: "JACKSON DA SILVA TORRES"
+date: "2021"
+output:
+  beamer_presentation:
+    keep_tex: yes
+    slide_level: 2
+    #latex_engine: xelatex
+  slidy_presentation: default
+bibliography: referencias.bib
+documentclass: beamer
+header-includes:
+- \input{packages}
+- \input{preamble}
+- \usepackage{helvet}
+- \renewcommand{\familydefault}{\sfdefault}
+- \makeindex
+- \DeclareUnicodeCharacter{0301}{******}
+- \DeclareUnicodeCharacter{0303}{******}
+- \DeclareUnicodeCharacter{0327}{******}
+- \DeclareUnicodeCharacter{0302}{******}
+panflute-filters: [div-table]
+link-citations: yes
+classoption:
+- aspectratio=169
+- ignorenonframetext
+spacing: doublespacing
+biblio-style: abnt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, eval = FALSE, include = FALSE)
+knitr::opts_chunk$set(comment = NA)
+```
+
+```{r sources, message=FALSE, results='hide', include=FALSE, eval=FALSE}
+source("packages.R")
+
+purl("~/Desktop/04-DISSERTATION/02-bankingstructure.Rmd",
+     output = "~/Desktop/04-DISSERTATION/18-presentation/banking.R",
+     documentation = 1)
+
+purl("~/Desktop/04-DISSERTATION/03-spread.Rmd",
+     output = "~/Desktop/04-DISSERTATION/18-presentation/spread.R",
+     documentation = 1)
+
+purl("~/Desktop/04-DISSERTATION/04-method.Rmd",
+     output = "~/Desktop/04-DISSERTATION/18-presentation/method.R",
+     documentation = 1)
+
+source("banking.R")
+source("spread.R")
+source("method.R")
+```
+
+
+## **REFERÊNCIAS**
+
+BACEN. 2000. “Juros E Spread Bancário No Brasil.” Brasília: Banco Central do Brasil. https://www.bcb.gov.br/ftp/jurospread112000.pdf. 
+
+———. 2016. “Juros E Spread Bancário.” Brasília: Banco Central do Brasil. 
+BANK, WORLD, and IMF. 2005. Financial Sector Assessment: A Handbook. Washington DCo: The World Bank. http://documents1.worldbank.org/curated/en/306701468337879923/pdf/ 337970rev0Fina10Assessment01PUBLIC1.pdf. 
+
+Dantas, José A. 2012. “Determinantes Do Spread Bancário Ex Post No Mercado Brasileiro.” REV. ADM. MACKENZIE 13 (4). UNIVERSIDADE PRESBITERIANA MACKENZIE: 48–74. 
+
+
+
+## **REFERÊNCIAS**
+
+Dick, Astrid. 1999. “Banking Spreads in Central America: Evolution, Structure, and Behavior.” HIID Development Discussion Papers. Harvard Institute for International Development, Cambridge. 
+
+Hill, R. Carter. 2010. Economertia. 3rd ed. São Paulo: Saraiva. 
+
+Gareth, 2017. An Introduction to Statistical Learning. 
+8th ed. New York: Springer. 
+
+Leal, Rodrigo Mendes. 2006. “Estrutura E Determinantes Do Spread Bancário No Brasil:Uma Resenha Comparativa Da Literatura Empírica.” Rio de Janeiro: Universidade do Estado do Rio de Janeiro. 
+
+## **REFERÊNCIAS**
+
+Levine, Ross. 1997. “Financial Development and Economic Growth: Views and Agenda.” Journal of Economic Literature 35 (2). American Economic Association: 688–726. http://www.jstor.org/stable/2729790. 
+
+Magalhães-Timotio, João G. 2018. “Relação entre Indicadores Contábeis E O Spread Ex-Post Dos Bancos Brasileiros.” RACEF – Revista de Administração, Contabilidade E Economia Da Fundace 9 (2): 31–44. 
+Matos, Orlando Carneiro de. 2003. “Inter-Relações Entre Desenvolvimento Financeiro, Exportações E Crescimento Econômico: Análise Da Experiênncia Brasileira.”
+
+

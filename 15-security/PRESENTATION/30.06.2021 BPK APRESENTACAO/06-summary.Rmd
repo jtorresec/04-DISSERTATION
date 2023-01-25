@@ -1,0 +1,89 @@
+\textual
+\pagestyle{simple}
+\parindent 1.50cm
+
+\chapter{CONSIDERAÇÕES FINAIS}
+
+Este estudo teve como objetivo verificar os principais conceitos e aspectos técnicos sobre o *spread* bancário e como os seus principais determinantes atuam de forma simultânea influenciando a rentabilidade bancária, alinhado com as perspectiva de importância do *spread* na atividade econômica e na estabilidade do setor financeiro.
+
+O ponto de partida foi a investigação sobre os principais aspectos do setor bancário brasileiro, verificando a tendência para concentração bancária, domínio de instituições estrangeiras, baixa oferta de crédito, baixa relação crédito PIB, baixo grau de alavancagem financeira diante elevados níveis de inadimplência e risco de crédito.
+
+Também foram verificadas as principais características da estrutura bancária no Brasil, estando esta inserida no Sistema Financeiro Nacional, organizado em modalidades por tipo de carteira de operação com uma tendência a partir da década de 1980 de concentração de instituições atuando com operações de múltiplas carteiras.
+
+Foi identificado que o *spread* bancário tem ganhando notoriedade a nível mundial por se tratar de um indicador que de elevada importância com o desenvolvimento e crescimento econômico bem como na manutenção de um sistema financeiro sólido, competitivo e com liquidez.
+
+Durante o estudo verificou-se que o conceito consolidado do *spread* se dá pela diferença entre as taxas de aplicação — cobrada dos tomadores de crédito — e a taxa de captação — que remunera as captações —. Por outra perspectiva implica na diferença entre o juros cobrado dos clientes e a juros pagados aos depositantes.
+
+Verificou-se que não há uma teoria formalizada acerca do spread bancário, mas seus estudos vem sendo sistematizados em torno da evolução, estrutura e componentes, de acordo com abrangência da amostra, conteúdo e origem da informação, onde esta última concerne nos conceitos de *spread ex-ante* — medida de planejamento —  e o spread *ex-post* — medida de resultado —.
+
+Em relação as diferenças conceituais entre *spread* ex-ante e ex-post, o primeiro por ser uma  medida de planejamento se torna mais instável, volátil e sensível a indicadores de conjuntura econômica e o seguindo por ser medida de  resultado se demonstra mais estável e menos sensível a indicadores macroeconômicos. 
+
+O método consolidado de apuração do *spread* leva e consideração a participação das receitas das operações de crédito sobre o total de capital emprestado menos a relação  entre os custos de captação em relação aos depósitos totais. E que entre os principais componentes endógenos estão as despesas administrativas, impostos indiretos, impostos diretos, despesas de captação, inadimplência e a margem de lucro.
+
+Foi identificado que entre os principais determinantes exógenos utilizados para o *spread* estão a  atividade econômica, PIB,  atividade industrial, PIB Industrial, IPI,  desemprego, Selic, IPCA, compulsório e saldo da carteira de crédito. 
+
+Durante o período investigado foi levantando que o *spread* bancário no Brasil figura entre um dos maiores a nível mundial e mesmo com considerável redução — de um nível que chegou a representar 150% — ainda é considerado elevado principalmente se comparando com países com mesmo grau de desenvolvimento.   
+
+Ao longo do estudo foi identificado que o *spread* pode ser visualizado em diferentes perspectivas no que tange a dimensão por tipo de tomador ou tipo de recurso e operação ou na perspectiva volume-prazo-risco que abrange os níveis de spread por volume  de recurso, tempo de tomada, riscos e a existência ou não de garantias. 
+
+Diante os conceitos, detalhes técnicos e óticas do *spread*, foi realizado um ensaio de decomposição, partindo da forma tautológica do *spread*, incluindo as variáveis endógenas componentes para fins de identificação destas, chegando a formulação de um multiplicador de aplicação na ótica do dispêndio e multiplicador de capital emprestado na ótica do juros.
+
+Uma modelagem baseada na decomposição do *spread* e diante as óticas de estudo, ótica de dimensão, ótica de volume-tempo-risco se apresentaria com a ideal para uma estudo com maior acurácia. Porém diante do nível de informações disponível não é possível atingir este nível de estudo, cabendo assim a modelagem a apartir dos dados disponíveis, em nível de agregação elevados.
+
+A primeira rodada de teste realizou modelagem nos métodos *pooling*, efeitos fixos e efeitos aleatórios, remontando coeficientes de determinação acima de 90% para ambos, porém os modelos não passaram no teste de heterocedasticidade e correlação serial, prejudicando assim a confiabilidade dos mesmos. 
+
+Seguindo a complexidade da modelagem partiu-se o método de painel dinâmico com vetores autorregressivos com estimação por método dos momentos generalizados em duas etapas, com transformação ortogonal para frente e utilização de instrumentos PCA com 18 variáveis endógenas e 7 variáveis exógenas.
+
+O modelo com duas defasagens da variáveis dependentes foi selecionado pelo teste de seleção por critérios de momentos (MMSC). O modelo passou pelo teste J-Hansen de superidentificação de restrições, aceitando-se a hipótese nula de validade de todas as variáveis no modelo. 
+
+As variáveis que apresentaram significância simultaneamente no *spread* e na rentabilidade foram a rentabilidade com uma e duas defasagens, as despesas administrativas, receitas de operação de crédito, receitas de participação Selic over, e velocidade da moeda.
+
+Entre as principais variáveis determinantes que exercem influência direta no *spread* estão, em ordem de peso: outras despesas operacionais, as receitas de operação de crédito, outras receitas operacionais, despesas administrativas, velocidade da moeda e receita de serviços. 
+
+O segundo bloco de variáveis determinantes que exercem influência direta no *spread* estão: a rentabilidade de dois períodos anteriores, outras operações, depósitos de poupança, meios de pagamento M4, receita de participação, spread de um período anterior e o compulsório. 
+
+Entre as variáveis que apresentaram influência inversa no *spread*,em ordem de peso estão: Selic Over, IPCA, *spread* de dois períodos anteriores, capital próprio, operação total do mercado e rentabilidade de um período anterior. 
+
+Já na rentabilidade entre as variáveis que exercem influência direta, em ordem de peso, estão: Rentabilidade de um e dois períodos anteriores, velocidade da moeda, impostos indiretos e despesas administrativas. 
+
+Entre as variáveis que apresentaram influência inversa com a rentabilidade, em ordem de peso estão: imposto de renda, receita de operações de crédito, Risco ponderado de crédito, operações de crédito, operações de financiamento, inadimplência, depósitos a vista, receitas de participações e Selic over. 
+
+Os resultados do modelo remetem que o *spread* e a rentabilidade são determinados uma parte diante um conjunto de características e do perfil operacional das instituições bancárias em torno de seus elementos endógenos e por outra parte determinado por fatores exógenos de mercado e de conjuntura econômica.
+
+Como principal determinante direto do *spread*, o modelo retornou a variável de participação de outras despesas em relação as operações de crédito (1,2571), em um nível muito significativo. Quanto maior o nível desta variável, maior seria o nível de *spread* bancário.
+
+Como segunda e terceira variável com influência direta no *spread* aparecem a receita de operações de crédito e outras receitas operacionais. Dessa forma, instituições tem possuem maior capacidade e suas receitas baseada nestas operações apresentam maior nível de *spread* bancário. 
+
+Por outra via o modelo retornou que as receitas com operações de crédito está entre os principais determinantes indiretos da rentabilidade. Ou seja, quando maior o nível desta variável, maior o *spread*, porém menor seria a rentabilidade das instituições. 
+
+Como quarto e quinto principais determinantes diretos do *spread* o modelo remontou as despesa de captação e as despesas administrativas. O que leva a conclusão que as instituições que possuem maior nível destas despesas, acabam por apresentar os maiores níveis de *spread*, levando ainda a característica que esses custos são em grande parcela repassados para a taxa de juros.
+
+Na perspectiva de atuação simultânea, o modelo retornou que as despesas administrativas atuam como principal principal determinante direto da rentabilidade, ou sejam quando maior o gasto com despesas administrativas, maior a capacidade das instituições e aumentar a rentabilidade, reforçando a  característica desse custos ser quase que totalmente repassado sem afetar a margem de lucro.   
+
+Como sexto principal determinante direto do *spread* o modelo retornou a velocidade da moeda. Por outra via a velocidade da moeda se apresenta também como o principal\footnote{Sem considerar as variáveis defasadas da própria rentabilidade} determinante direto da rentabilidade. Quanto mais rápido uma unidade monetária circula na economia, maior será o nível de *spread* e rentabilidade das instituições bancárias.
+
+Como sétimo principal determinante direto do *spread* aparece as receitas de serviços. Esse resultado implica que quando maior a concentração de receitas de serviços a instituição possuir, maior será o nível de *spread* bancário cobrado por estas. 
+
+Mesmo sem significância, a inadimplência e o risco ponderado de crédito aparecem no ajuste do modelo como determinantes em nível direto do *spread* bancário. Por outras via estas variáveis apresentaram significância como determinantes indiretas da rentabilidade. Isso remete que elevações do nível de inadimplência e careteiras com maior risco ponderado atuam elevando o *spread* e reduzindo a rentabilidade. 
+
+Entre outras variáveis ligadas as características operacionais, que atuam determinantes diretas do *spread*, em menor nível estão outras operações\footnote{Significância somente para o spread}, depósitos de poupança\footnote{Significância somente para o spread}, operações de empréstimo\footnote{Significância somente para a rentabilidade}, receita de participação e operação de financiamento\footnote{Significância somente para a rentabilidade}. Elevações destas variáveis atuariam elevando o nível de spread bancário. 
+
+Das variáveis do parágrafo anterior, mesmo que nem todas apresentassem significância, o efeito sobre a rentabilidade seria inverso. Ou seja, quanto maior o nível destas variáveis menor seria o nível de rentabilidade.
+
+Entre as variáveis exógenas que exercem influência direta sobre o *spread* estão o agregado monetário M4 e o compulsório. Mesmo sem significância estas variáveis também apresentaram relação direta com a rentabilidade. Elevações no M4 e no compulsório levariam e aumento do *spread* e da rentabilidade bancária. 
+
+No modelo, o principal determinante indireto do *spread*, seria a rentabilidade auferida em período anterior. Esta variável também atuaria como determinante direto da rentabilidade. Dessa forma quando ocorrem elevações de rentabilidade no período atual o reflexo seria de redução do *spread* atual, porém com manutenção de certo nível de rentabilidade, podendo estar associado a diluição de custos operacionais ao longo do prazo.
+
+Entre as variáveis exógenas que, no modelo, exercem influência indireta no *spread* estão o grau de concentração\footnote{Sem significância para o spread e rentabilidade}, operação total do mercado\footnote{Significância para o spread}, IPCA\footnote{Significância para o spread}, impostos indiretos\footnote{Significância para a rentabilidade}, Selic over e imposto de renda\footnote{Significância para a rentabilidade}. Elevações destas variáveis atuariam reduzindo o *spread* bancário. 
+
+Para o IPCA, impostos indiretos e imposto de renda a relação inversa com o *spread* pode ser explicada pelo não repasse total de elevações destas para a taxa de juros. Dessa forma mantida a estrutura de custos e não repasse destes, o resultado observado seria uma redução de *spread*. 
+
+No grupo de variáveis endógenas o capital próprio\footnote{Significância para o spread}, *spread* de dois períodos anteriores\footnote{Significância para o spread}, depósito a prazo\footnote{Sem significância para o spread e rentabilidade} e deposito a vista\footnote{Significância para a rentabilidade} exercem, no modelo, uma influência inversa com o *spread* e com a rentabilidade. Elevações destas variáveis atuariam reduzindo o *spread* — via taxa de aplicação — e reduzindo também a rentabilidade — devido a redução na taxa de aplicação —. 
+
+Entre as variáveis exógenas com efeito inverso sobre o *spread* bancário, o IPCA, Selic over e imposto de renda também manteriam relação inversa com a rentabilidade, já o grau de concentração, operação total de mercado e impostos indiretos\footnote{Esta relação poderia estar associada ao fato de ser um imposto sobre a venda com baixa sensibilidade do consumidor} manteriam relação direta com a rentabilidade. 
+
+Diante o resultado da pesquisa e da modelagem econométrica este estudo chega ao conceito que o *spread* e a rentabilidade bancária são definidos diante um conjunto de fatores endógenos remetendo as características operacionais de cada grupo e ou  instituições e diante um conjunto de fatores exógenos relacionados com a conjuntura social e econômica e de regulação. 
+
+A contribuição desta pesquisa está na utilização de variáveis endógenas determinantes do *spread*, que representam as características operacionais da empresas diante um conjunto de fatores que implicam no tipo de operação, capacidade de gerar receita, origem do capital e eficiência operacional.  
+
+Para estudos posteriores fica a indicação para avaliação dos efeitos dos determinantes do *spread* atuando simultaneamente sobre a taxa de aplicação, taxa de captação e rentabilidade bancária. Ainda a orientação de trabalhar os dados no maior nível de desagregação possível para visualização do nível por tipo de tomador, tipo de operação, tipo de recurso, volume, prazo e nível de risco, levando consideração que no momento da pesquisa este nível não está disponível. 

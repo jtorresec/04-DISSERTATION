@@ -1,0 +1,1247 @@
+\textual
+\pagestyle{simple}
+\parindent 1.50cm
+
+\chapter{Apresentação e análise dos resultados}
+
+```{r sources.temp, message=FALSE, include=FALSE, eval=FALSE, results='hide', warning=FALSE}
+#purl("~/Desktop/04-DISSERTATION/04-method.Rmd", documentation = 1,
+#     output = "~/Desktop/04-DISSERTATION/01-data/method.R")
+#purl("~/Desktop/04-DISSERTATION/02-bankingstructure.Rmd", documentation = 1,
+#     output = "~/Desktop/04-DISSERTATION/01-data/banking.R")
+#purl("~/Desktop/04-DISSERTATION/TEMP/03-spread.Rmd", documentation = 1,
+#    output = "~/Desktop/04-DISSERTATION/01-data/spread.R")
+
+source("~/Desktop/04-DISSERTATION/01-data/method.R")
+source("~/Desktop/04-DISSERTATION/01-data/banking.R")
+source("~/Desktop/04-DISSERTATION/01-data/spread.R")
+```
+
+```{r sources.banks, message=FALSE, warning=FALSE, results='hide'}
+data.bank.location <- "~/Desktop/04-DISSERTATION/17-functions/databank.R"
+
+data.zip <- "~/Desktop/04-DISSERTATION/01-data/bacen/bankdata/ZIP/"
+data.csv <- "~/Desktop/04-DISSERTATION/01-data/bacen/bankdata/CSV/"
+balance.location <- "~/Desktop/04-DISSERTATION/01-data/bacen/bankdata/"
+
+source(data.bank.location)
+```
+
+```{r data.model, eval=FALSE, include=TRUE, message=FALSE, results='hide'}
+banks.data <- readRDS(paste(balance.location, "banks.data.rds", sep = ""),
+                      refhook = NULL)
+
+banks.data.tax <- banks.data[118:239]
+
+banksDfTaxJoin <- ldply(banks.data.tax, data.frame)
+
+DfTaxNames <- c('DATA_BASE', "DOCUMENTO", "CNPJ", "AGENCIA",
+                "NOME_INSTITUICAO", "COD_CONGL", "NOME_CONGL", 
+                "TAXONOMIA", "CONTA", "NOME_CONTA", "SALDO", "DATA")
+
+colnames(banksDfTaxJoin) <- DfTaxNames
+
+banksDfTax <- 
+        banksDfTaxJoin[c(-12:-14)] %>%
+        filter(DOCUMENTO != "", DOCUMENTO != "DOCUMENTO")  %>% slice(2:n()) %>%
+        mutate(DATA = as.yearmon(paste(str_sub(DATA_BASE, start = 1, end = -3),
+                            str_sub(DATA_BASE, start = 5), sep = "-"))) %>% 
+        type_convert(col_types = cols(DOCUMENTO = col_factor(),
+                                      CNPJ = col_factor(),
+                                      TAXONOMIA = col_character(),
+                                      NOME_INSTITUICAO = col_factor(),
+                                      DATA = col_number(),
+                                      CONTA = col_factor()),
+                     trim_ws = TRUE,
+                     locale = locale(decimal_mark = ",")) %>%
+        select(-AGENCIA, -COD_CONGL, -NOME_CONGL) %>%
+        filter(DOCUMENTO == 4010) %>% 
+        na.omit()
+
+banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCO DO BRASIL - BANCO MULTIPLO"] <- "BANCO DO BRASIL"
+
+banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCO NACIONAL DE DESENVOLVIMENTO ECONOMICO SOCIAL"] <- "BNDES"
+
+banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCOS DE CÂMBIO"] <-
+  "BANCOS DE CAMBIO"
+
+#######
+#banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCO DO BRASIL - BANCO MULTIPLO"] <- "BANCOS MULTIPLOS"
+
+#banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCO NACIONAL DE DESENVOLVIMENTO ECONOMICO SOCIAL"] <- "BANCOS DE DESENVOLVIMENTO"
+
+#banksDfTax$TAXONOMIA[banksDfTax$TAXONOMIA == "BANCOS DE CÂMBIO"] <- "BANCOS DE CAMBIO"
+######
+
+banksDfTaxSub <- 
+        banksDfTax #%>%  
+        #subset(year(DATA) == c(2012:2020)) #| DATA_BASE == 201202 | DATA_BASE == 201203 | DATA_BASE == 201204 | DATA_BASE == 201205 | DATA_BASE == 201206
+         #     ) %>%
+        #select(DATA, NOME_INSTITUICAO, TAXONOMIA, CONTA, SALDO)
+        #subset(NOME_INSTITUICAO == "BCO DO BRASIL S.A." | NOME_INSTITUICAO == "CAIXA ECONOMICA FEDERAL" #| NOME_INSTITUICAO == "BANCO INTERMEDIUM S/A"
+          #     )
+
+banksDfSpfill <- banksDfTax %>% expand(DATA, CNPJ, CONTA)
+
+banksDfSp <- banksDfSpfill %>% 
+        left_join(banksDfTaxSub) %>%
+        select(DATA, CNPJ, NOME_INSTITUICAO, TAXONOMIA, CONTA, SALDO) %>% 
+        spread(CONTA, SALDO, fill = 0) %>%
+        filter(`16000001` != 0 & `71100001` != 0 & `81100008` !=0 
+               & `41000007` != 0 & year(DATA) != 2010 
+               #& year(DATA) != 2011
+               )
+saveRDS(banksDfSp, file = "~/Desktop/04-DISSERTATION/01-data/model/banksDfSp.RDS")
+
+saveRDS(banksDfTax, file = "~/Desktop/04-DISSERTATION/01-data/model/banksDfTax.RDS")
+
+```
+
+```{r read.DfSp, eval=FALSE, results='hide', message=FALSE}
+
+banksDfTax <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksDfTax.RDS")
+
+banksDfSp <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksDfSp.RDS")
+
+back.acc <- banksDfSp %>% 
+  select(DATA, CNPJ, NOME_INSTITUICAO, `41000007`, `16000001` ) %>% 
+  mutate(DATA = DATA + (1/12)) %>% 
+  mutate(`41000007 -1` = `41000007`, `16000001 -1` = `16000001` ) %>%
+  select(DATA, CNPJ, `41000007 -1`, `16000001 -1`)
+```
+
+```{r data.model.agregates, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+#IPCA
+ipca_cod <- as.character(data.table[5,3])
+ipca <- ipeadata(code = ipca_cod, language = c('br'))
+
+ipcaDt <- ipca %>% 
+        mutate(DATA = as.yearmon(date) + 0.2, 
+                  IPCA = value / 100) %>% select(DATA, IPCA) 
+
+selic.copom <- ipeadata(code = 'BM366_TJOVER366', language = "br") 
+selicMeta <- selic.copom %>% 
+        mutate(DATA = as.yearmon(date) + 0, 
+               SelMet = value / 100) %>%
+        group_by(DATA) %>% 
+        summarise(SelMet = mean(SelMet)) %>% 
+        select(DATA, SelMet)
+
+selic_cod <- as.character(data.table[3,3])
+selic <- ipeadata(code = selic_cod, language = "br")
+selicDt <- selic %>% 
+        mutate(DATA = as.yearmon(date) + 0.2, SelOvr = value / 100) %>% 
+        select(DATA, SelOvr)
+
+Mpa4Dt <- m2m3m4.data %>% 
+        mutate(DATA = as.yearmon(Data) + 0.2) %>%
+        mutate(MPA4 = (M4 * 1000) / 1) %>% 
+        select(DATA, MPA4)
+
+Mpa2Dt <- m2m3m4.data %>% 
+        mutate(DATA = as.yearmon(Data) + 0.2) %>%
+        mutate(MPA2 = (M2 * 1000) / 1) %>% 
+        select(DATA, MPA2)
+
+TitPub <- money.base.comps %>% 
+  select(Data, Titulos.Públicos.Totais) %>% 
+  filter(Titulos.Públicos.Totais != "-") %>% 
+  mutate(DATA = as.yearmon(Data),
+         TitPub = as.numeric(as.character(Titulos.Públicos.Totais))) %>% 
+  select(DATA, TitPub)
+
+PIB_cod <- as.character(data.table[2,3])
+PIB <- ipeadata(code = PIB_cod, language = "br")
+
+PIBDt <- PIB %>% 
+        mutate(DATA = as.yearmon(date) + 0.2, 
+               PIB = (value * 1000000) / 1) %>% 
+        select(DATA, PIB)
+
+BMa_cod <- as.character(data.table[9,3]) 
+Bma <- money.base %>% 
+        transform(DATA = as.yearmon(Data) + 0.2) %>%
+        filter(Base.Monetária.Ampliada != "-") %>%
+        slice(7:n()) %>% 
+        transform(BMA = (as.numeric(as.character(Base.Monetária.Ampliada)) *
+                          1000) / 1) %>% 
+        select(DATA, BMA)
+
+Bmr <- money.base %>%  
+        transform(DATA = as.yearmon(Data) + 0.2) %>%
+        slice(7:n()) %>% 
+        transform(BMR = (as.numeric(as.character(Base.Monetária)) *
+                          1000) / 1) %>% 
+        select(DATA, BMR)
+
+dc.local <- "~/Desktop/04-DISSERTATION/01-data/bacen/compulsory/STP-20210312091217949.xlsx"
+
+DepCom  <-  
+        read_xlsx(dc.local, sheet = "STP-20210312091217949", 
+                  col_types = c("date", "numeric", "numeric", 
+                                "numeric", "numeric"),
+                  trim_ws = TRUE)
+
+DepComDt <- DepCom %>% 
+  transform(DATA = as.yearmon(DATA),
+            (COMP_TOTAL = COMPULSORIO_TOTAL * 1000 / 1)
+            ) %>% 
+        select(DATA, COMPULSORIO_TOTAL) 
+
+SprEa <- spread.moct %>% 
+  separate(data, sep = "/",
+           into = c("DIA", "MES", "ANO")) %>%
+  mutate(DATA = as.yearmon(paste(ANO, MES, sep = "-")) + 0) %>%
+  mutate(SprEa = Spread.MOCT / 100) %>%
+  select(DATA, SprEa)
+```
+
+```{r market.total, eval=FALSE, message=FALSE, results='hide'}
+
+OpCrT <- banksDfSp %>% group_by(DATA) %>% 
+        summarize(OpCrTotal = sum(`16000001`) +  sum(`18000009`))
+
+NInst <- banksDfTax %>% group_by(DATA) %>% 
+        summarise(NUM_INSTITUICOES = length(unique(NOME_INSTITUICAO)))
+
+RcTotal <- banksDfSp %>% group_by(DATA) %>% 
+        summarise(RECEITA_TOTAL = sum(`71000008`))
+
+GCSum <- banksDfSp %>% 
+        inner_join(NInst, by = "DATA") %>%
+        inner_join(OpCrT, by = "DATA") %>% 
+        group_by(DATA) %>%
+        summarise(GCSum = sum(((`16000001` / OpCrTotal) -
+                                         (1 / NUM_INSTITUICOES)) ^ 2)
+        )
+
+GC <- GCSum %>% 
+        inner_join(NInst, by = "DATA") %>%
+        group_by(DATA) %>%
+        summarise(GrCon = (1 / NUM_INSTITUICOES) + 
+                          (NUM_INSTITUICOES * (GCSum / NUM_INSTITUICOES)) )
+
+# PERCENTUAL DE PROVISÃO OBRIGATÓRIO DE ACORDO COM O RISCO DE CRÉDITO
+ra <- 0.005 ; rb <- 0.01 ; rc <- 0.03; rd <- 0.10; re <- 0.30; rf <- 0.5; rg <- 0.7; rh <- 1
+
+```
+
+```{r pure.panel, message=FALSE, eval=FALSE}
+
+purePanel <- banksDfSp %>%
+        left_join(back.acc) %>% 
+        inner_join(OpCrT, by = "DATA") %>%
+        inner_join(NInst, by = "DATA") %>%
+        inner_join(RcTotal, by = "DATA") %>%
+        inner_join(GC, by = "DATA") %>%
+        inner_join(selicDt, by = "DATA") %>%
+        left_join(selicMeta, by = "DATA") %>%
+        inner_join(ipcaDt, by = "DATA") %>%
+        inner_join(Mpa2Dt, by = "DATA") %>%
+        inner_join(Mpa4Dt, by = "DATA") %>%
+        inner_join(DepComDt, by = "DATA") %>%
+        inner_join(PIBDt, by = "DATA") %>%
+        inner_join(SprEa, by = "DATA") %>%
+        inner_join(Bmr, by = "DATA") %>%
+        inner_join(Bma, by = "DATA") %>%
+        left_join(TitPub, by = "DATA") %>%
+        mutate(OSprEp = ( (`71100001`)  / 
+                             ( (1/2)*(`16000001` + `16000001 -1`))) -
+                       ((`81100008`*-1) / ((1/2)*(`41000007`+`41000007 -1`)) )
+                                               ) %>%
+        mutate(SprEp = (`71000008` / ( (1/2)*(`16000001` + `18000009`))) -
+                       ((`81100008`*-1) / ((1/2)*(`41000007`+`41000007`)) )
+                                               ) %>%
+        mutate(TxApl = (`71000008` / ( (1)*(`16000001` + `18000009`))) ) %>%
+        mutate(TxCap = ( (`81100008`*-1) / ((1/2)*(`41000007`+`41000007`)) )) %>%
+        mutate(TpIns = as.factor(TAXONOMIA)) %>% 
+        mutate(BANCO = as.factor(NOME_INSTITUICAO)) %>%
+        mutate(lnOpCrMkt =  log(OpCrTotal / 1)   ) %>%
+        mutate(lnMPA2 = log((MPA2)/1)) %>%
+        mutate(lnMPA4 = log((MPA4)/1)) %>%
+        mutate(lnBMR = log((BMR)/1)) %>%
+        mutate(lnBMA = log((BMA)/1)) %>%
+        mutate(OpCr = (((`16000001` + (`16900008` * -1))) / 1) ) %>%
+        mutate(OtCr = (((`18000009` + (`18900006` * -1)))/ 1)) %>%
+        mutate(OpTot = (  (  (`16000001` + (`16900008` * -1)  ) + 
+                     (`18000009` + (`18900006` * -1) )  ) /1  )  ) %>%  
+        mutate(lnOpTot = log(  (  (`16000001` + (`16900008` * -1)  ) + 
+                     (`18000009` + (`18900006` * -1) )  ) /1  )  ) %>%
+        mutate(OpEmp = log(`16100004` / (1))) %>% 
+        mutate(OpFin = log((`16200007`+ `16300000` + `16400003`) / (1)) ) %>% 
+        mutate(OtOp = log((`16800005` + `18000009`) / (1)) ) %>% 
+        mutate(Inad = ( ( (`16900008` + `18900006`) * -1) / (1)) )%>%
+        mutate(Disp = ((`11000006`) / 1)) %>% 
+        mutate(Atv = log(`39999993` / 1)  ) %>%
+        mutate(lnAtv = log(Atv / 1)  ) %>% 
+        mutate(RcPd = (((`31100003` * ra) +
+                              (`31200006` * ra) + (`31300009` * rb) +
+                              (`31400002` * rc) + (`31500005` * rd) +
+                              (`31600008` * re) + (`31700001` * rf) +
+                              (`31800004` * rg) + (`31900007` * rh) /
+                              (ra + ra + rb + rc + rd + re + rf + rg + rh)) /
+                              (`16000001`) ) * 1  ) %>%
+        mutate(RcCr = (`31000000`/1) ) %>%
+        mutate(MkSh = ( ((`16000001` + `18000009`)  / OpCrTotal) * 1) ) %>%
+        mutate(lnComp = log(COMPULSORIO_TOTAL) / 1) %>%
+        mutate(Comp = ((COMPULSORIO_TOTAL) / OpCrTotal)  )  %>%
+        mutate(VelMo =  (  (  (PIB * 1) * (1 - IPCA) ) / 
+                                   (BMA * 1)  )   
+               ) %>%
+
+        mutate(Cx = (`11100009`) / 1) %>%
+        mutate(ROp = ((`71000008`/1)) ) %>% # receitas operacionais      
+        mutate(lnROp = (ROp / 1)  ) %>% # receitas operacionais
+        mutate(ROpCr = ((`71100001` / 1) / 1)  ) %>% # receitas operações de crédito 
+        mutate(RSrv = ((`71700009` / 1) / 1)  ) %>% # receitas serviços 
+        mutate(RPart = ((`71800002` / 1) / 1)  ) %>% # receitas participações 
+        mutate(OtROp = ((  (`71000008` - 
+                       (`71100001` + `71700009` + `71700009` 
+                        + `71800002`) 
+                                ) / 1 )  / 1) ) %>% 
+        mutate(Inv = ((`21000003`) / 1 )  ) %>%
+        mutate(ImpInd = ((`49100002` / (1)))  ) %>% 
+        mutate(ImpRend = ( (`89400009` * -1) / (1) ) ) %>%
+        mutate(DepTot = (`41000007` / 1 )) %>%
+        mutate(lnDepTot = log(DepTot / 1 )) %>%
+        mutate(DepAv = (`41100000` / (1)) ) %>% 
+        mutate(DepPop = (`41200003` / (1) )  ) %>% 
+        mutate(DepIf = (`41300006` / (1)) ) %>% 
+        mutate(DepAp = (`41500002` / (1)) ) %>% 
+        mutate(OtDep = (`41000007`- `41100000` - `41200003` - `41300006` -
+                       `41500002`) / (1)) %>%
+        mutate(EPr = (((`16000001` + `18000009` ) - DepTot) / (1))
+               ) %>%
+        mutate(DesOp = log((`81000005` * -1) / 1 )) %>% 
+        mutate(DesCap = log((`81100008` * -1) / 1) ) %>% 
+        mutate(DAdm = log((`81700006` * -1) / ( 1 ) ) ) %>%
+        mutate(OtDes = log(  (  (`81000005` * -1) - 
+                       (`81100008` * -1) - (`81700006`* -1 ) ) 
+                       / ( 1 ) ) 
+               ) %>%
+        mutate(PrtLc = ((`89700008` * -1) / 1)  ) %>%
+        mutate(PtLq = (`61000001` / 1) ) %>% 
+        mutate(Rent = (`89000007` / ROp) * 1) %>%
+        mutate(ROA = (`89000007` / Atv) * 1) %>%
+        mutate(ROE = (`89000007` / PtLq) * 1) %>%      
+        mutate(Int = (`25000009` / 1 ) ) %>% 
+        subset(TpIns != "BANCOS COMERCIAIS COOPERATIVOS"  
+               & TpIns != "BANCOS MULTIPLOS COOPERATIVOS"
+               & TpIns != "BANCOS COMERCIAIS ESTRAGEIROS - FILIAL PAIS"
+               & year(DATA) != 2021
+               #& SprEp > -0.10 & SprEp < 0.56
+               )  %>% 
+        na.omit() %>%
+        as_tibble()
+
+saveRDS(purePanel, file = "~/Desktop/04-DISSERTATION/01-data/model/purePanel.RDS")
+```
+
+```{r banks.model, message=FALSE, eval=FALSE}
+
+banksPanel <- banksDfSp %>%
+        left_join(back.acc) %>% 
+        inner_join(OpCrT, by = "DATA") %>%
+        inner_join(NInst, by = "DATA") %>%
+        inner_join(RcTotal, by = "DATA") %>%
+        inner_join(GC, by = "DATA") %>%
+        inner_join(selicDt, by = "DATA") %>%
+        left_join(selicMeta, by = "DATA") %>%
+        inner_join(ipcaDt, by = "DATA") %>%
+        inner_join(Mpa2Dt, by = "DATA") %>%
+        inner_join(Mpa4Dt, by = "DATA") %>%
+        inner_join(DepComDt, by = "DATA") %>%
+        inner_join(PIBDt, by = "DATA") %>%
+        inner_join(SprEa, by = "DATA") %>%
+        inner_join(Bmr, by = "DATA") %>%
+        inner_join(Bma, by = "DATA") %>%
+        left_join(TitPub, by = "DATA") %>%
+        mutate(OSprEp = ( (`71100001`)  / 
+                             ( (1/2)*(`16000001` + `16000001 -1`))) -
+                       ((`81100008`*-1) / ((1/2)*(`41000007`+`41000007 -1`)) )
+                                               ) %>%
+        mutate(SprEp = (`71000008` / ( (1/2)*(`16000001` + `18000009`))) -
+                       ((`81100008`*-1) / ((1/2)*(`41000007`+`41000007`)) )
+                                               ) %>%
+        mutate(TxApl = (`71000008` / ( (1/2)*(`16000001` + `18000009`))) ) %>%
+        mutate(TxCap = ( (`81100008`*-1) / 
+                           (( 1/2 )*(`41000007`+`41000007`)) )) %>%
+        mutate(TpIns = as.factor(TAXONOMIA)) %>% 
+        mutate(BANCO = as.factor(NOME_INSTITUICAO)) %>%
+        mutate(lnOpCrMkt =  log(OpCrTotal / 1)   ) %>%
+        mutate(lnMPA2 = log((MPA2)/1)) %>%
+        mutate(lnMPA4 = log((MPA4)/1)) %>%
+        mutate(lnBMR = log(BMR)/1) %>%
+        mutate(lnBMA = log(BMA)/1) %>%
+        mutate(OpCr = ((`16000001` + (`16900008` * -1))) / 1) %>%
+        mutate(OtCr = ((`18000009` + (`18900006` * -1)))/ 1) %>%
+        mutate(OpTot = (  (  (`16000001` + (`16900008` * -1)  ) + 
+                     (`18000009` + (`18900006` * -1) )  ) /1  )  ) %>%
+        mutate(lnOpTot = log(  (  (`16000001` + (`16900008` * -1)  ) + 
+                     (`18000009` + (`18900006` * -1) )  ) /1  )  ) %>%
+        mutate(OpEmp = `16100004` / (OpCr + OtCr)) %>% 
+        mutate(OpFin = (`16200007`+ `16300000` + `16400003`) 
+               / (OpCr + OtCr) ) %>% 
+        mutate(OtOp = (`16800005` + `18000009`) / (OpCr + OtCr) ) %>% 
+        mutate(Inad = ( ( (`16900008` + `18900006`) * -1) / (OpCr + OtCr))) %>%
+        mutate(Disp = (`11000006`) / OpTot) %>% 
+        mutate(Atv = (`39999993` / 1)  ) %>%
+        mutate(lnAtv = log(Atv / 1)  ) %>% 
+        mutate(RcPd = (  (  (`31100003` * ra) +
+                              (`31200006` * ra) + (`31300009` * rb) +
+                              (`31400002` * rc) + (`31500005` * rd) +
+                              (`31600008` * re) + (`31700001` * rf) +
+                              (`31800004` * rg) + (`31900007` * rh) /
+                              (ra + ra + rb + rc + rd + re + rf + rg + rh) ) /
+                              ( OpTot ) ) * 1  ) %>%
+        mutate(RcCr = (`31000000`/ OpTot)) %>%
+        mutate(lnRcCr = (RcCr) ) %>%
+        mutate(MkSh = ( ((`16000001` + `18000009`)  / OpCrTotal) * 1) ) %>%
+        mutate(lnComp = log(COMPULSORIO_TOTAL) / 1) %>%
+        mutate(Comp = ((COMPULSORIO_TOTAL) / OpCrTotal)  )  %>%      
+        mutate(VelMo =  (  (  (PIB * 1) * (1 - IPCA) ) / 
+                                   (BMA * 1)  )   ) %>%
+
+        mutate(Cx = (`11100009`) / OpTot) %>%
+        mutate(ROp = (`71000008`/1)) %>% # receitas operacionais
+        mutate(lnROp = log(ROp / 1)  ) %>% # operacionais      
+        mutate(ROpCr = ((`71100001` / 1) / ROp)) %>% #  crédito 
+        mutate(RSrv = ((`71700009` / 1) / ROp)) %>% # serviços 
+        mutate(RPart = ((`71800002` / 1) / ROp)) %>% #  participações 
+        mutate(OtROp = (  (`71000008` - 
+                       (`71100001` + `71700009` + `71700009` 
+                        + `71800002`) 
+                                ) / 1 )  / ROp ) %>% 
+        mutate(Rent = (`89000007` / ROp) * 1) %>%
+        mutate(ROA = (`89000007` / Atv ) * 1) %>%
+        mutate(Inv = (`21000003`) / `39999993` ) %>%
+        mutate(ImpInd = (`49100002` / ROp)) %>% 
+        mutate(ImpRend = ( (`89400009` * -1) / ROp) ) %>%
+        mutate(DepTot = (`41000007`)) %>% 
+        mutate(lnDepTot = log(`41000007`)) %>% 
+        mutate(DepAv = (`41100000` / (DepTot))) %>% 
+        mutate(DepPop = (`41200003` / (DepTot))) %>% 
+        mutate(DepIf = (`41300006` / (DepTot))) %>% 
+        mutate(DepAp = (`41500002` / (DepTot))) %>% 
+        mutate(OtDep = (`41000007`- `41100000` - `41200003` - `41300006` -
+                       `41500002`) / (DepTot)) %>%
+        mutate(EPr = (((`16000001` + `18000009` ) - DepTot) / (OpCr + OtCr))
+               ) %>%
+        mutate(DesOp = (`81000005` * -1) / 1) %>% 
+        mutate(DesCap = (`81100008` * -1) / DepTot) %>% 
+        mutate(DAdm = ((`81700006` * -1) / ( OpTot ) )) %>%
+        mutate(OtDes = (  (  (`81000005` * -1) - 
+                       (`81100008` * -1) - (`81700006`* -1 )) 
+                       / ( OpTot ) ) 
+               ) %>%
+        mutate(PrtLc = ((`89700008` * -1) / 1)  ) %>%
+        mutate(PtLq = `61000001` / 1) %>% 
+        mutate(ROE = (`89000007` / PtLq ) * 1) %>%      
+        mutate(Int = (`25000009` / `39999993`)) %>% 
+        subset(TpIns != "BANCOS COMERCIAIS COOPERATIVOS"  
+               & TpIns != "BANCOS MULTIPLOS COOPERATIVOS"
+               & TpIns != "BANCOS COMERCIAIS ESTRAGEIROS - FILIAL PAIS"
+               & year(DATA) != 2021
+               )  %>% 
+        na.omit() %>%
+        as_tibble()
+
+saveRDS(banksPanel, file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.RDS")
+```
+
+```{r read.panel, eval=TRUE, results='hide', message=FALSE}
+banksPanel <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.RDS")
+
+purePanel <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/purePanel.RDS")
+```
+
+```{r summary.data.pure, eval=FALSE, results='hide', message=FALSE}
+
+banksColsP <- purePanel %>% select(-DATA, -BANCO, -TAXONOMIA, -CNPJ, -NOME_INSTITUICAO, -TpIns) %>% colnames()
+
+banksColsOrP <- banksColsP[1:204]
+
+qDAdmP <- quantile(purePanel$DAdm, probs=c(.25, .75), na.rm = FALSE)
+iqrDAdmP <- IQR(purePanel$DAdm)
+
+upDAdmP <- qDAdmP[2] + (iqrDAdmP * 1.5)
+lowDAdmP <- qDAdmP[1] - (iqrDAdmP * 1.5)
+
+qInadP <- quantile(purePanel$Inad, probs=c(.25, .75), na.rm = FALSE)
+iqrInadP <- IQR(purePanel$Inad)
+
+upInadP <- qInadP[2] + (iqrInadP * 1.5)
+lowInadP <- qInadP[1] - (iqrInadP * 1.5)
+
+qOtDesP <- quantile(purePanel$OtDes, probs = c(.25, .75), na.rm = FALSE)
+iqrOtDesP <- IQR(purePanel$OtDes)
+
+upOtDesP <- qOtDesP[2] + (iqrOtDesP * 1.5)
+lowOtDesP <- qOtDesP[1] - (iqrOtDesP * 1.5)
+
+qRcPdP <- quantile(purePanel$RcPd, probs = c(.25, .75), na.rm = FALSE)
+iqrRcPdP <- IQR(purePanel$RcPd)
+
+upRcPdP <- qRcPdP[2] + (iqrRcPdP * 1.5)
+lowRcPdP <- qRcPdP[1] - (iqrRcPdP * 1.5)
+
+qSprEpP <- quantile(purePanel$SprEp, probs = c(.25, .75), na.rm = FALSE)
+iqrSprEpP <- IQR(purePanel$SprEp)
+
+upSprEpP <- qSprEpP[2] + (iqrSprEpP * 1.5)
+lowSprEpP <- qSprEpP[1] - (iqrSprEpP * 1.5)
+
+qDesCapP <- quantile(purePanel$DesCap, probs = c(.25, .75), na.rm = FALSE)
+iqrDesCapP <- IQR(purePanel$DesCap)
+
+upDesCapP <- qDesCapP[2] + (iqrDesCapP * 1.5)
+lowDesCapP <- qDesCapP[1] - (iqrDesCapP * 1.5)
+
+obs.banksP <- purePanel %>% 
+  group_by(BANCO) %>% 
+  summarise(OBS = sum(length(BANCO))) %>% select(BANCO, OBS)
+
+purePanel.00 <- purePanel %>% 
+  select(-all_of(banksColsOrP)) %>% 
+  left_join(obs.banksP, by = "BANCO") %>% 
+  subset(DAdm < upDAdmP
+         #& SprEp > lowSprEp & SprEp < upSprEp
+         #&Inad <= upInad 
+         #& RcPd <= upRcPd
+         & DesCap > lowDesCapP & DesCap < upDesCapP
+         & OtDes <= upOtDesP)
+
+saveRDS(purePanel.00, file = "~/Desktop/04-DISSERTATION/01-data/model/purePanel.00.RDS")
+
+fitP <- lm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad 
+          + RcPd 
+          + Int + EPr
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp + OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+          data = purePanel.00)
+
+
+cooksdP <- cooks.distance(fitP)
+
+sample_sizeP <- nrow(purePanel.00)
+
+influentialP <- as.numeric(names(cooksdP)[(cooksdP > (4/sample_sizeP))])
+
+purePanel.00 <- purePanel.00[-influentialP, ]
+
+saveRDS(purePanel.00, file = "~/Desktop/04-DISSERTATION/01-data/model/purePanel.00.RDS")
+
+
+
+```
+
+```{r summary.data, eval=FALSE}
+
+banksCols <- banksPanel %>% select(-DATA, -BANCO, -TAXONOMIA, -CNPJ, -NOME_INSTITUICAO, -TpIns) %>% colnames()
+
+banksColsOr <- banksCols[1:204]
+
+qDAdm <- quantile(banksPanel$DAdm, probs=c(.25, .75), na.rm = FALSE)
+iqrDAdm <- IQR(banksPanel$DAdm)
+
+upDAdm <- qDAdm[2] + (iqrDAdm * 1.5)
+lowDAdm <- qDAdm[1] - (iqrDAdm * 1.5)
+
+qInad <- quantile(banksPanel$Inad, probs=c(.25, .75), na.rm = FALSE)
+iqrInad <- IQR(banksPanel$Inad)
+
+upInad <- qInad[2] + (iqrInad * 1.5)
+lowInad <- qInad[1] - (iqrInad * 1.5)
+
+qOtDes <- quantile(banksPanel$OtDes, probs = c(.25, .75), na.rm = FALSE)
+iqrOtDes <- IQR(banksPanel$OtDes)
+
+upOtDes <- qOtDes[2] + (iqrOtDes * 1.5)
+lowOtDes <- qOtDes[1] - (iqrOtDes * 1.5)
+
+qRcPd <- quantile(banksPanel$RcPd, probs = c(.25, .75), na.rm = FALSE)
+iqrRcPd <- IQR(banksPanel$RcPd)
+
+upRcPd <- qRcPd[2] + (iqrRcPd * 1.5)
+lowRcPd <- qRcPd[1] - (iqrRcPd * 1.5)
+
+qSprEp <- quantile(banksPanel$SprEp, probs = c(.25, .75), na.rm = FALSE)
+iqrSprEp <- IQR(banksPanel$SprEp)
+
+upSprEp <- qSprEp[2] + (iqrSprEp * 1.5)
+lowSprEp <- qSprEp[1] - (iqrSprEp * 1.5)
+
+qDesCap <- quantile(banksPanel$DesCap, probs = c(.25, .75), na.rm = FALSE)
+iqrDesCap <- IQR(banksPanel$DesCap)
+
+upDesCap <- qDesCap[2] + (iqrDesCap * 1.5)
+lowDesCap <- qDesCap[1] - (iqrDesCap * 1.5)
+
+obs.banks <- banksPanel %>% 
+  group_by(BANCO) %>% 
+  summarise(OBS = sum(length(BANCO))) %>% select(BANCO, OBS)
+
+banksPanel.00 <- banksPanel %>% 
+  select(-all_of(banksColsOr)) %>% 
+  left_join(obs.banks, by = "BANCO") %>% 
+  subset(DAdm < upDAdm
+         #& SprEp > lowSprEp & SprEp < upSprEp
+         #&Inad <= upInad 
+         #& RcPd <= upRcPd
+         & DesCap > lowDesCap & DesCap < upDesCap
+         & OtDes <= upOtDes)
+
+#outliers <- boxplot(banksPanel.00$SprEp, plot=FALSE)$out
+
+#banksPanel.00 <- banksPanel.00[-which(banksPanel.00$SprEp %in% outliers), ]
+
+
+
+saveRDS(banksPanel.00, file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.00.RDS")
+
+```
+
+```{r read.panel.00, eval=TRUE, results='hide'}
+banksPanel.00 <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.00.RDS")
+```
+
+```{r lm.model, results='hide', eval=FALSE}
+library(car)
+fit <- lm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad 
+          + RcPd 
+          + Int + EPr
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp + OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+          data = banksPanel.00)
+
+fit %>% summary()
+vif(fit) > 5
+```
+
+```{r remove.outliers, results='hide', eval=FALSE}
+cooksd <- cooks.distance(fit)
+
+sample_size <- nrow(banksPanel.00)
+#plot(cooksd, pch="*", cex=2, main="Influential Obs by Cooks distance") %>%  # plot cook's distance
+#abline(h = 4/sample_size, col="red")  %>% # add cutoff line
+#text(x=1:length(cooksd)+1, y=cooksd, labels=ifelse(cooksd>4/sample_size, names(cooksd),""), col="red")  # add labels
+```
+
+```{r remove.influence, eval=FALSE, message=FALSE, results='hide'}
+
+# Removing Outliers
+# influential row numbers
+influential <- as.numeric(names(cooksd)[(cooksd > (4/sample_size))])
+
+# Alternatively, you can try to remove the top x outliers to have a look
+# top_x_outlier <- 2
+# influential <- as.numeric(names(sort(cooksd, decreasing = TRUE)[1:top_x_outlier]))
+
+banksPanel.01 <- banksPanel.00[-influential, ]
+
+saveRDS(banksPanel.01, file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.01.RDS")
+
+```
+
+```{r read.panel.01, eval=TRUE, results='hide', message=FALSE}
+banksPanel.01 <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.01.RDS")
+```
+
+```{r pvargmm.dynamic, eval=FALSE, message=FALSE, results='hide'}
+#detach(package:splines, unload = TRUE)
+
+Id_Data <- banksPanel.01 %>% group_by(DATA) %>% summarise(Id_Data = 1:length(unique(DATA))) %>% mutate(Id_Data = row_number())
+
+Id_Banks <- banksPanel.01 %>% group_by(BANCO) %>% summarise(Id_Banco = 1:length(unique(BANCO))) %>% mutate(Id_Banco = row_number())
+
+Id_TpIns <- banksPanel.01 %>% group_by(TpIns) %>% summarise(Id_TpIns = 1:length(unique(TpIns))) %>% mutate(Id_TpIns = row_number()) 
+
+obs.panel <- banksPanel.01 %>% 
+  group_by(BANCO) %>% 
+  summarise(OBS.B = sum(length(BANCO))) %>% select(BANCO, OBS.B)
+
+model.pvrgmm <- 
+        banksPanel.01 %>%
+        left_join(Id_Data, by = "DATA") %>% 
+        left_join(Id_Banks, by = "BANCO") %>% 
+        left_join(Id_TpIns, by = "TpIns") %>%
+        left_join(obs.panel, by = "BANCO") %>%
+        #mutate(DAdm = (DAdm * OpTot) ) %>% 
+        #mutate(OtDes = (OtDes * OpTot) ) %>% 
+        #mutate(DesCap = (DesCap * DepTot) ) %>%
+        mutate(DepAv = (DepAv * DepTot) / OpTot ) %>% 
+        mutate(DepAp = (DepAp * DepTot) / OpTot ) %>%
+        mutate(DepIf = (DepIf * DepTot) / OpTot ) %>%
+        mutate(DepPop = (DepPop * DepTot) / OpTot ) %>%
+        mutate(OtDep = (OtDep * DepTot) / OpTot ) %>%
+        mutate(ROpCr = (ROpCr * ROp) / OpTot ) %>%
+        mutate(RSrv = (RSrv * ROp) / OpTot ) %>%
+        mutate(RPart = (RPart * ROp) / OpTot ) %>%
+        mutate(OtROp = (OtROp * ROp) / OpTot ) %>%
+        mutate(exSprEp = exp(SprEp)) %>%
+  
+        #mutate(OpEmp = log(OpEmp * OpTot) ) %>%
+        #mutate(OpFin = log(OpFin * OpTot) ) %>%
+        #mutate(OtOp = log(OtOp * OpTot) ) %>%
+        #mutate(SprEp = exp(SprEp)) %>%
+        #mutate(Rent = exp(Rent)) %>% 
+        #mutate(Inad = (Inad * OpTot) ) %>%
+        #subset(OBS.B > 100) %>% 
+        mutate(DATA = as.factor(DATA)) %>%
+        #mutate(Id_TpIns = as.factor(Id_TpIns)) %>%
+        na.omit() %>%
+        select("DATA", "SprEp", "TxApl", "TxCap", "BANCO", "Rent", "DAdm",
+               "DesCap", "OtDes", "Inad", "RcPd", "Int", "EPr", "DepAv",
+               "DepAp", "DepPop", "ROpCr", "RSrv", "RPart", "OpEmp", "OpFin",
+               "OtOp",  "ImpInd", "ImpRend",  "SelOvr", "VelMo", "Comp",
+               "GrCon", "Id_Banco", "Id_Data", "Id_TpIns", "OSprEp", 
+               "IPCA", "lnBMR", "lnOpCrMkt", "SelOvr", "lnMPA2", "lnComp",
+               "lnOpTot", "lnAtv", "lnROp", "SelMet", "lnBMA", "OtROp",
+               "DepIf", "OtDep", "lnDepTot", "OpTot", "OBS", "SprEa", 'TpIns',
+               "ROA", "ROE", "exSprEp", "lnMPA4" #, "OtROp", "TitPub", 
+          ) %>% 
+        as.data.frame()
+
+saveRDS(model.pvrgmm, file = "~/Desktop/04-DISSERTATION/01-data/model/model.pvrgmm.RDS")
+
+````
+
+```{r model.pvar.gmm}
+model.pvrgmm <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/model.pvrgmm.RDS")
+
+
+#cols <- pure.panel %>% select(-DATA, -BANCO, -TAXONOMIA, -CNPJ, -NOME_INSTITUICAO, -TpIns) %>% colnames()
+
+#cols <- cols[1:202]
+#endo <- cols
+
+depVar <- c(
+            "SprEp",
+            #"SprEa",
+            #"exSprEp",
+            #"TxApl",
+            #"TxCap",
+            "Rent"
+            )
+
+endo <- c(
+          "DAdm", "DesCap", "OtDes",
+          "Inad", "RcPd",
+          "EPr", "DepAv", "DepAp", "DepPop", #"DepIf", #"OtDep",
+          #"lnOpTot", "lnROp"#"lnDepTot", #"lnAtv",
+          "ROpCr", "RSrv", "RPart", "OtROp",
+          "OpEmp", "OpFin", "OtOp",
+          "ImpInd", "ImpRend"
+          )
+
+exo <- c(
+          "SelOvr",
+          "VelMo",
+          "Comp",
+          "GrCon",
+          "IPCA",
+          "lnMPA4",
+          "lnOpCrMkt"#,
+          #"SprEa"
+         )
+
+```
+
+```{r model.pvar.pmm.f, eval=FALSE, message=FALSE, results='hide'}
+fit.pvargmm <-  
+        pvargmm(dependent_vars = depVar,
+                lags = 2,
+                predet_vars = endo,
+                exog_vars = exo,
+                transformation = "fod",
+                data = model.pvrgmm,
+                panel_identifier = c("BANCO", "DATA"),
+                steps = c(
+                          #"onestep"
+                          "twostep"
+                          ),
+                system_instruments = TRUE, # HABILITADO FALSE
+                system_constant = FALSE, # DESABILITADO  TRUE
+                pca_instruments = TRUE, # DESABILITADO FALSE
+                pca_eigenvalue = 1, #DESABILITADO = 1
+                max_instr_dependent_vars = 99,
+                max_instr_predet_vars = 99,
+                min_instr_dependent_vars = 2L,
+                min_instr_predet_vars = 1L,
+                collapse = TRUE,
+                #tol = 1e-09,
+                progressbar = TRUE
+ )
+  
+sumPvarGmm <- summary(fit.pvargmm)
+
+saveRDS(fit.pvargmm.tx.2,  file = "~/Desktop/04-DISSERTATION/01-data/model/fit.pvargmm.tx.2.RDS")
+
+saveRDS(sumPvarGmm.tx.2,  file = "~/Desktop/04-DISSERTATION/01-data/model/sumPvarGmm.tx.2.RDS")
+```
+
+```{r read.pvargmm}
+
+#fit.pvargmm <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/fit.pvargmm.mpa4.RDS")
+
+# <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/sumPvarGmm.mpa4.RDS")
+
+#fit.pvargmm <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/fit.pvargmm.f.RDS")
+
+#sumPvarGmm <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/sumPvarGmm.f.RDS")
+
+fit.pvargmm.1.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/fit.pvargmm.1.lags.RDS")
+
+fit.pvargmm.2.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/fit.pvargmm.2.lags.RDS")
+
+fit.pvargmm.3.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/fit.pvargmm.3.lags.RDS")
+
+fit.pvargmm.4.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/fit.pvargmm.4.lags.RDS")
+
+sumPvarGmm.1.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/sumPvarGmm.1.lags.RDS")
+
+sumPvarGmm.2.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/sumPvarGmm.2.lags.RDS")
+
+sumPvarGmm.3.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/sumPvarGmm.3.lags.RDS")
+
+sumPvarGmm.4.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/sumPvarGmm.4.lags.RDS")
+
+```
+
+```{r statistics.01}
+mod01Obs <- data.frame(TEMPO = length(unique(model.pvrgmm$DATA)),
+           OBSERVAÇÕES = length(model.pvrgmm$SprEp),
+           INSTITUICÕES = length(unique(model.pvrgmm$BANCO)),
+           "VARIÁVEIS EXPLICATIVAS" = length(c(endo,exo))
+           ) 
+saveRDS(mod01Obs, file = "~/Desktop/04-DISSERTATION/01-data/model/mod01Obs.RDS")
+
+mod01nObs <- mod01Obs$OBSERVAÇÕES
+mo01nTemp <- mod01Obs$TEMPO
+mo01nIns <- mod01Obs$INSTITUICÕES
+```
+
+
+O painel dinâmico desenvolvido para a construção dos modelos resultou no total `r mod01nObs` observações, `r mo01nTemp` períodos de tempo, contemplando um total de `r mo01nIns` instituições, flutuando a cada período, conforme \autoref{tb:rsumoobs}, caracterizando-se em um painel não balanceado. 
+
+\begin{table}[!h]
+\caption{Resumo de dados do Painel}
+```{r statistics.table}
+mod01Obs %>% kbl(booktabs = T) %>% 
+  kable_styling(latex_options = c("striped"),
+                font_size = 10, full_width = T)
+```
+\label{tb:rsumoobs}
+\fonte{Desenvolvido a partir dos dados coletados}
+\end{table}
+
+O modelo PVAR-GMM foi testado com 01, 02, 03 e 04 defasagens das variáveis dependentes como preditoras. Através do teste de \textcite{andrews-lu:2001}, por meios dos critérios de momentos, conforme \autoref{tb:mmsc}, o modelo com duas defasagens se demonstra mais adequado.  
+
+
+```{r base.test.andrews, eval=FALSE, message=FALSE, results='hide'}
+al.01 <- Andrews_Lu_MMSC(fit.pvargmm.1.lags, HQ_criterion = 2.1)
+al.02 <- Andrews_Lu_MMSC(fit.pvargmm.2.lags, HQ_criterion = 2.1)
+al.03 <- Andrews_Lu_MMSC(fit.pvargmm.3.lags, HQ_criterion = 2.1)
+al.04 <- Andrews_Lu_MMSC(fit.pvargmm.4.lags, HQ_criterion = 2.1)
+
+al <- cbind(al.01,al.02, al.03, al.04)
+
+saveRDS(al, file = "~/Desktop/04-DISSERTATION/01-data/model/al.RDS")
+```
+
+\begin{table}[!hbtp]
+\caption{Testes MMSC para modelos PVAR-GMM}
+\vspace{-1mm}
+```{r test.andrews}
+
+al <-  readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/al.RDS")
+
+al %>% as.data.frame() %>% 
+  rename(Lag.01 = al.01, Lag.02 = al.02, Lag.03 = al.03, Lag.04 = al.04) %>%  
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", 
+                full_width = T, font_size = 10)
+```
+\vspace{1mm}
+\label{tb:mmsc}
+\fonte{Desenvolvido com resultados do modelo}
+\vspace{-2mm}
+\end{table}
+
+A \autoref{tb:pvargmm} traz o resultado da estimação do painel dinâmico com vetores autoregressivos com estimador GMM-System, com transformação ortogonal para frente em duas etapas, com utilização de instrumentos PCA e técnica de collapse.   
+
+\vspace{20pt}
+\captionof{table}{Resultado do modelo PVAR-GMM}
+\vspace{-1mm}
+```{r table.pvargmm, eval=FALSE, results='hide', message=FALSE}
+sumPvarGmm.2.lags
+```
+|                |     SprEp    |     Rent      |       
+| :------------- | :----------- | :------------ |
+| lag1 _SprEp    |  0.0415 ***  | -0.0271       |
+|                | (0.0123)     | (0.0251)      |
+| lag1_Rent      | -0.2785 ***  |  0.3194 ***   |
+|                | (0.0348)     | (0.0125)      |
+| lag2_SprEp     | -0.0388 ***  | -0.0043       |
+|                | (0.0117)     | (0.0168)      |
+| lag2_Rent      |  0.0889 *    |  0.2916 ***   |
+|                | (0.0430)     | (0.0230)      | 
+| DAdm           |  0.4504 ***  |  0.0358 *     |
+|                | (0.0296)     | (0.0172)      |
+| DesCap         |  0.4563 ***  |  0.0445       |
+|                | (0.0447)     | (0.0323)      |
+| OtDes          |  1.2571 ***  |  0.0514       |
+|                | (0.0227)     | (0.0275)      | 
+| Inad           |  0.0862      | -0.1189 **    |
+|                | (0.0513)     | (0.0453)      |
+| RcPd           |  0.0682      | -0.2040 ***   |
+|                | (0.0380)     | (0.0413)      |
+| EPr            | -0.0720 ***  | -0.0223       |
+|                | (0.0195)     | (0.0132)      |
+| DepAv          | -0.0002      | -0.1144 ***   |
+|                | (0.0473)     | (0.0270)      |
+| DepAp          | -0.0227      | -0.0193       |
+|                | (0.0233)     | (0.0147)      |
+| DepPop         |  0.0736 ***  | -0.0588       |
+|                | (0.0105)     | (0.0364)      |
+| ROpCr          |  1.0471 ***  | -0.2077 ***   |
+|                | (0.0759)     | (0.0547)      |
+| RSrv           |  0.1304 ***  |  0.0101       |
+|                | (0.0083)     | (0.0090)      |
+| RPart          |  0.0457 ***  | -0.0415 ***   |
+|                | (0.0022)     | (0.0103)      |
+| OtROp          |  0.8462 ***  | 0.1017        |
+|                | (0.0432)     | (0.0546)      |
+| OpEmp          |  0.0458      | -0.1486 ***   |
+|                | (0.0292)     | (0.0420)      |
+| OpFin          | 0.0088       | -0.1411 ***   |
+|                | (0.0328)     | (0.0421)      |
+| OtOp           |  0.0779 ***  | -0.0762       |
+|                | (0.0205)     | (0.0497)      |
+| ImpInd         | -0.0281      |  0.1033 ***   |
+|                | (0.0215)     | (0.0228)      |
+| ImpRend        | -0.0080      | -0.3328 ***   |
+|                | (0.0458)     | (0.0301)      |
+| SelOvr         | -0.0239 *    | -0.0202 **    |
+|                | (0.0115)     | (0.0078)      |
+| VelMo          |  0.2660 ***  |  0.1788 ***   |
+|                | (0.0529)     | (0.0434)      |
+| Comp           |  0.0006 ***  |  0.0001       |
+|                | (0.0001)     | (0.0001)      |
+| GrCon          | -0.1250      |  0.0093       |
+|                | (0.0705)     | (0.0395)      |
+| IPCA           | -0.0320 ***  | -0.0046       |  
+|                | (0.0040)     | (0.0049)      |
+| lnMPA4         | 0.0707 ***   |  0.0038       |
+|                | (0.0170)     | (0.0104)      |
+| lnOpCrMkt      | -0.0735 ***  |  0.0007       |
+|                | (0.0176)     | (0.0095)      |
+| *** p < 0.001  | ** p < 0.01  | * p < 0.05    |
+
+\vspace{1mm}
+\label{tb:pvargmm}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\vspace{20pt}
+
+\parindent 1.50cm
+
+\vspace{20pt}
+
+A \autoref{tab:hansen} traz o resultado do teste J-Hansen de superidentificação de restrições, com 350 parâmetros, 408 instrumentos, estatística J de 365.24 e valor P de 0.2766, aceitando assim a hipotese nula de validade de todas as variáveis no modelo.
+
+\begin{table}[!hbtp]
+\caption{Teste J Hansen para modelo PVAR-GMM}
+\vspace{-1mm}
+```{r hansen.test, eval=TRUE}
+
+# H0: restrições de superidentificação são válidas
+# A hipótese nula do teste implica que todos os instrumentos são válidos
+#O valor de p maior que 5% (0,05) implica, aceitamos o Ho, ou seja, todos os instrumentos são válidos.
+
+hansen_j_test(fit.pvargmm.2.lags) %>% as.data.frame() %>% 
+  rename(Estatística = statistic, 
+         Valor.P = p.value,
+         Parâmetros = parameter,
+         Instrumentos = nof_instruments,
+         Método = method) %>%  
+  kbl(booktabs = TRUE) %>%
+  kable_styling(latex_options = "striped", full_width = TRUE)
+```
+\vspace{1mm}
+\label{tab:hansen}
+\fonte{Desenvolvido a partir dos resultados do modelo}
+\vspace{-2mm}
+\end{table}
+
+\section{Estabilidade do modelo}
+
+O \autoref{graf:stability} traz a visualização do teste de estabilidade do modelo, demonstrando que são atendidas as condições de estabilidade, uma vez que todos os autovalores estão dentro do círculo unitário.
+
+```{r stability}
+st.pvar.gmm <- stability(fit.pvargmm.2.lags)
+```
+
+\begin{grafico}[!hbtp]
+\vspace{20pt}
+\caption{Gráfico de estabilidade do modelo PVAR GMM}
+\vspace{-4mm}
+```{r stability.plot}
+plot(st.pvar.gmm)
+```
+\vspace{-3mm}
+\label{graf:stability}
+\fonte{Desenvolvido a partir de dados coletados}
+\vspace{-2mm}
+\end{grafico}
+
+Nos próximos parágrafos serão apresentados os resultados gerados pelo modelo PVAR-GMM, conforme a \autoref{tb:pvargmm}. O objetivo é primeiramente descrever os resultados, posteriormente comparar com as hipóteses geradas e por fim confrontar com outros estudos levantados.
+
+\vspace{20pt}
+\captionof{qdr}{Previsto e resultados}
+\vspace{-2mm}
+\linespread{2}
+
+| Hipótese | Variável      | $SprEp$ Previsto  | $Rent$ Previsto |  $SprEp$ Resultado  | $Rent$ Resultado |
+|:-----:   | :---------:   |:------------: | :--: | :------------: | :--: |
+| $H_{1}$  | $EPr_{it}$    |    -          |  -   |     -          |  -   |
+| $H_{2}$  | $DepAv$       |    -          |  -   |     -          |  -   |
+| $H_{3}$  | $DepAp$       |    +          |  -   |     -          |  -   |
+| $H_{4}$  | $DepPop$      |    +          |  -   |     -          |  -   |
+| $H_{5}$  | $DAdm$        |    +          |  -   |     +          |  +   |
+| $H_{6}$  | $DesCap$      |    +          |  +   |     +          |  +   |
+| $H_{7}$  | $OtDes$       |    +          |  -   |     +          |  +   |
+| $H_{8}$  | $Inad$        |    +          |  -   |     +          |  -   |
+| $H_{9}$  | $RcPd$        |    +          |  -   |     +          |  -   |
+| $H_{10}$ | $ROpCr$       |    -          |  +   |     +          |  -   |
+| $H_{11}$ | $RSrv$        |    -          |  +   |     +          |  +   |
+| $H_{12}$ | $RPart$       |    +          |  +   |     +          |  -   |
+| $H_{13}$ | $OtROp$       |    +          |  +   |     +          |  +   |
+| $H_{14}$ | $OpEmp$       |    -          |  +   |     +          |  -   |
+| $H_{15}$ | $OpFin$       |    -          |  -   |     +          |  -   |
+| $H_{16}$ | $OtOp$)       |    -          |  -   |     +          |  -   |
+| $H_{17}$ | $ImpRend$     |    +          |  -   |     -          |  +   |
+| $H_{18}$ | $ImpInd$      |    +          |  -   |     -          |  -   |
+| $H_{19}$ | $SelOvr$      |    +          |  +   |     -          |  -   |
+| $H_{20}$ | $VelMo$       |    -          |  +   |     +          |  +   |
+| $H_{21}$ | $Com$         |    +          |  -   |     +          |  +   |
+| $H_{22}$ |  $GrCon$      |    +          |  +   |     -          |  +   |
+| $H_{23}$ | $IPCA$        |    +          |  -   |     -          |  -   |
+| $H_{24}$ | $BMA$         |    -          |  +   |     +          |  +   |
+| $H_{25}$ | $OpCrMkt$     |    -          |  +   |     -          |  +   |
+
+\vspace{-7mm}
+\label{qdr:previsto}
+\fonte{Desenvolvido a partir do modelo}
+\vspace{20pt}
+
+\parindent 1.50cm
+
+O *spread ex-post* com 01 e 02 defasagem ($lag1_SprEp$ e "$lag2_SprEp$) se demonstraram significativos somente com o próprio *spread ex-post*. O resultado demonstra que o *spread* de um período anterior atua de forma direta com *spread* do período atual. Já o *spread* de dois período anteriores atua de forma inversa com o *spread* do período atual.
+
+O resultado indica que, elevações no *spread* em período anterior tendem provocar elevações no momento atual, porém em uma proporção menor do que ocorrido em  período anterior, pois o *spread* de dois períodos anteriores atua na redução do *spread* no momento atual. 
+
+Em se tratando do spread defasado em um período ($lag1_SprEp$), este estudo chegou a resultado similar ao de \textcite{dantas:2012}, que encontrou significância estatística para o spread em período anterior com o spread de momento atual.
+
+A rentabilidade defasada em um período ($lag1_Rent$) se demonstrou significativa para o *spread ex-post*, atuando de forma indireta, e significativa para a rentabilidade, com relação direta. A rentabilidade defasada em dois períodos ($lag2_Rent$) se demonstrou significativa para o *spread ex-post*, atuando de forma direta, e significativa para a rentabilidade, com relação direta.
+
+De acordo com os resultados, elevações da rentabilidade de até dois períodos anteriores guardariam relação com elevações da rentabilidade para o período atual em proporções equivalentes. Elevações da rentabilidade em dois períodos exercem influência na elevação do *spread*, mas em proporção menor que o efeito de redução exercido pela elevação da rentabilidade de período anterior. 
+Em nenhum dos estudos anteriores verificados foi identificada a utilização da rentabilidade como variável preditora para o *spread* bancário *ex-ante* ou *ex-post*.   
+
+Para a participação das despesas administrativas nas operações de crédito ($DAdm$) foi remontada significância tanto para  *spread* bancário, atuando de forma direta, como para a rentabilidade com uma relação direta. O resultado no *spread* para a variável está dentro o esperado, uma vez elevações nos custos evidentemente são repassados para os tomadores.    
+
+Os resultados do modelo para as despesas de captação se demonstraram relevantes tanto no *spread*, quanto para a rentabilidade, ambos com uma relação direta. A relação sobre o *spread* está dentro do esperado, porém a relação com a rentabilidade deve estar relacionada característica de gerar receita por nível despesa administrativa. 
+
+Os estudos de Koyama e Nakane (2001), Alfanasieff *et. al.* (2001 e 2002) e Bignotto e Rodrigues (2006) encontraram significância estatística para os custos administrativos como determinante do *spread ex-ante*. Já ao que remete o *spread ex-post*, somente o estudo de \textcite{almeida:2013} foi encontrada significância para os custos administrativos.
+
+Mesmo que, em comparação ao demais estudos, que utilizaram o volume dos custos administrativos, enquanto este estudo tenha utilizado o percentual destes custos em relação as operações de crédito, é possível afirmar que existem congruência lógica entre os resultados, validando assim o perfil de custos administrativos das instituições como um componente relevante do *spread* bancário.
+
+Para a proporção das despesas de captação em relação aos depósitos totais $DesCap$ o modelo revelou elevada significância somente para o *spread* bancário com uma relação direta. Esse resultado está dentro do esperado de acordo com as hipóteses teóricas. Não identificado, para fins de comparação, outro estudo que tenha utilizado esta variável ou outra análoga como preditora para o *spread*
+
+Os resultados para as despesas de captação $DesCap$ implicam que em média, sempre que ocorre uma elevação ou redução nos custos de captação em relação aos depósitos totais, esse custo é repassado para a taxa de aplicação, fazendo com que o  *spread* bancário seja modificado em uma relação direta.  
+
+Para a participação de outras despesas em relação as operações totais ($OtDes$) o modelo remontou significância somente para o *spread*,com uma relação direta e expressiva, o que estava dentro do esperado, uma vez que esta variável comporta grandes montantes não segmentados e classificados. Não foram identificados outros estudos que tenham utilizado outras despesas como variável preditora para o spread. 
+
+O resultado para outras despesas ($OtDes$) implica que, em média, sempre que quando ocorre uma elevação ou redução desta participação em relação ao montante das operações totais, a oneração ou desoneração é repassada para a taxa de aplicação, desta forma modificando  o *spread* bancário em uma relação direta. 
+
+O resultado para participação da provisão de inadimplência sobre as operações totais ($Inad$) e risco ponderado de crédito ($RcPd$) foi de significância somente na rentabilidade com uma relação inversa. Mesmo sem significância, estas variáveis apresentaram relação direta com *spread*.
+
+O resultado implica que quando ocorrem elevações ou reduções na inadimplência e nível de risco de crédito, há um reflexo afetando na mesma direção a rentabilidade bancária, e de forma muito significativa.
+
+A não significância estatística com o *spread* pode estar associado com o fato de serem instrumentos de provisão. Outro possível resultado para a não significância pode se relacionar com composição do modelo e efeitos simultâneos, onde outras variáveis acabam por anularem a significância destas em ambas as variáveis.
+
+Outras possível razão para a não significância da inadimplência e do risco de crédito está no fato de terem sido utilizas as variáveis no mesmo período que o *spread*, desta forma alterações nas variáveis preditoras não causariam efeito sobre o *spread* no mesmo período, mas sim um reflexo em períodos posteriores. 
+
+Para o risco de crédito, este estudo diverge do resultado apresentado por Bignotto e Rodrigues (2006), que encontraram significância, com esta variável e o *spread ex-ante*, porém a mesma relação em termos de ajuste. Esta divergência também pode estar associada ao tipo a categoria de *spread*, e mesmo as diferenças para obtenção desta variável, que neste estudo se utilizou uma média ponderada de risco.  
+
+Ainda para o risco de crédito, este resultado vem convergir com o de \textcite{almeida:2013}, que não encontrou significância em seu modelo que testou  variável como preditora para o *spread ex-post*. Em termos da relação o trabalho vem convergir com o resultado de \textcite{dantas:2012} que encontrou relação direta entre o risco de crédito e o *spread ex-post*. 
+
+Para a significância da inadimplência este estudo diverge do resultado de \textcite{durigan:2018} para o *spread ex-ante*, porém remontando a mesma relação em termos de ajuste. Tal divergência também pode estar associada a categoria de *spread* utilizado e mesmo a diferença da forma de obtenção das variáveis entre os estudos.
+
+
+Para a variável *proxy* de participação do capital próprio em relação a operações totais ($EPr$) foi remontada significância para ambas as variáveis dependentes, com uma relação inversa com o *spread ex-post* e inversa com a rentabilidade. Não foram identificados outros estudos que utilizaram alguma variável similar como preditora o para o *spread*.
+
+O resultado implica que, a medida que é elevada a participação do capital próprio para as operações de crédito totais, ocorre simultaneamente redução no *spread* e na rentabilidade bancária. Os resultados remontados estão de acordo com a hipotese formulada. 
+
+A atuação do capital próprio sobre o *spread* pode estar relacionado a ausência do pagamento de custos de captação, e mesmo com um elevado custo de oportunidade, atuaria reduzindo o *spread*. Em relação a redução da rentabilidade pode estar associado ao custo de oportunidade e ao risco de se utilizar o capital próprio nas operações de crédito.  
+
+Para a variável de participação dos depósitos a vista sobre as operações totais ($DepAv$) foi remontada significância somente com a rentabilidade, em uma relação inversa. Mesmo sem significância, foi remontado uma relação inversa com o spread. Tais relações estariam dentro do esperado de acordo com as hipóteses formuladas, exceto a não significância com o spread.
+
+Esse resultado implicaria que, no modelo, quanto maior a participação dos depósitos a vista, menor seria a rentabilidade bancária para o período. Tal resultado pode estar associado ao custo de oportunidade e risco de se utilizar depósitos a vista. 
+
+Mesmo sem significância com o *spread*, a relação indicaria que quanto maior a participação de recursos captados via depósito a vista nas operações totais, menor seria o spread bancário. Tal relação pode estar associada a ausência de pagamento de juros de captação.    
+
+Este resultado vem divergir dos estudos de Afasieff *el. al.* (2001) e Afasieff *el. al.* (2002), que encontraram uma relação direta entre captações sem juros e o *spread* bancário *ex-ante*. Tal divergência poderia estar associada a diferença entre a forma do spread, bem como a forma da variável de captação utilizadas nos estudos.
+
+Para a variável de participação dos depósitos a prazo em relação as operações totais ($DepAp$)\footnote{Não foram identificados — para efeitos de comparação — outros estudos acerca do *spread* que se utilizaram de alguma variável similar a de depósitos a prazo.} O modelo não remontou significância, tanto para o spread como para a rentabilidade. Mesmo sem a significância o ajuste indicaria que esta variável, no ajuste do modelo, guardaria relação inversa com o *spread* bancário e inversa com a rentabilidade.
+
+O resultados do ajuste indicariam que quanto maior a participação dos depósitos a prazo, menores seriam o *spread* e a rentabilidade bancária. A relação com o *spread* estaria dentro do esperado na formulação das hipóteses, indicando que nem todos os custos de captação a prazo são repassados para a taxa de aplicação, reduzindo assim o *spread*.
+
+Para a participação dos depósitos de poupança em relação as operações totais ($DepPop$)\footnote{Não foram identificados — para fins de comparação — outros estudos que utilizaram variável similar a esta como determinante do spread bancário.} foi remontadas significância somente para o *spread*, com uma relação direta.  O resultado para o spread está dentro do esperado, porém divergente para rentabilidade de acordo com as hipóteses formuladas. 
+
+Os resultados do ajuste indicam que quanto maior a participação dos depósitos de poupança, maior seria o *spread* bancário e menor seria a rentabilidade. Tais relações  podem ser explicadas pelas características quem envolvem as operações crédito que se encaixam esses recursos, bem como a modalidade, tipo de operação e nível de recolhimento compulsório cabíveis. 
+
+Para a variável de participação das receitas de operações de crédito em relação as receitas operacionais ($ROpCr$)\footnote{Não foram encontrados — para fins de comparação — outros estudos que utilizaram variável similar como determinante do spread bancário} foi remontada significância para ambas as variáveis dependentes, sendo relação direta com o *spread* e indireta com rentabilidade. O resultado para o spread está dentro do esperado de acordo com as hipóteses, não ocorrendo o mesmo para a rentabilidade.
+
+O resultado do ajuste do modelo indica que quanto maior a participação das receitas de operação de crédito maior é o nível de *spread* e menor é a rentabilidade das instituições. Tal resultado vem ressaltar que o nível de spread e rentabilidade guarda relação com o tipo de operação e capacidade de gerar receita de cada instituição.
+
+Para a participação das receitas de serviços em relação a receitas operacionais ($RSrv$) o modelo remontou significância somente para o *spread* bancário com uma relação direta, onde aumentos nas receitas de serviços estariam associadas a aumentos do *spread*. Mesmo sem significância a variável apresentou relação direta com rentabilidade.
+
+O resultado  de ajuste do modelo indica que quando se eleva a participação da receita de serviços ocorrem aumento do *spread* bancário e da rentabilidade bancária. Este resultado vem ressaltar a determinação do *spread* e da rentabilidade diante as características operacionais de cada instituição e sua capacidade de gerar receita.
+
+Este resultado para o *spread* bancário vem convergir com os estudos de Afanasieff *et. al.* (2002) e (2003), Bignotto e Rodrigues (2006) que encontram significância e uma relação direta das receitas de serviços com o *spread* *ex-ante* e divergir do estudo de \textcite{almeida:2013} que encontrou uma relação indireta com o *spread ex-post*.
+
+Para a relação entre as receitas de participação e as receitas operacionais ($RPart$)\footnote{Não foram identificados — para fim de comparação  — outros estudo que utilizaram variável similar a esta como determinante do \emph{spread}} o modelo retorno significância com ambas as variáveis dependentes, sendo uma relação direta com o *spread* e inversa com a rentabilidade. Diante a formulação das hipóteses, o resultado para o spread está dentro do esperado, mas diverge para a rentabilidade, onde se esperava o contrário.
+
+Este resultado implica que quanto maior a parcela das receitas de participação das instituições maior é o *spread* aplicado em suas operações, mas por outra  via essa característica atuaria reduzindo a rentabilidade, talvez associado a prejuízos operacionais, denotando novamente os aspectos operacionais na determinação destas duas variáveis.  
+
+Para a participação de outras receitas operacionais diante as receitas operacionais ($OtROp$)\footnote{Não foram identificados — para fim de comparação — outros estudos que tenham utilizado alguma variável similar como determinante do \emph{spread bancário}} o modelo retornou significância para somente com o *spread*, com uma relação direta. Mesmo sem significância,  retornou uma relação  direta com a rentabilidade. O resultado, diante as hipóteses formuladas, está dentro do esperado. 
+
+O resultado implica que quanto maior a receita proveniente de outras operações, maior seria o nível de *spread* praticado, e mesmo sem significância o resultado do ajuste indica que maior seria o nível de rentabilidade. Um maior nível de spread associado a um maior nível de rentabilidade pode estar associado a um poder de mercado das instituições, cobrando elevados juros com reduzidos custos operacionais.
+
+O resultado do modelo de outras operações em relação ao *spread* apresentou um dos maiores níveis de significância e de impacto no ajuste da relação entre as variáveis. 
+
+Para as participações de operações\footnote{Não foram identificados — para fim de comparação — outros estudos que utilizaram variáveis similares a esta como determinantes do \emph{spread}} de empréstimo ($OpEmp$) e operações de Financiamento ($OpFin$) diante as operações totais o modelo retorno significância somente para a rentabilidade, com uma relação inversa, e direta com o spread. Já a participação de outras operações ($OtOp$) diante as operações de crédito retornou significância somente com o spread com uma relação direta, e inversa com a rentabilidade.
+
+O resultados implicam que, diante as significâncias remontadas, quanto maior a participação operações de empréstimos ($OpEmp$) e financiamentos ($OpFin$) menor seria o nível de rentabilidade e quando maior o nível de outras operações ($OtOp$), maior seria o nível de *spread*, o que poderia estar associado as características destas operações e ao poder de mercado das instituições que a realizam. 
+
+No ajuste as participações operações de empréstimos ($OpEmp$) e financiamentos ($OpFin$) atuariam reduzindo a rentabilidade em uma proporção superior a redução causada por outras operações ($OtOp$), em relação a spread, o ajuste indica esta última exerce influência em  proporção maior que as outras duas operações. 
+
+Para os impostos indiretos ($ImpInd$) e impostos sobre a renda ($ImpRend$)\footnote{Não foram identificados — para fim de comparação — outros estudos que utilizaram variável similar a esta como determinante do spread bancário}  o  modelo retornou significância somente para a rentabilidade. Os impostos indiretos apresentaram relação direta. Já os impostos sobre a renda apresentaram uma relação inversa com a rentabilidade. 
+
+Esse resultado implicaria que quanto maior o nível de impostos indiretos, maior seria a rentabilidade das instituições. Esse resultado pode estar relacionado capacidade de gerar receita por operação tributada. A não significância com o *spread* pode estar ligada com o fato destes estarem embutidos na taxa de juros e ainda serem instrumento de provisão e passíveis de recuperação, onde o ônus seria repassado para o tomador.
+
+O resultado para os impostos indiretos vem convergir com o resultado encontrado por \textcite{almeida:2013}, que não encontrou significância deste variável com o *spread ex-post*. Porém diverge dos resultados encontrados por Koyama e Nakane (2001a e 2001b) e Afanasieff *et. al.* (2001 e  2002), que encontraram significância e uma relação direta entre os impostos indiretos e o *spread ex-ante*.
+
+O resultado para os impostos sobre a renda implicariam que quanto maior nível destes, menor seria o nível rentabilidade das instituições. O que ocorre por serem impostos que são cobrados diante os resultados das instituições, de forma direta.
+
+A não apresentação de significância estatística e a relação inversa dos impostos indiretos e impostos sobre a renda com o *spread* na modelagem não as desqualificam como componentes implícitos consolidados e determinantes do spread bancário, como identificado em \textcite{BACEN} e cardoso:1999. O resultado implica em uma influência simultânea na rentabilidade e ação de outras variáveis na modelagem.    
+
+Para a variável Selic Over ($SelOvr$) o modelo remontou significância para ambas as variáveis dependentes, com relação inversa com o *spread* e também inversa com a rentabilidade. O resultado para a rentabilidade está dentro do esperado, porém divergente para o *spread*, diante do que foi definido nas hipóteses prévias.
+
+Os resultados implicam que elevações na Selic over de três períodos anteriores levariam a reduções no nível de spread no momento atual. Esse resultado pode estar associado ao não repasse de custos de captação à taxa de aplicação no curto prazo. Os resultados implicariam que elevações na Selic over defasada atuariam reduzindo a rentabilidade bancária do período atual.
+
+Esse resultado vem divergir dos estudos de Koyama e Nakane (2001a e 2001b),  Afanasieff *et. al.* (2001 e 2002), \textcite{oreiro-2006} e \textcite{durigan:2018} que encontram relação direta e significativa da Selic com o spread bancário. Tal divergência pode estar associada as diferenças metodológicas e função da variável nas modelagens. 
+
+O resultado vem a convergir com os resultados do estudo de \textcite{BCB:1999}, que menciona que após mudanças de  políticas cambiais. fiscais e monetárias após 1999, os juros e spread não ficaram mais sensíveis a volatilidade da taxa de juros básica. 
+
+Para a variável de velocidade da moeda ($VelMo$)\footnote{Não foram identificados — para fim de comparação — outros estudos que utilizaram variável similar a esta como determinante do spread bancário}, o modelo remontou  significância para ambas as variáveis dependentes, com relação direta com *spread* a também direta para rentabilidade. O resultado está dentro do esperado pela definição das hipóteses prévias.
+
+O resultado implica que elevações da velocidade da moeda — crescimento do PIB maior que crescimento da base monetária — elevaria tanto o spread bancário como a rentabilidade bancária. Isso ocorreria, pois em momentos de aquecimento da economia a sensibilidade ao repasse de juros e custos e lucro se reduziriam.  
+
+Para o nível de compulsório das operações ($Comp$), o modelo remontou apresentou significância estatística apenas com o spread, com uma relação direta e uma relação inversa com a rentabilidade bancária. O resultado para o spread está dentro do esperado na definição das hipóteses, porém se esperava significância para a rentabilidade, em uma relação inversa. 
+
+O resultado implica que elevações na taxa de compulsório — que elevam a necessidade de captação para uma operação de crédito — atuariam elevando o nível de spread bancário.
+
+Este resultado vem convergir com o estudo de Afanasieff *et. al.* (2002) que encontrou relação direta entre o compulsório e spread, e divergir de Afanasieff *et. al.* (2001) que encontrou uma relação inversa. Tais diferenças entre os estudos podem estar associadas as diferenças metodológicas e a função da variável nos diferentes modelos utilizados.
+
+O modelo não remontou significância para o grau de concentração do mercado ($GrCon$), porém o resultado demonstra uma relação inversa com o *spread* e direta com a rentabilidade. Este resultado vem divergir dos estudos de \textcite{dantas:2012} e \textcite{almeida:2013}, que encontraram significância e uma relação direta com o grau de concentração e o *spread ex-post*.
+
+Diante a composição do modelo, para a IPCA foi remontada significância somente para o spread, com relação inversa e relação inversa com a rentabilidade. Os resultados estão dentro do esperado na formulação da hipóteses, porém se esperava significância para ambas as variáveis.
+
+O resultado implica que elevações na inflação atuariam na redução  do nível de spread bancário. A inflação pode atuar corroendo a taxa de aplicação e elevando a taxa de captação, reduzindo assim o spread e consequentemente a rentabilidade.
+
+Este resultado vem convergir com os estudos de Bignotto e Rodrigues (2006) e \textcite{durigan:2018} que encontram relação significativa e direta entre IPCA e o *spread ex-ante* e divergir do estudo de \textcite{aronovich:1994} que encontrou relação direta entre estas variáveis.
+
+Para os meios de pagamentos ampliados 4 ($lnMPA4$)\footnote{Não foram identificados — para fim de comparação — outros estudos que utilizaram variável similar a esta como determinante do spread bancário} o modelo remontou significância somente sobre o *spread* com uma relação direta. E mesmo sem significância a relação com a rentabilidade foi direta. O resultado diverge do esperado na formulação das hipóteses.   
+
+O resultado implicaria que elevações no volume do agregado monetário M4 de três períodos anteriores, refletiriam em elevações no spread bancário no momento atual.  
+
+Para o volume de operações de crédito do mercado ($lnOpCrMkt$)\footnote{Não foram identificados — para fim de comparação — outros estudos que utilizaram variável similar a esta como determinante do spread bancário} o modelo remontou significância somente para o *spread*, com uma relação inversa, e mesmo sem significância retornou uma relação direta com rentabilidade. As relações estão  dentro do esperado durante a formulação da hipoteses.
+
+O resultado implica que elevações no volume de operações totais do mercado bancário atua exercendo redução no nível de spread, ao mesmo tempo que elevaria a rentabilidade. Tal resultado pode estar relacionado com a capacidade de instituições que possuam maior fatia de mercado em operar com um nível de juros menor, visando ganhar no volume de operações.
+
+
+\section{Função Impulso resposta}
+
+```{r test.othog, eval=FALSE, results='hide', include=FALSE}
+fevd <- fevd_orthogonal(fit.pvargmm.2.lags)
+
+```
+
+```{r tests.pvargmm, eval=FALSE, results='hide', include=FALSE}
+###tests
+
+oirf <- oirf(fit.pvargmm.2.lags, n.ahead = 8)
+
+#girf <- girf(fit.pvargmm.2.lags, n.ahead = 8, ma_approx_steps = 8)
+
+bs.oirf <-
+  bootstrap_irf(
+    model = fit.pvargmm.2.lags,
+    typeof_irf = c("OIRF"),
+    n.ahead = 8,
+    nof_Nstar_draws = 8,
+    confidence.band = 0.95
+)
+
+#bs.girf <-
+#  bootstrap_irf(
+#    model = fit.pvargmm.2.lags,
+#    typeof_irf = c("GIRF"),
+#    n.ahead = 8,
+#    nof_Nstar_draws = 8,
+#    confidence.band = 0.95
+#)
+  
+saveRDS(oirf, file = "~/Desktop/04-DISSERTATION/01-data/model/oirf.RDS")
+#saveRDS(girf, file = "~/Desktop/04-DISSERTATION/01-data/model/girf.RDS")
+
+
+saveRDS(bs.oirf, file = "~/Desktop/04-DISSERTATION/01-data/model/bs.oirf.RDS")
+#saveRDS(bs.girf, file = "~/Desktop/04-DISSERTATION/01-data/model/bs.girf.RDS")
+
+```
+
+No \autoref{graf:impulseorto} está demonstrada a função impulso-resposta ortogonal com os intervalos de confiança gerados por bootstrapping. Indicando que um choque estrutural na rentabilidade tem efeito significativo e inverso sobre o spread e que um choque estrutural no spread tem um efeito quase nulo sobre a rentabilidade.   
+
+\vspace{20pt}
+
+\begin{grafico}[!htbp]
+\caption{Função de impulso resposta ortogonal}
+\vspace{-4mm}
+```{r impulse.plot.orto}
+
+oirf <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/oirf.RDS")
+
+bs.oirf <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/bs.oirf.RDS")
+
+plot(oirf, bs.oirf)
+
+```
+\vspace{-3mm}
+\label{graf:impulseorto}
+\vspace{-2mm}
+\fonte{Desenvolvido a partir dos resultados do modelo }
+\end{grafico}
+
+
+

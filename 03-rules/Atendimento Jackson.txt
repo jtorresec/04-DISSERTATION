@@ -1,0 +1,53 @@
+ATENÇÃO: Faltou o Resumo e Palavras-chave na língua vernácula. Tem que ser depois da folha de rosto e antes das listas de ilustrações/tabela.
+
+- Pg. 3 - (1)Reduzir o espaçamento entre o título LISTA DE TABELAS e a lista própriamente dita, deve ser espaçamento 1,5. (2)Acertar o espaçamento entre Tabela 9 e Tabela 10, ficou um espaço vazio que não pode existir.
+
+- Pg. 4 - (1)Reduzir o espaçamento entre o título SUMÁRIO e o primeiro item do sumário, deve ser espaçamento 1,5. (2)Observe que todos os itens do sumário devem estar com o mesmo espaçamento de 1,5. Entendo que o espaçamento que você utilizou fique visualmente mais agradável mas a norma pede espaçamento uniforme. 
+
+- Pg. 5 - (1)Quando você faz uma citação de vários autores com a mesma idea a norma pede uma disposição diferente da que você usou. Por exemplo: Você usou (LEITE, 1996)
+(CAMPELLO; BRUNSTEIN, 2005) (NEVES JÚNIOR et al., 2007) Mas a norma pede (AUTORIA, data; AUTORIA, data; AUTORIA, data) e ordem alfabética, ou seja: (CAMPELLO; BRUNSTEIN, 2005; LEITE, 1996; NEVES JÚNIOR et al., 2007 ) ... Observe que muitas citações indiretas você fez do jeito correto.
+
+- Pg. 10 - (1) Arrumar o espaçamento em o título "2 REFERENCIAL TEÓRICO" e o tópico "2.1 SETOR BANCÁRIO NO BRASIL". Tem que ser o espaçamento de uma linha vazia com espaçamento de 1,5. (2) A citação de citação (pg 85 das normas) você fez "Freitas e Khöler (2009) apud Dantas (2012)" mas deveria ser "De acordo com Freitas e Kholer(2009 apud DANTAS,2012)" 
+Caso você não tenha consultado a obra Freitas e Kholer(2009), então você faz uma nota de rodapé indicando a referência, se você usou a obra no decorrer do trabalho não precisa.
+
+- Pg. 13 (1) Veja (pg 198 das normas). O título da tabela deve estar em caixa alta com letra tamanho 10, alinhado a esquerda. A palavara "Fonte" deve estar em caixa alta e no mesmo alinhamento do título. (2) Também veja a citação da ideia de vários autores. Arrume em todas as tabelas.
+
+- Pg. 14 (1) Idem a página 13.
+
+- Pg. 16 (1) Deixar o título da figura em caixa alta. A palavra "Fonte" em caixa alta. (pg 193 do livro de normas) Corrija em todas as a figuras.
+
+- Pg. 17 (1) Veja a questão do "apud"
+
+- Pg. 24 (1) Lá na página 24 você faz a citação: BACEN, S. S. G. d. S. T., 2020b) (BACEN, S. S. G. d. S. T.,2020a) o certo seria (BACEN, S. S. G. d. S. T., 2020a,2020b). Veja a página 94 do livro de normas. E lá nas referências você tem que colocar a letra no final do ano.
+
+- Pg. 33 (1) Você fez a citação assim " (COSTA; NAKANE, 2004) Souza (2007)
+apud (DANTAS, 2012)" mas o correto é (COSTA; NAKANE, 2004; SOUZA, 2007 apud DANTAS, 2012)
+
+- Pg. 47 (1) Arrumar o espaçamento entre o título do tópico e o início do texto
+
+- Pg. 66 (1) Arrumar o espaçamento entre o título REFERÊNCIAS e as referências, é de 1,5. Lembrando que o espaçamento entre uma referência e outra deve ser duplo. E aparece um "Citado 0 vezes na página..." não é obrigatório, você pode tirar. 
+
+- Pg. 68 (1) Na referência "CARDOSO, Renato Fragelli; KOYAM, Sérgio Mikioa. A CUNHA FISCAL SOBRE A INTERMEDIAÇÃO FINANCEIRA. In: [s.l.]: Banco Central do Brasil, 1999. P. 129–158"
+
+O correto é "CARDOSO, Renato Fragelli; KOYAM, Sérgio Mikioa. A CUNHA FISCAL SOBRE A INTERMEDIAÇÃO FINANCEIRA. In: Juros e Spread Bancário no Brasil. [S.l]: Banco Central do Brasil, 1999. P. 129–158."... Deixe o título da obra "Juros e Spread Bancário no Brasil" em negrito.
+
+ 
+
+
+
+
+Dê uma olhada no Manual de Normas, a partir da página 267 tem um exemplo bacana que pode te ajudar a economizar tempo. 
+
+
+
+
+[11:29 AM] Andre Anastacio de Oliveira
+    
+Oi Jackson, dei uma olhada geral no trabalho. Precisa fazer umas correções mas nada complicado, mas questão de espaçamento, deixa o título de figuras e tabelas em caixa alta, acerta a forma em que algumas citações foram feitas. Vou ter mandar o trabalho com umas correções q fiz em vermelho, um txt com as minhas indicações e o Manual de Normas da UFPR. Dê uma olhada, na dúvida estarei a disposição. Espero ter ajudado. (smile) 
+
+Edited​[11:30 AM] Andre Anastacio de Oliveira
+    Quanto a parte de como fazer esses ajustes no Latex ou Rmarkdown, isso vai além do que sei, desculpe.
+[jacksontorres_REV_André.pdf] (https://ufprbr0-my.sharepoint.com/personal/anastacio_ufpr_br/Documents/Arquivos de Chat do Microsoft Teams/jacksontorres_REV_André.pdf)[Atendimento Jackson.txt] (https://ufprbr0-my.sharepoint.com/personal/anastacio_ufpr_br/Documents/Arquivos de Chat do Microsoft Teams/Atendimento Jackson.txt)[Manual_de_normalizacao_UFPR.pdf] (https://ufprbr0-my.sharepoint.com/personal/anastacio_ufpr_br/Documents/Arquivos de Chat do Microsoft Teams/Manual_de_normalizacao_UFPR.pdf)
+
+
+

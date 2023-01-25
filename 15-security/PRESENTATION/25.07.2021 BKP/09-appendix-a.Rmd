@@ -1,0 +1,285 @@
+\ifthenelse{\equal{\terApendice}{Sim}}
+{\begin{apendicesenv}
+
+\vspace{-10mm}
+
+\renewcommand{\thechapter}{\arabic{chapter}}
+
+\chapter{Decomposição do Spread}\label{apendicea}
+
+Este apêndice tem como propósito realizar a decomposição algébrica do *spread* com objetivo de inserir e identificar variáveis componentes à partir de definições teóricas e técnicas, dentro das perspectivas de ótica, características, dimensão e volume-prazo-risco abordadas na \autoref{sec:spread}.
+
+A decomposição parte da definição geral tautológica de *spread* ($Spr$), como resultado da diferença entre a taxa de aplicação ($I_{apl}$) e a taxa de captação ($i_{cap}$), representada na \autoref{spr:taut}.
+
+
+
+\begin{equation}\label{spr:taut}
+Spr = i_{apl} - i_{cap}
+\end{equation}
+
+
+
+Em termos de resultado a taxa de aplicação ($i_{apl}$) é obtida da relação entre a receita operacionais ($R$) e das operações de crédito ($E$). Já a taxa de captação é extraída da relação entre as despesas de captação ($DC$) e o montante capitado ($C$), conforme representado na \autoref{eq:aplcap}
+
+
+\begin{equation}\label{eq:aplcap}
+i_{apl} = \frac{R}{E}  \hspace{10pt} |  \hspace{10pt} i_{cap} =  \frac{DC}{C}  \hspace{10pt} |  \hspace{10pt} Spr =  \frac{R_{}}{E} -  \frac{DC}{C}
+\end{equation}
+
+
+As receitas operacionais das instituições financeiras se dividem em: 1) Receitas de Operações de Crédito ($ROpCr_{}$); 2) Rendas De Cambio ($RCamb$) ; 3) Rendas De Aplicacoes Interfinanceiras De Liquidez($RApIf$); 4) Rendas Com Títulos E Valores Mobiliários E Instrumentos Financeiros Derivativos ($RMobDer$); 5) Rendas De Prestação De Serviços ($RSrv$); 6) Rendas De Participações ($RPart$) e 7) Outras Receitas Operacionais ($OtROp$) \autoref{eq:receitas}.
+
+
+\begin{equation}\label{eq:receitas}
+ROp_{} = R_{OpCr} + R_{Camb} + R_{ApIf} + R_{MobDer} + R_{Srv} + R_{Part} + R_{Ot}
+\end{equation}
+
+
+Para fins de estudo podemos separar as receitas das operações de crédito ($ROpCr_{}$) das outras receitras operacionais ($OtRop$) conforme demonstrado nas \autoref{eq:receitas2} e  \autoref{eq:receitas3} 
+
+
+\begin{equation}\label{eq:receitas2}
+OtROp = R_{Camb} + R_{ApIf} + R_{MobDer} + R_{Srv} + R_{Part} + R_{Ot} 
+\end{equation}
+
+\begin{equation}\label{eq:receitas3}
+ROp = ROpCr_{} + OtRop
+\end{equation}
+
+A receita das operações de crédito ($ROpCr$) é obtida levando em  consideração as operações de crédito — capital emprestado — ($E$) e uma taxa de juros ($i_{jr}$), visualizada na \autoref{eq:recind}. A taxa de juros contempla os custos de captação, os custos operacionais, inadimplência, risco, impostos diretos e indiretos e margem líquida, conforme levantamento na \autoref{sec:spread}.
+
+
+
+\begin{equation}\label{eq:recind}
+ROpCr_{} = Ei_{jr}
+\end{equation}
+
+
+
+A receita de operações de crédito ($ROpCr_{}$) pode ser decomposta, diante os elementos que constituem a base da taxa de juros,  englobando as despesas operacionais e administrativas ($DAdm$), provisões de inadimplência ($Inad$) custos de captação ($DC$), impostos indiretos ($ImpInd$), impostos sobre a renda ($ImpDir$) e margem líquida ($MgLqd$), conforme identificado na \autoref{sec:spread}.
+
+
+
+\begin{equation}
+ROpCr_{} = DAdm + Inad + DC + ImpInd + ImpDir + MgLqd
+\end{equation}
+
+
+A decomposição da receita pode ser ampliada com a inserção das respectivas bases de incidências conforme a \autoref{eq:decrec}\footnote{Considerando que não são abatidos os custos operacionais da base de arrecadação do PIS e COFINS, conforme \textcite{cardoso:1999}}\footnote{São abatidos da base do IR e CSLL os custos com o FGC, conforme \textcite{cardoso:1999}}\footnote{Incluindo a compensação de 1/3do COFINS na CSLL, conforme \textcite{cardoso:1999}}, forma similar com que é apresentado em \textcite{cardoso:1999}, em estudo da cunha fiscal sobre o \emph{spread} bancário. 
+
+O primeiro bloco da decomposição da receita na se refere às taxas e alíquotas aplicados sobre o capital emprestado ($E$) e captação ($C$), sendo elas as despesas administrativas ($i_{adm}$), inadimplência ($i_{ind}$), captação ($i_{cap}$), recolhimento compulsório ($i_{comp}$), aplicação de compulsório($i_{ac}$) e fundo garantidor de crédito ($i_{fgc}$).
+
+O segundo bloco da decomposição da receita na \autoref{eq:decrec} consiste na inseção de variáveis referente as taxas e alíquotas aplicados sobre a própria receita da operação de crédito ($ROpCr_{}$), contemplando o PIS ($i_{pis}$), IOF ($i_{IOF}$), COFINS ($i_{cof}$), imposto de renda ($i_{ir}$), contribuição social ($i_{cs}$) e lucro líquido ($i_{ll}$), formando o \emph{markup} das instituições.
+
+
+
+\begin{equation}\label{eq:decrec}
+\begin{aligned}
+ROp_{} \hspace{10pt} = \hspace{10pt} &  i_{adm}E + i_{ind}E + i_{iof}E + i_{cap}C + i_{comp}i_{ac}C + i_{fgc}C + \frac{i_{ll}}{1 - i_{r} - i_{cs}}ROpCr_{} + i_{pis}ROp_{} \\ 
+& + i_{cof}ROp_{} +  i_{r} [ROp_{}(1-i_{pis} - i_{cof}) - 0,01] + i_{cs} [ROp_{}(1-i_{pis} - i_{cof}) - i_{fgc}]
+\end{aligned}
+\end{equation}
+
+  
+Levando em consideração que os depósitos são reduzidos diante a obrigação de recolhimentos compulsórios e contribuição para o fundo garantidor de crédito (FGC), um empréstimo ($E$) que dependa de captação ($C$), a necessidade de captação será maior para atender a operação de empréstimo no volume almejado, conforme demonstrado na \autoref{eq:nesscap} \cite{cardoso:1999}.
+
+
+
+\begin{equation}\label{eq:nesscap}
+C = \frac{E}{(1 - i_{comp} - i_{fgc})}
+\end{equation}
+
+
+Diante a inseção dos componentes explícitos da receita das operações de crédito ($ROpCr$), o passo seguinte consiste em isolar à esqueda os componentes incidentes sobre a receita e evidenciar variáveis em comum em ambos os lados da equação. Substituindo \autoref{eq:nesscap} em \autoref{eq:decrec}, obtemos as parciais em \autoref{eq:decrec2} e \autoref{eq:recpar02}. 
+
+
+\begin{equation}\label{eq:decrec2}
+\begin{aligned}
+& ROp_{} \left[ 1 - \frac{i_{ll}}{1 - i_{r} - i_{cs}} - i_{pis} - i_{cof} - i_{r} (1-i_{pis} - i_{cof} - 0,01) - i_{cs} (1-i_{pis} - i_{cof}) \right] = \\
+& i_{cap} \left[ \frac{E}{1 - i_{comp} - i_{fgc}} \right] + i_{adm}E + i_{Inad}E + (1 - i_{ir} - i_{cs})i_{IOF}E + i_{fgc} \left[ \frac{E}{1 - i_{comp} - i_{fgc}} \right] + \\ & i_{cs}i_{fgc}\left[\frac{E}{1 - i_{comp} - i_{fgc}}\right] - 
+i_{r}i_{fgc}\left[\frac{E}{1 - i_{comp} - i_{fgc}}\right] + i_{ac}i_{comp}\left[\frac{E}{1 - i_{comp} - i_{fgc}}\right]
+\end{aligned}
+\end{equation}
+
+
+
+
+\begin{equation}\label{eq:recpar02}
+\begin{aligned}
+& ROpCr_{}\left[ 1 - \frac{i_{ll}}{1 - i_{r} - i_{cs}} - i_{pis} - i_{r}i_{pis} - i_{pis}i_{cs} - i_{cof} - i_{r}i_{cof} - i_{cof}i_{cs} - i_{r} - 0,01i_{r} - i_{cs}\right] = \\
+& E [ i_{adm} + i_{Inad} + i_{IOF} +  i_{cap}\frac{1}{1 - i_{comp} - i_{fgc}} + i_{fgc}\frac{1}{1 - i_{comp} - i_{fgc}} + i_{ac}i_{comp}\frac{1}{1 - i_{comp} - i_{fgc}} - \\
+& i_{r}i{fgc}\frac{1}{1 - i_{comp} - i_{fgc}} + i_{cs}i_{fgc}\frac{1}{1 - i_{comp} - i_{fgc}} ]
+\end{aligned}
+\end{equation}
+
+
+Ao evidenciar os termos em comum referentes aos impostos indiretos e operações de crédito obtemos a terceira parcial em \autoref{eq:recpar03}
+
+
+
+\begin{equation}\label{eq:recpar03}
+\begin{aligned}
+& ROpCr_{}\left[1 - (\frac{i_{ll}}{1 - i_{r} - i_{cs}} + i_{pis}(1 - i_{r} - i_{cs}) + i_{cof}(1 - i_{r} - i_{cs}) + 0,99i_{r} + i_{cs})\right] = \\
+& E\left[i_{adm} + i_{Inad} + i_{IOF} +  [\frac{1}{1 - i_{comp} - i_{fgc}}] (i_{cap} + i_{fgc} + i_{ac}i_{comp} - i_{r}i{fgc}+ i_{cs}i_{fgc})\right]
+\end{aligned}
+\end{equation}
+
+
+
+Isolando a receita à esquerda e realizando as manipulações algébricas, introduzindo para cada período de tempo ($t$) a perspectiva de dimensão envolvendo tipo de tomador($a$), tipo de recurso ($b$) e modalidade da operação ($c$), tipo de operação ($d$), origem do capital ($e$) as taxas de sensibilidade às perspectivas de volume ($v$), prazo ($p$), risco ($r$) e garantia ($g$), obtemos a \autoref{eq:recend}.
+
+O \emph{spread} ainda pode ser visualizado de acordo com as diferentes operações ($d$) , sendo elas: 1) Empréstimos e Direitos Creditórios Descontados; 2) Financiamentos; 3) Financiamentos Rurais) 4) Financiamentos Mobiliários; 5) Operações De Credito Vinculadas A Cessão 6) Avais E Fianças Honrados; 7) Carteira De Cambio; 8) Rendas A Receber; 9) Negociação E Intermediação De Valores; 10) Créditos Específicos e 11) Diversos.
+
+A origem de capital ($e$) a ser emprestado ($E$), pode assumir a forma de capital próprio ($Pr$), depósito a vista ($Av$), depósito à prazo ($Ap$) depósito interfinanceiro ($If$), depósito de poupança ($Pop$) e outros depósitos ($OtD$)
+
+
+
+\begin{equation}\label{eq:recend}
+\begin{aligned}
+R_{Op[t,a,b,c,d,e]} = & \frac{E_{} \left[ i_{adm} + i_{Inad} + i_{IOF} + r +  \frac{(i_{cap} + i_{fgc} + i_{ac}.i_{comp} - i_{r}.i_{fgc}+ i_{cs}.i_{fgc})}{1 - i_{comp} - i_{fgc}} \right]}
+{\left[ 1 - (\frac{i_{ll}}{1 - i_{r} - i_{cs}} + i_{pis}(1 - i_{r} - i_{cs}) + i_{cof}(1 - i_{r} - i_{cs}) + 0,99i_{r} + i_{cs})\right]}vpg
+\end{aligned}
+\end{equation}
+
+
+
+O numerador da \autoref{eq:recend} remete aos dispêndios das operações de crédito ($D$), visualizado de forma isolada em \autoref{eq:num}, para cada perspectiva operacional.
+
+
+\begin{equation}\label{eq:num}
+D_{t[a,b,c,d,e]} = E_{} \left[ i_{adm} + i_{Inad} + i_{IOF} + r +  \frac{(i_{cap} + i_{fgc} + i_{ac}i_{comp} - i_{r}i_{fgc}+ i_{cs}i_{fgc})}{1 - i_{comp} - i_{fgc}} \right]
+\end{equation}
+
+
+
+Na ótica dos dispêndios, o denominador da \autoref{eq:recend}, ao ser manipulado algebricamente, assume a função de multiplicador das despesas e custo de captação ou *markup* ($i_{mkp}$), visualizado na \autoref{eq:denom}, embutindo nestes a margem líquida e alíquotas dos impostos diretos e indiretos\footnote{Retirando a incidência do IR e CSLL}, influenciado pelas taxas de sensibilidades para cada nível de volume, prazo e garantia. 
+
+
+
+\begin{equation}\label{eq:denom}
+imk_{[t,a,b,c,d,e]} = \frac{1}{[1 - (\frac{i_{ll}}{1 - i_{r} - i_{cs}} + i_{pis}.(1 - i_{r} - i_{cs}) + i_{cof}.(1 - i_{r} - i_{cs}) + 0,99i_{r} + i_{cs})]}vpg
+\end{equation}
+
+
+
+Ao simplificar a \autoref{eq:recend}, encontramos uma forma similar a forma inicial em \autoref{eq:recind}, um montante multiplicado a uma taxa para chegar na receita. A diferença é que a forma inicial considera o capital emprestado e uma taxa de juros — onde estão embutidos todos os custos e margem de lucro. A segunda forma, em \autoref{eq:recjr} considera as despesas com a operação de crédito e um multiplicador destes gastos.
+
+
+
+\begin{equation}\label{eq:recjr}
+R_{OpCr[ta,b,c,d,e]} = D_{} i_{mkp}
+\end{equation}
+
+
+
+Retornando a concepção inicial em \autoref{eq:recind}, da taxa de juros ($i_{jr}$) aplicada sobre o capital emprestado ($E$) pode ser obtida manipulando o multiplicador de despesas (*markup*) ($i_{mkp}$) incorporando as taxas referentes a custos, despesas e provisões, visualizada em \autoref{eq:txjur} e simplificada em \autoref{eq:recjur2}.
+
+
+
+\begin{equation}\label{eq:txjur}
+\begin{aligned}
+ijr_{[t(a,b,c,d,e)]} = & \frac{[i_{adm} + i_{Inad} + i_{IOF} + r +  \frac{(i_{cap} + i_{fgc} + i_{ac}.i_{comp} - i_{r}.i_{fgc}+ i_{cs}.i_{fgc})}{1 - i_{comp} - i_{fgc}}]}
+{[1 - (\frac{i_{ll}}{1 - i_{r} - i_{cs}} + i_{pis}.(1 - i_{r} - i_{cs}) + i_{cof}.(1 - i_{r} - i_{cs}) + 0,99i_{r} + i_{cs})]}v'p'g'
+\end{aligned}
+\end{equation}
+
+
+
+
+\begin{equation}\label{eq:recjr}
+R_{Op[t,a,b,c,d,e]} = E_{}i_{jr}
+\end{equation}
+
+
+De acordo com os resultados da decomposição da receita em \autoref{eq:recend} e a forma tautológica em \autoref{eq:aplcap} e \autoref{eq:nesscap} o *spread* médio das operações pode ser apresentado conforme a ótica de juros em \autoref{eq:spr01} e sob a ótica dos dispêndios na \autoref{eq:spr03}. 
+
+O denominador da taxa de captação em \autoref{eq:spr01} e \autoref{eq:spr03} passa a representar as operações de  crédito ($OpCr$) podendo serem destacada distinguidas por suas em  suas diversas  modalidades ($d$), para cada outra ótica apresentada. 
+
+
+\begin{equation}\label{eq:spr01}
+SprEp_{n[a,b,c,d,e]} =  \frac{E_{}ijr_{}}{E} - \frac{DC_{} }{C}
+\end{equation}
+
+
+
+\begin{equation}\label{eq:spr03}
+SprEp_{n[a,b,c,d,e]} =  \frac{D_{}imk_{}}{E} - \frac{DC_{}}{\frac{E_{}}{(1 - i_{comp} - i_{fgc})}}
+\end{equation}
+
+
+
+
+Por fim o \emph{spread} pode ser visualizado incluindo a ótica de operações, considerando que cada tipo de operações possui suas características específicas que vai gerar para cada uma um nível de spread. Esta forma pode ser visualizada na ótica do juros na \autoref{eq:oper01} e ótica do dispêndio na \autoref{eq:oper02}  
+
+
+\begin{equation}\label{eq:oper01}
+SprEp_{n[a,b,c,d,e]} =  \frac{E_{n}ijr_{n}}{Op_{n}} - \frac{DC_{} }{C}
+\end{equation}
+
+
+
+\begin{equation}\label{eq:oper02}
+SprEp_{n[a,b,c,d,e]} =  \frac{D_{n}iapl_{n}}{Op_{n}} - \frac{DC_{} }{C}
+\end{equation}
+
+
+O \emph{spread} ainda pode ser visualizado de acordo a ótica de capitalização: juros simples ou juros composto e modalidade de amortização: price, sac e outras. A \autoref{eq:mathfin} e \autoref{eq:sprmf} trazem as condições de juros simples e compostos e a combinação com os componentes do *spread*, levando em consideração a valor presente ($PV$), valor futuro ($FV$), juros ($J$), receita ($R$) e capital emprestado ($E$) 
+
+
+
+\begin{equation}\label{eq:mathfin}
+J = \frac{FV}{PV} - 1  \hspace{10pt} | \hspace{10pt} R = FV \hspace{10pt} | \hspace{10pt} E = PV = Op \hspace{10pt} | \hspace{10pt}  FV = PV(1 + i)^n  \hspace{10pt} |   \hspace{10pt} FV = PV(1 + i n)
+\end{equation}
+
+
+
+
+\begin{equation}\label{eq:sprmf}
+SprEp = J - DC_{} = [\frac{FV}{PV} - 1] - DC_{} = [\frac{R}{Op} - 1] - DC = [\frac{E(1 + i)^n}{Op} - 1] - DC_{}
+\end{equation}
+
+
+
+Adaptando a formas \autoref{eq:mathfin} em \autoref{eq:spr00} obtemos a versão do \emph{spread} na ótica de juros compostos para um dado período em suas formas simplificadas na ótica do dispêndio em \autoref{sprotdisp}  e na ótica do juros em \autoref{eq:sprotjr}. 
+
+
+
+\begin{equation}\label{sprotdisp}
+SprEp_{n[a,b,c,d,e]} = \left[  \frac{D_{}[1 + i_{apl}]^n  }{Op_{}} -1  \right] - \left[  \frac{DC_{}}{C}  \right]
+\end{equation}
+
+
+
+\begin{equation}\label{eq:sprotjr}
+SprEp_{n[a,b,c,d,e]} = \left[  \frac{E_{}[1 + i_{jr}]^n }{Op_{}} -1  \right] - \left[  \frac{DC_{}}{C} \right]
+\end{equation}
+
+
+
+O *spread* pode ser visualizado adicionando a ótica da amortização, considerando a parcela da receita futura para cada período ($FV_{n+1} = ROp_{n+1}$) e a amortização cada período ($AMT_{n+1}$), atendendo as condições em \autoref{eq:amor01} e \autoref{eq:amor02}, resultando na forma simplificada na \autoref{eq:amor04}\footnote{para fins de exemplificação foi utilizada a forma de sistema de amortização price de série uniforme para cálculo da parcela}.
+
+
+
+\begin{equation}\label{eq:amor01}
+J_{n} = \frac{PMT_{n+1}}{AMT_{n+1}} - 1 \hspace{10pt} | \hspace{10pt} PMT_{n} = FV[\frac{i}{(1 + i)^n - 1}]  \hspace{10pt} | \hspace{10pt} PMT_{n} = ROp_{n} \hspace{10pt} | \hspace{10pt} AMT_{n} = E_{n}
+\end{equation}
+
+
+
+
+\begin{equation}\label{eq:amor02}
+SprEp_{n} = [\frac{PMT_{n}}{AMT_{n}} -1] - DC_{n} = [\frac{ROp_{n}}{Op_{n}} -1] - DC_{n} = [\frac{ROp_{n}[\frac{i}{(1 + i)^n - 1}]}{Op_{n}} -1] - DC_{n}
+\end{equation}
+
+
+
+
+\begin{equation}\label{eq:amor04}
+SprEp_{[n,a,b,c,d,e]} = \left[ \frac{ROp_{n}[\frac{   ijr_{}  }{  [1 + ijr_{}]^n -1  }]}{Op_{n}} -1 \right] - \left[ \frac{DC_{n}}{C_{n}} \right]
+\end{equation}
+
+
+A \autoref{eq:amor04}, demonstra que o \emph{spread} pode ser visualizado para cada período de tempo ($n$), tipo de tomador ($a$), tipo de recurso ($b$), modalidade de operação ($c$), parcela de receita futura ($ROP_{n}$) de acordo com a o tipo de operação ($d$) e origem do capital. Além das sensibilidades de volume ($v$), prazo ($p$), risco ($r$) e garantia ($g$) embutidos na taxa de juros e markup.   
+
+
+Neste apêndice realizou-se a decomposição do *spread expost*, partindo da sua forma tautológica e inserindo as variáveis componentes de custos e receitas, além de variáveis qualitativas referentes às óticas identificadas durante a pesquisa remetendo a características técnicas e qualitativas que influenciam outras variáveis e possibilitando visualização de vários níveis de \emph{spread}.

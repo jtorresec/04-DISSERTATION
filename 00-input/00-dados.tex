@@ -40,41 +40,43 @@
 %----------------------------------------------------------------------------- 
  \providecommand{\terCapa}{Sim}
  \providecommand{\terFolhaRosto}{Sim}
- \providecommand{\terTermoAprovacao}{Nao}
- \providecommand{\terDedicatoria}{Nao}
- \providecommand{\terFichaCatalografica}{Nao}
- \providecommand{\terEpigrafe}{Nao}
- \providecommand{\terAgradecimentos}{Nao}
+ \providecommand{\terTermoAprovacao}{Sim}
+ \providecommand{\terDedicatoria}{Sim}
+ \providecommand{\terFichaCatalografica}{Sim}
+ \providecommand{\terEpigrafe}{Sim}
+ \providecommand{\terAgradecimentos}{Sim}
  \providecommand{\terErrata}{Nao}
  \providecommand{\terListaFiguras}{Sim}
  \providecommand{\terListaTabelas}{Sim}
+ \providecommand{\terListaQuadros}{Sim} % ALTERADO / ADICIONADO
+ \providecommand{\terListaGraficos}{Sim} % ALTERADO / ADICIONADO
  \providecommand{\terSiglasAbrev}{Nao}
- \providecommand{\terResumos}{Nao}
+ \providecommand{\terResumos}{Sim}
  \providecommand{\terSumario}{Sim}
  \providecommand{\terAnexo}{Nao}
- \providecommand{\terApendice}{Nao}
+ \providecommand{\terApendice}{Sim}
  \providecommand{\terIndiceR}{Nao}
 %----------------------------------------------------------------------------- 
 
-\titulo{Efeitos das variações dos componentes do \emph{Spread} na rentabilidade das instituições bancárias através da análise de dados em painel
+\titulo{Determinantes do \emph{spread ex-post} e rentabilidade bancária: Um modelo em painel dinâmico com vetores autorregressivos
 }
 \autor{}
 \local{Curitiba}
-\data{2020} %Apenas ano 4 dígitos
+\data{2021} %Apenas ano 4 dígitos
 
 % Orientador ou Orientadora
 \orientador{}
 %Prof Emílio Eiji Kavamura, MSc}
 \orientadora{
-Prof\textordfeminine~Dra. Mayla Costa}
+Prof\textordfeminine~Dra. Mayla Cristina Costa}
 % Pode haver apenas uma orientadora ou um orientador
 % Se houver os dois prevalece o feminino.
 
 % Em termos de coorientação, podem haver até quatro neste modelo
 % Sendo 2 mulhere e 2 homens.
 % Coorientador ou Coorientadora
-\coorientador{}%Prof Morgan Freeman, DSc}
-\coorientadora{}
+%\coorientador{}%Prof Morgan Freeman, DSc}
+%\coorientadora{}
 
 % Segundo Coorientador ou Segunda Coorientadora
 \scoorientador{}
@@ -82,20 +84,27 @@ Prof\textordfeminine~Dra. Mayla Costa}
 \scoorientadora{}
 %Prof\textordfeminine~Ingrid Bergman, DEng}
 % ----------------------------------------------------------
-%\addbibresource{10-references/referencias.bib}
+\addbibresource{10-references/referencias.bib}
 %\bibliography{10-references/referencias.bib}
 % ----------------------------------------------------------
 \instituicao{Universidade Federal do Paraná}
 
-\def \ImprimirSetor{Departamento de Economia}%
+\def \ImprimirSetor{
+%Departamento de Economia
+}
 %Setor de Tecnologia}
 
-\def \ImprimirProgramaPos{Programa Profissional de Pós-Graduação em Economia}
+\def \ImprimirProgramaPos{
+%Programa Profissional de Pós-Graduação em Economia
+}
 
-\def \ImprimirCurso{Mestrado Profissional em Economia}
+\def \ImprimirCurso{
+%Mestrado Profissional em Economia
+}
 
 \preambulo{
-Trabalho apresentado como requisito parcial para a obtenção do título de Mestre Profisisonal em Economia no curso de Mestrado Profissional em Economia pelo Departamento de Economia da Universidade Federal do Paraná}
+Dissertação apresentada ao curso de Mestrado Profissional em Economia, Setor de Ciências Sociais Aplicadas, Universidade Federal do Paraná, como requisito parcial à obtenção do título de Mestre em Economia
+}
 %do grau de Bacharel em Expressão Gráfica no curso de Expressão Gráfica, Setor de Exatas da Universidade Federal do Paraná}
 
 %----------------------------------------------------------------------------- 
@@ -104,7 +113,7 @@ Trabalho apresentado como requisito parcial para a obtenção do título de Mest
 %Programa de P\'os Gradua\c{c}\~ao em Engenharia da Constru\c{c}\~ao Civil}
 
 \newcommand{\imprimirDataDefesa}{
-31 de Dezembro de 2020}
+30 de junho de 2021}
 
 \newcommand{\imprimircdu}{
 02:141:005.7}
@@ -125,7 +134,8 @@ Trabalho apresentado como requisito parcial para a obtenção do título de Mest
     1 & 10 & auto-conclavo & autoconclavo\\
    \hline
 \end{tabular}
-\end{table}}
+\end{table}
+}
 
 % Comandos de dados - Data da apresentação
 \providecommand{\imprimirdataapresentacaoRotulo}{}
@@ -143,14 +153,16 @@ Trabalho apresentado como requisito parcial para a obtenção do título de Mest
 % ----------------------------------------------------------
 \newcommand{\AssinaAprovacao}{
 
+
+%\hspace{15mm} %% ALTERADO
 \assinatura{%\textbf
-   {Professora} \\ UFPR}
+   {Prof\textordfeminine~Dr\textordfeminine~. Keynis Souto} \\ UFRPE}
    \assinatura{%\textbf
-   {Professora} \\ ENSEADE}
-   \assinatura{%\textbf
-   {Professora} \\ TIT}
+   {Prof Dr. Rodolfo Prates} \\ UFPR}
+   %\assinatura{%\textbf
+   %{Professora} \\ TIT}
    %\assinatura{%\textbf{Professor} \\ Convidado 4}
-      
+
    \begin{center}
     \vspace*{0.5cm}
     %{\large\imprimirlocal}
@@ -168,55 +180,61 @@ Trabalho apresentado como requisito parcial para a obtenção do título de Mest
 
 % ----------------------------------------------------------
 \newcommand{\EpigrafeTexto}{%\color{blue}
-\textit{Texto}
+\textit{“O Estado não deve interferir na economia. Ela se ajusta por si só.”  Adam Smith
+}
 }
 
 % ----------------------------------------------------------
 \newcommand{\ResumoTexto}{%\color{blue}
-
+Este estudo tem o objetivo de verificar os principais determinantes do \emph{spread} bancário e como estes afetam simultaneamente o \emph{spread ex-post} e a rentabilidade das organizações do setor. Foi escolhido o método de investigação descritiva e quantitativa através da modelagem de dados em painel dinâmico com vetores autorregressivos e estimação por método dos momentos generalizados. Como variáveis dependentes foram utilizadas o \emph{spread ex-post} e a rentabilidade. No grupo de variáveis endógenas estão as despesas administrativas, despesas de captação, outras despesas, inadimplência, risco ponderado, capital próprio, depósitos a vista, depósitos a prazo, depósitos de poupança, receitas de operação de crédito, receitas de serviço, receitas de participação, outras receitas operacionais, operações de empréstimo, operações de financiamento, outras operações, impostos indiretos e impostos sobre a renda. Como variáveis exógenas foram utilizadas a Selic over, velocidade da moeda, compulsório, grau de concentração, IPCA, meios de pagamento M4 e operação de crédito total do mercado. O modelo foi submetido ao teste J-Hansen, remontando um valor P de 0.27, aceitando a hipótese nula que todas as variáveis têm validade na modelagem. Sendo assim, o modelo foi submetido e aprovado no teste de estabilidade, estando todos os valores dentro do círculo unitário. Por fim, os resultados remontam que o \emph{spread} e a rentabilidade são determinados diante um conjunto de fatores endógenos relacionados às características operacionais e técnicas das organizações e um conjunto de fatores exógenos referentes a conjunturas social e econômica e regulação, tendo a velocidade da moeda como principal determinante simultâneo. Para estudos posteriores recomenda-se a avaliação dos efeitos dos determinantes do spread atuando simultaneamente sobre a taxa de aplicação, taxa de captação e rentabilidade bancária. Ainda a orientação de trabalhar os dados no maior nível de desagregação possível para visualização do nível por tipo de tomador, tipo de operação, tipo de recurso, volume, prazo e nível de risco, levando em consideração que no momento da pesquisa este nível não estava disponível. Além disso, recomenda-se em novos estudos a exclusão de organizações que não operam mais no setor ou por descontinuidade das mesmas ou saída do mercado nacional, ou seja, atualização da amostra, para que seja possível obter um painel mais balanceado. 
+ 
 }
 
 \newcommand{\PalavraschaveTexto}{%\color{blue}
-latex. abntex. editoração de texto.}
+Setor Bancário. \emph{Spread}. Rentabilidade Bancária. Velocidade da Moeda.
+}
 
 % ----------------------------------------------------------
 \newcommand{\AbstractTexto}{%\color{blue}
-This is the english abstract.
+This study aims to verify the main determinants of the banking \emph{spread} and how these simultaneously affect the \emph{ex-post spread} and the profitability of organizations in the sector. The descriptive and quantitative research method was chosen through data modeling in dynamic panel with autoregressive vectors and estimation using the generalized moment method. As dependent variables, \emph{spread ex-post} and profitability were used. In the group of endogenous variables are administrative expenses, funding expenses, other expenses, default, weighted risk, equity, demand deposits, time deposits, savings deposits, credit operation income, service income, participation income , other operating income, loan operations, financing operations, other operations, indirect taxes and income taxes. As exogenous variables, Selic over, currency velocity, reserve requirement, degree of concentration, IPCA, M4 means of payment and total market credit operations were used. The model was submitted to the J-Hansen test, remounting a P value of 0.27, accepting the null hypothesis that all variables are valid in the modeling. Thus, the model was submitted and approved in the stability test, with all values within the unit circle. Finally, the results show that \emph{spread} and profitability are determined by a set of endogenous factors related to the operational and technical characteristics of organizations and a set of exogenous factors related to social and economic circumstances and regulation, with speed currency as the main simultaneous determinant. For further studies, it is recommended to evaluate the effects of spread determinants acting simultaneously on the investment rate, funding rate and bank profitability. Also the guidance to work the data at the highest possible level of disaggregation to view the level by type of borrower, type of operation, type of resource, volume, term and level of risk, taking into account that at the time of the research this level was not available. In addition, new studies recommend the exclusion of organizations that no longer operate in the sector or because of their discontinuity or exit from the national market, that is, updating the sample, so that it is possible to obtain a more balanced panel.
 }
 % ---
 \newcommand{\KeywordsTexto}{%\color{blue}
-latex. abntex. text editoration.
+Banking Sector. Spread. Profitability. Currency Speed.
 }
 
 % ----------------------------------------------------------
-\newcommand{\Resume}
-{%\color{blue}
-Il s'agit d'un résumé en français.
-} 
+%\newcommand{\Resume}
+%{%\color{blue}
+
+%} 
 % ---
-\newcommand{\Motscles}
-{%\color{blue}
- latex. abntex. publication de textes.
-}
+%\newcommand{\Motscles}
+%{%\color{blue}
+
+%}
 
 % ----------------------------------------------------------
-\newcommand{\Resumen}
-{%\color{blue}
-Este es el resumen en español.
-}
+%\newcommand{\Resumen}
+%{%\color{blue}
+
+%}
 % ---
-\newcommand{\Palabrasclave}
-{%\color{blue}
-latex. abntex. publicación de textos.
-}
+%\newcommand{\Palabrasclave}
+%{%\color{blue}
+
+%}
 
 % ----------------------------------------------------------
 \newcommand{\AgradecimentosTexto}{%\color{blue}
-
+Agradeço à minha mãe, Maria Cilene Martins da Silva (em memória), aos meus avós paternos Maria Moreira Torres (em memória) e Raimundo Pereira Torres (em memória), aos meus avós maternos, Maria da Conceição Martins da Silva (em memória) e Oracilde Ignácio da Silva (em memória).
+Agradeço à minha orientadora, professora Dra. Mayla Cristina Costa da Universidade Federal do Paraná. Aos professores membros da banca de defesa, Dra. Keynis Souto, da Universidade Federal Rural de Pernambuco e Dr. Rodolfo Prates, da Universidade Federal do Paraná.
+Agradeço aos meus amigos economistas pela Universidade Federal de Roraima, Kelly Arruda, Abdulai Smail, Durviano Costa, Weliton Lima, Tharlem Costa, Willian Souza. Agradeço aos amigos Zuila Cunha, e aos amigos economistas Ivani Silva e Eduardo Cosentino.
+Agradeço especialmente à Loriane Leal por sua parceria e dedicação.
 }
 
 % ----------------------------------------------------------
 \newcommand{\DedicatoriaTexto}{%\color{blue}
-\textit{}
+\textit{Dedico este trabalho em memória de minha mãe, Maria Cilene Martins da Silva, que será sempre exemplo de vida e caráter}
 	}
 

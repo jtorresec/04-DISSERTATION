@@ -1,0 +1,346 @@
+\chapter{Análise de dados}\label{apendiceb}
+
+Em análise preliminar no conjunto de dados, levando em consideração as variáveis calculadas, percebeu-se que a fórmula para *spread ex-post* (\autoref{eq:sprbase}) apresentada por \textcite{dantas:2012} e \textcite{timotio:2018} não é adequada para avaliar o mercado bancário como todo, diante do fato de haver diferenças operacionais e operações de múltiplas carteiras. 
+
+A \autoref{table.spread.a} mostra o resultado do cálculo do \emph{spread ex-post} conforme \autoref{eq:sprbase}, levando em consideração as receitas de crédito, operações de crédito, custo de captação e depósitos totais, com resultados que não refletem todas as operações exercidas pelas instituições.
+
+```{r data.import}
+banksPanel <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.RDS")
+
+banksPanel.00 <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.00.RDS")
+
+banksPanel.01 <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/banksPanel.01.RDS")
+```
+
+\begin{table}
+\caption{Cálculo \emph{Spread ex-post} com base nas Receitas de operações de crédito}
+\vspace{1mm}
+```{r table.spread.a}
+table.spread.a <- banksPanel %>% #filter(CNPJ == "60701190") %>% 
+        group_by(year(DATA)) %>% 
+        summarise(Capital.Emprestado = sum(`16000001`) / 1000000,
+                  Receitas.Operações.Crédito = sum(`71100001`) / 1000000,
+                  Tx.Aplicação =  (Receitas.Operações.Crédito /
+                          Capital.Emprestado) * 100,
+                  Despesas.Captação = sum(`81100008` * -1) / 1000000,
+                  Depósitos.Totais = sum(`41000007`) / 1000000,
+                  Tx.Captação = (Despesas.Captação / Depósitos.Totais) * 100,
+                  SPREAD = Tx.Aplicação - Tx.Captação) %>%
+        mutate(DATA = `year(DATA)`) %>% 
+        select(DATA, SPREAD, Tx.Aplicação,  Tx.Captação)
+
+table.spread.a %>% kbl(booktabs = T) %>% 
+        kable_styling(latex_options = "striped",
+                      font_size = 10, full_width = T)
+```
+\vspace{1mm}
+\label{table.spread.a}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+Foi realizado um cálculo para o *spread ex-post* (\autoref{eq:newspr}), de tal modo que comportasse as diferenças entre modalidades bancárias e operações das instituições, levando em consideração todas as receitas operacionais e as operações de crédito e outros créditos chegando ao resultado médio demonstrado na \autoref{table.spread.b}, sendo mais aproximado com as séries do *Spread* MOC e *Spread* do ICC.
+
+\begin{table}
+\caption{Spread Ex-post com base na operações totais}
+\vspace{1mm}
+```{r table.spread.b}
+table.spread.b <- banksPanel %>% #filter(CNPJ == "60701190") %>%
+        group_by(year(DATA)) %>%
+        #group_by(TpIns) %>%
+        summarise(Capital.Emprestado = (sum(`16000001`) + sum(`16900008`)) /
+                          1000000,
+                  Receitas.Operações.Crédito = sum(`71000008`) / 1000000,
+                  Tx.Aplicação =  (Receitas.Operações.Crédito /
+                          Capital.Emprestado) * 100,
+                  Despesas.Captação = sum(`81100008` * -1) / 1000000,
+                  Depósitos.Totais = sum(`41000007`) / 1000000,
+                  Tx.Captação = (Despesas.Captação / Depósitos.Totais) * 100,
+                  SPREAD = Tx.Aplicação - Tx.Captação) %>%
+        mutate(DATA = `year(DATA)`) %>% 
+        select(DATA, SPREAD, Tx.Aplicação,  Tx.Captação)
+
+table.spread.b %>% 
+        kbl(booktabs = TRUE) %>% 
+        kable_styling(latex_options = "striped",
+                      font_size = 10, full_width = T)
+```
+\vspace{1mm}
+\label{table.spread.b}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+\begin{equation}\label{eq:newspr}
+SprEp = \frac{RcOp}{\frac{1}{2} [OpTot_{t} + OpTot_{t-1}]} - \frac{DesCap}{\frac{1}{2} [ DepTot_{t} + DepTot_{t-1}] }
+\vspace{2mm}
+\end{equation}
+
+Outro aspecto em relação as informações contábeis é que a conta de operações de crédito (16000001) já se apresenta reduzida do valor de provisão para operações de crédito (16900008) — uma *proxy* para a inadimplência para cada instituição —, podendo levar a equívocos na utilização destas duas variáveis sem o tratamento adequado. Para fins de estimação o valor da inadimplência foi inserido na operação de crédito e a inadimplência calculada como percentual deste valor.
+
+Em análise descritiva foram encontradas anormalidades nas variáveis ($Inad$) e ($OtDes$) — participação sobre a operação de crédito total — de observações acima do terceiro quartil, comprometendo outras variáveis. Essas observações foram eliminadas utilizando a variação interquartil (IQR) até o máximo de 1.5 do terceiro quartil, o que veio normalizar estas variáveis e as demais.
+
+A variação interquartil também foi utiliza para retirar observações referentes a variável dependente *Spread Ex-post*, que apresentavam destoantes da normalidade, podendo prejudicar os resultados da modelagem econométrica. 
+
+\begin{table}
+\caption{Resultado descritivo do \emph{Spread Ex-post} após retiradas de outliers}
+\vspace{1mm}
+```{r summary.spread, eval=TRUE, message=FALSE}
+#summSpr <- banksPanel.01$SprEp %>% summary()
+
+#names.stat <- c("Min.",  "1st Qu.", "Median", "Mean", "3rd Qu.", "Max.")
+data.frame("Minimo" = -0.24948,
+           "Prim Quartil" = 0.08001 ,
+           "Mediana" = 0.16046,
+           "Média" = 0.20167,
+           "Ter Quartil" = 0.28533,
+           "Máximo" = 0.70103) %>% kbl(booktabs = T) %>% 
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10)
+```
+\vspace{1mm}
+\label{tb:summspr}
+\fonte{Desenvolvido a partir dos resultados}
+\vspace{-2mm}
+\end{table}
+
+Foi realizada avaliação de correlação entre as variáveis do painel de dados, e conforme \autoref{graf:corr} foi detectada forte correlação entre algumas variáveis, o que viria a causar diversos problemas de estimação. Para contornar essa questão foram excluídas variáveis autocorrelacionadas que apresentavam similaridades teóricas ou sem significância em estimações preliminares.
+
+\begin{grafico}[!htbp]
+\vspace{20pt}
+\caption{Correlação entre variáveis do painel}
+\vspace{-4mm}
+```{r chart.correlation, fig.width=20}
+banksPanel.00 %>% 
+        select(EPr, DepAv, DepAp, DepPop, DepIf, OtDep,
+               lnOpCrMkt, lnOpTot, lnMPA2, VelMo, SelMet, MkSh,
+               lnAtv, DAdm, DesCap, OtDes, DesOp, ROp, ROpCr, Inad, IPCA, 
+               RcPd, SprEa, OpEmp, OpFin, OtOp, GrCon, lnAtv) %>% 
+        cor() %>% corrplot(method = "square", type = "full",
+                           #addCoef.col = FALSE,
+                           #hclust.method = "centroid"
+                           tl.pos = "lt",
+                           tl.cex = .8, tl.col = "black"
+                           )
+```
+\vspace{-3mm}
+\label{graf:corr}
+\fonte{Desenvolvido a partir de dados coletados}
+\vspace{-2mm}
+\end{grafico}
+
+Como método de apoio para avaliar a multicolinearidade foi utilizada a técnica de inflação da variância (VIF), identificando que algumas variáveis estavam inflando o modelo. Nesse sentido foram eliminadas variáveis que apresentaram valor VIF maior que 5.
+
+Em ajuste preliminar foi verificado através da distância de Cook as observações que podem influenciar o modelo. O \autoref{graf:influence} demostra as observações, com tamanho dos círculos proporcionais a distância de Cook. As observações que apresentaram uma elevada distância de Cook, acima do ponto de *cutoff*  ($4/N$) foram eliminadas do painel.    
+
+
+```{r, fit.01.model}
+fit <- lm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad #+ RcPd 
+          + Int + EPr
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp #+ OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+          data = banksPanel)
+
+fit.01 <- lm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad #+ RcPd 
+          + Int + EPr
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp #+ OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+          data = banksPanel.01)
+```
+
+\begin{grafico}[!htbp]
+\vspace{20pt}
+\caption{Visualização de influência resíduos}
+\vspace{-4mm}
+```{r influence.plot, fig.width=6, fig.height=4}
+#layout(matrix(1:2, ncol = 2))
+library(car)
+a1 <- influencePlot(fit, 
+              #id=list(method="identify"), 
+              #main="Influence Plot", 
+              sub =
+                "O tamanho dos círculos é proporcional a distância de Cook's" 
+              )
+```
+\vspace{-3mm}
+\label{graf:influence}
+\fonte{Desenvolvido a partir de dados coletados}
+\vspace{-2mm}
+\end{grafico}
+
+O \autoref{graf:resstud} mostra a visualização entre os valores preditos em modelagem inicial versus o resíduos studentizados deletados do modelo. No \autoref{graf:histsp} é demonstrado de forma comparativa o histograma dos resíduos antes e após tratamento de dados e retirada dos outliers. 
+
+\begin{grafico}
+\vspace{20pt}
+\caption{Resíduos studentizados vs Valores Preditos}
+\vspace{-4mm}
+```{r fit.01.graf, eval=TRUE, fig.width=6, fig.height=4, message=FALSE, warning=FALSE}
+
+library(olsrr)
+
+ols_plot_resid_stud_fit(fit.01, print_plot = "TRUE")
+
+```
+\vspace{-3mm}
+\label{graf:resstud}
+\fonte{Desenvolvido a partir da modelagem de dados}
+\vspace{-2mm}
+\end{grafico}
+
+No \autoref{graf:histsp} é possível visualizar a distribuição de frequência da variável \emph{Spread Ex-post} antes e após a retirada dos *outliers*.
+
+\begin{grafico}[!hbtp]
+\vspace{20pt}
+\caption{Histograma demonstrando o ajuste na variável dependente}
+\vspace{-4mm}
+```{r hist.SprEp, fig.show="hold", out.width="100%", fig.width=6, fig.height=6}
+library(grid)
+library(ggplotify)
+library(gridExtra)
+
+par(mfrow=c(2,2)) 
+
+par(mar = c(4, 4, .1, .1))
+
+hist(banksPanel$SprEp, 
+     #main = "Original",
+     xlab = "a) Spread Ex-post Original")
+
+hist(banksPanel.01$SprEp, 
+     #main = "Tratamento",
+     xlab = "b) Spread Ex-post Tratamento")
+
+```
+\vspace{3mm}
+\label{graf:histsp}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{grafico}
+
+No \autoref{graf:histerr} é possível visualizar o comportamento de frequência dos resíduos antes e após a transformação dos dados.
+
+\begin{grafico}[!hbtp]
+\vspace{20pt}
+\caption{Histograma dos Resíduos}
+\vspace{-4mm}
+```{r hist.residuals, fig.show="hold", out.width="100%", fig.width=6, fig.height=6}
+library(grid)
+library(ggplotify)
+library(gridExtra)
+
+par(mfrow=c(2,2)) 
+
+par(mar = c(4, 4, .1, .1))
+
+hist(fit$residuals, 
+     #main = "Original",
+     xlab = "a) Spread Ex-post Original")
+
+hist(fit.01$residuals, 
+     #main = "Tratamento",
+     xlab = "b) Spread Ex-post Tratamento")
+
+```
+\vspace{3mm}
+\label{graf:histerr}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{grafico}
+
+
+No \autoref{graf:disperr} é possível visualizar o diagrama de dispersão entre os resíduos estudentizados e os valores preditos
+
+
+```{r data.disp.graf, results='hide'}
+# Análise de Resíduos
+predito <- fit.01$fit
+residuo <- fit.01$res
+cbind(predito,residuo)
+# transformacoes dos residuos
+z <- rstandard(fit.01)    # residuos padronizados
+zstudent <- rstudent(fit.01)    # residuos studentizados
+cbind(z,zstudent)
+```
+
+\begin{grafico}[!hbtp]
+\caption{Diagrama de Dispersão dos resíduos}
+\vspace{-4mm}
+```{r erros.disp}
+plot(predito, zstudent, pch=20, main=NULL, xlab="Predito", ylab="Resíduo studentizado") %>%  abline(h=0) %>%  abline(h=2, lty=3) %>% abline(h=-2, lty=3)
+```
+\vspace{3mm}
+\label{graf:disperr}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{grafico}
+
+```{r residuals.analysis, eval=FALSE, message=FALSE, results='hide'}
+# graficos de residuos
+par(mfrow=c(2,2))
+# residuo vs predito
+plot(predito, residuo, pch=20, main="Diagrama de Dispersão", xlab="Predito", ylab="Resíduo") %>% abline(h=0)
+#q-q plot normal envelope
+require(car) #para instalar o pacote use: install.packages()
+
+qqPlot(residuo, pch=20, main="Q-Q Plot Normal", xlab="Quantis N(0,1)", ylab="Quantis Amostrais") # residuo transformado vs predito
+
+#identificar n pontos clicando próximo aos pontos
+identify(predito,zstudent,n=2)
+```
+
+```{r violin, message=FALSE, include=FALSE, eval=FALSE}
+banksPanel.01 %>% group_by(DATA, BANCO) %>% 
+  summarise(Soma = sum(n())) %>% 
+  ggplot(aes(y = Soma, x = BANCO, fill = BANCO))+ 
+        geom_violin(colour = "black",size= 2) + 
+        xlab("Type") + ylab("Insect count")
+```
+
+```{r studdent.residuals, eval=FALSE, results='hide'}
+plot(fit.01, which = 2)
+car::qqPlot(residuals(fit.01))
+
+car::residualPlots(fit.01, terms = ~ 1, fitted = T, 
+              #id.n = 5, 
+              #smoother = loessLine
+              )
+```
+
+```{r ols.plot, eval=FALSE, message=FALSE}
+library(olsrr)
+ols_plot_cooksd_bar(fit.01)
+ols_plot_cooksd_chart(fit.01)
+ols_plot_dfbetas(fit.01)
+ols_plot_dffits(fit.01)
+ols_plot_resid_stud(fit.01)
+ols_plot_resid_stand(fit.01)
+ols_plot_resid_lev(fit.01)
+ols_plot_hadi(fit.01)
+ols_plot_resid_pot(fit.01)
+```
+
+```{r residuals.plot, eval=FALSE, message=FALSE, results='hide'}
+#plot(fit)
+#plot(predict(fit), resid(fit), pch= ".")
+ggplot(data.frame(x = banksPanel.01$SprEp, y = fit.01$residuals),
+       aes(x = x, y = y)) +
+  geom_hline(yintercept = 0, size = 2) +
+  geom_point(size = 3, colour = "black", alpha = 0.4) +
+  geom_point(size = 2, colour = "blue", alpha = 0.4)
+```
+
+Entre as variáveis que foram eliminadas estão a participação de mercado ($MkSh$), grau de concentração ($GrCon$), operações de crédito total ($OpCrTotal$), *spread ex-ante* ($SprEa$) e o Índice de preços ao consumidor ($IPCA$), por possuírem elevada correlação com outras variáveis e por não se demonstrarem significativas em primeira testagem de modelo. 
+
+Foram desconsideradas as variáveis *dummy* de controle de capital ($OCap$) e caráter da instituição ($CrIns$), por falta de informações evolutivas. Somente a variável *dummy*  referente à taxonomia ($TpIns$) foi mantida no modelo, esperando que ela venha captar as diferenças operacionais.
+
+
+
+\end{apendicesenv}}{
+}

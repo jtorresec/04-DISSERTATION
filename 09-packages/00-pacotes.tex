@@ -51,10 +51,20 @@
     %,format=hang
  	% \caption{#1}}
 	%\captionsetup{width=0.8\textwidth}
+	
+%\usepackage{scrpage2}
 
 % Pacotes de citações BibLaTeX
 % ----------------------------------------------------------
-\usepackage[style=abnt,backref=true,backend=biber,citecounter=true,backrefstyle=three]{biblatex}
+\usepackage[
+style=abnt,
+%backref=true,
+backend=biber,
+maxcitenames=3,
+%citecounter=true,
+%backrefstyle=three,
+nohashothers=true
+]{biblatex}
 
 
 \DefineBibliographyStrings{brazil}{%
@@ -167,5 +177,15 @@ within= none, % numeracao continua
 \usepackage{makecell}
 
 
+%%%%%%%% Parágrafo
 
+%\usepackage{fancyhdr}
+
+%\usepackage{subcaption}
+%\usepackage{booktabs}
+
+
+%%%%%%% ESPAÇAMENTO 
+
+%\usepackage{setspace}
 

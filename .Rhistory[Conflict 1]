@@ -1,0 +1,512 @@
+Produto.Industrial = '',
+"Crescimento PIB Industrial" = '',
+Compulsório = '',
+IPIbc = '',
+IPIgeral = '',
+IPIbcap = '',
+IPIbi = '',
+IPIbcd = '',
+IPIbsd = '',
+IPIad = '',
+PIB = '+',
+Desemprego = '',
+EMBI = '',
+Saldo.Carteira.Crédito.RL =  '',
+I.Vol.Vendas.Varejo = '',
+Inadimplência = '',
+Ativo.Total = '',
+Receita.Serviços = '-',
+Impostos.Indiretos = 'Não significativo',
+Custo.Administrativo.Op = '+',
+Caixa.Depósitos = '',
+Market.Share = '+',
+Requerimento.de.Reserva = '+',
+Captação.sem.juros = '',
+Risco.Juros = '',
+Risco.Crédito = 'Não significativo',
+Liquidez = 'Não significativo',
+Bancos.Estrangeiros = '',
+Grau.Concentração = '+',
+Atividade.Econômica = ''
+),
+'ARONOVICH (1994)' = list(
+Método = 'Ex-ante',
+Selic = '',
+Volatilidade.Selic = '',
+Spread.Over.Treasury = '',
+IGP = '',
+IPCA = '+',
+Produto.Industrial = '',
+"Crescimento PIB Industrial" = '',
+Compulsório = '',
+IPIbc = '',
+IPIgeral = '',
+IPIbcap = '',
+IPIbi = '',
+IPIbcd = '',
+IPIbsd = '',
+IPIad = '',
+PIB = '',
+Desemprego = '',
+EMBI = '',
+Saldo.Carteira.Crédito.RL =  '',
+I.Vol.Vendas.Varejo = '',
+Inadimplência = '',
+Ativo.Total = '',
+Receita.Serviços = '',
+Impostos.Indiretos = '',
+Custo.Administrativo.Op = '',
+Caixa.Depósitos = '',
+Market.Share = '',
+Requerimento.de.Reserva = '',
+Captação.sem.juros = '',
+Risco.Juros = '',
+Risco.Crédito = '',
+Liquidez = '',
+Bancos.Estrangeiros = '',
+Grau.Concentração = '',
+Atividade.Econômica = '-'
+)
+)
+studies.v <- c('Autor', 'Método' , 'Selic', 'Volatilidade da Selic', 'Spread Over Treasury',
+'IGP', 'IPCA', 'Produto Industrial', 'Crescimento PIB Industrial',
+'Compulsório', 'IPI Bens de Consumo', 'IPI Geral', 'IPI Bens de Capital',
+'IPI Bens i', 'IPI bcd', 'IPI bsd', 'IPIad', 'PIB', 'Desemprego',
+'EMBI', 'Saldo Carteira Crédito RL', 'Índice Volume Vendas Varejo',
+'Inadimplência', 'Ativo Total', 'Receita Serviços', 'Impostos Indiretos',
+'Custos Administrativos', 'Caixa.Depósitos', 'Market Share',
+'Requerimento de Reserva', 'Captação sem juros', 'Risco Juros',
+'Risco Crédito', 'Liquidez', 'Bancos Estrangeiros', 'Grau Concentração',
+'Atividade Econômica')
+studies.t <- ldply(studies.b, data.frame, .id = 'Autor')
+names(studies.t) <-  studies.v
+studies.t
+studies.r <- studies.t %>%
+gather(Variável, Relação, 2:37) %>%
+spread(Autor, Relação) %>%
+arrange(desc(`KOYAMA e NAKANE (2001a e 2001b)`))
+studies.r <- studies.t %>%
+gather(Variável, Relação, 2:37) %>%
+spread(Autor, Relação) %>%
+arrange(desc(`KOYAMA e NAKANE (2001a e 2001b)`))
+studies.t
+studies.t %>%
+gather(Variável, Relação, 2:37)
+studies.t %>%
+gather(Variável, Relação, 2:37) %>%
+spread(Autor, Relação)
+studies.post <- studies.r %>%
+select(1,7,9,10) %>%
+filter(`GUIMARÃES (2002)` !=  '' |
+`DANTAS (2012)` != '' |
+`ALMEIDA (2013)` != '') %>%
+slice(2:n())
+studies.post
+studies.ante
+studies.ante.a
+studies.ante.a <- studies.r %>%
+select(1, 2, 3, 4, 5) %>%
+filter(`KOYAMA e NAKANE (2001a e 2001b)` != '' |
+`AFANASIEFF, LHAGER e NAKANE (2001)` != '' |
+`AFANASIEFF, LHAGER e NAKANE (2002)` != '' |
+`BIGNOTTO e RODRIGUES (2006)` != '') %>%
+slice(2:n())
+studies.ante.a
+studies.ante.b <- studies.r %>%
+select(1, 6, 8, 11) %>%
+filter(`OREIRO et al. (2006)` != '' |
+`DURIGAN (2018)` != '' |
+`ARONOVICH (1994)` != '') %>%
+slice(2:n())
+studies.ante.b
+studies.post
+DiagrammeR::grViz("digraph boxes_and_circle {
+graph [layout = dot, rankdir = TB,
+fontname = Helvetica]
+node [shape = rectangle, fontname = Helvetica, fontsize = 10]
+rec1 [label = 'Spread Bancário']
+rec2 [label = 'Evolução']
+rec3 [label = 'Estrutura']
+rec4 [label = 'Determinantes']
+rec5 [label = 'Avaliar o comportamento\n ao longo do tempo']
+rec6 [label = 'Identificar e analisar \ncomponentes de resultado']
+rec7 [label = 'Analisar os efeitos de \nvariáveis ao longo do tempo']
+# edge definitions with the node IDs
+rec1 -> rec2
+rec1 -> rec3
+rec1 -> rec4
+rec2 -> rec5
+rec3 -> rec6
+rec4 -> rec7
+}",
+height = 250, width = 600)
+DiagrammeR::grViz("digraph {
+graph [layout = dot, rankdir = TB]
+node [shape = rectangle, fontname = Helvetica, fontsize = 10]
+rec1 [label = 'Spread Bancário']
+rec2 [label = 'Abrangência\n da Amostra']
+rec3 [label = 'Conteúdo']
+rec4 [label = 'Origem\n da Informação']
+rec5 [label = 'Especificidades das\n operações de crédito\n das instituições']
+rec6 [label = 'Subcomponentes de\n Receitas e Despesas']
+rec7 [label = 'Cenários \nEx-ante e Ex-Post']
+# edge definitions with the node IDs
+rec1 -> rec2
+rec1 -> rec3
+rec1 -> rec4
+rec2 -> rec5
+rec3 -> rec6
+rec4 -> rec7
+}",
+height = 200, width = 500)
+spread.1994.2012 <- read.csv('~/Desktop/04-DISSERTATION/01-data/bacen/STI-20200908000010811.csv', sep = ';', dec = ',', encoding = 'UTF-8', stringsAsFactors = FALSE)
+colnames(spread.1994.2012) <- c('Data', 'Spread')
+date <-seq(from = as.Date("1994-07-01"), to = as.Date("2012-12-01"), by="month")
+spread.ev <- transform(spread.1994.2012,
+Spread =  as.numeric(Spread))
+spread.ev <- separate(spread.ev, Data, into = c('Mês', 'Ano'), sep = '/')
+spread.ev <- slice(spread.ev, 1:222)
+spread.ev.f <- mutate(spread.ev, Data = date)
+s.ev.m <- max(spread.ev.f$Spread)
+last.s.em <- spread.ev.f[,3] %>% tail(1)
+spread.m.1994.2012 <- ggplot(spread.ev.f, aes(x = Data)) +
+geom_line(aes(y = Spread)) +
+labs(x = '', y = "Spread Médio %") +
+theme_bw()
+print(spread.m.1994.2012)
+spread.icc.serie <- c("Spread do ICC - Total",
+"Spread do ICC - Crédito Direcionado",
+"Spread do ICC - Crédito Livre",
+"Spread do ICC - Pessoas físicas",
+"Spread do ICC - Pessoas jurídicas",
+"Spread do ICC - Crédito não rotativo - Total",
+"Spread do ICC - Crédito Direcionado - Pessoas físicas",
+"Spread do ICC - Crédito Direcionado -
+Pessoas jurídicas",
+"Spread do ICC - Crédito Livre - Pessoas físicas",
+"Spread do ICC - Crédito Livre - Pessoas jurídicas",
+"Spread do ICC - Crédito não rotativo
+- Recursos livres - Pessoas físicas",
+"Spread do ICC - Crédito não rotativo
+- Recursos livres - Pessoas jurídicas",
+"Spread do ICC - Crédito não rotativo - Recursos livres",
+"Spread do ICC - Crédito não rotativo - Pessoas físicas",
+"Spread do ICC - Crédito não rotativo -
+Pessoas jurídicas")
+spread.moc.series <- c("Spread médio das operações de crédito - Total",
+"Spread médio das operações de crédito não rotativo
+- Total",
+"Spread médio das operações de crédito com
+recursos direcionados - Total",
+"Spread médio das operações de crédito
+com recursos livres - Total",
+"Spread médio das operações de crédito -
+Pessoas físicas - Total",
+"Spread médio das operações de crédito
+- Pessoas jurídicas - Total",
+"Spread médio das operações de crédito não
+rotativo com recursos livres - Pessoas Jurídicas",
+"Spread médio das operações de crédito não rotativo
+com recursos livres - Pess oas Físicas",
+"Spread médio das operações de crédito não
+rotativo com recursos livres - Total",
+"Spread médio das operações de crédito não
+rotativo - Pessoas físicas - Total",
+"Spread médio das operações de crédito não
+rotativo - Pessoas jurídicas - Total",
+"Spread médio das operações de crédito com recursos
+direcionados - Pessoas físicas",
+"Spread médio das operações de crédito com
+recursos direcionados - Pessoas jurídicas",
+"Spread médio das operações de crédito com recursos
+livres - Pessoas físicas",
+"Spread médio das operações de crédito com recursos
+livres - Pessoas jurídicas")
+spread.table <- data.frame("Spread ICC" = spread.icc.serie,
+"Spread MOC" = spread.moc.series)
+spread.table %>% kbl(booktabs = T) %>%
+kable_styling(latex_options = c("striped"), #, "repeat_header"),
+font_size = 10,
+full_width = T) %>%
+column_spec(1, bold = F, width = "7cm") %>%
+column_spec(2, width = "8cm")
+n <- length(spread.icc$data) + 22
+df.spreads.moc <- data.frame(Data = dmy(spread.icc$data),
+Médio = spread.moct$Spread.MOCT[23:n],
+Não.Rotativo =
+spread.moct.nr$Spread.MOCT.NR[23:n],
+Direcionado = spread.moct.rd$Spread.MOCT.RD[23:n],
+Livre = spread.moct.rl$Spread.MOCT.RL[23:n],
+Não.Rotativo.Livre =
+spread.moct.nr.rl$Spread.MOCT.NR.RL[23:n])
+spreads.moc <- df.spreads.moc %>%
+gather(Tipo, Valor, 2:6 ) %>%
+transform(Tipo = as.factor(Tipo)) %>%
+arrange(Data)
+ggplot(spreads.moc, aes(x = Data)) +
+geom_line(aes(y = Valor, color = as.factor(Tipo))) +
+labs(color= NULL, y = 'Spreads %', x = NULL) +
+theme_minimal() +
+theme(legend.position = 'bottom')
+smoct.summary <- summary(spread.moct)
+moct.max.min <- max(spread.moct$Spread.MOCT) - min(spread.moct$Spread.MOCT)
+moct.dif <- max(spread.moct$Spread.MOCT) - 15.49
+df.spreads.icc <- data.frame(Data = dmy(spread.icc$data),
+Médio = spread.icc$Spread.ICC,
+Direcionado = spread.icc.cd$Spread.ICC.CD,
+'Crédito Livre' = spread.icc.cl$Spread.ICC.CL,
+'Não Rotativo'  = spread.icc.cnr$Spread.ICC.CNR,
+'Não Rotativo Livre' = spread.icc.cnr.rl$Spread.ICC.CNR.RL)
+spreads.icc <- df.spreads.icc %>%
+gather(Tipo, Valor, 2:6) %>%
+transform(Tipo = as.factor(Tipo)) %>%
+arrange(Data)
+ggplot(spreads.icc, aes(x = Data)) +
+geom_line(aes(y = Valor, color = as.factor(Tipo))) +
+labs(color= NULL, y = 'Spreads ICC %', x = NULL) +
+theme_minimal() +
+theme(legend.position = 'bottom')
+max.icc <- max(icc$ICC)
+min.icc <- min(icc$ICC)
+ggplot(icc, aes(x = dmy(Data))) +
+geom_line(aes(y = ICC)) +
+labs(x = NULL, y = 'ICC %') +
+theme_bw()
+DiagrammeR::grViz("digraph {
+graph [layout = dot, rankdir = TB]
+node [shape = rectangle, fontname = Helvetica, fontsize = 10]
+rec1 [label = 'Spread Bancário']
+node [shape = ellipse]
+rec2 [label = 'Tomador']
+rec5 [label = 'Tipo de Recurso']
+node [shape = rectangle]
+rec3 [label = 'Pessoa Jurídica']
+rec4 [label = 'Pessoa Física']
+node [shape = ellipse]
+node [shape = rectangle]
+rec6 [label = 'Crédito Livre']
+rec7 [label = 'Crédito Direcionado']
+rec8 [label = 'Não Rotativo']
+rec9 [label = 'Não Rotativo\n com Recurso Livre']
+# edge definitions with the node IDs
+rec1 -> {rec2,rec5}; rec2 -> rec3; rec2 -> rec4
+rec5 -> {rec6,rec7, rec8, rec9}; rec2 -> rec5
+}",
+height = 250, width = 600)
+DiagrammeR::grViz("digraph {
+graph [layout = dot, rankdir = TB]
+node [shape = rectangle, fontname = Helvetica, fontsize = 10]
+rec1 [label = 'Spread Bancário']
+node [shape = ellipse]
+rec2 [label = 'Tomador']
+rec5 [label = 'Tipo de Recurso']
+node [shape = rectangle]
+rec3 [label = 'Pessoa Jurídica']
+rec4 [label = 'Pessoa Física']
+node [shape = ellipse]
+node [shape = rectangle]
+rec6 [label = 'Crédito Livre']
+rec7 [label = 'Crédito Direcionado']
+rec8 [label = 'Não Rotativo']
+rec9 [label = 'Não Rotativo\n com Recurso Livre']
+# edge definitions with the node IDs
+rec1 -> {rec2,rec5}; rec2 -> rec3; rec2 -> rec4
+rec5 -> {rec6,rec7, rec8, rec9};
+}",
+height = 250, width = 600)
+DiagrammeR::grViz("digraph {
+graph [layout = dot, rankdir = TB]
+node [shape = rectangle, fontname = Helvetica, fontsize = 10]
+rec1 [label = 'Spread Bancário']
+node [shape = ellipse]
+rec2 [label = 'Tomador']
+rec5 [label = 'Tipo de Recurso']
+node [shape = rectangle]
+rec3 [label = 'Pessoa Jurídica']
+rec4 [label = 'Pessoa Física']
+node [shape = ellipse]
+node [shape = rectangle]
+rec6 [label = 'Crédito Livre']
+rec7 [label = 'Crédito Direcionado']
+rec8 [label = 'Não Rotativo']
+rec9 [label = 'Não Rotativo\n com Recurso Livre']
+# edge definitions with the node IDs
+rec1 -> {rec2,rec5}; rec2 -> rec3; rec2 -> rec4
+rec5 -> {rec6,rec7, rec8, rec9}; rec3 -> rec5
+}",
+height = 250, width = 600)
+DiagrammeR::grViz("digraph {
+graph [layout = dot, rankdir = TB]
+node [shape = rectangle, fontname = Helvetica, fontsize = 10]
+rec1 [label = 'Spread Bancário']
+node [shape = ellipse]
+rec2 [label = 'Tomador']
+rec5 [label = 'Tipo de Recurso']
+node [shape = rectangle]
+rec3 [label = 'Pessoa Jurídica']
+rec4 [label = 'Pessoa Física']
+node [shape = ellipse]
+node [shape = rectangle]
+rec6 [label = 'Crédito Livre']
+rec7 [label = 'Crédito Direcionado']
+rec8 [label = 'Não Rotativo']
+rec9 [label = 'Não Rotativo\n com Recurso Livre']
+# edge definitions with the node IDs
+rec1 -> {rec2,rec5}; rec2 -> rec3; rec2 -> rec4
+rec5 -> {rec6,rec7, rec8, rec9}; rec3 -> rec5; rec4 -> rec5
+}",
+height = 250, width = 600)
+DiagrammeR::grViz("digraph {
+graph [layout = dot, rankdir = TB]
+node [shape = rectangle, fontname = Helvetica, fontsize = 10]
+rec1 [label = 'Spread Bancário']
+node [shape = ellipse]
+rec2 [label = 'Volume']
+rec3 [label = 'Tempo']
+rec4 [label = 'Risco']
+rec8 [label = 'Garantia']
+node [shape = rectangle]
+rec5 [label = 'Referente ao volume\n de recursos captados\n e emprestados']
+rec6 [label = 'O prazo de duração das\n operações de crédito']
+rec7 [label = 'O nível de riscos\n das operações']
+rec9 [label = 'A existência garantias para\n operações']
+# edge definitions with the node IDs
+rec1 -> {rec2, rec3, rec4, rec8}
+rec2 -> rec5
+rec3 -> rec6
+rec4 -> rec7
+rec8 -> rec9
+}",
+height = 250, width = 600)
+DiagrammeR::grViz("digraph {
+graph [layout = dot, rankdir = TB]
+node [shape = rectangle, fontname = Helvetica, fontsize = 10]
+rec1 [label = 'Spread Bancário']
+node [shape = ellipse]
+rec2 [label = 'Volume']
+rec3 [label = 'Tempo']
+rec4 [label = 'Risco']
+rec8 [label = 'Garantia']
+node [shape = rectangle]
+rec5 [label = 'Referente ao volume\n de recursos captados\n e emprestados']
+rec6 [label = 'O prazo de duração das\n operações de crédito']
+rec7 [label = 'O nível de riscos\n das operações']
+rec9 [label = 'A existência garantias para\n operações']
+# edge definitions with the node IDs
+rec1 -> {rec2, rec3, rec4, rec8}
+rec2 -> rec5
+rec3 -> rec6
+rec4 -> rec7
+rec8 -> rec9
+rec4 -> rec8
+}",
+height = 250, width = 600)
+studies.ante.a %>% kbl(booktabs = T) %>%
+kable_styling(latex_options = c("striped", "repeat_header"),
+font_size = 10,
+full_width = T,
+) %>%
+column_spec(1, bold = T, width = "4cm") %>%
+column_spec(2, width = "2cm") %>%
+column_spec(3, width = "2cm") %>%
+column_spec(4, width = "2cm") %>%
+column_spec(5, width = "2cm") #%>%
+studies.ante.b %>% kbl(booktabs = T) %>%
+kable_styling(latex_options = c("striped", "repeat_header"),
+font_size = 10, full_width = T,
+) %>%
+column_spec(1, bold = F, width = "4cm") %>%
+column_spec(2, width = "3cm") %>%
+column_spec(3, width = "3cm") %>%
+column_spec(4, width = "3cm") #%>%
+table.expost <- studies.post %>% kbl(booktabs = T) %>%
+kable_styling(latex_options = c("striped"),
+font_size = 10, full_width = T) %>%
+column_spec(1, bold = T, width = "4cm") %>%
+column_spec(2, width = "3cm") %>%
+column_spec(3, width = "3cm") %>%
+column_spec(4, width = "3cm") #%>%
+#save_kable("12-exportedfigures/studies_expost.pdf")
+table.expost
+fit.pvargmm.2.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/fit.pvargmm.2.lags.RDS")
+fit.pvargmm.2.lags
+sumPvarGmm.2.lags <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/sumPvarGmm.2.lags.RDS")
+sumPvarGmm.2.lags
+al <-  readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/al.RDS")
+al %>% as.data.frame() %>%
+rename(Lag.01 = al.01, Lag.02 = al.02, Lag.03 = al.03, Lag.04 = al.04) %>%
+kbl(booktabs = TRUE) %>%
+kable_styling(latex_options = "striped",
+full_width = T, font_size = 10)
+al %>% as.data.frame() %>%
+rename(Lag.01 = al.01, Lag.02 = al.02, Lag.03 = al.03, Lag.04 = al.04) %>%
+kbl(booktabs = TRUE) %>%
+kable_styling(latex_options = "striped",
+full_width = T, font_size = 10)
+mod01Obs %>% kbl(booktabs = T) %>%
+kable_styling(latex_options = c("striped"),
+font_size = 10, full_width = T)
+mod01Obs <- data.frame(TEMPO = length(unique(model.pvrgmm$DATA)),
+OBSERVAÇÕES = length(model.pvrgmm$SprEp),
+INSTITUICÕES = length(unique(model.pvrgmm$BANCO)),
+"VARIÁVEIS EXPLICATIVAS" = length(c(endo,exo))
+)
+model.pvrgmm <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/model.pvrgmm.RDS")
+mod01Obs <- data.frame(TEMPO = length(unique(model.pvrgmm$DATA)),
+OBSERVAÇÕES = length(model.pvrgmm$SprEp),
+INSTITUICÕES = length(unique(model.pvrgmm$BANCO)),
+"VARIÁVEIS EXPLICATIVAS" = length(c(endo,exo))
+)
+depVar <- c(
+#"SprEp",
+#"SprEa",
+#"exSprEp",
+"TxApl",
+"TxCap",
+"Rent"
+)
+endo <- c(
+"DAdm", "DesCap", "OtDes",
+"Inad", "RcPd",
+"EPr", "DepAv", "DepAp", "DepPop", #"DepIf", #"OtDep",
+#"lnOpTot", "lnROp"#"lnDepTot", #"lnAtv",
+"ROpCr", "RSrv", "RPart", "OtROp",
+"OpEmp", "OpFin", "OtOp",
+"ImpInd", "ImpRend"
+)
+exo <- c(
+"SelOvr",
+"VelMo",
+"Comp",
+"GrCon",
+"IPCA",
+"lnMPA4",
+"lnOpCrMkt"#,
+#"SprEa"
+)
+mod01Obs <- data.frame(TEMPO = length(unique(model.pvrgmm$DATA)),
+OBSERVAÇÕES = length(model.pvrgmm$SprEp),
+INSTITUICÕES = length(unique(model.pvrgmm$BANCO)),
+"VARIÁVEIS EXPLICATIVAS" = length(c(endo,exo))
+)
+mod01nObs <- mod01Obs$OBSERVAÇÕES
+mo01nTemp <- mod01Obs$TEMPO
+mo01nIns <- mod01Obs$INSTITUICÕES
+mod01Obs %>% kbl(booktabs = T) %>%
+kable_styling(latex_options = c("striped"),
+font_size = 10, full_width = T)
+al <-  readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/al.RDS")
+al %>% as.data.frame() %>%
+rename(Lag.01 = al.01, Lag.02 = al.02, Lag.03 = al.03, Lag.04 = al.04) %>%
+kbl(booktabs = TRUE) %>%
+kable_styling(latex_options = "striped",
+full_width = T, font_size = 10)
+plot(girf,bs.girf)
+girf <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/girf.RDS")
+bs.girf <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/bs.girf.RDS")
+plot(girf,bs.girf)
+oirf <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/oirf.RDS")
+bs.oirf <- readRDS(file = "~/Desktop/04-DISSERTATION/01-data/model/bs.oirf.RDS")
+plot(oirf,bs.oirf)
+plot(oirf)
+plot(girf)

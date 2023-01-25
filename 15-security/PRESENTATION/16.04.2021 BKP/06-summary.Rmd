@@ -1,0 +1,4 @@
+\phantompart
+
+\chapter*[Conclusão]{CONSIDERAÇÕES FINAIS}
+\addcontentsline{toc}{chapter}{CONSIDERAÇÕES FINAIS}

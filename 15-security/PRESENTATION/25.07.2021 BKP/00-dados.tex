@@ -1,0 +1,229 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arquivo para entrada de dados para a parte pré textual
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Basta digitar as informações indicidas, no formato 
+% apresentado.
+%
+%%%%%%%
+% Os dados solicitados são, na ordem:
+%
+% tipo do trabalho
+% componentes do trabalho 
+% título do trabalho
+% nome do autor
+% local 
+% data (ano com 4 dígitos)
+% orientador(a)
+% coorientador(a)(as)(es)
+% arquivo com dados bibliográficos
+% instituição
+% setor
+% programa de pós gradução
+% curso
+% preambulo
+% data defesa
+% CDU
+% errata
+% assinaturas - termo de aprovação
+% resumos & palavras chave
+% agradecimentos
+% dedicatoria
+% epígrafe
+
+
+% Informações de dados para CAPA e FOLHA DE ROSTO
+%----------------------------------------------------------------------------- 
+\tipotrabalho{Dissertação}
+
+% Marcar Sim para as partes que irão compor o documento pdf
+%----------------------------------------------------------------------------- 
+ \providecommand{\terCapa}{Sim}
+ \providecommand{\terFolhaRosto}{Sim}
+ \providecommand{\terTermoAprovacao}{Sim}
+ \providecommand{\terDedicatoria}{Sim}
+ \providecommand{\terFichaCatalografica}{Sim}
+ \providecommand{\terEpigrafe}{Sim}
+ \providecommand{\terAgradecimentos}{Sim}
+ \providecommand{\terErrata}{Nao}
+ \providecommand{\terListaFiguras}{Sim}
+ \providecommand{\terListaTabelas}{Sim}
+ \providecommand{\terListaQuadros}{Sim} % ALTERADO / ADICIONADO
+ \providecommand{\terListaGraficos}{Sim} % ALTERADO / ADICIONADO
+ \providecommand{\terSiglasAbrev}{Nao}
+ \providecommand{\terResumos}{Sim}
+ \providecommand{\terSumario}{Sim}
+ \providecommand{\terAnexo}{Nao}
+ \providecommand{\terApendice}{Sim}
+ \providecommand{\terIndiceR}{Nao}
+%----------------------------------------------------------------------------- 
+
+\titulo{Determinantes do \emph{spread ex-post} e rentabilidade bancária: Um modelo em painel dinâmico com vetores autorregressivos e estimação por método de momentos generalizados  
+}
+\autor{}
+\local{Curitiba}
+\data{2021} %Apenas ano 4 dígitos
+
+% Orientador ou Orientadora
+\orientador{}
+%Prof Emílio Eiji Kavamura, MSc}
+\orientadora{
+Prof\textordfeminine~Dra. Mayla Cristina Costa}
+% Pode haver apenas uma orientadora ou um orientador
+% Se houver os dois prevalece o feminino.
+
+% Em termos de coorientação, podem haver até quatro neste modelo
+% Sendo 2 mulhere e 2 homens.
+% Coorientador ou Coorientadora
+%\coorientador{}%Prof Morgan Freeman, DSc}
+%\coorientadora{}
+
+% Segundo Coorientador ou Segunda Coorientadora
+\scoorientador{}
+%Prof Jack Nicholson, DEng}
+\scoorientadora{}
+%Prof\textordfeminine~Ingrid Bergman, DEng}
+% ----------------------------------------------------------
+\addbibresource{10-references/referencias.bib}
+%\bibliography{10-references/referencias.bib}
+% ----------------------------------------------------------
+\instituicao{Universidade Federal do Paraná}
+
+\def \ImprimirSetor{Departamento de Economia}%
+%Setor de Tecnologia}
+
+\def \ImprimirProgramaPos{Programa Profissional de Pós-Graduação em Economia}
+
+\def \ImprimirCurso{Mestrado Profissional em Economia}
+
+\preambulo{
+Trabalho apresentado como requisito para obtenção do título de mestre profissional em Economia, no curso de Mestrado Profissional em Economia pelo Departamento de Economia, da Universidade Federal do Paraná
+}
+%do grau de Bacharel em Expressão Gráfica no curso de Expressão Gráfica, Setor de Exatas da Universidade Federal do Paraná}
+
+%----------------------------------------------------------------------------- 
+
+\newcommand{\imprimirCurso}{}
+%Programa de P\'os Gradua\c{c}\~ao em Engenharia da Constru\c{c}\~ao Civil}
+
+\newcommand{\imprimirDataDefesa}{
+30 de junho de 2021}
+
+\newcommand{\imprimircdu}{
+02:141:005.7}
+
+% ----------------------------------------------------------
+\newcommand{\imprimirerrata}{
+
+\vspace{\onelineskip}
+
+
+\begin{table}[htb]
+\center
+\footnotesize
+\begin{tabular}{|p{1.4cm}|p{1cm}|p{3cm}|p{3cm}|}
+  \hline
+   \textbf{Folha} & \textbf{Linha}  & \textbf{Onde se lê}  & \textbf{Leia-se}  \\
+    \hline
+    1 & 10 & auto-conclavo & autoconclavo\\
+   \hline
+\end{tabular}
+\end{table}
+}
+
+% Comandos de dados - Data da apresentação
+\providecommand{\imprimirdataapresentacaoRotulo}{}
+\providecommand{\imprimirdataapresentacao}{}
+\newcommand{\dataapresentacao}[2][\dataapresentacaoname]{\renewcommand{\dataapresentacao}{#2}}
+
+% Comandos de dados - Nome do Curso
+\providecommand{\imprimirnomedocursoRotulo}{}
+\providecommand{\imprimirnomedocurso}{}
+\newcommand{\nomedocurso}[2][\nomedocursoname]
+  {\renewcommand{\imprimirnomedocursoRotulo}{#1}
+\renewcommand{\imprimirnomedocurso}{#2}}
+
+
+% ----------------------------------------------------------
+\newcommand{\AssinaAprovacao}{
+
+
+%\hspace{15mm} %% ALTERADO
+\assinatura{%\textbf
+   {Prof\textordfeminine~Dr\textordfeminine~. Keynis Souto} \\ UFRPE}
+   \assinatura{%\textbf
+   {Prof Dr. Rodolpho Prates} \\ UFPR}
+   %\assinatura{%\textbf
+   %{Professora} \\ TIT}
+   %\assinatura{%\textbf{Professor} \\ Convidado 4}
+
+   \begin{center}
+    \vspace*{0.5cm}
+    %{\large\imprimirlocal}
+    %\par
+    %{\large\imprimirdata}
+    \imprimirlocal, \imprimirDataDefesa.
+    \vspace*{1cm}
+  \end{center}
+  }
+  
+% ----------------------------------------------------------
+%\newcommand{\Errata}{%\color{blue}
+%Elemento opcional da \textcite[4.2.1.2]{NBR14724:2011}. Exemplo:
+%}
+
+% ----------------------------------------------------------
+\newcommand{\EpigrafeTexto}{%\color{blue}
+\textit{}
+}
+
+% ----------------------------------------------------------
+\newcommand{\ResumoTexto}{%\color{blue}
+Este estudo partiu do objetivo de verificar  os principais aspectos sobre o setor bancário brasileiro e e investigar os determinantes do \emph{spread} bancário e como estes afetam simultaneamente o \emph{spread ex-post} e a rentabilidade. Foi escolhido o método de investigação descritiva e quantitativa através da modelagem de dados em painel dinâmico com vetores autorregressivos e estimação por método dos momentos generalizados. Como variáveis dependentes foram utilizadas o \emph{spread ex-post} e a rentabilidade. No grupo de variáveis endógenas estão as despesas administrativas, despesas de captação, outras despesas, Inadimplência, risco ponderado, capital próprio, depósitos a vista, depósitos a prazo, depósitos de poupança, receitas de operação de crédito, receitas de serviço, receitas de participação, outras receitas operacionais, operações de empréstimo, operações de financiamento, outras operações, impostos indiretos e impostos sobre a renda. Como variáveis exógenas foram utilizadas a Selic over, velocidade da moeda, compulsório, grau de concentração, IPCA, meios de pagamento M4 e operação de crédito total do mercado. O modelo foi submetido ao teste J-Hansen, remontando um valor P de 0.27, aceitando a hipótese nula que todas as variáveis tem validade na modelagem. O modelo foi submetido e aprovado no teste de estabilidade, estando todos os valores dentro do círculo unitário. As variáveis de Inadimplência, Risco Ponderado, depósito a vista, deposito a prazo, operação de empréstimo, o operação de financiamento, impostos indiretos, impostos sobre a renda e grau de concentração não apresentaram significância estatística com o \emph{spread ex-post}. As variáveis de \emph{spread ex-post} defasadas, despesas  de captação, outras despesas, capital  próprio, depósitos a prazo, depósitos de poupança, recitas de serviço, outras receitas operacionais, outras operações, compulsório, grau de concentração, IPCA, meios de pagamento M4 e operações de crédito total do mercado não remontaram significância estatística com a rentabilidade. As variáveis que apresentaram relação direta, em ordem de maior peso, com o \emph{spread} foram outras despesas, receita de operação de crédito, outras receitas operacionais, despesas de captação, despesas administrativas, velocidade da moeda, receita de serviços, rentabilidade de dois períodos, outras operações, depósitos de poupança, meios de pagamentos M4, receitas de participação, \emph{spread}  de um período e compulsório. As variáveis que apresentaram relação inversa, em ordem de peso, com o \emph{spread ex-post} foram a rentabilidade de um período, a  operação de crédito total do mercado, capital próprio, \emph{spread} de dois períodos, IPCA, Selic over. As variáveis  que apresentaram relação direta com a rentabilidade, em ordem de peso, foram a rentabilidade de um e dois períodos, velocidade da moeda, impostos indiretos e despesas administrativas. As variáveis que remontaram relação inversa, em ordem de peso, foram os impostos sobre a renda, receita de operação de crédito, risco ponderado, operações de empréstimo, operações de financiamento, inadimplência, depósitos a vista, receita de participação e Selic over. Os resultados remontam que o \emph{spread} e a rentabilidade são determinados diante um conjunto de fatores endógenos relacionados às características operacionais e técnicas da instituições e um conjunto de fatores exógenos referentes a conjunturas social e econômica e regulação tendo a velocidade da moeda como principal determinante simultâneo. 
+}
+
+\newcommand{\PalavraschaveTexto}{%\color{blue}
+Setor Bancário. \emph{Spread}. Rentabilidade Bancária. Velocidade da Moeda.
+}
+
+% ----------------------------------------------------------
+\newcommand{\AbstractTexto}{%\color{blue}
+This study started with the objective of verifying the main aspects of the Brazilian banking sector and investigating the main determinants of the banking \emph{spread} and how these simultaneously affect the \emph{ex-post spread} and profitability. The descriptive and quantitative research method was chosen through data modeling in dynamic panel with autoregressive vectors and estimation using the generalized moment method. As dependent variables, \emph{spread ex-post} and profitability were used. In the group of endogenous variables are administrative expenses, funding expenses, other expenses, Default, weighted risk, equity, demand deposits, time deposits, savings deposits, credit operation income, service income, participation income , other operating income, loan operations, financing operations, other operations, indirect taxes and income taxes. As exogenous variables, Selic over, currency velocity, reserve requirement, degree of concentration, IPCA, M4 means of payment and total market credit operations were used. The model was submitted to the J-Hansen test, remounting a P value of 0.27, accepting the null hypothesis that all variables are valid in the modeling. The model was submitted and approved in the stability test, with all values within the unit circle. The variables of Default, Weighted Risk, demand deposit, term deposit, loan operation, financing operation, indirect taxes, income taxes and degree of concentration did not show statistical significance with the ex-post spread. Lagged ex-post spread variables, funding expenses, other expenses, equity, time deposits, savings deposits, service revenues, other operating revenues, other operations, compulsory, degree of concentration, IPCA, means of payment M4 and total market credit operations did not remount statistical significance with profitability. The variables that showed a direct relationship, in order of greatest weight, with \emph{spread} were other expenses, income from credit operations, other operating income, funding expenses, administrative expenses, currency velocity, service income, profitability two-period, other operations, savings deposits, M4 means of payment, participation receipts, one-period \emph{spread} and compulsory. The variables that showed an inverse relationship, in order of weight, with the \emph{ex-post spread} were the profitability of one period, the market's total credit operation, equity capital, \emph{spread} of two periods, IPCA , Selic over. The variables that showed a direct relationship with profitability, in order of weight, were the profitability of one and two periods, currency velocity, indirect taxes and administrative expenses. The variables that remounted an inverse relationship, in order of weight, were taxes on income, income from credit operations, weighted risk, loan operations, financing operations, default, demand deposits, participation income and Selic over. The results show that \emph{spread} and profitability are determined by a set of endogenous factors related to the operational and technical characteristics of the institutions and a set of exogenous factors related to social and economic circumstances and regulation, having the speed of the currency as the main simultaneous determinant.
+}
+% ---
+\newcommand{\KeywordsTexto}{%\color{blue}
+Banking Sector. Spread. Profitability. Currency Speed.
+}
+
+% ----------------------------------------------------------
+%\newcommand{\Resume}
+%{%\color{blue}
+
+%} 
+% ---
+%\newcommand{\Motscles}
+%{%\color{blue}
+
+%}
+
+% ----------------------------------------------------------
+%\newcommand{\Resumen}
+%{%\color{blue}
+
+%}
+% ---
+%\newcommand{\Palabrasclave}
+%{%\color{blue}
+
+%}
+
+% ----------------------------------------------------------
+\newcommand{\AgradecimentosTexto}{%\color{blue}
+
+}
+
+% ----------------------------------------------------------
+\newcommand{\DedicatoriaTexto}{%\color{blue}
+\textit{Dedico este trabalho em memória de minha mãe, Maria Cilene Martins da Silva, que será sempre exemplo de vida e caráter}
+	}
+

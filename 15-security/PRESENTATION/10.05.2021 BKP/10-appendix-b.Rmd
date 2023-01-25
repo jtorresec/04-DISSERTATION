@@ -1,0 +1,697 @@
+\ifthenelse{\equal{\terApendice}{Sim}}
+{\begin{apendicesenv}
+
+\renewcommand{\thechapter}{\arabic{chapter}}
+
+\chapter[apendiceb]{Modelos SUR}
+
+\textcolor{red}{REPLICAR OS PASSOS DAS DEDUÇÕES DE EQUAÇÕES}
+
+\section{Metodologia}
+
+O primeiro modelo a ser desenvolvido buscará testar e selecionar variáveis macroeconômicas e microeconômicas que exerçam significativa influência, de forma implícita e explícita no *spread* bancário *ex-post*. Partindo da definição geral tautológica de *Spread* ($Spr$), resultado da diferença entre a taxa de aplicação ($I_{apl}$) e a taxa de captação ($i_{cap}$).
+
+\begin{equation}
+Spr = i_{apl} - i_{cap} 
+\end{equation}
+
+Em termos de resultado a taxa de aplicação ($i_{apl}$) é obtida da relação entre a receita das operações de crédito ($ROpCr$) e das operações de crédito ($OpCr$). Já a taxa de captação é extraída da relação entre as despesas de captação ($DesCap$) em relação do montante capitado ($DepTot$)
+
+\begin{equation}
+SprEp = \frac{R}{E} - \frac{DesCap}{DepTot}
+\end{equation}
+
+A receita das operações de crédito ($R$) é obtida levando em  consideração as operações de crédito — capital emprestado — ($E$) e uma taxa de juros ($i_{jr}$), que contempla os custos de captação, os custos operacionais, inadimplência, impostos diretos e indiretos e margem líquida. 
+
+\begin{equation}
+R = Ei_{jr}
+\end{equation}
+
+A receita das operações de crédito pode ser decomposta levando em consideração as despesas administrativas ($D_{adm}$), provisões de inadimplência ($P_{inad}$) custos de captação ($D_{cap}$), impostos variáveis ($Imp_{ind}$), impostos sobre a renda ($Imp_{dir}$)  e margem líquida ($MgLqd$).
+
+\begin{equation}
+R = D_{adm} + P_{inad} + D_{cap} + Imp_{ind} + Imp_{dir} + MgLqd
+\end{equation}
+
+A decomposiçao da receita pode ser ampliada com a inserção das variáveis componentes. O primeiro bloco da composição consiste na inserção das taxas e alíquotas aplicados sobre o capital emprestado ($E$) e captação ($C$), sendo elas as despesas administrativas ($i_{adm}$), inadimplência ($i_{ind}$), captação ($i_{cap}$), recolhimento compulsório ($i_{comp}$), aplicação de compulsório($i_{ac}$), fundo garantidor de crédito ($i_{fgc}$).
+
+Levando em consideração que os depósitos são reduzidos diante a obrigação de recolhimentos compulsórios e contribuição para o fundo garantidor de crédito, um empréstimo que dependa de captação, a necessidade de captação é maior para atender a operação de empréstimo no volume  $C = E / (1 - i_{comp} - i_{fgc})$ \cite{cardoso:1999}.
+
+O segundo bloco da decomposição da receita consiste na inseção de variáveis referente as taxas e alíquotas aplicados sobre a própria receita ($R$), contemplando o PIS ($i_{pis}$), COFINS ($i_{cof}$), imposto de renda ($i_{ir}$), contribuição social ($i_{cs}$) e lucro líquido ($i_{ll}$), assumindo a forma abaixo.
+
+\begin{equation}
+R = i_{adm}*E + i_{ind}*E + i_{cap}*C + i_{comp}*i_{ac}*C + i_{fgc}*C + \frac{i_{ll}}{1 - i_{r} - i_{cs}}*R + i_{pis}*R + i_{cof}*R 
+\end{equation}
+
+Ao isolar as variáveis e realizar as substituições e deduções algébricas obtemos a equação abaixo \footnote{No sentido que a decomposição da Receita almeja identificar mecanismos e variáveis de sua formação, não estão sendo considerados abatimentos da base de cálculo do imposto de renda e contribuição social sobre o Lucro Líquido}, onde o numerador da equação se configura no montante de custos e despesas incluídos nas operações de crédito e denominador contempla margem líquida e alíquotas dos impostos diretos e indiretos.
+
+\begin{equation}
+R =  \frac{E * [i_{adm} + i_{ind} + (\frac{i_{cap}+ i_{fgc} - (i_{comp}*i_{ac})}{1 - i_{comp} - i_{fgc}})]}
+{1 -  \frac{i_{ll}}{1 - i_{ir}  - i_{cs}} - i_{pis} - i_{cof}}
+\end{equation}
+
+O denominador da equação, ao ser manipulado algebricamente, assume a função de multiplicador das despesas e custo de captação ($D_{emp}$), embutindo nestes a margem líquida e alíquotas dos impostos diretos e indiretos. 
+
+\begin{equation}
+i_{apl} = \frac{1}{1 -  \frac{i_{ll}}{1 - i_{ir}  - i_{cs}} - i_{pis} - i_{cof}}
+\end{equation}
+
+Ao simplificar a equação decomposta da receita, encontramos uma forma similar ao forma tautológica inicial, um montante multiplicado a uma taxa para chegar na receita. A diferença é que a forma inicial considera o capital emprestado e uma taxa de juros — onde estão embutidos todos os custos e margem de lucro. A segunda forma considera as despesas com a operação de crédito e um multiplicador destes gastos — embutindo a margem líquida e impostos variáveis.
+
+\begin{equation}
+R = D_{emp} * i_{apl}
+\end{equation}
+
+Retornando a concepção inicial da taxa de juros ($i_{jr}$) aplicada sobre o capital emprestado ($E$), que pode ser obtida manipulando o multiplicador de aplicação ($i_{apl}$) incorporando as taxas referentes a custos, despesas e provisões.
+
+\begin{equation}
+i_{jr} = \frac{i_{adm} + i_{ind} + (\frac{i_{cap}+ i_{fgc} - (i_{comp}*i_{ac})}{1 - i_{comp} - i_{fgc}})}{1 -  \frac{i_{ll}}{1 - i_{ir}  - i_{cs}} - i_{pis} - i_{cof}}
+\end{equation}
+
+\begin{equation}
+R = E * i_{jr} 
+\end{equation}
+
+Assumindo que as receitas de operações de créditos ($E$) podem ser decompostas de acordo com a origem: capital próprio ($E_{Pr}$) e depósitos a vista ($E_{dav}$), remunerados a um custo de oportunidade ($i_{copr}$ e $i_{coav}$) — já que não são remunerados — e depósitos a prazo ($dap$) remunerados à uma taxa de captação  ($i_{Cap}$), a receita das operações de crédito podem ser obtidas pelo somatório das equações abaixo.
+
+\begin{equation}
+\begin{aligned}
+R_{pr} = \frac{E_{pr} * [i_{adm} + i_{ind}] + i_{copr}}
+{1 -  \frac{i_{ll}}{1 - i_{ir} - i_{cs}} - i_{pis} - i_{cof}}
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+R_{dap} = \frac{E_{dap} * [i_{adm} + i_{ind} + (\frac{i_{cap}+ i_{fgc} - (i_{comp}*i_{ac})}{1 - i_{comp} - i_{fgc}})]}  {1 -  \frac{i_{ll}}{1 - i_{ir} - i_{cs}} - i_{pis} - i_{cof}}
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+R_{dav} = \frac{E_{dav} * [i_{adm} + i_{ind} + i_{coav} - (\frac{(i_{comp}*i_{ac})}{1 - i_{comp}})]}{1 -  \frac{i_{ll}}{1 - i_{ir} - i_{cs}} - i_{pis} - i_{cof}}
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+R = (D_{pr}*i_{aplpr}) + (D_{dav} * i_{aplav}) +( D_{dap}* i_{aplap})
+\end{equation}
+
+Dessa forma o *spread ex-post*, nas formas de precificação e aplicação de juros assumem as formas abaixo, na ótica de captação e empréstimo, respectivamente.
+
+\begin{equation}
+\begin{aligned}
+& SprEp = [\frac{(D_{pr}* i_{apl})}{E_{pr}} + \frac{(D_{dav}* i_{aplav})}{E_{dav}} + \frac{(D_{dap}* i_{aplap})}{E_{dap}}] - [ \frac{D_{cav}}{C_{av}} + \frac{D_{dap}}{C_{ap}} ]
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+& SprEp = \frac{(E*i_{jrpr} + E*i_{jrdav} + E*i_{jrdap})}{E} - (\frac{D_{cap}}{C})
+\end{aligned}
+\end{equation}
+
+```{r, eval=FALSE, results='hide', echo=FALSE}
+e <- 1000
+iadm <- 0.02
+ind <- 0.01
+icap <- 0.05
+ifg <- 0.001
+ics <- 0.09
+ir <- 0.25
+r <- 0.23
+icomp <- 0.01
+ill <- 0.1
+ip <- 0.0165
+ico <- 0.076
+
+rec <- e*((iadm + ind + ((icap + ifg*(1) - (r*icomp))*(1/(1-r-ifg))))) / (1 - (ill / (1-ir*(1)- ics*(1))) - ip*(1) - ico*(1))
+
+
+recbrut <- rec - iadm*e - ind*e - (icap / (1 - r - ifg)) * e - (ifg / (1 - r - ifg)) * e - ip * rec - ico * rec + (r*icomp)*(1/(1-r-ifg)) * e
+
+cat("o capital emprestado é: ", e,
+    "A necessidade de captação é: ", e/(1-r - ifg),
+    "Custos: ", e*((iadm + ind + ((icap + ifg - (r*icomp))*(1/(1-r-ifg))))),
+    "Multiplicador: ", 1 / (1 - (ill / (1-ir- ics)) - ip - ico),
+    "A receita é: ", rec,
+    "Despesa Administrativas são: ", iadm*e,
+    "inadimplência é: ", ind*e,
+    "Custo Captação: ", ((icap / (1 - r - ifg)) * e),
+    "Fundo Garantidor: ", (ifg / (1 - r - ifg)) * e,
+    "A receita bruta é: ", recbrut,
+    "CSLL: ", ics * (recbrut),
+    "IRPJ: ", ir * (recbrut),
+    "Lucro Líquido: ", recbrut - (ics * recbrut) - (ir * recbrut),
+    "Margem bruta: ", paste(round(recbrut/rec*100,2),"%", sep = ""),
+    "Margem Líquida: ", paste(round((recbrut - (ics * (recbrut)) - (ir * (recbrut)))/ rec * 100,2),"%",sep = ""),
+    "Taxa de Aplicação:  ", ((((e + rec) / e) - 1) * 100),
+    "Taxa de Captação: ", (((icap + ifg) / (1 - r - ifg)) * (e)) / (e/(1-r - ifg)) * 100,
+    "Spread:", ((((e + rec) / e) - 1) * 100) - (((icap + ifg) / (1 - r - ifg)) * (e)) / (e/(1-r - ifg)) * 100
+)
+```
+
+Para a averiguação dos efeitos dos componentes do *spread ex-post* na rentabilidade das instituições bancárias serão utilizados modelos de regressão linear multivariada. Os modelos de regressão múltipla buscam, através de técnicas estatísticas e matemáticas, prever o comportamento de uma dada variável dependente, diante um conjunto de variáveis explanatórias \cite{hill:2010} \cite{gareth:2017}. 
+
+\begin{equation}
+Y = \beta_0 + \beta_1X_1 + \beta_2X_2...\beta_nX_n + \epsilon
+\end{equation}
+
+O modelo econométrico a ser utilizado será o método de dados em painel, denominado _Cross Section_, que combina séries temporais e dados em corte transversal. Este modelo busca captar diferenças individuais de comportamento, possibilitando combinar os dados para fins de estimação e inferência, posteriormente realizados testes de regressão e estimação \cite{hill:2010}.
+
+\begin{equation}
+y_{it} = \beta_{1it} + \beta_{2it}X_{2it} + \beta_{3it}X_{3it} + e_{it}
+\end{equation}
+
+O método _Cross Section_ pode ser realizado por meio de três modelos de estimação que são: i) Modelo de regressão aparentemente não relacionadas (SUR); ii) Modelo de variável binárias — efeitos fixos — e iii) modelo de componentes estocásticos — efeitos aleatórios — \cite{hill:2010}. Serão testados os três métodos buscando selecionar o mais adequado ao modelo econométrico e ao conjunto de dados.
+
+No modelo de regressão de dados aparentemente não relacionados — SUR —, os parâmetros dos diferentes grupos em corte transversal diferem entre si, porém são constantes ao longo do tempo. Os modelos podem ser estimados com suas funções de forma conjunta ou separada, onde esta última é indicada quando há correlação dos erros \cite{hill:2010}
+
+\begin{equation}
+y_{it} = \beta_{1it} + \beta_{2i}X_{2it} + \beta_{3i}X_{3it} + e_{it}
+\end{equation}
+
+\vspace{20pt}
+
+No modelo de variável binárias — ou efeitos fixos —, o intercepto é abordado como um parâmetro desconhecido e fixo, onde as inferências são aplicadas somente ao cojunto de dados dos grupos do corte transversal do qual está disponível \cite{hill:2010}. 
+
+\begin{equation}
+y_{it} = \beta_{11}D_{1i} + \beta_{12}D_{2i} + ... + \beta_{1,10}D_{10i} + \beta_{2}X_{2it} + \beta_{3}X_{3it} + e_{it}
+\end{equation}
+
+\vspace{20pt}
+
+O modelo de componentes estocásticos — ou efeitos aleatórios —, considera cada grupo do conjunto de dados como uma amostra aleatória de uma população maior, onde os interceptos são encarrados como resultados aleatórios da distribuição populacional de interceptos de grupos, realizando assim uma inferência da população de grupos \cite{hill:2010}.
+
+\begin{equation}
+y_{it} = \beta_{1i} + \beta_{2it}X_{2it} + \beta_{3it}X_{3it} + e_{it}
+\end{equation}
+
+Diante os pressupostos, o primeiro modelo irá verificar a influência das variações de variáveis componentes explícitas e implícitas do  *Spread Ex-post*, tendo no primeiro bloco variáveis microeconômicas e o segundo bloco as variáveis macroeconômicas, selecionando para o segundo modelo final somente as que apresentarem significância estatística.
+
+\begin{equation}
+\begin{aligned}
+SprEp = &f(EPr, EAv, EAp, Atv, ImpInd, ImpId, \\ 
+& Inad, MLq, DAdm, Jcp, MSh, HHI, TIns, OCap, \\ 
+& CIns, Sel, Ipca, Comp, MPag, VMo, SprEa)
+\end{aligned}
+\end{equation}
+
+Na construção do primeiro modelo econométrico serão adotadas simplificações para variáveis de resultado, eliminando as que possuem caráter constante, as obtidas por meio de resultado e por não possuirem dados, utilizando uma *proxy*.
+
+\begin{equation}
+\begin{aligned}
+SprEp_{it} = & \beta_{0it} + \beta_{1it}EPr_{it} + \beta_{2it}EAv_{it} + \beta_{3it}EAp_{it} + \beta_{4it}DAdm_{it} + \beta_{5it}Vol_{it} + \\
+& \beta_{6it}lnAtv_{it} + \beta_{7it}RC_{it} + \beta_{8it}MSh_{it} + \beta_{9it}HHI_{it} + \\ 
+& \beta_{10it}Mod + \beta_{11it}OCap + \beta_{12it}SelOver_{t-1} + \beta_{13it}Ipca_{t-1} + \\
+& \beta_{14it}Com_{t} + \beta_{15}Mpag_{t-1} + \beta_{16it}VMo_{t-1} +  \beta_{17t}SprEa_{t-1}
+\end{aligned}
+\end{equation}
+
+O segundo modelo econométrico testará as variáveis implícitas e explícitas com significância estatística do primeiro modelo, atuando sobre a rentabilidade bancária $Rent$, conforme modelos especificados. Para a rentabilidade será considerada a razão entre o lucro líquido ($LcrLqd$) e a Receita das Operações de crédito ($RecOpCr$).
+
+\begin{equation}
+\begin{aligned}
+Rent_{it} = & \beta_{0it} + \beta_{1it}EPr_{it} + \beta_{2it}EAv_{it} + \beta_{3it}EAp_{it} + \beta_{4it}DAdm_{it} + \beta_{5it}Vol_{it} + \\
+& \beta_{6it}lnAtv_{it} + \beta_{7it}RC_{it} + \beta_{8it}MSh_{it} + \beta_{9it}HHI_{it} + \\ 
+& \beta_{10it}Mod + \beta_{11it}OCap + \beta_{12it}SelOver_{t-1} + \beta_{13it}Ipca_{t-1} + \\
+& \beta_{14it}Com_{t} + \beta_{15}Mpag_{t-1} + \beta_{16it}VMo_{t-1} +  \beta_{17t}SprEa_{t-1} + \epsilon_{t}
+\end{aligned}
+\end{equation}
+
+Diante a definição dos modelos, seguem abaixo as hipóteses conceituais baseadas em concepções teóricas obtidas na pesquisa bibliográfica e das concepções desenvolvidas durante a pesquisa. O conjunto de hipóteses se apresenta na forma objetiva incluindo as expectativas para cada variável e contemplando os dois modelos construídos, com breve explanação sobre a mesma.
+
+
+\section{Modelos}
+
+Os dados em painel foram estimados nos métodos *pooling*, efeitos fixos e efeitos aleatórios, com os resultados demonstrados na \autoref{tb:modpool}, \autoref{tb:modef}, \autoref{tb:intfixef}, \autoref{tb:modrand} e \autoref{tb:modsr2}. 
+
+\begin{table}[!p]
+\caption{Resultado Modelo Pooling}
+\vspace{1mm}
+```{r pooling}
+library(plm)
+
+mod01.Pooling <- plm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad #+ RcPd 
+          + Int + EPr + TpIns
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp #+ OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+                   index = c("TpIns"),
+                   model = 'pooling',
+                   data = banksPanel.01)
+
+summPoo <- mod01.Pooling %>% summary()
+summPoo$coefficients %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", 
+                full_width = TRUE, font_size = 10) %>%
+  column_spec(1, width = "5cm") %>%
+  column_spec(2, width = "2cm") %>% 
+  column_spec(3, width = "2cm") %>% 
+  column_spec(4, width = "2cm") %>% 
+  column_spec(5, width = "2cm")
+ 
+```
+\vspace{1mm}
+\label{tb:modpool}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+\begin{table}[!htb]
+\caption{Resultado Modelo Efeitos Fixos}
+\vspace{1mm}
+```{r fixed.effects}
+library(plm)
+
+mod01.FixEf <- plm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad #+ RcPd 
+          + Int + EPr
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp + OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+                   index = c("TpIns"),
+                   data = banksPanel.01,
+                   model = 'within'
+                   #effect = c(#"time",
+                        #      "twoways"
+                              #"individual"
+                         #     )
+                   )
+summFe <- summary(mod01.FixEf)
+summFe$coefficients %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", 
+                full_width = TRUE, font_size = 10) %>% 
+  column_spec(1, width = "5cm") %>%
+  column_spec(2, width = "2cm") %>% 
+  column_spec(3, width = "2cm") %>% 
+  column_spec(4, width = "2cm") %>% 
+  column_spec(5, width = "2cm")
+```
+\vspace{1mm}
+\label{tb:modef}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+
+\begin{table}[!hbtp]
+\caption{Interpectos do modelo de Efeitos Fixos}
+\vspace{1mm}
+```{r table.interccep}
+summary(fixef(mod01.FixEf)) %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10) %>%   column_spec(1, width = "5cm") %>%
+  column_spec(2, width = "2cm") %>% 
+  column_spec(3, width = "2cm") %>% 
+  column_spec(4, width = "2cm") %>% 
+  column_spec(5, width = "2cm")
+```
+\vspace{1mm}
+\label{tb:intfixef}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+\begin{table}[!p]
+\caption{Resultado Modelo Efeitos Aleatórios}
+\vspace{1mm}
+```{r random.effects}
+
+library(plm)
+
+mod01.RanEff <- plm(SprEp ~ DAdm + DesCap + GrCon + OtDes
+          + Inad #+ RcPd 
+          + Int + EPr + TpIns
+          + lnComp + ImpInd + ImpRend
+          + DepAv + DepAp + DepPop 
+          + OpFin + OpEmp #+ OtOp 
+          + ROpCr + RSrv + RPart
+          + SelMet + VelMo,
+                      data = banksPanel.01,
+                    index = c("TpIns"),
+                      model = 'random', 
+                    random.method  = "walhus"
+                      )
+summRand <-  mod01.RanEff %>% summary()
+summRand$coefficients %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", 
+                full_width = TRUE, 
+                font_size = 10) %>% 
+  column_spec(1, width = "5cm") %>%
+  column_spec(2, width = "2cm") %>% 
+  column_spec(3, width = "2cm") %>% 
+  column_spec(4, width = "2cm") %>% 
+  column_spec(5, width = "2cm")
+```
+\vspace{1mm}
+\label{tb:modrand}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+\vspace{20pt}
+
+\begin{table}[!hbtp]
+\caption{Resultado de coeficiente de determinação para os modelos}
+\vspace{1mm}
+```{r rsqr}
+pooR2 <- summPoo$r.squared %>% as.data.frame()
+fixR2 <- summFe$r.squared %>% as.data.frame()
+randR2 <- summRand$r.squared %>% as.data.frame()
+
+data.frame(Modelos = c("Pooling", "Efeitos Fixos", 
+                            "Efeitos Aleatórios"),
+           "R.2" = c(pooR2[1,1], fixR2[1,1], randR2[1,1]),
+           "R Ajustado" = c(pooR2[2,1], fixR2[2,1], randR2[2,1])) %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10)
+```
+\vspace{1mm}
+\label{tb:modsr2}
+\fonte{Desenvolvido a partir dos dados coletados}
+\vspace{-2mm}
+\end{table}
+
+```{r tables.models, results='hide'}
+library(pander); library(apsrtable); library(huxtable); library(stargazer)
+
+stargazer(mod01.Pooling, mod01.FixEf, mod01.RanEff, 
+          column.labels = c("Pooling", "Efeitos Fixos", 
+                            "Efeitos Aleatórios"),
+          label = "tb:regress",
+          type = "latex", 
+          title = "Resultados das Regressões", 
+          header = FALSE,
+          single.row = TRUE,
+          align = TRUE, 
+          style = "all", 
+          keep.stat = c("aic", "bic", "rsq", 
+        "adj.rsq", "n"))
+```
+
+
+```{r some.tests, eval=FALSE, include=FALSE}
+
+robPolling <- coeftest(mod01.Pooling, vcov.=vcovHC(mod01.Pooling, method = c("arellano")))
+robPolling
+
+robFixEf <- coeftest(mod01.FixEf, vcov.=vcovHC(mod01.FixEf, method = c("arellano")))
+robFixEf
+
+robRanEff <- coeftest(mod01.RanEff, vcov.=vcovHC(mod01.RanEff, method = c("arellano")))
+mod01.RanEff
+
+summary(mod01.Pooling, vcov = function(x) vcovHC(mod01.Pooling, method = "arellano"))
+
+####colinearidade 
+bptest(mod01.Pooling); bptest(mod01.FixEf); bptest(mod01.RanEff); bptest(fit)
+
+####autocorrelacionado com os erros
+resPooling <- as.vector(mod01.Pooling$residuals)
+durbinWatsonTest(resPooling); durbinWatsonTest(mod01.FixEf$residuals); durbinWatsonTest(fit.2)
+
+#leveragePlots(fit.02)
+```
+
+No modelo *pooling*, não foi encontrada significância a 5%, para as variáveis de meios de pagamentos ($M4$), velocidade da moeda ($VelMo$), impostos indiretos ($ImpInd$) e depositos a vista ($DepAv$). As demais variáveis apresentação elevado nível de significância. Foi aplicado o teste de Wooldridge aceitando a hipótese nula que os erros para a taxonomia não são relacionados.  
+
+Foi utilizado o teste Wooldridge para o modelo *pooling* para checar a correlacão nos erros no grupo de taxonomia. O resultado do teste conforme \autoref{tb:wdtest} aceita a hipotese nula, indicando que os entre o grupo avaliado não é correlacionado.
+
+\vspace{20pt}
+
+\begin{table}[!hbtp]
+\caption{Resultado do teste Wooldridge para o modelo pooling}
+\vspace{1mm}
+```{r test.Wooldridge}
+### 6.6.5 Teste para efeitos individuais ou de tempo
+
+## para modelos pooling
+##A hipótse nula é a não correlação entre os erros do mesmo grupo
+## p value menor que 5% rejeita a hipotese nula - tendo correlacao
+library(pander)
+wt.pooling <- pwtest(mod01.Pooling)
+
+data.frame(Estatística = wt.pooling$statistic,
+           Valor.P = wt.pooling$p.value,
+           "Hipótese Alternativa" = "Correlação nos Erros") %>% 
+  kbl(booktabs = TRUE) %>%
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10)
+
+#wt.pool.time <- pwtest(mod01.Pooling, effect = "time")
+# rejeita a hipotese nula - há correlação do efeito tempo
+```
+\vspace{1mm}
+\label{tb:wdtest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+
+```{r test.durbin.watson, results='hide', message=FALSE, eval=FALSE}
+library(lmtest)
+
+dwtest(formula = SprEp ~ lnOpTot + lnROp #+ lnAtv #+ lnOpCrMkt 
+                    + DAdm + DesCap + OtDes #+ RcPd
+                    + Inad #+ OpCr + OpFin + OtOp
+                    + SelMet + VelMo + ImpRend  #+ ImpInd
+                    + DepAv + DepAp #+ DepIf + DepPop
+                    + ROpCr + RSrv + RPart,
+                      data = banksPanel.00, 
+       order.by = NULL, alternative = c("greater", "two.sided", "less"),
+       iterations = 15, exact = NULL, tol = 1e-10)
+
+```
+
+Para comparação entre os modelos pooling e efeitos fixos foi aplicado o teste F de Chrow para avaliar os efeitos individuais, sendo rejeitada a hipótese nula de igualdade nos interceptos e coeficientes, indicando que o modelo de efeitos fixos seria mais adequado para estimação do modelo. 
+
+\vspace{20pt}
+
+\begin{table}[!hbtp]
+\caption{Teste F para igualdade nos interceptos e inclinações}
+\vspace{1mm}
+```{r test.pool.fe, message=FALSE}
+### TESTS Modelo Pooled x Modelo de Efeitos Fixos
+### test f de chrow
+### hipotese nula é de igualdade nos interceptos e nas inclinacoes para o os individuos indicando o modelo pooled
+
+pFtest <- pFtest(mod01.Pooling, mod01.FixEf)
+
+data.frame(Estatística = pFtest$statistic,
+           DF01 = pFtest$parameter[1],
+           DF02 = pFtest$parameter[2],
+           P.Valor = pFtest$p.value, 
+           Hipótese.Alternativa = "Não Igualdade nos Interceptos") %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10)
+
+# p menor que 0.05 indica que efeitos fixos é melhor 
+```
+\vspace{-1mm}
+\label{tb:pftest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+Para comparar os modelos pooling e efeitos aleatórios foi utilizado o teste Breusch-Pagan (multiplicador de lagrange) para modelos em painel não balanceados, aceitando a hipótese nula que a variância dos erros são iguais, indicando homocedasticidade.  
+
+\vspace{20pt}
+
+\begin{table}[!hbtp]
+\caption{Teste Breusch-Pagan para variâncoa dos erros em painéis desbalanceados}
+\vspace{1mm}
+```{r test.poo.randeff}
+####TEST Modelo Pooled x Modelo de Efeitos Aleatórios
+
+### aceitação da hipotese nula implica que pooled é melhor
+### p valor menor que 5% rejeita hipotese nula e indica que efeitos aleatorios é prefeível 
+
+plmtest <- plmtest(mod01.Pooling, type = "bp")
+
+data.frame(Estatística = plmtest$statistic,
+           Df = plmtest$parameter,
+           P.Valor = plmtest$p.value,
+           Alternativa = "Variância dos Erros") %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10)
+```
+\vspace{-1mm}
+\label{tb:lbptest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+Em termos de comparação entre os modelos de efeitos fixos e efeitos aleatórios foi utilizado o teste de Hausman, com rejeição da hipotese nula (parâmetros não correlacionados), indicando assim correlação entre os parâmetros e indicando que o modelo e efeitos fixos é mais adequado para avaliação do modelo.   
+
+\begin{table}[!hbtp]
+\caption{Teste Hausman para correlação dos parâmetros}
+\vspace{1mm}
+```{r test.fix.random}
+## tests Modelo Efeitos Fixos x Modelo de Efeitos Aleatórios
+
+## rejeitar a hipotese nula implica que efeitos fixo  é mais adequado 
+
+##p valor menor que 5% rejeita hipotese nula (indicando que os parâmetros são correlacionados) indicando que efeitos fixos é mais adequado
+
+## p valor maior que 5% aceita hipotese nula (indica que os parâmetros não sao correlacionados) indicando que o modelo de efeitos aleatorios é melhor
+
+phtest <- phtest(mod01.FixEf, mod01.RanEff)
+
+data.frame(Estatística = phtest$statistic,
+           DF = phtest$parameter,
+           Valor.P = phtest$p.value,
+           Alternativa = "Correlação nos Parâmetros") %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = T, font_size = 10)
+
+
+```
+\vspace{-1mm}
+\label{tb:htest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+Para checar a dependência transversal do modelo de efeitos fixo foi utilizado o teste Pesaran, sendo rejeitada a hipótese nula (não correlação dos resíduos aos indivíduos) indicando que os resíduos entre os individuos estão correlacionados.
+
+\begin{table}[!hbtp]
+\caption{Teste Persan CD para dependência transversal}
+\vspace{1mm}
+```{r pcdtest}
+##### 
+#Testando dependência transversal (cross-sectional)
+#A dependência cross-sectional se apresenta em panieis com longas séries de tempo. 
+#A hipótese nula é de que os resíduos através dos indivíduos não estão correlacionados.  teste de Pesaran (2015):
+#####
+
+
+pcdtest.pool <- pcdtest(mod01.Pooling, ttest = "cd")
+pcdtest.fix <- pcdtest(mod01.FixEf, ttest = "cd")
+pcdtest.rand <- pcdtest(mod01.RanEff, ttest = "cd")
+
+data.frame(Modelo = c("Pooling",  "Efeitos Fixos", "Efeitos Aleatórios"),
+           Estatística = c(pcdtest.pool$statistic, pcdtest.rand$statistic,
+                           pcdtest.fix$statistic),
+           Valor.P = c(pcdtest.pool$p.value, pcdtest.fix$p.value,
+                          pcdtest.rand$p.value),
+           Alternativa = rep("Correlação nos resíduos dos indivíduos",3)
+           ) %>% 
+  kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = TRUE, font_size = 10)
+
+
+```
+\vspace{-1mm}
+\label{tb:pcdtest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+
+A normalidade dos resíduos os três modelos foi testado pelo método Shapiro-Wilk, rejeitando a hipótese nula de normalidade dos resíduos, indicando que os modelo apresenta problemas de hetetocedasticidadade. 
+
+\begin{table}[!hbtp]
+\caption{Teste Shapiro-Wilk para normalidade dos resíduos}
+\vspace{1mm}
+```{r shapiro.test}
+##Normalidade dos resíduos
+
+shap.pool <- shapiro.test(mod01.Pooling$residuals[1:500])
+
+shap.fix <- shapiro.test(mod01.FixEf$residuals[1:500])
+
+shap.rand <- shapiro.test(mod01.RanEff$residuals[1:500])
+
+data.frame(Modelo = c("Pooling",  "Efeitos Fixos", "Efeitos Aleatórios"),
+           Estatística.W = c(shap.pool$statistic, shap.fix$statistic,
+                             shap.rand$statistic),
+           Valor.P = c(shap.pool$p.value, shap.fix$p.value,
+                             shap.rand$p.value)
+           ) %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = TRUE, font_size = 10)
+
+```
+\vspace{-1mm}
+\label{tb:swtest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+A normalidade dos resíduos do modelo de efeitos aletórios foi testado pelo método, rejeitando a hipótese nula de normalidade dos resíduos, indicando que o modelo apresenta problemas de hetetocedasticidadade. 
+
+\begin{table}[!hbtp]
+\caption{Teste Breusch-Pagan estudentizado para normalidade dos resíduos em efeitos aleatórios}
+\vspace{1mm}
+```{r test.final.model}
+library(lmtest)
+
+bptest.pool <- bptest(mod01.Pooling) 
+bptest.fix <- bptest(mod01.FixEf) 
+bptest.rand <- bptest(mod01.RanEff)
+
+data.frame(Modelo = c("Pooling", "Efeitos Fixos", "Efeitos Aleaórios"),
+           Estatística = c(bptest.pool$statistic, bptest.fix$statistic,
+                           bptest.rand$statistic),
+           Valor.P = c(bptest.pool$p.value, bptest.fix$p.value, 
+                       bptest.rand$p.value)
+           ) %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = TRUE, font_size = 10)
+
+
+### Homocedasticidade dos resíduos
+## hipotese nula que há homocedasticidade
+## p value menor que 5% indica que a hipoteses nula é rejeitada e há problemas no resíduos da regressão e problema de heterocedasticidade
+## pode ser resolvido com transformacão de variaveis
+
+```
+\vspace{-1mm}
+\label{tb:sbptest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+Foi testada a correlação serial do modelo de efeitos fixos, rejeitando a hipotese nula (de não correlação serial), indicando assim que o painel de dados possui problemas de correlação serial entre dos dados. 
+
+\begin{table}[!hbtp]
+\caption{Teste Breusch-Godfrey/Wooldridge para correlação serial}
+\vspace{1mm}
+```{r pbgtest}
+## Testando correlação serial
+#hipótese nula, ou seja, não há problemas de correlação serial nos dados
+# valor maior que 5% aceita hipotese nula, de que não há problemas de correlação serial 
+
+
+pbgtest.pool <- pbgtest(mod01.Pooling)
+pbgtest.fix <- pbgtest(mod01.FixEf)
+pbgtest.rand <- pbgtest(mod01.RanEff)
+
+
+data.frame(Modelos = c("Pooling", "Efeitos Fixos", "Efeitos Aleaórios"),
+           Estatística = c(pbgtest.pool$statistic, pbgtest.fix$statistic,
+                           pbgtest.rand$statistic),
+           DF = c(pbgtest.pool$parameter, pbgtest.fix$parameter,
+                  pbgtest.rand$parameter),
+           Valor.P = c(pbgtest.pool$p.value, pbgtest.fix$p.value,
+                       pbgtest.rand$p.value),
+           Alternativa = rep("Correlação serial no erros indissiocráticos",3)
+           ) %>% kbl(booktabs = TRUE) %>% 
+  kable_styling(latex_options = "striped", full_width = TRUE, font_size = 10)
+  
+```
+\vspace{-1mm}
+\label{tb:bgwtest}
+\fonte{Desenvolvido a partir dos dados estimados}
+\vspace{-2mm}
+\end{table}
+
+Os resultados das estimações dos modelos, demonstraram elevada siginificância para as variáveis, com coeficientes de determinação acima em torno de 95%, porém os testes indicaram problemas de heterocedasticidade e correlação serial dos dados, podendo estar inflando os resultados, demonstrando-se inadequados para uma estimação confiável. 
+
+ 
+
+\end{apendicesenv}
+}{}

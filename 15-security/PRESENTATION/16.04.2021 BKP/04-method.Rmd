@@ -1,0 +1,615 @@
+\textual
+\pagestyle{simple}
+\parindent 1.50cm
+
+\chapter{Procedimentos Metodológicos}
+
+\begin{comment}
+\textcolor{red}{COMEÇAR APRESENTANDO O MODELO}
+\textcolor{red}{DEFINIR POPULAÇÃO E DEFINIR PARCIAL - AMOSTRA}
+\textcolor{red}{METODOLOGIA FRÁGIL}
+\textcolor{red}{PADRONIZAR VARIÁVEIS}
+\textcolor{red}{VERIFICAR AS LETRAS NAS EQUAÇÕES}
+\textcolor{red}{RETIRAR SINAL DE MULTIPLICAÇÃO NAS EQUAÇÕES}
+\textcolor{red}{TERMO DE ERRO NO MODELO ECONOMÉTRICO}
+\textcolor{red}{ORGANIZAR A DISSERTAÇÃO}
+\textcolor{red}{FONTES DE DADOS}
+\textcolor{red}{ESPECIFICAR E EXPLICAR AS EQUAÇÕES}
+\end{comment}
+
+Neste capítulo serão descritos os principais procedimentos metodológicos, técnicas e ferramentas que serão utilizados neste trabalho, visando organizar as etapas da pesquisa e permitir um maior nível de reproducibilidade, revisão e refutabilidade da mesma.
+
+Este trabalho está sendo desenvolvido e editado em ambiente R Markdown com utilização de linguagem Latex para padronização de textos, figuras e tabelas, e as linguagens R e Python para coleta, limpeza, tratamento, análise, visualização, modelagem e estimação econométrica dos conjuntos de dados.
+
+Serão selecionadas as instituições bancárias na categoria de Banco Múltiplo, Banco Comercial, Banco e Investimento, Banco de Desenvolvimento e Caixa Econômicas que realizaram operações de crédito entre o primeiro trimestre de 2001 e o terceiro trimestre e 2020.
+
+Para efeitos de identificação de variáveis macroeconômicas que atuam como componentes implícitos e explícitos do *spread* serão avaliadas a taxa Selic, Taxa de Compulsório, Base Monetária e meios de pagamento. Estes dados serão obtidos de forma secundária nos bancos de dados abertos do Banco Central, IPEA, IBGE e Receita Federal do Brasil.
+
+Os dados de resultados, operação, indicadores e estrutura de capital das instituições bancárias serão obtidos de forma secundária nos banco de dados abertos do Banco Central e da Comissão de Valores Monetários, consistindo em demonstrações contábeis padronizadas informadas a estas instituições supervisoras.
+
+Para construção dos modelos econométricos a serem estimados se partirá de alguns pressupostos teóricos norteadores obtidos através da pesquisa bibliográfica e concepções desenvolvidas antes e durante a pesquisa, com intuíto embasar a seleção das variáveis a serem testadas e incluídas no modelo final.
+
+Será assumido que o *spread* bancário é definido diante um conjunto de fatores endógenos, definidos por questões microeconômicas envolvendo as operações de cada instituição e dos mercados financeiro e bancário, e fatores exógenos provenientes de questões macroeconômicas, afetando diretamente ou indiretamente as operações.
+
+O *spread*  ($Spr$) será abordado dentro de uma concepção de precificação, diante um conjunto de variáveis explícitas como despesa de captação ($D$), capital emprestado ($E$)  — insumo das operações de crédito —, impostos indiretos ($ImpInd$), despesas administrativas ($DAdm$), margem de lucro líquido ($LcLqd$) e inadimplência ($Inad$).
+
+\begin{equation}
+Spr = f(E,D,ImpInd,DAdm,LcLqd,Inad)
+\end{equation}
+
+Na visão microeconômica, assume-se que o *spread* bancário não se configura na margem de lucro dos bancos, não cabendo abordagem de *spread* bruto, direto e líquido. E que o *spread* bancário se relaciona com os resultados das instituições, colaborando com a solidez do setor, não cabendo a inclusão no modelo de variáveis que remetam a resultados e calculadas a partir destas.
+
+Na abordagem macroeconômica, o *spread* bancário é tido como um indicador fundamental e determinante para o nível de desenvolvimento econômico de determinado país ou região a medida que se relaciona com a determinação de nível e crédito produtivo capaz de gerar renda, influenciado por variáveis macroeconômicas relacionadas a regulação e políticas monetárias e fiscais.
+
+Nesse sentido aqui é estabelecida a compreensão que o nível de atividade econômica, industrial, produtividade, desemprego e produto interno bruto de mercados, países e regiões guardam relação com o *spread* bancário, e não o contrário, mesmo que aja a compreensão da abordagem em torno das expectativas dos agentes, será mantida a abordagem de não não considerar essas variáveis como determinantes do *spread ex-post*.
+
+\begin{equation}
+SprEp = f(Sel,Comp,IPCA,BM,MP,VM)
+\end{equation}
+
+O primeiro modelo a ser desenvolvido buscará testar e selecionar variáveis macroeconômicas e microeconômicas que exerçam significativa influência, de forma implícita e explícita no *spread* bancário *ex-post*. Partindo da definição geral tautológica de *Spread* ($Spr$), resultado da diferença entre a taxa de aplicação ($I_{apl}$) e a taxa de captação ($i_{cap}$).
+
+\begin{equation}
+Spr = i_{apl} - i_{cap} 
+\end{equation}
+
+Em termos de resultado a taxa de aplicação ($i_{apl}$) é obtida da relação entre a receita das operações de crédito ($ROpCr$) e das operações de crédito ($OpCr$). Já a taxa de captação é extraída da relação entre as despesas de captação ($DesCap$) em relação do montante capitado ($DepTot$)
+
+\begin{equation}
+SprEp = \frac{R}{E} - \frac{DesCap}{DepTot}
+\end{equation}
+
+A receita das operações de crédito ($R$) é obtida levando em  consideração as operações de crédito — capital emprestado — ($E$) e uma taxa de juros ($i_{jr}$), que contempla os custos de captação, os custos operacionais, inadimplência, impostos diretos e indiretos e margem líquida. 
+
+\begin{equation}
+R = Ei_{jr}
+\end{equation}
+
+A receita das operações de crédito pode ser decomposta levando em consideração as despesas administrativas ($D_{adm}$), provisões de inadimplência ($P_{inad}$) custos de captação ($D_{cap}$), impostos variáveis ($Imp_{ind}$), impostos sobre a renda ($Imp_{dir}$)  e margem líquida ($MgLqd$).
+
+\begin{equation}
+R = D_{adm} + P_{inad} + D_{cap} + Imp_{ind} + Imp_{dir} + MgLqd
+\end{equation}
+
+A decomposiçao da receita pode ser ampliada com a inserção das variáveis componentes. O primeiro bloco da composição consiste na inserção das taxas e alíquotas aplicados sobre o capital emprestado ($E$) e captação ($C$), sendo elas as despesas administrativas ($i_{adm}$), inadimplência ($i_{ind}$), captação ($i_{cap}$), recolhimento compulsório ($i_{comp}$), aplicação de compulsório($i_{ac}$), fundo garantidor de crédito ($i_{fgc}$).
+
+Levando em consideração que os depósitos são reduzidos diante a obrigação de recolhimentos compulsórios e contribuição para o fundo garantidor de crédito, um empréstimo que dependa de captação, a necessidade de captação é maior para atender a operação de empréstimo no volume  $C = E / (1 - i_{comp} - i_{fgc})$ \cite{cardoso:1999}.
+
+O segundo bloco da decomposição da receita consiste na inseção de variáveis referente as taxas e alíquotas aplicados sobre a própria receita ($R$), contemplando o PIS ($i_{pis}$), COFINS ($i_{cof}$), imposto de renda ($i_{ir}$), contribuição social ($i_{cs}$) e lucro líquido ($i_{ll}$), assumindo a forma abaixo.
+
+\begin{equation}
+R = i_{adm}*E + i_{ind}*E + i_{cap}*C + i_{comp}*i_{ac}*C + i_{fgc}*C + \frac{i_{ll}}{1 - i_{r} - i_{cs}}*R + i_{pis}*R + i_{cof}*R 
+\end{equation}
+
+Ao isolar as variáveis e realizar as substituições e deduções algébricas obtemos a equação abaixo \footnote{No sentido que a decomposição da Receita almeja identificar mecanismos e variáveis de sua formação, não estão sendo considerados abatimentos da base de cálculo do imposto de renda e contribuição social sobre o Lucro Líquido}, onde o numerador da equação se configura no montante de custos e despesas incluídos nas operações de crédito e denominador contempla margem líquida e alíquotas dos impostos diretos e indiretos.
+
+\begin{equation}
+R =  \frac{E * [i_{adm} + i_{ind} + (\frac{i_{cap}+ i_{fgc} - (i_{comp}*i_{ac})}{1 - i_{comp} - i_{fgc}})]}
+{1 -  \frac{i_{ll}}{1 - i_{ir}  - i_{cs}} - i_{pis} - i_{cof}}
+\end{equation}
+
+O denominador da equação, ao ser manipulado algebricamente, assume a função de multiplicador das despesas e custo de captação ($D_{emp}$), embutindo nestes a margem líquida e alíquotas dos impostos diretos e indiretos. 
+
+\begin{equation}
+i_{apl} = \frac{1}{1 -  \frac{i_{ll}}{1 - i_{ir}  - i_{cs}} - i_{pis} - i_{cof}}
+\end{equation}
+
+Ao simplificar a equação decomposta da receita, encontramos uma forma similar ao forma tautológica inicial, um montante multiplicado a uma taxa para chegar na receita. A diferença é que a forma inicial considera o capital emprestado e uma taxa de juros — onde estão embutidos todos os custos e margem de lucro. A segunda forma considera as despesas com a operação de crédito e um multiplicador destes gastos — embutindo a margem líquida e impostos variáveis.
+
+\begin{equation}
+R = D_{emp} * i_{apl}
+\end{equation}
+
+Retornando a concepção inicial da taxa de juros ($i_{jr}$) aplicada sobre o capital emprestado ($E$), que pode ser obtida manipulando o multiplicador de aplicação ($i_{apl}$) incorporando as taxas referentes a custos, despesas e provisões.
+
+\begin{equation}
+i_{jr} = \frac{i_{adm} + i_{ind} + (\frac{i_{cap}+ i_{fgc} - (i_{comp}*i_{ac})}{1 - i_{comp} - i_{fgc}})}{1 -  \frac{i_{ll}}{1 - i_{ir}  - i_{cs}} - i_{pis} - i_{cof}}
+\end{equation}
+
+\begin{equation}
+R = E * i_{jr} 
+\end{equation}
+
+Assumindo que as receitas de operações de créditos ($E$) podem ser decompostas de acordo com a origem: capital próprio ($E_{Pr}$) e depósitos a vista ($E_{dav}$), remunerados a um custo de oportunidade ($i_{copr}$ e $i_{coav}$) — já que não são remunerados — e depósitos a prazo ($dap$) remunerados à uma taxa de captação  ($i_{Cap}$), a receita das operações de crédito podem ser obtidas pelo somatório das equações abaixo.
+
+\begin{equation}
+\begin{aligned}
+R_{pr} = \frac{E_{pr} * [i_{adm} + i_{ind}] + i_{copr}}
+{1 -  \frac{i_{ll}}{1 - i_{ir} - i_{cs}} - i_{pis} - i_{cof}}
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+R_{dap} = \frac{E_{dap} * [i_{adm} + i_{ind} + (\frac{i_{cap}+ i_{fgc} - (i_{comp}*i_{ac})}{1 - i_{comp} - i_{fgc}})]}  {1 -  \frac{i_{ll}}{1 - i_{ir} - i_{cs}} - i_{pis} - i_{cof}}
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+R_{dav} = \frac{E_{dav} * [i_{adm} + i_{ind} + i_{coav} - (\frac{(i_{comp}*i_{ac})}{1 - i_{comp}})]}{1 -  \frac{i_{ll}}{1 - i_{ir} - i_{cs}} - i_{pis} - i_{cof}}
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+R = (D_{pr}*i_{aplpr}) + (D_{dav} * i_{aplav}) +( D_{dap}* i_{aplap})
+\end{equation}
+
+Dessa forma o *spread ex-post*, nas formas de precificação e aplicação de juros assumem as formas abaixo, na ótica de captação e empréstimo, respectivamente.
+
+\begin{equation}
+\begin{aligned}
+& SprEp = [\frac{(D_{pr}* i_{apl})}{E_{pr}} + \frac{(D_{dav}* i_{aplav})}{E_{dav}} + \frac{(D_{dap}* i_{aplap})}{E_{dap}}] - [ \frac{D_{cav}}{C_{av}} + \frac{D_{dap}}{C_{ap}} ]
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+& SprEp = \frac{(E*i_{jrpr} + E*i_{jrdav} + E*i_{jrdap})}{E} - (\frac{D_{cap}}{C})
+\end{aligned}
+\end{equation}
+
+```{r, eval=FALSE, results='hide', echo=FALSE}
+e <- 1000
+iadm <- 0.02
+ind <- 0.01
+icap <- 0.05
+ifg <- 0.001
+ics <- 0.09
+ir <- 0.25
+r <- 0.23
+icomp <- 0.01
+ill <- 0.1
+ip <- 0.0165
+ico <- 0.076
+
+rec <- e*((iadm + ind + ((icap + ifg*(1) - (r*icomp))*(1/(1-r-ifg))))) / (1 - (ill / (1-ir*(1)- ics*(1))) - ip*(1) - ico*(1))
+
+
+recbrut <- rec - iadm*e - ind*e - (icap / (1 - r - ifg)) * e - (ifg / (1 - r - ifg)) * e - ip * rec - ico * rec + (r*icomp)*(1/(1-r-ifg)) * e
+
+cat("o capital emprestado é: ", e,
+    "A necessidade de captação é: ", e/(1-r - ifg),
+    "Custos: ", e*((iadm + ind + ((icap + ifg - (r*icomp))*(1/(1-r-ifg))))),
+    "Multiplicador: ", 1 / (1 - (ill / (1-ir- ics)) - ip - ico),
+    "A receita é: ", rec,
+    "Despesa Administrativas são: ", iadm*e,
+    "inadimplência é: ", ind*e,
+    "Custo Captação: ", ((icap / (1 - r - ifg)) * e),
+    "Fundo Garantidor: ", (ifg / (1 - r - ifg)) * e,
+    "A receita bruta é: ", recbrut,
+    "CSLL: ", ics * (recbrut),
+    "IRPJ: ", ir * (recbrut),
+    "Lucro Líquido: ", recbrut - (ics * recbrut) - (ir * recbrut),
+    "Margem bruta: ", paste(round(recbrut/rec*100,2),"%", sep = ""),
+    "Margem Líquida: ", paste(round((recbrut - (ics * (recbrut)) - (ir * (recbrut)))/ rec * 100,2),"%",sep = ""),
+    "Taxa de Aplicação:  ", ((((e + rec) / e) - 1) * 100),
+    "Taxa de Captação: ", (((icap + ifg) / (1 - r - ifg)) * (e)) / (e/(1-r - ifg)) * 100,
+    "Spread:", ((((e + rec) / e) - 1) * 100) - (((icap + ifg) / (1 - r - ifg)) * (e)) / (e/(1-r - ifg)) * 100
+)
+```
+
+Para a averiguação dos efeitos dos componentes do *spread ex-post* na rentabilidade das instituições bancárias serão utilizados modelos de regressão linear multivariada. Os modelos de regressão múltipla buscam, através de técnicas estatísticas e matemáticas, prever o comportamento de uma dada variável dependente, diante um conjunto de variáveis explanatórias \cite{hill:2010} \cite{gareth:2017}. 
+
+\begin{equation}
+Y = \beta_0 + \beta_1X_1 + \beta_2X_2...\beta_nX_n + \epsilon
+\end{equation}
+
+O modelo econométrico a ser utilizado será o método de dados em painel, denominado _Cross Section_, que combina séries temporais e dados em corte transversal. Este modelo busca captar diferenças individuais de comportamento, possibilitando combinar os dados para fins de estimação e inferência, posteriormente realizados testes de regressão e estimação \cite{hill:2010}.
+
+\begin{equation}
+y_{it} = \beta_{1it} + \beta_{2it}X_{2it} + \beta_{3it}X_{3it} + e_{it}
+\end{equation}
+
+O método _Cross Section_ pode ser realizado por meio de três modelos de estimação que são: i) Modelo de regressão aparentemente não relacionadas (SUR); ii) Modelo de variável binárias — efeitos fixos — e iii) modelo de componentes estocásticos — efeitos aleatórios — \cite{hill:2010}. Serão testados os três métodos buscando selecionar o mais adequado ao modelo econométrico e ao conjunto de dados.
+
+No modelo de regressão de dados aparentemente não relacionados — SUR —, os parâmetros dos diferentes grupos em corte transversal diferem entre si, porém são constantes ao longo do tempo. Os modelos podem ser estimados com suas funções de forma conjunta ou separada, onde esta última é indicada quando há correlação dos erros \cite{hill:2010}
+
+\begin{equation}
+y_{it} = \beta_{1it} + \beta_{2i}X_{2it} + \beta_{3i}X_{3it} + e_{it}
+\end{equation}
+
+\vspace{20pt}
+
+No modelo de variável binárias — ou efeitos fixos —, o intercepto é abordado como um parâmetro desconhecido e fixo, onde as inferências são aplicadas somente ao cojunto de dados dos grupos do corte transversal do qual está disponível \cite{hill:2010}. 
+
+\begin{equation}
+y_{it} = \beta_{11}D_{1i} + \beta_{12}D_{2i} + ... + \beta_{1,10}D_{10i} + \beta_{2}X_{2it} + \beta_{3}X_{3it} + e_{it}
+\end{equation}
+
+\vspace{20pt}
+
+O modelo de componentes estocásticos — ou efeitos aleatórios —, considera cada grupo do conjunto de dados como uma amostra aleatória de uma população maior, onde os interceptos são encarrados como resultados aleatórios da distribuição populacional de interceptos de grupos, realizando assim uma inferência da população de grupos \cite{hill:2010}.
+
+\begin{equation}
+y_{it} = \beta_{1i} + \beta_{2it}X_{2it} + \beta_{3it}X_{3it} + e_{it}
+\end{equation}
+
+Diante os pressupostos, o primeiro modelo irá verificar a influência das variações de variáveis componentes explícitas e implícitas do  *Spread Ex-post*, tendo no primeiro bloco variáveis microeconômicas e o segundo bloco as variáveis macroeconômicas, selecionando para o segundo modelo final somente as que apresentarem significância estatística.
+
+\begin{equation}
+\begin{aligned}
+SprEp = &f(EPr, EAv, EAp, Atv, ImpInd, ImpId, \\ 
+& Inad, MLq, DAdm, Jcp, MSh, HHI, TIns, OCap, \\ 
+& CIns, Sel, Ipca, Comp, MPag, VMo, SprEa)
+\end{aligned}
+\end{equation}
+
+Na construção do primeiro modelo econométrico serão adotadas simplificações para variáveis de resultado, eliminando as que possuem caráter constante, as obtidas por meio de resultado e por não possuirem dados, utilizando uma *proxy*.
+
+\begin{equation}
+\begin{aligned}
+SprEp_{it} = & \beta_{0it} + \beta_{1it}EPr_{it} + \beta_{2it}EAv_{it} + \beta_{3it}EAp_{it} + \beta_{4it}DAdm_{it} + \beta_{5it}Vol_{it} + \\
+& \beta_{6it}lnAtv_{it} + \beta_{7it}RC_{it} + \beta_{8it}MSh_{it} + \beta_{9it}HHI_{it} + \\ 
+& \beta_{10it}Mod + \beta_{11it}OCap + \beta_{12it}SelOver_{t-1} + \beta_{13it}Ipca_{t-1} + \\
+& \beta_{14it}Com_{t} + \beta_{15}Mpag_{t-1} + \beta_{16it}VMo_{t-1} +  \beta_{17t}SprEa_{t-1}
+\end{aligned}
+\end{equation}
+
+O segundo modelo econométrico testará as variáveis implícitas e explícitas com significância estatística do primeiro modelo, atuando sobre a rentabilidade bancária $Rent$, conforme modelos especificados. Para a rentabilidade será considerada a razão entre o lucro líquido ($LcrLqd$) e a Receita das Operações de crédito ($RecOpCr$).
+
+\begin{equation}
+\begin{aligned}
+Rent_{it} = & \beta_{0it} + \beta_{1it}EPr_{it} + \beta_{2it}EAv_{it} + \beta_{3it}EAp_{it} + \beta_{4it}DAdm_{it} + \beta_{5it}Vol_{it} + \\
+& \beta_{6it}lnAtv_{it} + \beta_{7it}RC_{it} + \beta_{8it}MSh_{it} + \beta_{9it}HHI_{it} + \\ 
+& \beta_{10it}Mod + \beta_{11it}OCap + \beta_{12it}SelOver_{t-1} + \beta_{13it}Ipca_{t-1} + \\
+& \beta_{14it}Com_{t} + \beta_{15}Mpag_{t-1} + \beta_{16it}VMo_{t-1} +  \beta_{17t}SprEa_{t-1} + \epsilon_{t}
+\end{aligned}
+\end{equation}
+
+Diante a definição dos modelos, seguem abaixo as hipóteses conceituais baseadas em concepções teóricas obtidas na pesquisa bibliográfica e das concepções desenvolvidas durante a pesquisa. O conjunto de hipóteses se apresenta na forma objetiva incluindo as expectativas para cada variável e contemplando os dois modelos construídos, com breve explanação sobre a mesma.
+
+A \autoref{qdr:datasource} traz um resumo dos dados a serem utilizados na construção do modelo, trazendo uma breve descrição, fonte, código e periodicidade.
+
+```{r table of data, message=FALSE, eval=TRUE}
+data.source <- list(
+    "Demonstrações Financeiras" = list(
+        Descrição = "Balancetes (IFs e Conglomerados)",
+        Identificação = "370",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    ),
+    "PIB" = list(
+        Descrição = "O Produto Interno Bruto (PIB) denominado como PIB mensal é um indicador com frequência mensal produzido pelo Banco Central do Brasil (BCB) ",
+        Identificação = "BM12_PIB12",
+        Periodicidade = "Mensal",
+        Fonte = "IPEA"
+    ),
+    "Selic Over" = list(
+        Descrição = "Taxa de juros apurada nas operações de empréstimos de um dia entre as instituições financeiras que utilizam títulos públicos federais como garantia",
+        Identificação = "BM12_TJOVER12",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    ),
+    "Meios de Pagamentos" = list(
+        Descrição = "Meio de Pagamento - Ampliado - M4 - fim de período",
+        Identificação = "BM12_M4NCN12",
+        Periodicidade = "Mensal",
+        Fonte = "IPEA"
+    ),
+     "IPCA" = list(
+        Descrição = "IPCA Geral",
+        Identificação = "PRECOS12_IPCAG12",
+        Periodicidade = "Mensal",
+        Fonte = "IPEA"
+    ),
+    "Compulsório Poupança" = list(
+        Descrição = "Depósitos de poupança em espécie (remunerados)",
+        Identificação = "1848",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    ),
+    "Compulsório a vista" = list(
+        Descrição = "Recursos a vista em espécie (não remunerados)",
+        Identificação = "1849",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    ),
+    "Compulsório a prazo" = list(
+        Descrição = "Depósitos a prazo em espécie (remunerados)",
+        Identificação = "1850",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    ),
+    "Base Monetária Ampliada" = list(
+        Descrição = "Base Monetária Ampliada (saldo em final de período)",
+        Identificação = "1833",
+        Periodicidade = "Mensal",
+        Fonte = "Banco Central"
+    )
+)
+data.table <-  ldply(data.source, data.frame, .id = "Nome")
+```
+
+\begin{qdr}
+\vspace{20pt}
+\caption{Descrição e origens dos dados para construção dos modelos}
+\vspace{1mm}
+```{r print.table}
+data.table.p <- data.table %>% 
+    kbl(booktabs = F, vline = '|') %>% 
+        kable_styling(latex_options = c("striped",
+                                        "repeat_header",
+                                        "scale_down"
+                                        ), 
+                      font_size = 10, full_width = T,
+                      ) %>% 
+        column_spec(1, bold = T, width = "3cm", 
+                    border_left = TRUE,
+                    border_right = TRUE) %>% 
+        column_spec(2, width = "5cm",
+                    border_left = FALSE,
+                    border_right = TRUE) %>% 
+        column_spec(3, width = "3cm", 
+                    border_left = FALSE,
+                    border_right = TRUE) %>% 
+        column_spec(4, width = "2cm", 
+                    border_left = FALSE,
+                    border_right = TRUE) %>% 
+        column_spec(5, width = "2cm", 
+                    border_left = FALSE,
+                    border_right = TRUE) #%>%
+    #save_kable("~/Desktop/04-DISSERTATION/12-exportedfigures/data.table.png")
+data.table.p
+```
+\vspace{1mm}
+\label{qdr:datasource}
+\fonte{Desenvolvido com base nas fontes citadas}
+\vspace{-2mm}
+\end{qdr}
+
+
+$SprEp_{it}$: O *Spread Ex-post* ($SprEp$) será calculado a partir dos resultados contábeis, resultante da diferença entre a relação de receitas de operações de crédito ($RcOpCr$ — Conta 71100001) e operações de crédito média ($OpCrMe$ — Conta 16000001), e a relação de despesas de captação ($DesCap$ — Conta 81100008 ) e depósitos médio ($Dep$ — Conta 41000007), conforme encontrado apresentado em \textcite{dantas:2012} e \textcite{timotio:2018}. 
+
+\begin{equation}\label{eq:sprbase}
+SprEp_{it} = \frac{RcOpCr_{it}}{\frac{1}{2}(OpCr_{it} + OpCr_{it-1}) } - \frac{DesCap_{it}}{\frac{1}{2}(Dep_{it} + Dep_{it-1})}
+\end{equation}
+
+$Rent$: A rentabilidade bancária será calculada para cada instituição a partir da relação entre o lucro líquido ($LLqd$ — Conta 61800005) e as receitas das operações de crédito ($R$ — Conta 71100001).
+
+\begin{equation}
+Rent_{it} = \frac{LLqd_{it}}{R_{it}}
+\end{equation}
+
+
+\vspace{20pt}
+\captionof{qdr}{Resumo das hipóteses}
+\vspace{-2mm}
+\linespread{2}
+| Hipótese | Variável | Fórmula                    | $SprEp$  | $Rent$ |
+|:-----: | :--------- | :------------------------- | :-----:  | :-----: |
+| $H_{1}$  | ($EPr$)                                                          | $Epr_{it} = \frac{OpCr_{it} - Dep_{it}}{OpCr_{it}}$                         | +               | +             |
+| $H_{2}$  | ($Eav$)                                                          | $EAv_{it} = \frac{DepAv_{it}}{OpCr_{it}}$                                   | +               | +             |
+| $H_{3}$  | ($Eap$)                                                          | $EAp_{it} = \frac{DepAp_{it}}{OpCr_{it}}$                                   | +               | -             |
+| $H_{4}$  | ($DAdm$)                                                         | $DAdm_{it} = \frac{DA_{it}}{OpCr_{it}}$                                     | +               | -             |
+| $H_{5}$  | ($Vol$)                                                          | $Vol_{it} = \ln(OpCr_{it})$                                                 | - | +             |
+| $H_{6}$  |  ($Tam$)                                                         | $Tam_{it} = \ln(AtvTot_{it})$                                               | -               | +             |
+| $H_{7}$  |($RC$)                                                            | $T_{RCit} = \frac{\frac{\sum_{RC = Aa}^HOC_{RC}*P_{RC}}{\sum_{}P_{RC}}}{\sum_{OC_{RC}}}$                         | +               | +             |
+| $H_{8}$  | ($MkSh$)                                                         | $MkSh_{it} = \frac{OpCr_{it}}{\sum_{t=1}^nOpCr_{it}}$                       | -               | +             |
+| $H_{9}$  | ($GC$)                                                           | $HHI_{it} = \frac{1}{n} + n\frac{\sum_{i=1}^{n}(\frac{R_{it} - 1}{n})^2}{n}$ | +               | +             |
+| $H_{10}$  |   ($Mod$)                                                       | $D_{1}...D_{5}$                                                             | *dummy*               | *dummy*             |
+| $H_{11}$  | ($OCap$)                                                        | $D_{6}...D_{10}$                                                            | *dummy*               | *dummy*             |
+| $H_{12}$  | $SelOver$                                                       | $Sel_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}SelDrAn$                           | +               | +             |
+| $H_{13}$  | ($Ipca$)                                                        | $Ipca_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}IpcaMs$                           | +               | -             |
+| $H_{14}$  | ($Com$)                                                         | $Comp_{t} = \frac{RcDAv_{t} + RcDAp_{t}}{\sum_{t=1}^{n}DAv_{it} + \sum_{t=1}^{n}DAp_{it}}$                                                      | +               | -             |
+| $H_{15}$  | $Mpag$                                                          | $Mapg_{t} = \ln(MPM4_{t-1})$                                                | -               | +             |
+| $H_{16}$  | ($VelMo$)                                                       | $VelMo_{t} = \frac{Pib_{t-1}}{BMr_{t-1}}$                                   | -               | +             |
+| $H_{17}$  | ($SprEa_{t-1}$)                                                 | $SprEa_{t} = SEA_{t-1}$                                                     | +               | +             |
+\vspace{-7mm}
+\label{qdr:hipoteses}
+\fonte{Desenvolvido a partir do modelo}
+\vspace{20pt}
+
+\parindent 1.50cm
+
+$H_{1}$: A proporção das operações de crédito com capital próprio ($EPr$) em relação as operações de crédito ($OpCr$) guarda relação direta com o *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$).
+
+Para a proporção das operações de crédito com capital próprio ($Epr$) será considerada uma *proxy* tautológica ($OpCr = CpPr + Dep$) obtida por meio da diferença entre o total das operações de crédito ($OpCr$ — Conta 16000001) e o total dos depósitos ($DepTot$ — Conta 41000007) $CpPr = OpCr - DepTot$, sobre operações de crédito ($OpCr$ — Conta 16000001).
+
+\begin{equation}
+Epr_{it} = \frac{OpCr_{it} - Dep_{it}}{OpCr_{it}}
+\end{equation}
+
+Para esta relação, presumindo que o capital próprio é limitado e seu custo de oportunidade ($CpPR$) é maior que a taxa de captação ($i_{cap}$), e não havendo custos de captação, atua com uma relação direta com o *spread ex-post*. E consequentemente atua de forma direta na rentabilidade\footnote{Aqui se espera que haja redução do nível de lucros pelo fato de o capital próprio ser limitado, sujeitos a mais riscos e que a taxa de aplicação tenha um ponto de maximização de lucros}. 
+
+$H_{2}$: A proporção dos depósitos a vista ($EAv$) diante as operações de crédito ($OpCr$) mantém uma relação direta com *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$).
+
+Para a proporção das operações de crédito com depósito a vista ($EAv$) será utilizada o total dos depósitos a vista ($DepAv$ — Conta 41100000) em relação as operações de crédito ($OpCr$ — Conta 16000001). 
+
+\begin{equation}
+EAv_{it} = \frac{DepAv_{it}}{OpCr_{it}}
+\end{equation}
+
+Na relação entre os empréstimos e depósitos a vista e o *spread ex-post* se espera uma relação direta, uma vez que o percentual de compulsório mais elevado e a maior liquidez para os depositantes, reduzem o multiplicador bancário e aumenta a necessidade de captação, elevando o custo de oportunidade para essa operação. E uma relação direta com a rentabilidade, levando em consideração que o custo de oportunidade será maior devido a um giro menor e não havendo custos de captação.  
+
+$H_{3}$: A proporção das operações de crédito com depósitos a prazo ($EAp$) e as as operações de crédito ($OpCr$) atuam de forma direta no *spread ex-post* ($SprEp$) e inversa com a rentabilidade bancária ($Rent$) do período.
+
+Para a proporção das operações de crédito com depósito a prazo ($EAp$) será utilizado  o total dos depósitos a prazos ($DepAp$ — Conta 41500002) em relação operações de crédito ($OpCr$ — Conta 16000001).
+
+\begin{equation}
+EAp_{it} = \frac{DepAp_{it}}{OpCr_{it}}
+\end{equation}
+
+Na relação entre os empréstimos e depósitos a prazo e o *spread ex-post* se espera uma relação indireta, possui menor taxa de recolhimento compulsório e menor necessidade de captação para a operação, e maior capapacidade de multiplicação do crédito. Em relação a rentabilidade é esperado que ocorra uma relação indireta por elevar o custo de captação. 
+
+$H_{4}$: A proporção das despesas administrativas ($DA$) sobre as operações de crédito ($OpCr$) mantém uma relação direta com *spread ex-post* ($SprEp$) e inversa com a rentabilidade bancária ($Rent$)
+
+Para esta variável será considerada a relação entre as despesas administrativas ($DA$ — Conta 81700006) e as operações de crédito ($OpCr$ — Conta 16000001). Espera-se que ocorra uma relação direta com *spread ex-post* ($SprEp$), pois este valor estar embutido na taxa de aplicação, e inversa com a rentabilidade bancária ($Rent$), pois implica em maiores despesas. 
+
+\begin{equation}
+DAdm_{it} = \frac{DA_{it}}{OpCr_{it}}
+\end{equation}
+
+$H_{5}$: O volume das operações de crédito ($Vol$) atua de forma inversa no *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+Para esta variável será considerado o logarítimo natural das operações de crédito ($OpCr$ — Conta 16000001). Espera-se uma relação inversa com o *spread ex-post* ($SprEp$), uma vez que um maior volume durante o período permite redução na taxa de aplicação, e redução de custos operacionais, mantendo uma relação direta com a rentabilidade. 
+
+\begin{equation}
+Vol_{it} = \ln(OpCr_{it})
+\end{equation}
+
+Espera-se que para garantir uma maior volume de operações de crédito($Vol$) e consequentemente elevação do lucro e rentabilidade as instituições atuam na redução das margens fazendo que ocorra uma redução do *spread ex-post* e elevação da rentabilidade.
+
+$H_{6}$: O tamanho da instituição ($Tam$) mantém uma relação inversa com o *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+Para a variável de tamanho da instituição ($Tam$) será considerado o logarítimo natural do ativo total ($AtvToT$ — Conta 39999993). É esperada um relação inversa com o *spread*, pois com maior poder de mercado, as instituições podem reduzir suas margens para aumentar volume, o que implicaria em uma relação direta com a rentabilidade. 
+
+\begin{equation}
+Tam_{it} = \ln(AtvTot_{it})
+\end{equation}
+
+$H_{7}$: O risco de crédito da carteira ($RC$) mantém uma relação direta com o *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+Para o risco de crédito será utilizada a participação da média ponderada das provisões de risco das operações de crédito ($POC$ — Contas 31100003, 31200006, 31300009, 31500005, 31600008, 31700001, 31800004, 31900007), diante os percentuais de provisões legais para cada nível de risco, sobre as provisões de risco para operações de crédito ($POC$). 
+
+\begin{equation}
+RC_{it} = \frac{\frac{\sum_{RC = Aa}^HOC_{RC}*P_{RC}}{\sum_{}P_{RC}}}{\sum_{OC_{RC}}}
+\end{equation}
+
+Para a composição das operações de crédito espera-se influência direta no *spread* e na rentabilidade no curto prazo, pois operações com maior riscos tendem retornar maiores lucros.
+
+```{r, echo=FALSE, results='hide', eval=FALSE}
+RAa <- 0
+RA <- 0.005
+RB <- 0.01
+RC <- 0.03
+RD <- 0.10
+RE <- 0.30
+RF <- 0.50
+RG <- 0.70
+RH <- 1
+
+(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9)
+(RAa + RA + RB + RC + RD + RE + RF + RG + RH)
+(1*RAa + 2*RA + 3* RB + 4*RC + 5*RD + 6*RE + 7*RF + 8*RG + 9*RH)
+
+(1*RAa + 2*RA + 3* RB + 4*RC + 5*RD + 6*RE + 7*RF + 8*RG + 9*RH) / (RAa + RA + RB + RC + RD + RE + RF + RG + RH) / 45
+```
+
+$H_{8}$: A participação de mercado das instituições ($MkSh$) guarda relação inversa com o  *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+Para a participação de mercado da instituições será utilizada a participação volume das operações de crédito ($OpCr$ — Conta 16000001) de cada instituição, sobre o total das operações de crédito para cada período. 
+
+\begin{equation}
+MkSh_{it} = \frac{OpCr_{it}}{\sum_{t=1}^nOpCr_{it}}
+\end{equation}
+
+Para a influência da participação de mercado das instituições sobre o *spread* espera-se uma relação inversa, pois com maior poder de mercado a instituição garante um maior volume de operações, reduzindo o *spread*, bem como reduzir custos operacionais influenciando de forma direta a rentabilidade.
+
+$H_{9}$: o grau de concentração de mercado ($GC$) mantém relação direta com *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+Para a variável de grau de concentração de mercado será utilizado o índice HHI, usando como medida as receitas das operações de crédito ($R$ — Conta 71100001) e o número de instituições para cada período ($n$). Espera-se que quanto maior a concentração de mercado, maior serão os níveis de *spread* e rentabilidade.
+
+\begin{equation}
+GC_{it} = \frac{1}{n} + n\frac{\sum_{i=1}^{n}(\frac{R_{it} - 1}{n})^2}{n}
+\end{equation}
+
+\vspace{20pt}
+
+$H_{10}$: O tipo de instituição ($TpIns$) exerce influência na determinação do nível de *spread ex-post* ($SprEp$) e nível da rentabilidade bancária ($Rent$)
+
+Para a variável tipo de instituição ($TpIns$) serão introduzidas variáveis binárias (*dummy*) referente a taxonomia das instituições bancárias sendo: $D_{11}$ — Banco Comercial; $D_{2}$ — Banco de Investimento; $D_{3}$ — Banco de Desenvolvimento; $D_{4}$ — Caixa Econômica e $D_{5}$ — Banco Múltiplo.
+
+\begin{comment}
+\textcolor{red}{VARIÁVEIS DUMMY ESPECIFICADAS DE FORMA EQUIVOCADA}
+\end{comment}
+
+\begin{equation}
+\begin{aligned}
+D_{1} = \lbrace 1_{i} = 1 ; 0_{i} \neq 1 \rbrace \\
+D_{2} = \lbrace 1_{i} = 2 ; 0_{i} \neq 2 \rbrace \\
+D_{3} = \lbrace 1_{i} = 3 ; 0_{i} \neq 3 \rbrace \\
+D_{4} = \lbrace 1_{i} = 4 ; 0_{i} \neq 4 \rbrace \\
+D_{5} = \lbrace 1_{i} = 5 ; 0_{i} \neq 5 \rbrace
+\end{aligned}
+\end{equation}
+
+$H_{11}$: O caráter da instituição ($CrIns$) atua na determinação do nível do 
+*spread ex-post* ($SprEp$) e no nível da rentabilidade bancária ($Rent$)
+
+Para o caráter da instituição serão inseridas variáveis binárias (*dummy*) referentes ao caráter: $D_{6}$ — público ou $D_{7}$ privado.
+
+\begin{equation}
+\begin{aligned}
+D_{6} = \lbrace 1_{i} = 6 ; 0_{i} \neq 6 \rbrace \\
+D_{7} = \lbrace 1_{i} = 6 ; 0_{i} \neq 7 \rbrace \\
+\end{aligned}
+\end{equation}
+
+$H_{12}$: A taxa Selic $Sel$ mantém uma relação direta  no *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+Para a variável Selic ($Sel$) no modelo, será considerada a taxa Selic Over, sendo a média diária das operações no Sistema Especial de Liquidação e Custódia, defasada em 1 período. Será utilizada a série $BM12_TJOVER12$ obtida no banco de dados do IPEA.
+
+\begin{equation}
+Sel_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}SelDrAn
+\end{equation}
+
+Se espera que a taxa selic exerça influência simultaneamente no custo de captação e aplicação porém com maior efeito sobre a aplicação afetando de forma direta o *spread*. Aferando a rentabilidade de forma direta, uma vez que influencia o volume das captações a prazo e maiores níveis de lucro. 
+
+$H_{13}$: A taxa de inflação ($Ipca$) atua de forma direta no *spread ex-post* ($SprEp$) e inversa com a rentabilidade bancária ($Rent$). 
+
+Para o Índice de Preços ao Consumidor Amplo ($IPCA$) será utilizada série ($PRECOS12_IPCAG12$), obtida no portal do IPEA, ajustada para o período amostral e defasada em 1 (hum) período.
+
+\begin{equation}
+Ipca_{t-1} = \frac{1}{n}\sum_{t=-1}^{n-1}IpcaMs
+\end{equation}
+
+Para o efeito das variações do IPCA sobre o *spread ex-post* espera-se que atue de forma direta, dependendo das sensibilidades de tomadores e investidores e da instituição a esta variável e de forma inversa com a rentabilidade, por influenciar a demanda por operações de crédito.
+
+$H_{14}$: A taxa de compulsório ($Com$) atua de forma direta no *spread ex-post* ($SprEp$) inversa com a rentabilidade bancária ($Rent$)
+
+Para o compulsório será utilizada somatória dos volumes de recolhimento compulsório de recursos a vista ($Série 1850$) e recursos a prazo ($série 1850$) ponderados pelo total de captações a vista (Contas 41100000 ) e total de captações a prazo (Contas 41100002).
+
+\begin{equation}
+Comp_{t} = \frac{RcDAv_{t} + RcDAp_{t}}{\sum_{t=1}^{n}DAv_{it} + \sum_{t=1}^{n}DAp_{it}}
+\end{equation}
+
+A elevação do nível de compulsório reduz o multiplicador bancário e aumenta a necessidade de captações para atendimento das operações crédito e consequentemente os custos de captação, atuando de forma direta com o *spread* e inversa com rentabilidade.
+
+$H_{15}$: O volume dos meios de pagamentos $Mpag$ atua de forma inversa no *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+Para a variável meios de pagamentos ($Mpag$) serão utilizados os dados os meios de pagamentos amplos ($MPM4$) da série $27815$ ajustados para o período do conjunto de dados. Espera-se que as variações dos meios de pagamentos atuem de forma indireta no *spread* e direta a rentabilidade bancária. 
+
+\begin{equation}
+Mapg_{t} = \ln(MPM4_{t-1})
+\end{equation}
+
+$H_{16}$: A velocidade da moeda ($VelMo$) atua de forma inversa no *spread ex-post* ($SprEp$) e direta com a rentabilidade bancária ($Rent$)
+
+\begin{equation}
+VelMo_{t} = \frac{Pib_{t-1}}{BMr_{t-1}}
+\end{equation}
+
+$H_{17}$: O *spread ex-ante* ($SprEa_{t-1}$) atua de forma direta *spread ex-post* ($SprEp$) e direto com a rentabilidade bancária ($Rent$)
+
+Para o *spread ex-ante* será utilizada a série $sgs-20783$ defasada em 1 período, obtida no portal de dados abertos o Banco Central. Espera-se que esta variável atue capturando as expectativas das instituições financeiras exercendo influência direta no *spread ex-post* e direta na rentabilidade bancária.
+
+\begin{equation}
+SprEa_{t} = SEA_{t-1}
+\end{equation}
+
+Na fase analítica será aplicada a técnica de _Cross Validation k-fold_, que visa dividir de forma aleatória o conjunto de dados em ```k``` grupos, de dimensão aproximada. Onde o primeiro grupo é tratado como conjunto de validação, e o método é ajustado no ```k - 1``` conjuntos restantes. Esse método é útil para testar variáveis, selecionar parâmetros, função preditiva e acurácia para seleção do modelo final  \cite{gareth:2017}.
+
+O mecanismo do _k-fold_ consiste em calcular o erro quadrático médio nas observações do grupo retido, repetindo esse procedimento ```k``` vezes, onde a cada rodada, um grupo diferente é tratado como um conjunto de validação. Este processo resulta em ```k``` estimativas do erro de teste, MSE1, MSE2,..., MSEk. A estimativa de CV _k-fold_ é obtida pela média desses valores \cite{gareth:2017}.
+
+\begin{equation}
+CV_{(k)} = \frac{1}{k}\sum_{i=1}^{k}MSE  
+\end{equation}
+
+Serão testados métodos de aprendizado não supervisionado. O aprendizado não supervisionado tende a ser mais subjetivo para análises com foco preditivo. O aprendizado não supervisionado geralmente é empregado como uma etapa da análise exploratória de dados, não há como verificar o resultado pois não é conhecida a verdadeira resposta \cite{gareth:2017}.
+
+\begin{comment}
+\textcolor{red}{SUGESTÃO DE TIRAR PROCEDIMENTOS DE CLUSTERIZAÇÃO}
+\end{comment}
+
+Entre os métodos de aprendizagem não supervisionada estão o _Principal Component Analysis_ e o _Clustering_. No método de _Clustering_, a dinâmica está em dividir o conjunto de dados em subgrupos distintos que contenham homogeneidades entre as observações. Existem as técnicas _K-Means_,  _Hierarchical Clustering_ e _Practical Issues in Clustering_ \cite{gareth:2017}
+
+A técnica de aprendizado não supervisionado a ser aplicada será o _K-Means_, que possui como característica o particionamento do conjunto de dados em k grupos — _clusters_ —, especificados e não sobrepostos, o que implica que cada observação pertence ao menos a um grupo e não pertence a nenhum outro grupo. O propósito principal é buscar a mínima variação dentro de cada _cluster_   \cite{gareth:2017}.
+
+\begin{equation}
+minimizar_{C_1,...,C_k} \sum_{k = 1}^{K}\frac{1}{|C_k|}\sum_{i,i' E C_k} \sum_{j=1}^{p}(x_{ij} - x_{i'j})^2 
+\end{equation}
+
+Este capítulo buscou demonstrar os principais conceitos e procedimentos metodológicos a serem seguidos para realização das análises dos objetivos propostos. No próximo capítulo serão aplicados os procedimentos metodológicos para tratamento e análise de dados e estimação dos modelos.
+
+
